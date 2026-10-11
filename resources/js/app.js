@@ -59,4 +59,47 @@ document.addEventListener('DOMContentLoaded', () => {
             container.replaceChildren(iframe);
         });
     });
+
+    // Password reveal. The button ships hidden and is only shown once this
+    // runs, so there is no dead control when scripts are unavailable.
+    document.querySelectorAll('[data-password-toggle]').forEach((button) => {
+        const field = document.getElementById(button.dataset.passwordToggle);
+        if (!field) return;
+
+        button.hidden = false;
+
+        button.addEventListener('click', () => {
+            const revealed = field.type === 'text';
+            field.type = revealed ? 'password' : 'text';
+            button.setAttribute('aria-pressed', String(!revealed));
+            button.setAttribute(
+                'aria-label',
+                revealed ? 'Afficher le mot de passe' : 'Masquer le mot de passe'
+            );
+        });
+    });
+
+    // Admin sidebar drawer (mobile only; the sidebar is static from lg up).
+    const adminSidebar = document.getElementById('admin-sidebar');
+    const adminToggle = document.getElementById('admin-sidebar-toggle');
+    const adminBackdrop = document.getElementById('admin-sidebar-backdrop');
+
+    if (adminSidebar && adminToggle) {
+        const setDrawer = (open) => {
+            adminSidebar.classList.toggle('-translate-x-full', !open);
+            adminToggle.setAttribute('aria-expanded', String(open));
+            adminBackdrop?.classList.toggle('hidden', !open);
+        };
+
+        adminToggle.addEventListener('click', () => {
+            setDrawer(adminSidebar.classList.contains('-translate-x-full'));
+        });
+
+        adminBackdrop?.addEventListener('click', () => setDrawer(false));
+
+        // Escape closes the drawer, matching normal dialog behaviour.
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') setDrawer(false);
+        });
+    }
 });
