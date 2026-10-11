@@ -1,4 +1,4 @@
-@props(['icon', 'title', 'color' => 'primary'])
+@props(['icon', 'title', 'color' => 'primary', 'link' => true, 'compact' => false])
 
 @php
     $colors = [
@@ -11,14 +11,16 @@
     ];
 @endphp
 
-<div class="rounded-lg border border-slate-200 bg-white p-6">
-    <span class="flex h-12 w-12 items-center justify-center rounded-full {{ $colors[$color] ?? $colors['primary'] }}">
-        <x-icon :name="$icon" class="h-6 w-6" />
+<div class="rounded-lg border border-slate-200 bg-white {{ $compact ? 'p-5' : 'p-6' }}">
+    <span class="flex {{ $compact ? 'h-10 w-10' : 'h-12 w-12' }} items-center justify-center rounded-full {{ $colors[$color] ?? $colors['primary'] }}">
+        <x-icon :name="$icon" class="{{ $compact ? 'h-5 w-5' : 'h-6 w-6' }}" />
     </span>
-    <h3 class="mt-4 text-base font-semibold text-slate-900">{{ $title }}</h3>
-    <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $slot }}</p>
-    <a href="#" class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
-        En savoir plus
-        <x-icon name="arrow-right" class="h-4 w-4" />
-    </a>
+    <h3 class="mt-3 {{ $compact ? 'text-sm' : 'text-base' }} font-semibold text-slate-900">{{ $title }}</h3>
+    <p class="mt-1.5 {{ $compact ? 'text-xs' : 'text-sm' }} leading-relaxed text-slate-600">{{ $slot }}</p>
+    @if($link)
+        <a href="#" class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
+            En savoir plus
+            <x-icon name="arrow-right" class="h-4 w-4" />
+        </a>
+    @endif
 </div>
