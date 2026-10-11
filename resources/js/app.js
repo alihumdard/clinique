@@ -16,4 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
     backToTop?.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    document.querySelectorAll('[data-carousel-prev], [data-carousel-next]').forEach((button) => {
+        const key = button.dataset.carouselPrev || button.dataset.carouselNext;
+        const track = document.getElementById(`carousel-${key}`);
+        if (!track) return;
+
+        const direction = button.hasAttribute('data-carousel-prev') ? -1 : 1;
+        button.addEventListener('click', () => {
+            track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: 'smooth' });
+        });
+    });
 });

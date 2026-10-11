@@ -16,6 +16,10 @@ Route::get('/a-propos', function () {
     return view('about');
 })->name('about');
 
+Route::get('/a-propos/equipe', function () {
+    return view('team');
+})->name('about.team');
+
 // Placeholder routes so header nav links resolve while each page is built.
 // Replaced with real controllers/views as each page is designed.
 Route::get('/services', fn () => view('home'))->name('services');
