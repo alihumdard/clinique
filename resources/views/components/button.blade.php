@@ -7,7 +7,7 @@
 @php
     $variants = [
         'primary' => 'bg-primary-600 text-white hover:bg-primary-700',
-        'outline' => 'border border-slate-300 bg-white text-slate-900 hover:bg-slate-50',
+        'outline' => 'border border-primary-600 bg-white text-primary-600 hover:bg-primary-50',
         'text' => 'text-primary-600 hover:text-primary-700',
     ];
 
