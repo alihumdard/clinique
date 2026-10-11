@@ -36,6 +36,10 @@ Route::get('/services/conditions-acces-gratuite', function () {
     return view('services.eligibility');
 })->name('services.eligibility');
 
+Route::get('/services/tarifs-administratifs', function () {
+    return view('services.fees');
+})->name('services.fees');
+
 // Placeholder routes so header nav links resolve while each page is built.
 // Replaced with real controllers/views as each page is designed.
 Route::get('/actualites', fn () => view('home'))->name('news.index');

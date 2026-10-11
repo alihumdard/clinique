@@ -4,6 +4,7 @@
     $colors = [
         'blue' => ['bg' => 'bg-primary-50', 'badge' => 'bg-primary-100 text-primary-600'],
         'amber' => ['bg' => 'bg-amber-50', 'badge' => 'bg-amber-100 text-amber-600'],
+        'green' => ['bg' => 'bg-emerald-50', 'badge' => 'bg-emerald-100 text-emerald-600'],
     ];
     $c = $colors[$color] ?? $colors['blue'];
 @endphp
