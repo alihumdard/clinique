@@ -24,9 +24,12 @@ Route::get('/partenaires', function () {
     return view('partners');
 })->name('partners');
 
+Route::get('/services', function () {
+    return view('services');
+})->name('services');
+
 // Placeholder routes so header nav links resolve while each page is built.
 // Replaced with real controllers/views as each page is designed.
-Route::get('/services', fn () => view('home'))->name('services');
 Route::get('/actualites', fn () => view('home'))->name('news.index');
 Route::get('/ressources', fn () => view('home'))->name('resources');
 Route::get('/web-tv', fn () => view('home'))->name('webtv.index');
