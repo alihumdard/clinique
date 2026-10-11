@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    /* System font stack: zero network weight, matches perf budget (page < 500 Ko) */
+    --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+
+    /* Institutional palette - placeholder until charte graphique is supplied (Phase 1 deliverable from Clinic) */
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
+
+    /* Deep navy - hero heading accent, footer background */
+    --color-navy-900: #0f2847;
+    --color-navy-950: #0a1a30;
+}
+
+/* Base: 16px body text (accessibility requirement, AA contrast handled via palette above) */
+html {
+    font-size: 16px;
+}
+
+body {
+    @apply font-sans text-gray-800 antialiased;
+}
+
+/* Visible, keyboard-reachable focus ring everywhere (accessibility requirement) */
+:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-600;
+}
+
+/* Skip-to-content link for keyboard/screen-reader users */
+.skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary-700 focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg;
+}
