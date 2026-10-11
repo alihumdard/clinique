@@ -110,7 +110,7 @@
                         'Fiche pratique : droits de la famille',
                     ] as $doc)
                         <li>
-                            <a href="#" class="flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700">
+                            <a href="{{ route('services.eligibility') }}" class="flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700">
                                 <x-icon name="document" class="h-4 w-4 shrink-0" />
                                 {{ $doc }}
                                 <span class="text-xs font-normal text-slate-400">(PDF)</span>
@@ -129,7 +129,7 @@
             icon="paper-plane"
             title="Besoin d'une assistance juridique ?"
             button-label="Faire une pré-saisine"
-            button-href="#"
+            :button-href="route('presaisine.index')"
         >
             Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.
         </x-inline-cta>

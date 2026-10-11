@@ -20,11 +20,11 @@
                         un accompagnement par des étudiants encadrés, et contribue à la promotion des droits humains.
                     </p>
                     <div class="mt-7 flex flex-wrap items-center gap-3">
-                        <x-button href="#presaisine" variant="primary">
+                        <x-button :href="route('presaisine.index')" variant="primary">
                             <x-icon name="user-plus" class="h-4 w-4" />
                             Faire une pré-saisine
                         </x-button>
-                        <x-button href="#services" variant="outline">Découvrir nos services</x-button>
+                        <x-button :href="route('services')" variant="outline">Découvrir nos services</x-button>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@
                         <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                         <div>
                             <p class="text-sm font-semibold text-slate-900">Horaires d'ouverture</p>
-                            <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
+                            <p class="text-sm text-slate-500">{{ config('clinique.hours.days') }} : {{ config('clinique.hours.time') }}</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-3">
@@ -61,8 +61,8 @@
                         <div>
                             <p class="text-sm font-semibold text-slate-900">Contact</p>
                             <p class="text-sm text-slate-500">
-                                <a href="tel:+227XXXXXXXX" class="hover:text-primary-600">+227 XX XX XX XX</a><br>
-                                <a href="https://wa.me/227XXXXXXXX" target="_blank" rel="noopener" class="hover:text-primary-600">WhatsApp</a>
+                                <a href="tel:{{ config('clinique.contact.phone.tel') }}" class="hover:text-primary-600">{{ config('clinique.contact.phone.display') }}</a><br>
+                                <a href="https://wa.me/{{ config('clinique.contact.whatsapp.number') }}" target="_blank" rel="noopener noreferrer" class="hover:text-primary-600">WhatsApp</a>
                             </p>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                     <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                     <div>
                         <p class="text-sm font-semibold text-slate-900">Horaires d'ouverture</p>
-                        <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
+                        <p class="text-sm text-slate-500">{{ config('clinique.hours.days') }} : {{ config('clinique.hours.time') }}</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-3">
@@ -90,8 +90,8 @@
                     <div>
                         <p class="text-sm font-semibold text-slate-900">Contact</p>
                         <p class="text-sm text-slate-500">
-                            <a href="tel:+227XXXXXXXX" class="hover:text-primary-600">+227 XX XX XX XX</a><br>
-                            <a href="https://wa.me/227XXXXXXXX" target="_blank" rel="noopener" class="hover:text-primary-600">WhatsApp</a>
+                            <a href="tel:{{ config('clinique.contact.phone.tel') }}" class="hover:text-primary-600">{{ config('clinique.contact.phone.display') }}</a><br>
+                            <a href="https://wa.me/{{ config('clinique.contact.whatsapp.number') }}" target="_blank" rel="noopener noreferrer" class="hover:text-primary-600">WhatsApp</a>
                         </p>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                     vulnérables et à offrir aux étudiants une expérience pratique encadrée, au service de la communauté.
                 </p>
                 <div class="mt-6">
-                    <x-button href="#" variant="primary">En savoir plus sur la Clinique</x-button>
+                    <x-button :href="route('about')" variant="primary">En savoir plus sur la Clinique</x-button>
                 </div>
 
                 <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -180,7 +180,7 @@
                 <div class="flex flex-col lg:col-span-3">
                     <div class="mb-6 flex items-center justify-between">
                         <h2 class="text-2xl font-bold text-slate-900">Actualités récentes</h2>
-                        <x-button href="#" variant="text">Voir toutes les actualités</x-button>
+                        <x-button :href="route('news.index')" variant="text">Voir toutes les actualités</x-button>
                     </div>
 
                     <div class="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-3">
@@ -199,7 +199,7 @@
                                 <div class="flex flex-1 flex-col p-4">
                                     <p class="text-xs text-slate-400">{{ $article['date'] }}</p>
                                     <h3 class="mt-1 flex-1 text-sm font-semibold leading-snug text-slate-900">{{ $article['title'] }}</h3>
-                                    <a href="#" aria-label="Lire la suite" class="mt-3 flex h-8 w-8 items-center justify-center self-start rounded-full bg-primary-50 text-primary-600 hover:bg-primary-100">
+                                    <a href="{{ route('news.show') }}" aria-label="Lire la suite" class="mt-3 flex h-8 w-8 items-center justify-center self-start rounded-full bg-primary-50 text-primary-600 hover:bg-primary-100">
                                         <x-icon name="arrow-right" class="h-4 w-4" />
                                     </a>
                                 </div>
@@ -212,7 +212,7 @@
                 <div class="lg:col-span-2">
                     <div class="mb-6 flex items-center justify-between">
                         <h2 class="text-2xl font-bold text-slate-900">Nos dernières vidéos</h2>
-                        <x-button href="#" variant="text">Voir toutes les vidéos</x-button>
+                        <x-button :href="route('webtv.index')" variant="text">Voir toutes les vidéos</x-button>
                     </div>
 
                     <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
@@ -265,7 +265,7 @@
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
             <h2 class="text-2xl font-bold text-slate-900">Nos partenaires</h2>
-            <x-button href="#" variant="text">Voir tous les partenaires</x-button>
+            <x-button :href="route('partners')" variant="text">Voir tous les partenaires</x-button>
         </div>
 
         <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">

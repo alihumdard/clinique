@@ -21,9 +21,9 @@
         <div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
             <div class="lg:col-span-2">
                 <x-eyebrow>Notre engagement</x-eyebrow>
-                <h1 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
+                <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
                     Une assistance juridique gratuite et ouverte à tous
-                </h1>
+                </h2>
                 <p class="mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM offre une assistance juridique gratuite à la population,
                     dans le cadre de sa mission de service public et de formation pratique des étudiants.
@@ -122,7 +122,7 @@
             icon="heart"
             title="Une attention particulière aux personnes vulnérables"
             button-label="Faire une pré-saisine"
-            button-href="#"
+            :button-href="route('presaisine.index')"
         >
             La Clinique accorde une attention spéciale aux femmes, aux enfants, aux personnes handicapées,
             aux personnes déplacées et à toute personne en situation de vulnérabilité.
@@ -174,7 +174,7 @@
             icon="paper-plane"
             title="Besoin d'une assistance juridique ?"
             button-label="Faire une pré-saisine"
-            button-href="#"
+            :button-href="route('presaisine.index')"
         >
             Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.
         </x-inline-cta>

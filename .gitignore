@@ -22,3 +22,8 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Design assets: large mockup exports kept out of the code repository.
+# They live with the project's design deliverables, not in version control.
+/Clinique mockup design phase 2/
+/Clinique mockup design phase 2.zip

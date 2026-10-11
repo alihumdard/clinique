@@ -165,7 +165,7 @@
             icon="paper-plane"
             title="Besoin d'une assistance juridique ?"
             button-label="Faire une pré-saisine"
-            button-href="#"
+            :button-href="route('presaisine.index')"
         >
             Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.
         </x-inline-cta>

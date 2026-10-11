@@ -1,4 +1,4 @@
-@props(['icon', 'title', 'color' => 'primary', 'link' => true, 'compact' => false])
+@props(['icon', 'title', 'color' => 'primary', 'link' => true, 'compact' => false, 'href' => null])
 
 @php
     $colors = [
@@ -18,7 +18,7 @@
     <h3 class="mt-3 {{ $compact ? 'text-sm' : 'text-base' }} font-semibold text-slate-900">{{ $title }}</h3>
     <p class="mt-1.5 {{ $compact ? 'text-xs' : 'text-sm' }} leading-relaxed text-slate-600">{{ $slot }}</p>
     @if($link)
-        <a href="#" class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
+        <a href="{{ $href ?? route('services') }}" class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
             En savoir plus
             <x-icon name="arrow-right" class="h-4 w-4" />
         </a>

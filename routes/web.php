@@ -48,8 +48,60 @@ Route::get('/actualites/conference-acces-droit-personnes-vulnerables', function 
     return view('news.show');
 })->name('news.show');
 
-// Placeholder routes so header nav links resolve while each page is built.
-// Replaced with real controllers/views as each page is designed.
+/*
+|--------------------------------------------------------------------------
+| Resources (fiches pratiques, rapports annuels)
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/ressources', fn () => view('home'))->name('resources');
-Route::get('/web-tv', fn () => view('home'))->name('webtv.index');
-Route::get('/contact', fn () => view('home'))->name('contact');
+Route::get('/ressources/fiches-pratiques', fn () => view('resources.guides'))->name('resources.guides');
+Route::get('/ressources/fiches-pratiques/droits-de-la-famille', fn () => view('resources.guide-show'))->name('resources.guides.show');
+Route::get('/ressources/rapports-annuels', fn () => view('resources.reports'))->name('resources.reports');
+
+/*
+|--------------------------------------------------------------------------
+| Activities and gallery
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/activites', fn () => view('activities'))->name('activities.index');
+Route::get('/galerie', fn () => view('gallery'))->name('gallery');
+
+/*
+|--------------------------------------------------------------------------
+| Web TV
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/web-tv', fn () => view('webtv.index'))->name('webtv.index');
+Route::get('/web-tv/caravane-juridique-tillaberi', fn () => view('webtv.show'))->name('webtv.show');
+
+/*
+|--------------------------------------------------------------------------
+| Engagement and contact
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/rejoindre', fn () => view('join'))->name('join');
+Route::get('/contact', fn () => view('contact'))->name('contact');
+Route::get('/recherche', fn () => view('search'))->name('search');
+
+/*
+|--------------------------------------------------------------------------
+| Pre-saisine (Module 3 implements the flow; route reserved so the
+| header and homepage CTAs resolve rather than pointing at '#')
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/pre-saisine', fn () => view('home'))->name('presaisine.index');
+
+/*
+|--------------------------------------------------------------------------
+| Mandatory legal pages
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/mentions-legales', fn () => view('legal.notice'))->name('legal.notice');
+Route::get('/conditions-utilisation', fn () => view('legal.terms'))->name('legal.terms');
+Route::get('/politique-confidentialite', fn () => view('legal.privacy'))->name('legal.privacy');

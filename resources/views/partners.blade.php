@@ -20,7 +20,7 @@
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
                 <x-eyebrow>Une collaboration pour l'intérêt général</x-eyebrow>
-                <h1 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Des partenariats au service de la justice</h1>
+                <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Des partenariats au service de la justice</h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM travaille en étroite collaboration avec des institutions
                     publiques, des organisations internationales, des ONG, des ordres professionnels et des

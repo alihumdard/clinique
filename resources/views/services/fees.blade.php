@@ -21,9 +21,9 @@
         <div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
             <div class="lg:col-span-2">
                 <x-eyebrow>Principe général</x-eyebrow>
-                <h1 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
+                <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
                     Des frais administratifs limités et encadrés
-                </h1>
+                </h2>
                 <p class="mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM offre une assistance juridique gratuite. Seuls certains
                     frais administratifs, strictement encadrés, peuvent être demandés pour couvrir des coûts
@@ -152,7 +152,7 @@
             icon="paper-plane"
             title="Besoin d'une assistance juridique ?"
             button-label="Faire une pré-saisine"
-            button-href="#"
+            :button-href="route('presaisine.index')"
         >
             Nos services sont gratuits et accessibles à tous. Remplissez notre formulaire de pré-saisine
             pour être orienté vers le bon service.

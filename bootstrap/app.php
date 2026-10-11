@@ -15,7 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Security headers on every HTML response (Module 4 checklist).
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+
+        // Public site is served over HTTPS in production; force it there
+        // so mixed-content and protocol-downgrade cannot occur.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

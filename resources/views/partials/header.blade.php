@@ -19,13 +19,13 @@
             <span class="hidden text-slate-300 md:inline">Clinique Juridique FSJP</span>
         </div>
         <div class="flex items-center gap-4">
-            <a href="tel:+22720315263" class="flex items-center gap-1.5 text-slate-300 hover:text-white">
+            <a href="tel:{{ config('clinique.contact.phone.tel') }}" class="flex items-center gap-1.5 text-slate-300 hover:text-white">
                 <x-icon name="phone" class="h-3.5 w-3.5" />
-                +227 20 31 52 63
+                {{ config('clinique.contact.phone.display') }}
             </a>
-            <a href="mailto:contact@clinique-fsjp.ne" class="hidden items-center gap-1.5 text-slate-300 hover:text-white md:flex">
-                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                contact@clinique-fsjp.ne
+            <a href="mailto:{{ config('clinique.contact.email') }}" class="hidden items-center gap-1.5 text-slate-300 hover:text-white md:flex">
+                <x-icon name="mail" class="h-3.5 w-3.5" />
+                {{ config('clinique.contact.email') }}
             </a>
             {{-- Visual placeholder only: site is French-only per project scope, no i18n wired up --}}
             <span class="hidden items-center gap-1 text-slate-300 lg:flex">
@@ -61,10 +61,10 @@
         </nav>
 
         <div class="hidden items-center gap-4 lg:flex">
-            <button type="button" aria-label="Rechercher" class="text-slate-500 hover:text-primary-600">
+            <a href="{{ route('search') }}" aria-label="Rechercher" class="text-slate-500 hover:text-primary-600">
                 <x-icon name="search" class="h-5 w-5" />
-            </button>
-            <x-button href="#" variant="primary" class="!rounded-full">Pré-saisine</x-button>
+            </a>
+            <x-button :href="route('presaisine.index')" variant="primary" class="!rounded-full">Pré-saisine</x-button>
         </div>
 
         <button
@@ -91,6 +91,6 @@
                 {{ $item['label'] }}
             </a>
         @endforeach
-        <x-button href="#" variant="primary" class="mt-1 w-full justify-center !rounded-full">Pré-saisine</x-button>
+        <x-button :href="route('presaisine.index')" variant="primary" class="mt-1 w-full justify-center !rounded-full">Pré-saisine</x-button>
     </nav>
 </header>

@@ -7,6 +7,9 @@
     'title',
     'subtitle' => null,
     'breadcrumb' => [],
+    'badge' => null,
+    'badgeColor' => 'primary',
+    'titleLine2' => null,
 ])
 
 <section class="relative overflow-hidden">
@@ -37,7 +40,16 @@
             </nav>
         @endif
 
-        <h1 class="max-w-2xl text-3xl font-bold leading-tight text-white sm:text-4xl">{{ $title }}</h1>
+        @if($badge)
+            <x-category-badge :color="$badgeColor" position="inline" class="mb-4">{{ $badge }}</x-category-badge>
+        @endif
+
+        <h1 class="max-w-2xl text-3xl font-bold leading-tight text-white sm:text-4xl">
+            {{ $title }}
+            @if($titleLine2)
+                <span class="mt-1 block text-2xl font-bold sm:text-3xl">{{ $titleLine2 }}</span>
+            @endif
+        </h1>
 
         @if($subtitle)
             <p class="mt-3 max-w-xl text-base text-slate-200">{{ $subtitle }}</p>

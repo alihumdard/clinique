@@ -1,4 +1,4 @@
-@props(['icon', 'title', 'color' => 'blue'])
+@props(['icon', 'title' => null, 'color' => 'blue'])
 
 @php
     $colors = [
@@ -14,7 +14,9 @@
         <x-icon :name="$icon" class="h-6 w-6" />
     </span>
     <div>
-        <p class="font-semibold text-slate-900">{{ $title }}</p>
-        <p class="mt-1 text-sm leading-relaxed text-slate-600">{{ $slot }}</p>
+        @if($title)
+            <p class="font-semibold text-slate-900">{{ $title }}</p>
+        @endif
+        <p class="{{ $title ? 'mt-1 ' : '' }}text-sm leading-relaxed text-slate-600">{{ $slot }}</p>
     </div>
 </div>

@@ -170,7 +170,7 @@
             icon="scale"
             title="Une question juridique ?"
             button-label="Faire une pré-saisine"
-            button-href="#"
+            :button-href="route('presaisine.index')"
         >
             Nos étudiants encadrés sont à votre écoute pour vous informer et vous orienter dans vos démarches.
         </x-inline-cta>

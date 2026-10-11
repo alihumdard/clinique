@@ -21,10 +21,10 @@
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
                 <x-eyebrow>Une équipe pluridisciplinaire</x-eyebrow>
-                <h1 class="mt-2 text-3xl font-bold leading-tight text-slate-900">
+                <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">
                     Des professionnels, des enseignants
                     <span class="block">et des étudiants engagés</span>
-                </h1>
+                </h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM est portée par une équipe d'enseignants encadrants,
                     d'étudiants en droit et de professionnels partenaires qui travaillent ensemble pour
@@ -114,7 +114,7 @@
                     <x-eyebrow>Nos étudiants</x-eyebrow>
                     <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
                 </div>
-                <x-button href="#" variant="primary" class="!rounded-full">Voir tous les étudiants</x-button>
+                <x-button :href="route('join')" variant="primary" class="!rounded-full">Voir tous les étudiants</x-button>
             </div>
 
             <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
@@ -167,7 +167,7 @@
             icon="user-plus"
             title="Rejoignez notre équipe"
             button-label="Voir les opportunités"
-            button-href="#"
+            :button-href="route('presaisine.index')"
         >
             Vous êtes étudiant en droit et souhaitez vous engager ? Découvrez nos appels à candidatures.
         </x-inline-cta>

@@ -27,4 +27,26 @@ document.addEventListener('DOMContentLoaded', () => {
             track.scrollBy({ left: direction * track.clientWidth * 0.8, behavior: 'smooth' });
         });
     });
+
+    // Click-to-load video embeds: swap the poster for the real iframe only
+    // once the visitor presses play. Keeps ~1 Mo per embed off the initial
+    // page load for visitors on metered mobile data.
+    document.querySelectorAll('[data-video-embed]').forEach((container) => {
+        const trigger = container.querySelector('[data-video-play]');
+        if (!trigger) return;
+
+        trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const iframe = document.createElement('iframe');
+            iframe.src = container.dataset.videoEmbed;
+            iframe.title = container.dataset.videoTitle || 'Lecteur vidéo';
+            iframe.loading = 'lazy';
+            iframe.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.className = 'absolute inset-0 h-full w-full';
+
+            container.replaceChildren(iframe);
+        });
+    });
 });
