@@ -35,6 +35,17 @@ body {
     @apply font-sans text-gray-800 antialiased;
 }
 
+/* Pointer cursor on all interactive elements */
+button:not(:disabled),
+a,
+label[for],
+[role="button"],
+select,
+[type="checkbox"],
+[type="radio"] {
+    cursor: pointer;
+}
+
 /* Visible, keyboard-reachable focus ring everywhere (accessibility requirement) */
 :focus-visible {
     @apply outline-2 outline-offset-2 outline-primary-600;

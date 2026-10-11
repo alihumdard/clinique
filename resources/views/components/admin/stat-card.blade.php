@@ -1,7 +1,3 @@
-{{--
-    Tinted KPI card used across the admin dashboards: icon, figure, label
-    and an optional trend line.
---}}
 @props([
     'icon',
     'value',
@@ -13,36 +9,39 @@
 
 @php
     $swatches = [
-        'blue'   => ['panel' => 'bg-primary-50/70', 'badge' => 'bg-primary-100 text-primary-600'],
-        'green'  => ['panel' => 'bg-emerald-50/70', 'badge' => 'bg-emerald-100 text-emerald-600'],
-        'amber'  => ['panel' => 'bg-amber-50/70',   'badge' => 'bg-amber-100 text-amber-600'],
-        'purple' => ['panel' => 'bg-violet-50/70',  'badge' => 'bg-violet-100 text-violet-600'],
-        'red'    => ['panel' => 'bg-rose-50/70',    'badge' => 'bg-rose-100 text-rose-600'],
+        'blue'   => ['accent' => 'bg-primary-500',  'badge' => 'bg-primary-50 text-primary-600',  'trend' => 'text-primary-600'],
+        'green'  => ['accent' => 'bg-emerald-500',  'badge' => 'bg-emerald-50 text-emerald-600',  'trend' => 'text-emerald-600'],
+        'amber'  => ['accent' => 'bg-amber-500',    'badge' => 'bg-amber-50 text-amber-600',      'trend' => 'text-amber-600'],
+        'purple' => ['accent' => 'bg-violet-500',   'badge' => 'bg-violet-50 text-violet-600',    'trend' => 'text-violet-600'],
+        'red'    => ['accent' => 'bg-rose-500',     'badge' => 'bg-rose-50 text-rose-600',        'trend' => 'text-rose-600'],
     ];
     $c = $swatches[$color] ?? $swatches['blue'];
 @endphp
 
-<div {{ $attributes->merge(['class' => 'rounded-xl ' . $c['panel'] . ' p-5']) }}>
-    <div class="flex items-start gap-4">
-        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full {{ $c['badge'] }}">
-            <x-icon :name="$icon" class="h-6 w-6" />
+<div {{ $attributes->merge(['class' => 'relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm']) }}>
+    {{-- Colored accent bar on top --}}
+    <div class="absolute inset-x-0 top-0 h-1 {{ $c['accent'] }}"></div>
+
+    <div class="flex items-start gap-4 pt-1">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl {{ $c['badge'] }}">
+            <x-icon :name="$icon" class="h-5 w-5" />
         </span>
 
-        <div class="min-w-0">
+        <div class="min-w-0 flex-1">
             <p class="text-2xl font-bold leading-tight text-slate-900">{{ $value }}</p>
-            <p class="mt-0.5 text-sm font-medium text-slate-700">{{ $label }}</p>
+            <p class="mt-0.5 text-sm font-medium text-slate-600">{{ $label }}</p>
 
-            @if($trend)
-                {{-- The arrow carries the direction too, so the meaning does
-                     not rely on colour alone. --}}
-                <p class="mt-2 flex items-center gap-1 text-xs font-semibold text-emerald-600">
-                    <span aria-hidden="true">&#8599;</span>
-                    {{ $trend }}
-                </p>
-            @endif
-
-            @if($note)
-                <p class="mt-0.5 text-xs text-slate-500">{{ $note }}</p>
+            @if($trend || $note)
+                <div class="mt-2 flex flex-wrap items-center gap-2">
+                    @if($trend)
+                        <span class="inline-flex items-center gap-0.5 text-xs font-semibold {{ $c['trend'] }}">
+                            <span aria-hidden="true">&#8599;</span>{{ $trend }}
+                        </span>
+                    @endif
+                    @if($note)
+                        <span class="text-xs text-slate-400">{{ $note }}</span>
+                    @endif
+                </div>
             @endif
         </div>
     </div>

@@ -111,7 +111,6 @@
                     Accédez à votre espace d'administration de la Clinique Juridique FSJP-UAM.
                 </p>
 
-                {{-- Session-expiry and throttling messages surface here. --}}
                 @if ($errors->any())
                     <div role="alert" class="mt-6 flex items-start gap-3 rounded-lg border border-rose-200 bg-rose-50 p-4">
                         <x-icon name="help-circle" class="mt-0.5 h-5 w-5 shrink-0 text-rose-600" />
@@ -169,8 +168,6 @@
                                 class="w-full rounded-lg border border-slate-200 py-3 pl-11 pr-11 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
 
-                            {{-- Reveal control is progressive: it only appears
-                                 once the script wires it up. --}}
                             <button
                                 type="button"
                                 data-password-toggle="password"

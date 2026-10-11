@@ -7,7 +7,7 @@
 --}}
 @props(['tabs' => []])
 
-<div {{ $attributes->merge(['class' => 'flex gap-6 overflow-x-auto border-b border-slate-200']) }}>
+<div data-filter-tabs {{ $attributes->merge(['class' => 'flex gap-6 overflow-x-auto border-b border-slate-200']) }}>
     @foreach ($tabs as $tab)
         @php $active = $tab['active'] ?? false; @endphp
 

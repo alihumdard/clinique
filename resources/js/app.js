@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const iframe = document.createElement('iframe');
             iframe.src = container.dataset.videoEmbed;
-            iframe.title = container.dataset.videoTitle || 'Lecteur vid�o';
+            iframe.title = container.dataset.videoTitle || 'Lecteur vid�o';
             iframe.loading = 'lazy';
             iframe.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
             iframe.allowFullscreen = true;
@@ -79,6 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /* ── Admin dashboard functionality ───────────────────── */
+    initAdminToast();
+    initAdminSelectAll();
+    initAdminTableSearch();
+    initAdminFilterTabs();
+    initAdminDeleteConfirm();
+    initAdminForms();
+    initAdminSettingsTabs();
+
     // Admin sidebar drawer (mobile only; the sidebar is static from lg up).
     const adminSidebar = document.getElementById('admin-sidebar');
     const adminToggle = document.getElementById('admin-sidebar-toggle');
@@ -103,3 +112,231 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+/* ═══════════════════════════════════════════════════════════
+   Admin dashboard — frontend functionality
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Toast notifications ──────────────────────────────────── */
+let _toastWrap = null;
+
+function initAdminToast() {
+    if (_toastWrap) return;
+    _toastWrap = document.createElement('div');
+    _toastWrap.className = 'fixed top-4 right-4 z-[999] flex flex-col gap-2 pointer-events-none';
+    document.body.appendChild(_toastWrap);
+}
+
+function adminToast(message, type = 'success') {
+    if (!_toastWrap) return;
+
+    const isSuccess = type === 'success';
+    const el = document.createElement('div');
+    el.className = [
+        'flex items-center gap-3 rounded-xl px-5 py-3.5 text-sm font-medium shadow-lg pointer-events-auto',
+        'translate-x-0 opacity-100 transition-all duration-300',
+        isSuccess ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white',
+    ].join(' ');
+
+    el.innerHTML = `
+        <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            ${isSuccess
+                ? '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>'
+                : '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>'}
+        </svg>
+        <span>${message}</span>`;
+
+    _toastWrap.appendChild(el);
+
+    setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(100%)';
+        setTimeout(() => el.remove(), 300);
+    }, 3000);
+}
+
+/* ── Select-all checkbox ──────────────────────────────────── */
+function initAdminSelectAll() {
+    document.querySelectorAll('table').forEach(table => {
+        const selectAll = table.querySelector('thead input[type="checkbox"]');
+        if (!selectAll) return;
+
+        const getRows = () => [...table.querySelectorAll('tbody input[type="checkbox"]')];
+
+        const syncHeader = () => {
+            const rows = getRows();
+            const checkedCount = rows.filter(cb => cb.checked).length;
+            selectAll.checked = checkedCount > 0 && checkedCount === rows.length;
+            selectAll.indeterminate = checkedCount > 0 && checkedCount < rows.length;
+        };
+
+        selectAll.addEventListener('change', () => {
+            getRows().forEach(cb => { cb.checked = selectAll.checked; });
+            syncHeader();
+        });
+
+        table.addEventListener('change', e => {
+            if (e.target !== selectAll && e.target.type === 'checkbox') syncHeader();
+        });
+    });
+}
+
+/* ── Live table search ────────────────────────────────────── */
+function initAdminTableSearch() {
+    document.querySelectorAll('[role="search"] input[type="search"]').forEach(input => {
+        const section = input.closest('section');
+        const tbody = section?.querySelector('tbody');
+        if (!tbody) return;
+
+        input.addEventListener('input', () => {
+            const q = input.value.trim().toLowerCase();
+            adminFilterRows(tbody, q);
+        });
+    });
+}
+
+function adminFilterRows(tbody, q) {
+    let anyVisible = false;
+    [...tbody.querySelectorAll('tr:not(.js-empty)')].forEach(row => {
+        const visible = !q || row.textContent.toLowerCase().includes(q);
+        row.hidden = !visible;
+        if (visible) anyVisible = true;
+    });
+
+    let empty = tbody.querySelector('tr.js-empty');
+    if (!anyVisible && !empty) {
+        empty = document.createElement('tr');
+        empty.className = 'js-empty';
+        empty.innerHTML = '<td colspan="20" class="px-5 py-10 text-center text-sm text-slate-400">Aucun résultat trouvé.</td>';
+        tbody.appendChild(empty);
+    } else if (anyVisible && empty) {
+        empty.remove();
+    }
+}
+
+/* ── Filter tabs (visual switch + row filtering) ──────────── */
+function initAdminFilterTabs() {
+    document.querySelectorAll('[data-filter-tabs]').forEach(tabsEl => {
+        const tabs = [...tabsEl.querySelectorAll('a')];
+        if (!tabs.length) return;
+
+        const section = tabsEl.closest('section');
+        const tbody = section?.querySelector('tbody');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', e => {
+                e.preventDefault();
+
+                // Switch active classes
+                tabs.forEach(t => {
+                    t.classList.remove('border-primary-600', 'font-semibold', 'text-primary-600');
+                    t.classList.add('border-transparent', 'font-medium', 'text-slate-500');
+                    t.removeAttribute('aria-current');
+                });
+                tab.classList.add('border-primary-600', 'font-semibold', 'text-primary-600');
+                tab.classList.remove('border-transparent', 'font-medium', 'text-slate-500');
+                tab.setAttribute('aria-current', 'page');
+
+                if (!tbody) return;
+
+                // Derive filter keyword from label (strip count)
+                const label = tab.textContent.replace(/\(\d+\)/g, '').trim().toLowerCase();
+
+                if (label.startsWith('toutes') || label.startsWith('tous')) {
+                    [...tbody.querySelectorAll('tr:not(.js-empty)')].forEach(r => { r.hidden = false; });
+                    tbody.querySelector('tr.js-empty')?.remove();
+                    return;
+                }
+
+                // Map plural/alias → singular status text found in rows
+                const map = {
+                    'publiées': 'publié', 'publiés': 'publié',
+                    'brouillons': 'brouillon',
+                    'archivées': 'archivé', 'archivés': 'archivé',
+                    'passées': 'terminé',
+                    'caravanes juridiques': 'caravane',
+                };
+                const filter = map[label] ?? label;
+                adminFilterRows(tbody, filter);
+            });
+        });
+    });
+}
+
+/* ── Delete confirmation ──────────────────────────────────── */
+function initAdminDeleteConfirm() {
+    document.addEventListener('submit', e => {
+        const form = e.target;
+        if (!form.querySelector('input[name="_method"][value="DELETE"]')) return;
+
+        const srOnly = form.querySelector('.sr-only');
+        const item = srOnly?.textContent.replace('Supprimer', '').replace(':', '').trim() || 'cet élément';
+
+        if (!confirm(`Supprimer « ${item} » ?\nCette action est irréversible.`)) {
+            e.preventDefault();
+        }
+    });
+}
+
+/* ── Sidebar / aside forms → toast (presentation-only pages) */
+function initAdminForms() {
+    document.querySelectorAll('aside form').forEach(form => {
+        if (form.getAttribute('action') !== '#') return;
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const submitter = e.submitter;
+            const btnText = submitter?.textContent.trim() ?? '';
+
+            let msg = 'Enregistré avec succès.';
+            if (btnText.includes('Publier'))   msg = 'Publié avec succès.';
+            if (btnText.includes('Envoyer'))   msg = 'Envoyé avec succès.';
+            if (btnText.includes('brouillon')) msg = 'Enregistré en brouillon.';
+
+            adminToast(msg);
+            form.reset();
+        });
+    });
+
+    // Settings main form (not in aside)
+    const settingsForm = document.querySelector('main > form[method="POST"]');
+    if (settingsForm && settingsForm.getAttribute('action') === '#') {
+        settingsForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const msg = e.submitter?.value === 'reset'
+                ? 'Paramètres réinitialisés.'
+                : 'Paramètres enregistrés.';
+            adminToast(msg);
+        });
+    }
+}
+
+/* ── Settings page horizontal tabs ───────────────────────── */
+function initAdminSettingsTabs() {
+    const tabsEl = document.querySelector('[data-settings-tabs]');
+    if (!tabsEl) return;
+
+    const tabs = [...tabsEl.querySelectorAll('a')];
+    const cards = [...document.querySelectorAll('.mt-5.grid.grid-cols-1 section.rounded-xl')];
+
+    tabs.forEach((tab, i) => {
+        tab.addEventListener('click', e => {
+            e.preventDefault();
+
+            tabs.forEach(t => {
+                t.classList.remove('border-primary-600', 'font-semibold', 'text-primary-600');
+                t.classList.add('border-transparent', 'font-medium', 'text-slate-500');
+                t.removeAttribute('aria-current');
+            });
+            tab.classList.add('border-primary-600', 'font-semibold', 'text-primary-600');
+            tab.classList.remove('border-transparent', 'font-medium', 'text-slate-500');
+            tab.setAttribute('aria-current', 'page');
+
+            const target = cards[i];
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+}

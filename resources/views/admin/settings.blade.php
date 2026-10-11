@@ -37,7 +37,7 @@
         @endphp
 
         <div class="rounded-xl border border-slate-200 bg-white px-5">
-            <div class="flex gap-6 overflow-x-auto">
+            <div data-settings-tabs class="flex gap-6 overflow-x-auto">
                 @foreach ($tabs as $tab)
                     @php $active = $tab['active'] ?? false; @endphp
 
