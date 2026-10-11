@@ -44,6 +44,10 @@ Route::get('/actualites', function () {
     return view('news.index');
 })->name('news.index');
 
+Route::get('/actualites/conference-acces-droit-personnes-vulnerables', function () {
+    return view('news.show');
+})->name('news.show');
+
 // Placeholder routes so header nav links resolve while each page is built.
 // Replaced with real controllers/views as each page is designed.
 Route::get('/ressources', fn () => view('home'))->name('resources');

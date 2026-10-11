@@ -54,6 +54,7 @@
                         date="12 octobre 2024"
                         title="Conférence sur l'accès au droit des personnes vulnérables"
                         excerpt="La Clinique Juridique FSJP-UAM a organisé une conférence-débat sur l'accès au droit des personnes en situation de vulnérabilité, avec la participation d'experts et d'étudiants."
+                        :href="route('news.show')"
                     />
                     <x-news-card
                         image="placeholders/news-caravan"
