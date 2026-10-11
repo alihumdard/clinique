@@ -162,10 +162,8 @@
         <x-eyebrow>Ils nous soutiennent</x-eyebrow>
         <h2 class="mt-2 text-3xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
 
-        <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            @foreach (['UAM', 'Ministère de la Justice', 'PNUD', 'UNICEF', 'Union Européenne', 'AFD'] as $partner)
-                <x-logo-placeholder :name="$partner" />
-            @endforeach
+        <div class="mt-8">
+            @include('partials.partners-grid')
         </div>
     </section>
 

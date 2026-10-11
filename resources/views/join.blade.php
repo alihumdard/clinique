@@ -255,4 +255,13 @@
         </x-inline-cta>
     </section>
 
+    {{-- ============ PARTENAIRES ============ --}}
+    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <x-eyebrow>Ils nous soutiennent</x-eyebrow>
+        <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
+        <div class="mt-8">
+            @include('partials.partners-grid')
+        </div>
+    </section>
+
 @endsection
