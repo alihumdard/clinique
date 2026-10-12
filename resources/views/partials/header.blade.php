@@ -4,7 +4,7 @@
         ['label' => 'La Clinique', 'route' => 'about'],
         ['label' => 'Services', 'route' => 'services'],
         ['label' => 'Actualités', 'route' => 'news.index'],
-        ['label' => 'Ressources', 'route' => 'resources'],
+        ['label' => 'Ressources', 'route' => 'resources.guides'],
         ['label' => 'Web TV', 'route' => 'webtv.index'],
         ['label' => 'Contact', 'route' => 'contact'],
     ];
@@ -48,7 +48,11 @@
 
         <nav class="hidden items-center gap-6 lg:flex" aria-label="Navigation principale">
             @foreach ($navItems as $item)
-                @php $isActive = Route::is($item['route']) || Route::is($item['route'] . '.*'); @endphp
+                @php
+                    $isActive = Route::is($item['route'])
+                        || Route::is($item['route'] . '.*')
+                        || ($item['route'] === 'resources.guides' && Route::is('resources.*'));
+                @endphp
                 <a
                     href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}"
                     class="pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"

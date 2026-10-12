@@ -54,7 +54,7 @@ Route::get('/actualites/conference-acces-droit-personnes-vulnerables', function 
 |--------------------------------------------------------------------------
 */
 
-Route::get('/ressources', fn () => view('home'))->name('resources');
+Route::redirect('/ressources', '/ressources/fiches-pratiques')->name('resources');
 Route::get('/ressources/fiches-pratiques', fn () => view('resources.guides'))->name('resources.guides');
 Route::get('/ressources/fiches-pratiques/droits-de-la-famille', fn () => view('resources.guide-show'))->name('resources.guides.show');
 Route::get('/ressources/rapports-annuels', fn () => view('resources.reports'))->name('resources.reports');
