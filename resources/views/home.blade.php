@@ -9,79 +9,82 @@
 
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-primary-50">
-    <div class="relative mx-auto max-w-7xl">
-        <div class="grid grid-cols-1 lg:grid-cols-2">
+    <div class="grid grid-cols-1 lg:grid-cols-2 lg:items-center">
 
-            <div class="flex flex-col justify-center px-4 py-14 sm:px-6 lg:px-8">
-                <p class="text-xs font-bold uppercase tracking-widest text-primary-600">
-                    Clinique Juridique FSJP — Université Abdou Moumouni
-                </p>
+        <div class="relative z-10 mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:pr-0">
+            <p class="text-xs font-bold uppercase tracking-widest text-primary-600">
+                Clinique Juridique FSJP — Université Abdou Moumouni
+            </p>
 
-                <h1 class="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
-                    Un accès à la justice
-                    <span class="block text-primary-600">pour tous</span>
-                </h1>
+            <h1 class="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
+                Un accès à la justice
+                <span class="block text-primary-600">pour tous</span>
+            </h1>
 
-                <p class="mt-5 max-w-xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique de la FSJP-UAM offre des consultations juridiques gratuites,
-                    un accompagnement par des étudiants encadrés,
-                    et contribue à la promotion des droits humains.
-                </p>
+            <p class="mt-5 max-w-xl text-base leading-relaxed text-slate-600">
+                La Clinique Juridique de la FSJP-UAM offre des consultations juridiques gratuites,
+                un accompagnement par des étudiants encadrés,
+                et contribue à la promotion des droits humains.
+            </p>
 
-                <div class="mt-8 flex flex-wrap items-center gap-3">
-                    <x-button href="#presaisine" variant="primary">
-                        <x-icon name="user-plus" class="h-4 w-4" />
-                        Faire une pré-saisine
-                    </x-button>
-                    <x-button href="#services" variant="outline">Découvrir nos services</x-button>
-                </div>
-            </div>
-
-            {{-- Photo + floating information card --}}
-            <div class="relative hidden min-h-[460px] lg:block">
-                <img src="/images/placeholders/hero-fsjp.png" alt="" class="absolute inset-0 h-full w-full object-cover object-center" aria-hidden="true">
-                <div class="absolute inset-0 bg-gradient-to-r from-primary-50 via-primary-50/30 to-transparent"></div>
-
-                <div class="absolute inset-x-0 bottom-0 grid grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
-
-                    <div class="flex items-center gap-3 p-4">
-                        <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-900">Horaires d'ouverture</p>
-                            <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3 p-4">
-                        <x-icon-badge size="sm"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-900">Adresse</p>
-                            <p class="text-sm text-slate-500">Faculté des Sciences<br>Juridiques, Niamey</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3 p-4">
-                        <x-icon-badge size="sm"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-900">Contact</p>
-                            <p class="text-sm text-slate-500">
-                                <a href="tel:+227XXXXXXXX" class="hover:text-primary-600">+227 XX XX XX XX</a><br>
-                                <a href="https://wa.me/227XXXXXXXX" target="_blank" rel="noopener" class="hover:text-primary-600">WhatsApp</a>
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="mt-8 flex flex-wrap items-center gap-3">
+                <x-button href="#presaisine" variant="primary">
+                    <x-icon name="user-plus" class="h-4 w-4" />
+                    Faire une pré-saisine
+                </x-button>
+                <x-button href="#services" variant="outline">Découvrir nos services</x-button>
             </div>
         </div>
 
+        {{-- Photo (full-bleed to viewport edge) --}}
+        <div class="relative hidden min-h-[420px] lg:block">
+            <img src="/images/placeholders/hero-fsjp.png" alt="" class="absolute inset-0 h-full w-full object-cover object-center" aria-hidden="true">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-50 via-primary-50/25 to-transparent"></div>
+        </div>
+    </div>
+
+    {{-- Floating information card (overlaps photo bottom edge) --}}
+    <div class="relative z-10 mx-auto hidden h-12 max-w-7xl lg:block">
+        <div class="absolute bottom-0 right-0 grid w-[640px] -translate-y-1/2 grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
+
+            <div class="flex items-center gap-3 p-4">
+                <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
+                <div>
+                    <p class="text-sm font-semibold text-slate-900">Horaires d'ouverture</p>
+                    <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-4">
+                <x-icon-badge size="sm"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
+                <div>
+                    <p class="text-sm font-semibold text-slate-900">Adresse</p>
+                    <p class="text-sm text-slate-500">Faculté des Sciences<br>Juridiques, Niamey</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-4">
+                <x-icon-badge size="sm"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
+                <div>
+                    <p class="text-sm font-semibold text-slate-900">Contact</p>
+                    <p class="text-sm text-slate-500">
+                        <a href="tel:+227XXXXXXXX" class="hover:text-primary-600">+227 XX XX XX XX</a><br>
+                        <a href="https://wa.me/227XXXXXXXX" target="_blank" rel="noopener" class="hover:text-primary-600">WhatsApp</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mx-auto max-w-7xl lg:hidden">
         {{-- Mobile photo strip --}}
-        <div class="relative h-44 sm:h-56 lg:hidden">
+        <div class="relative h-44 sm:h-56">
             <img src="/images/placeholders/hero-fsjp.png" alt="" class="h-full w-full object-cover object-center" aria-hidden="true">
         </div>
 
         {{-- Mobile information strip --}}
-        <div class="grid grid-cols-1 divide-y divide-slate-200 border-t border-slate-200 lg:hidden sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <div class="grid grid-cols-1 divide-y divide-slate-200 border-t border-slate-200 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
 
             <div class="flex items-center gap-3 px-4 py-3">
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
