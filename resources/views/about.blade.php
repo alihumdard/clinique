@@ -106,9 +106,9 @@
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <x-picture
-                path="placeholders/about-legal"
-                alt="Balance de la justice sur un bureau"
-                width="700" height="467"
+                path="placeholders/about-institutional"
+                alt="Balance de la justice devant des livres de droit"
+                width="1536" height="1024"
                 class="aspect-[3/2] w-full rounded-xl object-cover"
             />
 
