@@ -310,23 +310,27 @@
                         />
 
                         <span class="absolute inset-0 flex items-center justify-center">
-                            <span class="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-blue-700 shadow-md transition group-hover:scale-110">
-                                <x-icon name="play" class="h-6 w-6" />
+                            <span class="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 text-white shadow-md transition group-hover:scale-110">
+                                <svg class="ml-0.5 h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M8 5v14l11-7-11-7z" />
+                                </svg>
                             </span>
                         </span>
 
-                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pb-3 pt-9">
-                            <p class="text-[11px] font-bold leading-snug text-white">
-                                La Clinique Juridique FSJP-UAM
-                            </p>
-                            <p class="mt-1 text-[9px] leading-snug text-white/80">
-                                Présentation de la Clinique et de ses missions
-                            </p>
-                        </div>
+                        <div class="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pb-3 pt-9">
+                            <div>
+                                <p class="text-[11px] font-bold leading-snug text-white">
+                                    La Clinique Juridique FSJP-UAM
+                                </p>
+                                <p class="mt-1 text-[9px] leading-snug text-white/80">
+                                    Présentation de la Clinique et de ses missions
+                                </p>
+                            </div>
 
-                        <span class="absolute bottom-2 right-2 rounded bg-black/75 px-1.5 py-0.5 text-[9px] text-white">
-                            09:24
-                        </span>
+                            <span class="shrink-0 rounded bg-black/75 px-1.5 py-0.5 text-[9px] text-white">
+                                09:24
+                            </span>
+                        </div>
                     </a>
 
                     {{-- SMALL VIDEOS --}}
@@ -360,13 +364,20 @@
                                         height="100"
                                         class="block aspect-video w-full object-cover"
                                     />
-                                    <span class="absolute bottom-1 right-1 rounded bg-black/80 px-1 py-0.5 text-[9px] leading-tight text-white">
+                                    <span class="absolute inset-0 flex items-center justify-center bg-black/10">
+                                        <span class="flex h-5 w-5 items-center justify-center rounded-full bg-white/90 text-blue-700">
+                                            <svg class="ml-0.5 h-2 w-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                <path d="M8 5v14l11-7-11-7z" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span class="absolute right-1 top-1 rounded bg-black/80 px-1 py-0.5 text-[9px] leading-tight text-white">
                                         {{ $video['duration'] }}
                                     </span>
                                 </div>
 
                                 <div class="min-w-0 pt-0.5">
-                                    <p class="text-[10px] font-semibold leading-snug text-blue-700 transition group-hover:text-blue-800 sm:text-[11px]">
+                                    <p class="text-[10px] font-semibold leading-snug text-slate-800 transition group-hover:text-blue-700 sm:text-[11px]">
                                         {{ $video['title'] }}
                                     </p>
                                     <p class="mt-1 text-[9px] text-slate-500">
