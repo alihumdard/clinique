@@ -1,15 +1,15 @@
 <footer class="relative bg-navy-900 text-slate-300">
-    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-8">
             <div class="col-span-2 lg:col-span-1">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5">
-                    <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-10 w-10 shrink-0 rounded-full object-cover" width="40" height="40">
+                    <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-9 w-9 shrink-0 rounded-full object-cover" width="36" height="36">
                     <span class="leading-tight">
                         <span class="block text-sm font-bold text-white">Clinique Juridique</span>
                         <span class="block text-xs font-medium text-slate-400">FSJP - UAM</span>
                     </span>
                 </a>
-                <p class="mt-4 text-sm text-slate-400">
+                <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
                     Au service de la justice, de la communauté et de la formation des futurs professionnels du droit.
                 </p>
                 <div class="mt-5 flex items-center gap-3">
@@ -61,38 +61,34 @@
 
             <div class="col-span-2 lg:col-span-1">
                 <h2 class="text-sm font-semibold text-white">Contact</h2>
-                <div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm lg:grid-cols-1">
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-2.5">
-                            <x-icon name="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-                            <span>Faculté des Sciences Juridiques<br>et Politiques, Niamey</span>
-                        </li>
-                        <li class="flex items-center gap-2.5">
-                            <x-icon name="phone" class="h-4 w-4 shrink-0 text-slate-400" />
-                            <a href="tel:+227XXXXXXXX" class="hover:text-white">+227 XX XX XX XX</a>
-                        </li>
-                    </ul>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-2.5">
-                            <svg class="mt-0.5 h-4 w-4 shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                            <a href="mailto:clinique.juridique@uam.ne" class="break-all hover:text-white">clinique.juridique@uam.ne</a>
-                        </li>
-                        <li class="flex items-center gap-2.5">
-                            <x-icon name="clock" class="h-4 w-4 shrink-0 text-slate-400" />
-                            <span>Lun - Ven : 9h00 - 17h00</span>
-                        </li>
-                        <li class="flex items-center gap-2.5">
-                            <x-icon name="whatsapp" class="h-4 w-4 shrink-0 text-slate-400" />
-                            <a href="https://wa.me/227XXXXXXXX" target="_blank" rel="noopener" class="hover:text-white">WhatsApp</a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="mt-4 space-y-3 text-sm">
+                    <li class="flex items-start gap-2.5">
+                        <x-icon name="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+                        <span>Faculté des Sciences Juridiques<br>et Politiques, Niamey</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <x-icon name="phone" class="h-4 w-4 shrink-0 text-slate-400" />
+                        <a href="tel:+227XXXXXXXX" class="hover:text-white">+227 XX XX XX XX</a>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <svg class="h-4 w-4 shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                        <a href="mailto:clinique.juridique@uam.ne" class="break-all hover:text-white">clinique.juridique@uam.ne</a>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <x-icon name="clock" class="h-4 w-4 shrink-0 text-slate-400" />
+                        <span>Lun - Ven : 9h00 - 17h00</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <x-icon name="whatsapp" class="h-4 w-4 shrink-0 text-slate-400" />
+                        <a href="https://wa.me/227XXXXXXXX" target="_blank" rel="noopener" class="hover:text-white">WhatsApp</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 
     <div class="border-t border-white/10">
-        <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <p>&copy; {{ date('Y') }} Clinique Juridique FSJP-UAM. Tous droits réservés.</p>
             <div class="flex items-center gap-4">
                 <a href="{{ route('legal.notice') }}" class="hover:text-white">Mentions légales</a>
