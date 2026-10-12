@@ -37,9 +37,9 @@
             </div>
 
             <x-picture
-                path="placeholders/hero-building"
+                path="placeholders/about-presentation"
                 alt="Bâtiment de la Faculté des Sciences Juridiques et Politiques"
-                width="900" height="600"
+                width="1384" height="1136"
                 class="aspect-[3/2] w-full rounded-xl object-cover"
             />
         </div>
