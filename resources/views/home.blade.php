@@ -254,8 +254,8 @@
                                 <x-picture
                                     :path="'placeholders/' . $article['img']"
                                     :alt="$article['alt']"
-                                    width="600"
-                                    height="300"
+                                    width="1536"
+                                    height="1024"
                                     class="block aspect-[2/1] w-full object-cover transition duration-300 hover:scale-105"
                                 />
                             </a>
@@ -304,8 +304,8 @@
                         <x-picture
                             path="placeholders/video-featured"
                             alt="Présentation de la Clinique Juridique"
-                            width="900"
-                            height="506"
+                            width="1672"
+                            height="941"
                             class="block h-full min-h-[180px] w-full object-cover transition duration-300 group-hover:scale-105 sm:min-h-0"
                         />
 
