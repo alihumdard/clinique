@@ -366,7 +366,7 @@
                                 </div>
 
                                 <div class="min-w-0 pt-0.5">
-                                    <p class="text-[10px] font-semibold leading-snug text-slate-800 transition group-hover:text-blue-700 sm:text-[11px]">
+                                    <p class="text-[10px] font-semibold leading-snug text-blue-700 transition group-hover:text-blue-800 sm:text-[11px]">
                                         {{ $video['title'] }}
                                     </p>
                                     <p class="mt-1 text-[9px] text-slate-500">
