@@ -121,7 +121,7 @@
                     social de la faculté.
                 </p>
 
-                <div class="mt-6 flex flex-col items-start gap-4 rounded-lg border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="mt-6 flex flex-col items-start gap-4 rounded-lg border border-primary-100 bg-primary-50/60 p-4 sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-center gap-3">
                         <x-icon-badge size="sm"><x-icon name="document" class="h-5 w-5" /></x-icon-badge>
                         <div>
