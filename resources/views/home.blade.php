@@ -158,9 +158,9 @@
         <div class="relative overflow-hidden rounded-xl">
             <x-picture
                 path="placeholders/mission-consultation"
-                alt="Consultation juridique entre un étudiant et un bénéficiaire"
-                width="900"
-                height="600"
+                alt="Avocat signant un document juridique, balance de la justice en arrière-plan"
+                width="1672"
+                height="941"
                 class="aspect-[4/3] w-full object-cover"
             />
 
