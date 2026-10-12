@@ -16,7 +16,7 @@
     />
 
     {{-- ============ DOMAINES D'INTERVENTION ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold text-slate-900">Nos principaux domaines d'intervention</h2>
         <p class="mt-2 max-w-3xl text-base text-slate-600">
             La Clinique Juridique FSJP-UAM offre un accompagnement, une information et une orientation
@@ -46,7 +46,7 @@
     </section>
 
     {{-- ============ NOTRE ENGAGEMENT (photo banner) ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <div class="relative min-h-[320px] overflow-hidden rounded-xl">
             <x-picture
                 path="placeholders/services-engagement"
@@ -77,7 +77,7 @@
     </section>
 
     {{-- ============ PROCESSUS (4 steps) ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold text-slate-900">Comment bénéficier de nos services ?</h2>
         <p class="mt-2 text-base text-slate-600">Un processus simple, transparent et gratuit pour tous.</p>
 
@@ -119,7 +119,7 @@
     </section>
 
     {{-- ============ FAQ ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
             <div>
                 <h2 class="text-2xl font-bold text-slate-900">Questions fréquentes</h2>
@@ -156,7 +156,7 @@
     </section>
 
     {{-- ============ INLINE CTA ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="paper-plane"
             title="Vous avez besoin d'une assistance juridique ?"
@@ -165,15 +165,6 @@
         >
             Notre équipe est à votre écoute pour vous orienter et vous accompagner.
         </x-inline-cta>
-    </section>
-
-    {{-- ============ PARTENAIRES ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <x-eyebrow>Ils nous soutiennent</x-eyebrow>
-        <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
-        <div class="mt-8">
-            @include('partials.partners-grid')
-        </div>
     </section>
 
 @endsection
