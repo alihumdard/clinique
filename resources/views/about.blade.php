@@ -78,9 +78,9 @@
                 </div>
 
                 <x-picture
-                    path="placeholders/about-team"
-                    alt="Étudiants cliniciens travaillant en équipe"
-                    width="900" height="591"
+                    path="placeholders/about-story"
+                    alt="Étudiants cliniciens devant la Faculté des Sciences Juridiques et Politiques"
+                    width="1495" height="1052"
                     class="aspect-[3/2] w-full rounded-xl object-cover"
                 />
             </div>
