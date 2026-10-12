@@ -133,7 +133,7 @@
 </section>
 
 {{-- ============ SERVICE ICONS STRIP ============ --}}
-<section id="services" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+<section id="services" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         @foreach ([
             ['icon' => 'users', 'label' => 'Consultations juridiques gratuites'],
@@ -143,8 +143,8 @@
             ['icon' => 'document', 'label' => 'Ressources juridiques'],
             ['icon' => 'play-circle', 'label' => 'Web TV capsules juridiques'],
         ] as $item)
-            <div class="flex flex-col items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-6 text-center">
-                <x-icon :name="$item['icon']" class="h-10 w-10 text-primary-600" />
+            <div class="flex flex-col items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-5 text-center transition hover:shadow-md">
+                <x-icon :name="$item['icon']" class="h-8 w-8 text-primary-600" />
                 <p class="text-sm font-semibold text-slate-800">{{ $item['label'] }}</p>
             </div>
         @endforeach
@@ -152,7 +152,7 @@
 </section>
 
 {{-- ============ MISSION SPLIT ============ --}}
-<section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+<section class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
 
         <div class="relative overflow-hidden rounded-xl">
@@ -396,7 +396,7 @@
 </section>
 
 {{-- ============ PARTNERS ============ --}}
-<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+<section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <div class="mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-slate-900">Nos partenaires</h2>
         <a href="{{ route('partners') }}" class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
