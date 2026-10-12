@@ -3,7 +3,9 @@
 @php
     $colors = [
         'primary' => 'text-primary-700',
-        'muted' => 'text-slate-500',
+        'muted'   => 'text-slate-500',
+        'amber'   => 'text-amber-500',
+        'white'   => 'text-white/70',
     ];
 @endphp
 

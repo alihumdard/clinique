@@ -20,7 +20,7 @@
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-                <x-eyebrow>Une équipe pluridisciplinaire</x-eyebrow>
+                <x-eyebrow color="amber">Une équipe pluridisciplinaire</x-eyebrow>
                 <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">
                     Des professionnels, des enseignants
                     <span class="block">et des étudiants engagés</span>
@@ -32,11 +32,26 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 gap-x-8 gap-y-6 rounded-xl border border-slate-200 bg-slate-50 p-6">
-                <x-mini-stat icon="book" title="Enseignants encadrants" value="8+" subtitle="Experts en droit" />
-                <x-mini-stat icon="users" title="Étudiants membres" value="50+" subtitle="Étudiants engagés" />
-                <x-mini-stat icon="user-plus" title="Professionnels partenaires" value="10+" subtitle="Avocats et spécialistes" />
-                <x-mini-stat icon="document" title="Personnel administratif" value="5+" subtitle="Membres de soutien" />
+            <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                <div class="grid grid-cols-2 divide-x divide-y divide-slate-200">
+                    @foreach ([
+                        ['icon' => 'book',      'title' => 'Enseignants encadrants',    'value' => '8+',  'sub' => 'Experts en droit'],
+                        ['icon' => 'users',     'title' => 'Étudiants membres',         'value' => '50+', 'sub' => 'Étudiants engagés'],
+                        ['icon' => 'user-plus', 'title' => 'Professionnels partenaires','value' => '10+', 'sub' => 'Avocats et spécialistes'],
+                        ['icon' => 'document',  'title' => 'Personnel administratif',  'value' => '5+',  'sub' => 'Membres de soutien'],
+                    ] as $s)
+                    <div class="flex items-center gap-4 p-6">
+                        <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
+                            <x-icon :name="$s['icon']" class="h-7 w-7" />
+                        </span>
+                        <div>
+                            <p class="text-xs text-slate-500">{{ $s['title'] }}</p>
+                            <p class="text-2xl font-bold text-slate-900">{{ $s['value'] }}</p>
+                            <p class="text-xs text-slate-500">{{ $s['sub'] }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>
@@ -44,7 +59,7 @@
     {{-- ============ DIRECTION ============ --}}
     <section class="bg-slate-50 py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-eyebrow>Direction de la Clinique</x-eyebrow>
+            <x-eyebrow color="amber">Direction de la Clinique</x-eyebrow>
             <h2 class="mt-2 text-2xl font-bold text-slate-900">Responsables de la Clinique Juridique</h2>
 
             <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -74,7 +89,7 @@
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
             <div>
-                <x-eyebrow>Enseignants encadrants</x-eyebrow>
+                <x-eyebrow color="amber">Enseignants encadrants</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos enseignants encadrants</h2>
             </div>
             <div class="hidden items-center gap-2 sm:flex">
@@ -87,7 +102,7 @@
             </div>
         </div>
 
-        <div id="carousel-teachers" class="grid grid-cols-2 gap-5 overflow-x-auto sm:grid-cols-4 sm:overflow-visible">
+        <div id="carousel-teachers" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ([
                 ['image' => 'team/teacher-1', 'name' => 'Pr. Moussa Harouna', 'role' => 'Droit pénal', 'bio' => 'Encadrement des consultations et formations', 'email' => 'moussa.harouna@uam.ne'],
                 ['image' => 'team/teacher-2', 'name' => 'Dr. Halima Issa', 'role' => 'Droit de la famille', 'bio' => 'Suivi des dossiers et sensibilisation', 'email' => 'halima.issa@uam.ne'],
@@ -95,7 +110,7 @@
                 ['image' => 'team/teacher-4', 'name' => 'Pr. Mariama Souley', 'role' => 'Droits humains', 'bio' => 'Recherche et développement des ressources pédagogiques', 'email' => 'mariama.souley@uam.ne'],
             ] as $teacher)
                 <x-profile-card
-                    size="compact"
+                    size="horizontal"
                     :image="$teacher['image']"
                     :name="$teacher['name']"
                     :role="$teacher['role']"
@@ -111,10 +126,10 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mb-6 flex items-center justify-between">
                 <div>
-                    <x-eyebrow>Nos étudiants</x-eyebrow>
+                    <x-eyebrow color="amber">Nos étudiants</x-eyebrow>
                     <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
                 </div>
-                <x-button :href="route('join')" variant="primary" class="!rounded-full">Voir tous les étudiants</x-button>
+                <x-button :href="route('join')" variant="primary" class="rounded-full!">Voir tous les étudiants</x-button>
             </div>
 
             <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
@@ -140,17 +155,17 @@
 
     {{-- ============ PERSONNEL ADMINISTRATIF ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <x-eyebrow>Personnel administratif et technique</x-eyebrow>
+        <x-eyebrow color="amber">Personnel administratif et technique</x-eyebrow>
         <h2 class="mt-2 text-2xl font-bold text-slate-900">Notre équipe de soutien</h2>
 
-        <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             @foreach ([
                 ['image' => 'team/staff-1', 'name' => 'Mme Zarima Abdou', 'role' => 'Secrétaire administrative', 'bio' => 'Gestion du courrier, accueil et coordination', 'email' => 'zarima.abdou@uam.ne'],
                 ['image' => 'team/staff-2', 'name' => 'M. Souleymane Ibrahim', 'role' => 'Chargé de communication', 'bio' => 'Web, réseaux sociaux et événements', 'email' => 'souleymane.ibrahim@uam.ne'],
                 ['image' => 'team/staff-3', 'name' => 'Mme Ramatou Abdoul', 'role' => 'Assistante administrative', 'bio' => 'Appui logistique et suivi des activités', 'email' => 'ramatou.abdoul@uam.ne'],
             ] as $staff)
                 <x-profile-card
-                    size="compact"
+                    size="horizontal"
                     :image="$staff['image']"
                     :name="$staff['name']"
                     :role="$staff['role']"
@@ -183,3 +198,24 @@
     </section>
 
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var indices = {};
+    document.querySelectorAll('[data-carousel-prev], [data-carousel-next]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var key = this.dataset.carouselPrev || this.dataset.carouselNext;
+            var container = document.getElementById('carousel-' + key);
+            if (!container) return;
+            var cards = Array.from(container.children);
+            if (!cards.length) return;
+            indices[key] = indices[key] || 0;
+            indices[key] += this.dataset.carouselPrev !== undefined ? -1 : 1;
+            indices[key] = Math.max(0, Math.min(indices[key], cards.length - 1));
+            cards[indices[key]].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        });
+    });
+});
+</script>
+@endpush

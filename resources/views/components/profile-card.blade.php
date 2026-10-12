@@ -9,14 +9,17 @@
 ])
 
 @if($size === 'large')
-    <div {{ $attributes->merge(['class' => 'flex flex-col gap-5 rounded-lg border border-slate-200 bg-white p-5 sm:flex-row sm:items-start']) }}>
-        <x-picture
-            :path="$image"
-            :alt="$name"
-            width="180" height="180"
-            class="h-36 w-36 shrink-0 rounded-lg object-cover sm:h-40 sm:w-40"
-        />
-        <div>
+    <div {{ $attributes->merge(['class' => 'flex flex-col rounded-lg border border-slate-200 bg-white overflow-hidden sm:flex-row']) }}>
+        <div class="h-56 w-full shrink-0 overflow-hidden sm:h-full sm:w-44">
+            <img
+                src="{{ asset('images/' . $image . '.jpg') }}"
+                alt="{{ $name }}"
+                class="h-full w-full object-cover object-top"
+                loading="lazy"
+                width="176" height="250"
+            >
+        </div>
+        <div class="p-5">
             <p class="text-lg font-bold text-slate-900">{{ $name }}</p>
             <p class="mt-0.5 text-sm font-medium text-primary-600">{{ $role }}</p>
             @if($bio)
@@ -37,23 +40,42 @@
             </div>
         </div>
     </div>
+@elseif($size === 'horizontal')
+    <div {{ $attributes->merge(['class' => 'flex overflow-hidden rounded-lg border border-slate-200 bg-white']) }}>
+        <img
+            src="{{ asset('images/' . $image . '.jpg') }}"
+            alt="{{ $name }}"
+            class="h-40 w-32 shrink-0 object-cover object-top"
+            loading="lazy" width="128" height="160"
+        >
+        <div class="flex min-w-0 flex-col justify-center py-3 pl-4 pr-3">
+            <p class="text-sm font-bold text-slate-900">{{ $name }}</p>
+            <p class="text-xs font-medium text-primary-600">{{ $role }}</p>
+            @if($bio)
+                <p class="mt-1 text-xs leading-snug text-slate-500">{{ $bio }}</p>
+            @endif
+            @if($email)
+                <a href="mailto:{{ $email }}" aria-label="Contacter {{ $name }}" class="mt-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary-50 text-primary-600 hover:bg-primary-100">
+                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                </a>
+            @endif
+        </div>
+    </div>
 @else
-    <div {{ $attributes->merge(['class' => 'rounded-lg border border-slate-200 bg-white p-4']) }}>
-        <x-picture
-            :path="$image"
-            :alt="$name"
-            width="200" height="200"
-            class="aspect-square w-full rounded-md object-cover"
-        />
-        <p class="mt-3 text-sm font-semibold text-slate-900">{{ $name }}</p>
-        <p class="text-xs font-medium text-primary-600">{{ $role }}</p>
-        @if($bio)
-            <p class="mt-1 text-xs leading-snug text-slate-500">{{ $bio }}</p>
-        @endif
-        @if($email)
-            <a href="mailto:{{ $email }}" aria-label="Contacter {{ $name }}" class="mt-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary-50 text-primary-600 hover:bg-primary-100">
-                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-            </a>
-        @endif
+    <div {{ $attributes->merge(['class' => 'overflow-hidden rounded-lg border border-slate-200 bg-white']) }}>
+        <img
+            src="{{ asset('images/' . $image . '.jpg') }}"
+            alt="{{ $name }}"
+            class="w-full object-cover object-top"
+            style="aspect-ratio: 5/6;"
+            loading="lazy" width="200" height="240"
+        >
+        <div class="px-3 py-2.5">
+            <p class="text-sm font-semibold leading-snug text-slate-900">{{ $name }}</p>
+            <p class="mt-0.5 text-xs font-medium text-primary-600">{{ $role }}</p>
+            @if($bio)
+                <p class="mt-1 text-xs leading-snug text-slate-400">{{ $bio }}</p>
+            @endif
+        </div>
     </div>
 @endif
