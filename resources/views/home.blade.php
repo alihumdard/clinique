@@ -399,7 +399,7 @@
 <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
     <div class="mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-slate-900">Nos partenaires</h2>
-        <a href="#" class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
+        <a href="{{ route('partners') }}" class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
             Voir tous les partenaires
             <x-icon name="arrow-right" class="h-4 w-4" />
         </a>
