@@ -158,7 +158,7 @@
     {{-- ============ INLINE CTA ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
-            icon="search"
+            icon="paper-plane"
             title="Vous avez besoin d'une assistance juridique ?"
             button-label="Faire une pré-saisine"
             :button-href="route('presaisine.index')"
