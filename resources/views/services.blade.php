@@ -5,33 +5,15 @@
 
 @section('content')
 
-    {{-- ============ HERO (navy solid + photo bleed) ============ --}}
-    <section class="relative overflow-hidden bg-navy-900">
-        <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-            <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-                <div>
-                    <nav aria-label="Fil d'Ariane" class="mb-4 flex items-center gap-2 text-sm text-slate-300">
-                        <a href="{{ route('home') }}" class="hover:text-white">Accueil</a>
-                        <span aria-hidden="true">&rsaquo;</span>
-                        <span class="text-white">Nos services juridiques</span>
-                    </nav>
-                    <h1 class="max-w-xl text-3xl font-bold leading-tight text-white sm:text-4xl">Nos services juridiques</h1>
-                    <p class="mt-3 max-w-lg text-base text-slate-200">
-                        Une assistance juridique gratuite et accessible dans plusieurs domaines du droit,
-                        assurée par des étudiants encadrés par des enseignants et des professionnels.
-                    </p>
-                </div>
-
-                <x-picture
-                    path="placeholders/about-legal"
-                    alt="Balance de la justice"
-                    width="900" height="500"
-                    :eager="true"
-                    class="hidden aspect-[16/9] w-full rounded-xl object-cover lg:block"
-                />
-            </div>
-        </div>
-    </section>
+    <x-page-hero
+        image="placeholders/about-hero"
+        title="Nos services juridiques"
+        subtitle="Une assistance juridique gratuite et accessible dans plusieurs domaines du droit, assurée par des étudiants encadrés par des enseignants et des professionnels."
+        :breadcrumb="[
+            ['label' => 'Accueil', 'url' => route('home')],
+            ['label' => 'Nos services juridiques'],
+        ]"
+    />
 
     {{-- ============ DOMAINES D'INTERVENTION ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
