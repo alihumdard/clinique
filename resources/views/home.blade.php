@@ -9,11 +9,6 @@
 
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-primary-50">
-    <div class="absolute inset-0">
-        <img src="/images/placeholders/hero-fsjp.png" alt="" class="h-full w-full object-cover object-center" aria-hidden="true">
-        <div class="absolute inset-0 bg-primary-50/90 lg:bg-primary-50/0 lg:bg-gradient-to-r lg:from-primary-50 lg:via-primary-50/85 lg:to-primary-50/10"></div>
-    </div>
-
     <div class="relative mx-auto max-w-7xl">
         <div class="grid grid-cols-1 lg:grid-cols-2">
 
@@ -42,9 +37,12 @@
                 </div>
             </div>
 
-            {{-- Floating information card --}}
-            <div class="relative hidden min-h-[460px] lg:flex lg:items-end">
-                <div class="grid w-full grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
+            {{-- Photo + floating information card --}}
+            <div class="relative hidden min-h-[460px] lg:block">
+                <img src="/images/placeholders/hero-fsjp.png" alt="" class="absolute inset-0 h-full w-full object-cover object-center" aria-hidden="true">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary-50 via-primary-50/30 to-transparent"></div>
+
+                <div class="absolute inset-x-0 bottom-0 grid grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
 
                     <div class="flex items-center gap-3 p-4">
                         <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
@@ -75,6 +73,11 @@
 
                 </div>
             </div>
+        </div>
+
+        {{-- Mobile photo strip --}}
+        <div class="relative h-44 sm:h-56 lg:hidden">
+            <img src="/images/placeholders/hero-fsjp.png" alt="" class="h-full w-full object-cover object-center" aria-hidden="true">
         </div>
 
         {{-- Mobile information strip --}}
