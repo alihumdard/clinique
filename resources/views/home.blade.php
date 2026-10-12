@@ -9,9 +9,9 @@
 
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-primary-50">
-    <div class="grid grid-cols-1 lg:grid-cols-2 lg:items-stretch">
+    <div class="mx-auto grid max-w-[1600px] grid-cols-1 lg:grid-cols-2 lg:items-stretch">
 
-        <div class="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center px-4 py-14 sm:px-6 lg:px-8 lg:pr-0">
+        <div class="relative z-10 mx-auto flex w-full max-w-xl flex-col justify-center px-4 py-14 sm:px-6 lg:max-w-2xl lg:px-8 lg:pr-0 xl:ml-auto xl:mr-0">
             <p class="text-xs font-bold uppercase tracking-widest text-primary-600">
                 Clinique Juridique FSJP — Université Abdou Moumouni
             </p>
@@ -52,7 +52,7 @@
     </div>
 
     {{-- Floating information card (overlaps photo bottom edge) --}}
-    <div class="relative z-10 mx-auto -mt-10 mb-4 hidden max-w-7xl lg:block">
+    <div class="relative z-10 mx-auto -mt-10 mb-4 hidden max-w-[1600px] lg:block">
         <div class="ml-auto grid w-[640px] grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
 
             <div class="flex items-center gap-3 p-4">

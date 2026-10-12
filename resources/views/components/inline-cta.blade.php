@@ -29,7 +29,7 @@
 @else
     <div class="flex flex-col items-center gap-5 rounded-xl border border-primary-100 bg-primary-50/60 p-6 sm:flex-row sm:justify-between">
         <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
-            <x-icon-badge size="lg" class="shrink-0">
+            <x-icon-badge size="lg" class="shrink-0 !bg-primary-600 !text-white">
                 <x-icon :name="$icon" class="h-7 w-7" />
             </x-icon-badge>
             <div>

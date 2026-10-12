@@ -27,6 +27,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
+    // Animated FAQ accordions: keep native <details>/<summary> for a11y and
+    // no-JS fallback, but intercept the toggle to slide the answer open/closed
+    // via a CSS grid-template-rows transition instead of the instant snap.
+    document.querySelectorAll('[data-faq-item]').forEach((details) => {
+        const summary = details.querySelector('summary');
+        const wrapper = details.querySelector('[data-faq-wrapper]');
+        if (!summary || !wrapper) return;
+
+        summary.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            if (details.open) {
+                wrapper.style.gridTemplateRows = '0fr';
+                wrapper.addEventListener('transitionend', () => {
+                    details.open = false;
+                }, { once: true });
+            } else {
+                details.open = true;
+                requestAnimationFrame(() => {
+                    wrapper.style.gridTemplateRows = '1fr';
+                });
+            }
+        });
+    });
+
     document.querySelectorAll('[data-carousel-prev], [data-carousel-next]').forEach((button) => {
         const key = button.dataset.carouselPrev || button.dataset.carouselNext;
         const track = document.getElementById(`carousel-${key}`);

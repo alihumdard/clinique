@@ -5,36 +5,18 @@
 
 @section('content')
 
-    {{-- ============ HERO (navy solid + photo bleed) ============ --}}
-    <section class="relative overflow-hidden bg-navy-900">
-        <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-            <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-                <div>
-                    <nav aria-label="Fil d'Ariane" class="mb-4 flex items-center gap-2 text-sm text-slate-300">
-                        <a href="{{ route('home') }}" class="hover:text-white">Accueil</a>
-                        <span aria-hidden="true">&rsaquo;</span>
-                        <span class="text-white">Nos services juridiques</span>
-                    </nav>
-                    <h1 class="max-w-xl text-3xl font-bold leading-tight text-white sm:text-4xl">Nos services juridiques</h1>
-                    <p class="mt-3 max-w-lg text-base text-slate-200">
-                        Une assistance juridique gratuite et accessible dans plusieurs domaines du droit,
-                        assurée par des étudiants encadrés par des enseignants et des professionnels.
-                    </p>
-                </div>
-
-                <x-picture
-                    path="placeholders/about-legal"
-                    alt="Balance de la justice"
-                    width="900" height="500"
-                    :eager="true"
-                    class="hidden aspect-[16/9] w-full rounded-xl object-cover lg:block"
-                />
-            </div>
-        </div>
-    </section>
+    <x-page-hero
+        image="placeholders/about-hero"
+        title="Nos services juridiques"
+        subtitle="Une assistance juridique gratuite et accessible dans plusieurs domaines du droit, assurée par des étudiants encadrés par des enseignants et des professionnels."
+        :breadcrumb="[
+            ['label' => 'Accueil', 'url' => route('home')],
+            ['label' => 'Nos services juridiques'],
+        ]"
+    />
 
     {{-- ============ DOMAINES D'INTERVENTION ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold text-slate-900">Nos principaux domaines d'intervention</h2>
         <p class="mt-2 max-w-3xl text-base text-slate-600">
             La Clinique Juridique FSJP-UAM offre un accompagnement, une information et une orientation
@@ -64,17 +46,17 @@
     </section>
 
     {{-- ============ NOTRE ENGAGEMENT (photo banner) ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-xl">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
+        <div class="relative min-h-[320px] overflow-hidden rounded-xl">
             <x-picture
-                path="placeholders/signing-document"
-                alt="Signature d'un document juridique"
-                width="1400" height="500"
-                class="h-full w-full object-cover"
+                path="placeholders/services-engagement"
+                alt="Avocat en consultation avec un client"
+                width="2172" height="724"
+                class="absolute inset-0 h-full w-full object-cover"
             />
-            <div class="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-900/80 to-navy-900/10"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-900/50 to-navy-900/10 lg:bg-gradient-to-r"></div>
 
-            <div class="relative flex flex-col gap-6 px-6 py-10 sm:px-10 sm:py-14 lg:flex-row lg:items-end lg:justify-between">
+            <div class="relative flex h-full flex-col justify-end gap-6 px-6 py-10 sm:px-10 sm:py-14 lg:flex-row lg:items-end lg:justify-between">
                 <div class="max-w-lg">
                     <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
                         <span aria-hidden="true">&mdash;</span> Notre engagement
@@ -95,7 +77,7 @@
     </section>
 
     {{-- ============ PROCESSUS (4 steps) ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold text-slate-900">Comment bénéficier de nos services ?</h2>
         <p class="mt-2 text-base text-slate-600">Un processus simple, transparent et gratuit pour tous.</p>
 
@@ -137,7 +119,7 @@
     </section>
 
     {{-- ============ FAQ ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
             <div>
                 <h2 class="text-2xl font-bold text-slate-900">Questions fréquentes</h2>
@@ -174,24 +156,15 @@
     </section>
 
     {{-- ============ INLINE CTA ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
-            icon="search"
+            icon="paper-plane"
             title="Vous avez besoin d'une assistance juridique ?"
             button-label="Faire une pré-saisine"
             :button-href="route('presaisine.index')"
         >
             Notre équipe est à votre écoute pour vous orienter et vous accompagner.
         </x-inline-cta>
-    </section>
-
-    {{-- ============ PARTENAIRES ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <x-eyebrow>Ils nous soutiennent</x-eyebrow>
-        <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
-        <div class="mt-8">
-            @include('partials.partners-grid')
-        </div>
     </section>
 
 @endsection
