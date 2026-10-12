@@ -19,9 +19,9 @@
             alt=""
             width="1600" height="500"
             :eager="true"
-            class="h-full w-full object-cover"
+            class="h-full w-full object-cover object-[75%_center]"
         />
-        <div class="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-900/70 to-navy-900/20"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-primary-900/75 to-primary-900/30"></div>
     </div>
 
     <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
