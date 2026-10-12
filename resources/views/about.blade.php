@@ -16,7 +16,7 @@
     />
 
     {{-- ============ PRESENTATION ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
                 <x-eyebrow>Notre présentation</x-eyebrow>
@@ -60,7 +60,7 @@
     </section>
 
     {{-- ============ HISTOIRE ============ --}}
-    <section class="bg-slate-50 py-16">
+    <section class="bg-slate-50 py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
                 <div>
@@ -88,7 +88,7 @@
     </section>
 
     {{-- ============ CHIFFRES CLES (dark band) ============ --}}
-    <section class="bg-navy-900 py-16">
+    <section class="bg-navy-900 py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-eyebrow class="!text-amber-400">Quelques chiffres clés</x-eyebrow>
             <h2 class="mt-2 text-3xl font-bold text-white">Notre impact en chiffres</h2>
@@ -103,7 +103,7 @@
     </section>
 
     {{-- ============ CADRE INSTITUTIONNEL ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <x-picture
                 path="placeholders/about-institutional"
@@ -141,7 +141,7 @@
     </section>
 
     {{-- ============ PARCOURS (timeline) ============ --}}
-    <section class="bg-slate-50 py-16">
+    <section class="bg-slate-50 py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-eyebrow color="muted">Les grandes étapes</x-eyebrow>
             <h2 class="mt-2 text-3xl font-bold text-slate-900">Notre parcours</h2>
@@ -158,7 +158,7 @@
     </section>
 
     {{-- ============ PARTENAIRES ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <x-eyebrow>Ils nous soutiennent</x-eyebrow>
         <h2 class="mt-2 text-3xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
 
