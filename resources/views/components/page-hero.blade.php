@@ -17,11 +17,11 @@
         <x-picture
             :path="$image"
             alt=""
-            width="1600" height="500"
+            width="2170" height="725"
             :eager="true"
-            class="h-full w-full object-cover object-[75%_center]"
+            class="h-full w-full object-cover object-left"
         />
-        <div class="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-primary-900/75 to-primary-900/30"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-navy-950/70 via-navy-900/35 to-transparent"></div>
     </div>
 
     <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
