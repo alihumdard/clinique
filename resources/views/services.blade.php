@@ -47,16 +47,16 @@
 
     {{-- ============ NOTRE ENGAGEMENT (photo banner) ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-xl">
+        <div class="relative min-h-[320px] overflow-hidden rounded-xl">
             <x-picture
-                path="placeholders/signing-document"
-                alt="Signature d'un document juridique"
-                width="1400" height="500"
-                class="h-full w-full object-cover"
+                path="placeholders/services-engagement"
+                alt="Avocat en consultation avec un client"
+                width="2172" height="724"
+                class="absolute inset-0 h-full w-full object-cover"
             />
-            <div class="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-900/80 to-navy-900/10"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-900/50 to-navy-900/10 lg:bg-gradient-to-r"></div>
 
-            <div class="relative flex flex-col gap-6 px-6 py-10 sm:px-10 sm:py-14 lg:flex-row lg:items-end lg:justify-between">
+            <div class="relative flex h-full flex-col justify-end gap-6 px-6 py-10 sm:px-10 sm:py-14 lg:flex-row lg:items-end lg:justify-between">
                 <div class="max-w-lg">
                     <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
                         <span aria-hidden="true">&mdash;</span> Notre engagement
