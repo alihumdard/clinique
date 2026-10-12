@@ -39,9 +39,7 @@
 <header class="sticky top-0 z-40 border-b border-slate-200 bg-white">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2.5">
-            <x-icon-badge size="sm">
-                <x-icon name="scale" class="h-5 w-5" />
-            </x-icon-badge>
+            <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-10 w-10 shrink-0 rounded-full object-cover" width="40" height="40">
             <span class="leading-tight">
                 <span class="block text-sm font-bold text-slate-900">Clinique Juridique</span>
                 <span class="block text-xs font-medium text-slate-500">FSJP - UAM</span>

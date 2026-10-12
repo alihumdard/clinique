@@ -29,9 +29,7 @@
 
         <div class="relative flex h-full flex-col">
             <div class="flex items-center gap-3">
-                <x-icon-badge size="lg" class="!bg-white/15 !text-white">
-                    <x-icon name="scale" class="h-8 w-8" />
-                </x-icon-badge>
+                <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-16 w-16 shrink-0 rounded-full object-cover" width="64" height="64">
                 <span class="leading-tight text-white">
                     <span class="block text-lg font-bold tracking-wide">CLINIQUE JURIDIQUE</span>
                     <span class="block text-lg font-bold tracking-wide">FSJP - UAM</span>

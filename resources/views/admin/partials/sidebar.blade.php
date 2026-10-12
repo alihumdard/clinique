@@ -65,9 +65,7 @@
     aria-label="Navigation de l'administration"
 >
     <div class="flex items-center gap-3 px-5 py-5">
-        <x-icon-badge size="sm" class="!bg-white/10 !text-white">
-            <x-icon name="scale" class="h-6 w-6" />
-        </x-icon-badge>
+        <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-10 w-10 shrink-0 rounded-full object-cover" width="40" height="40">
         <span class="min-w-0 leading-tight text-white">
             <span class="block text-sm font-bold tracking-wide">CLINIQUE JURIDIQUE</span>
             <span class="block text-sm font-bold tracking-wide">FSJP - UAM</span>

@@ -3,9 +3,7 @@
         <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
             <div class="col-span-2 lg:col-span-1">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5">
-                    <x-icon-badge size="sm" class="!bg-white/10 !text-white">
-                        <x-icon name="scale" class="h-5 w-5" />
-                    </x-icon-badge>
+                    <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-10 w-10 shrink-0 rounded-full object-cover" width="40" height="40">
                     <span class="leading-tight">
                         <span class="block text-sm font-bold text-white">Clinique Juridique</span>
                         <span class="block text-xs font-medium text-slate-400">FSJP - UAM</span>
