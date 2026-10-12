@@ -146,8 +146,8 @@
             <x-eyebrow color="muted">Les grandes étapes</x-eyebrow>
             <h2 class="mt-2 text-3xl font-bold text-slate-900">Notre parcours</h2>
 
-            <div class="mt-10 flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-0">
-                <div class="relative hidden sm:block sm:absolute sm:left-0 sm:right-0 sm:top-[0.6rem] sm:-z-10 sm:mx-[10%] sm:h-px sm:bg-slate-300"></div>
+            <div class="relative mt-10 flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-0">
+                <div class="hidden sm:absolute sm:left-0 sm:right-0 sm:top-[0.6rem] sm:z-0 sm:mx-[10%] sm:block sm:h-px sm:bg-slate-300"></div>
                 <x-timeline-item year="2018" label="Réflexion et lancement du projet" />
                 <x-timeline-item year="2019" label="Création officielle de la Clinique Juridique" :accent="true" />
                 <x-timeline-item year="2021" label="Développement des activités et premières caravanes juridiques" />
