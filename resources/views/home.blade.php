@@ -9,9 +9,9 @@
 
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-primary-50">
-    <div class="grid grid-cols-1 lg:grid-cols-2 lg:items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-2 lg:items-stretch">
 
-        <div class="relative z-10 mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:pr-0">
+        <div class="relative z-10 mx-auto flex w-full max-w-7xl flex-col justify-center px-4 py-14 sm:px-6 lg:px-8 lg:pr-0">
             <p class="text-xs font-bold uppercase tracking-widest text-primary-600">
                 Clinique Juridique FSJP — Université Abdou Moumouni
             </p>
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        {{-- Photo (full-bleed to viewport edge) --}}
+        {{-- Photo (full-bleed to viewport edge, flush with section top) --}}
         <div class="relative hidden min-h-[420px] lg:block">
             <img src="/images/placeholders/hero-fsjp.png" alt="" class="absolute inset-0 h-full w-full object-cover object-center" aria-hidden="true">
             <div class="absolute inset-0 bg-gradient-to-r from-primary-50 via-primary-50/25 to-transparent"></div>
@@ -44,8 +44,8 @@
     </div>
 
     {{-- Floating information card (overlaps photo bottom edge) --}}
-    <div class="relative z-10 mx-auto hidden h-12 max-w-7xl lg:block">
-        <div class="absolute bottom-0 right-0 grid w-[640px] -translate-y-1/2 grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
+    <div class="relative z-10 mx-auto -mt-10 mb-4 hidden max-w-7xl lg:block">
+        <div class="ml-auto grid w-[640px] grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
 
             <div class="flex items-center gap-3 p-4">
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
