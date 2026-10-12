@@ -38,7 +38,15 @@
 
         {{-- Photo (full-bleed to viewport edge, flush with section top) --}}
         <div class="relative hidden min-h-[420px] lg:block">
-            <img src="/images/placeholders/hero-fsjp.png" alt="" class="absolute inset-0 h-full w-full object-cover object-center" aria-hidden="true">
+            <x-picture
+                path="placeholders/hero-fsjp"
+                alt=""
+                width="842"
+                height="752"
+                eager
+                class="absolute inset-0 h-full w-full object-cover object-center"
+                aria-hidden="true"
+            />
             <div class="absolute inset-0 bg-gradient-to-r from-primary-50 via-primary-50/25 to-transparent"></div>
         </div>
     </div>
@@ -80,7 +88,14 @@
     <div class="mx-auto max-w-7xl lg:hidden">
         {{-- Mobile photo strip --}}
         <div class="relative h-44 sm:h-56">
-            <img src="/images/placeholders/hero-fsjp.png" alt="" class="h-full w-full object-cover object-center" aria-hidden="true">
+            <x-picture
+                path="placeholders/hero-fsjp"
+                alt=""
+                width="842"
+                height="752"
+                class="h-full w-full object-cover object-center"
+                aria-hidden="true"
+            />
         </div>
 
         {{-- Mobile information strip --}}
