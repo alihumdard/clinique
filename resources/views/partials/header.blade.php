@@ -4,6 +4,7 @@
         ['label' => 'La Clinique', 'route' => 'about', 'children' => [
             ['label' => 'À propos de la Clinique', 'route' => 'about'],
             ['label' => 'Notre équipe', 'route' => 'about.team'],
+            ['label' => 'Nos partenaires', 'route' => 'partners'],
         ]],
         ['label' => 'Services', 'route' => 'services'],
         ['label' => 'Actualités', 'route' => 'news.index'],
