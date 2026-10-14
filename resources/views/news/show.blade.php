@@ -114,7 +114,7 @@
 
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6">
-                <x-sidebar-card icon="clock" title="Actualités récentes">
+                <x-sidebar-card icon="clock" title="Actualités récentes" color="amber">
                     <div class="space-y-4">
                         <x-mini-article-row
                             image="placeholders/news-1"
