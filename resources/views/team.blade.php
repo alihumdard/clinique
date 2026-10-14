@@ -17,7 +17,7 @@
     />
 
     {{-- ============ INTRO + STATS PANEL ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
                 <x-eyebrow color="amber">Une équipe pluridisciplinaire</x-eyebrow>
@@ -57,7 +57,7 @@
     </section>
 
     {{-- ============ DIRECTION ============ --}}
-    <section class="bg-slate-50 py-16">
+    <section class="bg-slate-50 py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-eyebrow color="amber">Direction de la Clinique</x-eyebrow>
             <h2 class="mt-2 text-2xl font-bold text-slate-900">Responsables de la Clinique Juridique</h2>
@@ -86,7 +86,7 @@
     </section>
 
     {{-- ============ ENSEIGNANTS ENCADRANTS (carousel row) ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
             <div>
                 <x-eyebrow color="amber">Enseignants encadrants</x-eyebrow>
@@ -122,7 +122,7 @@
     </section>
 
     {{-- ============ ÉTUDIANTS ============ --}}
-    <section class="bg-slate-50 py-16">
+    <section class="bg-slate-50 py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mb-6 flex items-center justify-between">
                 <div>
@@ -154,7 +154,7 @@
     </section>
 
     {{-- ============ PERSONNEL ADMINISTRATIF ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <x-eyebrow color="amber">Personnel administratif et technique</x-eyebrow>
         <h2 class="mt-2 text-2xl font-bold text-slate-900">Notre équipe de soutien</h2>
 
@@ -177,7 +177,7 @@
     </section>
 
     {{-- ============ INLINE CTA ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="users"
             title="Rejoignez notre équipe"
@@ -186,15 +186,6 @@
         >
             Vous êtes étudiant en droit et souhaitez vous engager ? Découvrez nos appels à candidatures.
         </x-inline-cta>
-    </section>
-
-    {{-- ============ PARTENAIRES ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <x-eyebrow>Ils nous soutiennent</x-eyebrow>
-        <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
-        <div class="mt-8">
-            @include('partials.partners-grid')
-        </div>
     </section>
 
 @endsection
