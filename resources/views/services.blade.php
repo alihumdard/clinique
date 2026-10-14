@@ -125,7 +125,7 @@
                 <h2 class="text-2xl font-bold text-slate-900">Questions fréquentes</h2>
                 <p class="mt-1 text-sm text-slate-600">Trouvez rapidement les réponses aux questions les plus courantes sur nos services.</p>
             </div>
-            <x-button :href="route('contact')" variant="text" class="hidden shrink-0 sm:inline-flex">Voir toutes les questions</x-button>
+            <x-button :href="route('contact')" variant="text" class="!hidden shrink-0 sm:!inline-flex">Voir toutes les questions</x-button>
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">

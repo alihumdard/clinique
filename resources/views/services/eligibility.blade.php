@@ -136,7 +136,7 @@
                 <x-eyebrow>Questions fréquentes</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold text-slate-900">Questions sur l'accès et la gratuité</h2>
             </div>
-            <x-button href="{{ route('services') }}#faq" variant="text" class="hidden shrink-0 sm:inline-flex">Voir toutes les questions</x-button>
+            <x-button href="{{ route('services') }}#faq" variant="text" class="!hidden shrink-0 sm:!inline-flex">Voir toutes les questions</x-button>
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
