@@ -60,7 +60,7 @@
                     <div class="group relative">
                         <button
                             type="button"
-                            class="flex items-center gap-1 pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
+                            class="flex items-center gap-1 pb-0.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
                             aria-haspopup="true"
                             aria-expanded="false"
                         >
@@ -123,11 +123,11 @@
                 {{ $item['label'] }}
             </a>
             @if(!empty($item['children']))
-                <div class="ml-3 flex flex-col gap-1 border-l border-slate-200 pl-3">
+                <div class="mb-1 ml-3 flex flex-col gap-0.5 rounded-lg border border-slate-200 bg-slate-50 p-1.5">
                     @foreach ($item['children'] as $child)
                         <a
                             href="{{ Route::has($child['route']) ? route($child['route']) : '#' }}"
-                            class="rounded-md px-3 py-1.5 text-sm {{ Route::is($child['route']) ? 'font-semibold text-primary-600' : 'text-slate-500 hover:bg-slate-50' }}"
+                            class="rounded-md px-3 py-1.5 text-sm {{ Route::is($child['route']) ? 'bg-white font-semibold text-primary-600 shadow-sm' : 'text-slate-500 hover:bg-white hover:text-primary-600' }}"
                         >
                             {{ $child['label'] }}
                         </a>
