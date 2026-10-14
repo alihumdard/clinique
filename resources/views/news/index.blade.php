@@ -17,9 +17,9 @@
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-10">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-10">
             {{-- ============ FILTER BAR ============ --}}
-            <div class="flex gap-2 overflow-x-auto pb-1 lg:col-span-2 lg:flex-wrap lg:overflow-visible lg:pb-0">
+            <div class="flex min-w-0 gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
                 <x-filter-pill :active="true">Toutes les actualités</x-filter-pill>
                 <x-filter-pill>Événements</x-filter-pill>
                 <x-filter-pill>Formations</x-filter-pill>
@@ -42,10 +42,10 @@
             </form>
         </div>
 
-        <div class="mt-4 grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div class="mt-4 grid grid-cols-1 gap-10 lg:grid-cols-[2fr_1fr]">
 
             {{-- ============ NEWS GRID ============ --}}
-            <div class="lg:col-span-2">
+            <div class="min-w-0">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <x-news-card
                         image="placeholders/news-1"
