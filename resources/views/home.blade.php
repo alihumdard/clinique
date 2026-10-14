@@ -53,7 +53,7 @@
 
     {{-- Floating information card (overlaps photo bottom edge) --}}
     <div class="relative z-10 mx-auto -mt-10 mb-4 hidden max-w-[1600px] px-4 sm:px-6 lg:block lg:px-8">
-        <div class="ml-auto grid w-[640px] grid-cols-3 divide-x divide-slate-200 rounded-tl-xl bg-white shadow-xl">
+        <div class="ml-auto grid w-[640px] grid-cols-3 divide-x divide-slate-200 rounded-xl bg-white shadow-xl">
 
             <div class="flex items-center gap-3 p-4">
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
