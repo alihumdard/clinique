@@ -42,7 +42,7 @@
     </section>
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-3">
 
             {{-- ============ ARTICLE BODY ============ --}}
             <div class="lg:col-span-2">

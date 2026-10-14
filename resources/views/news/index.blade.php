@@ -42,7 +42,7 @@
             </form>
         </div>
 
-        <div class="mt-4 grid grid-cols-1 gap-10 lg:grid-cols-[2fr_1fr]">
+        <div class="mt-4 grid grid-cols-1 items-start gap-10 lg:grid-cols-[2fr_1fr]">
 
             {{-- ============ NEWS GRID ============ --}}
             <div class="min-w-0">
@@ -141,7 +141,7 @@
 
                 <div class="rounded-xl bg-primary-50/60 p-5">
                     <div class="flex items-center justify-between">
-                        <x-icon-badge size="sm"><x-icon name="mail" class="h-5 w-5" /></x-icon-badge>
+                        <x-icon-badge size="sm" class="!bg-amber-50 !text-amber-500"><x-icon name="mail" class="h-5 w-5" /></x-icon-badge>
                         <x-icon name="paper-plane" class="h-6 w-6 text-primary-300" />
                     </div>
                     <h3 class="mt-3 text-base font-bold text-slate-900">Restez informé</h3>
