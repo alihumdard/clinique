@@ -114,7 +114,7 @@
                     </nav>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="clock" title="Actualités récentes" color="amber">
+                <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
                     <div class="space-y-4">
                         <x-mini-article-row
                             image="placeholders/news-1"
