@@ -28,7 +28,7 @@
                 <x-filter-pill>Publications</x-filter-pill>
             </div>
 
-            <form role="search" class="relative">
+            <form role="search" class="relative self-start">
                 <label for="news-search" class="sr-only">Rechercher une actualité</label>
                 <input
                     type="search"
