@@ -116,23 +116,37 @@
     <nav id="mobile-menu" class="hidden flex-col gap-1 border-t border-slate-200 px-4 py-3 lg:hidden" aria-label="Navigation mobile">
         @foreach ($navItems as $item)
             @php $isActive = Route::is($item['route']) || Route::is($item['route'] . '.*'); @endphp
-            <a
-                href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}"
-                class="rounded-md px-3 py-2 text-sm font-medium {{ $isActive ? 'font-semibold text-primary-600' : 'text-slate-600 hover:bg-slate-50' }}"
-            >
-                {{ $item['label'] }}
-            </a>
             @if(!empty($item['children']))
-                <div class="mb-1 ml-3 flex flex-col gap-0.5 rounded-lg border border-slate-200 bg-slate-50 p-1.5">
-                    @foreach ($item['children'] as $child)
-                        <a
-                            href="{{ Route::has($child['route']) ? route($child['route']) : '#' }}"
-                            class="rounded-md px-3 py-1.5 text-sm {{ Route::is($child['route']) ? 'bg-white font-semibold text-primary-600 shadow-sm' : 'text-slate-500 hover:bg-white hover:text-primary-600' }}"
-                        >
-                            {{ $child['label'] }}
-                        </a>
-                    @endforeach
+                <div data-mobile-dropdown>
+                    <button
+                        type="button"
+                        data-mobile-dropdown-toggle
+                        class="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 {{ $isActive ? 'font-semibold text-primary-600' : 'text-slate-600 hover:bg-slate-50' }}"
+                        aria-expanded="false"
+                    >
+                        {{ $item['label'] }}
+                        <svg class="h-4 w-4 shrink-0 transition-transform" data-mobile-dropdown-chevron fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div data-mobile-dropdown-panel class="mb-1 ml-3 hidden flex-col gap-0.5 rounded-lg border border-slate-200 bg-slate-50 p-1.5">
+                        @foreach ($item['children'] as $child)
+                            <a
+                                href="{{ Route::has($child['route']) ? route($child['route']) : '#' }}"
+                                class="rounded-md px-3 py-1.5 text-sm {{ Route::is($child['route']) ? 'bg-white font-semibold text-primary-600 shadow-sm' : 'text-slate-500 hover:bg-white hover:text-primary-600' }}"
+                            >
+                                {{ $child['label'] }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
+            @else
+                <a
+                    href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}"
+                    class="rounded-md px-3 py-2 text-sm font-medium {{ $isActive ? 'font-semibold text-primary-600' : 'text-slate-600 hover:bg-slate-50' }}"
+                >
+                    {{ $item['label'] }}
+                </a>
             @endif
         @endforeach
         <x-button :href="route('presaisine.index')" variant="primary" class="mt-1 w-full justify-center !rounded-full">Pré-saisine</x-button>

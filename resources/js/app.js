@@ -27,6 +27,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
+    // Mobile/tablet nav sub-menu (e.g. "La Clinique" > À propos / Équipe):
+    // collapsed by default, expands on tap of its toggle button.
+    document.querySelectorAll('[data-mobile-dropdown]').forEach((dropdown) => {
+        const toggle = dropdown.querySelector('[data-mobile-dropdown-toggle]');
+        const panel = dropdown.querySelector('[data-mobile-dropdown-panel]');
+        const chevron = dropdown.querySelector('[data-mobile-dropdown-chevron]');
+        if (!toggle || !panel) return;
+
+        toggle.addEventListener('click', () => {
+            const isOpen = panel.classList.toggle('flex');
+            panel.classList.toggle('hidden', !isOpen);
+            toggle.setAttribute('aria-expanded', String(isOpen));
+            chevron?.classList.toggle('rotate-180', isOpen);
+        });
+    });
+
     // Animated FAQ accordions: keep native <details>/<summary> for a11y and
     // no-JS fallback, but intercept the toggle to slide the answer open/closed
     // via a CSS grid-template-rows transition instead of the instant snap.
