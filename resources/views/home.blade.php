@@ -41,8 +41,8 @@
             <x-picture
                 path="placeholders/hero-fsjp"
                 alt=""
-                width="842"
-                height="752"
+                width="921"
+                height="759"
                 eager
                 class="absolute inset-0 h-full w-full object-cover object-center"
                 aria-hidden="true"
@@ -91,8 +91,8 @@
             <x-picture
                 path="placeholders/hero-fsjp"
                 alt=""
-                width="842"
-                height="752"
+                width="921"
+                height="759"
                 class="h-full w-full object-cover object-center"
                 aria-hidden="true"
             />
