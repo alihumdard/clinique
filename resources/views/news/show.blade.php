@@ -144,14 +144,14 @@
                     </div>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="folder" title="Catégories">
+                <x-sidebar-card icon="folder" title="Catégories" color="amber">
                     <nav class="space-y-1">
-                        <x-category-list-item :active="true" icon="folder" color="blue" count="24">Toutes les actualités</x-category-list-item>
-                        <x-category-list-item icon="calendar" color="blue" count="6">Événements</x-category-list-item>
-                        <x-category-list-item icon="graduation-cap" color="green" count="5">Formations</x-category-list-item>
+                        <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
+                        <x-category-list-item icon="calendar" color="amber" count="6">Événements</x-category-list-item>
+                        <x-category-list-item icon="graduation-cap" color="amber" count="5">Formations</x-category-list-item>
                         <x-category-list-item icon="map-pin" color="amber" count="4">Caravanes juridiques</x-category-list-item>
-                        <x-category-list-item icon="megaphone" color="red" count="4">Communiqués</x-category-list-item>
-                        <x-category-list-item icon="document" color="purple" count="5">Publications</x-category-list-item>
+                        <x-category-list-item icon="megaphone" color="amber" count="4">Communiqués</x-category-list-item>
+                        <x-category-list-item icon="document" color="amber" count="5">Publications</x-category-list-item>
                     </nav>
                 </x-sidebar-card>
             </aside>
