@@ -40,14 +40,14 @@
                         ['icon' => 'user-plus', 'title' => 'Professionnels partenaires','value' => '10+', 'sub' => 'Avocats et spécialistes'],
                         ['icon' => 'document',  'title' => 'Personnel administratif',  'value' => '5+',  'sub' => 'Membres de soutien'],
                     ] as $s)
-                    <div class="flex items-center gap-4 p-6">
-                        <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                            <x-icon :name="$s['icon']" class="h-7 w-7" />
+                    <div class="flex min-w-0 items-center gap-2.5 p-3.5 sm:gap-4 sm:p-6">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600 sm:h-14 sm:w-14">
+                            <x-icon :name="$s['icon']" class="h-5 w-5 sm:h-7 sm:w-7" />
                         </span>
-                        <div>
-                            <p class="text-xs text-slate-500">{{ $s['title'] }}</p>
-                            <p class="text-2xl font-bold text-slate-900">{{ $s['value'] }}</p>
-                            <p class="text-xs text-slate-500">{{ $s['sub'] }}</p>
+                        <div class="min-w-0">
+                            <p class="truncate text-xs text-slate-500">{{ $s['title'] }}</p>
+                            <p class="text-lg font-bold text-slate-900 sm:text-2xl">{{ $s['value'] }}</p>
+                            <p class="truncate text-xs text-slate-500">{{ $s['sub'] }}</p>
                         </div>
                     </div>
                     @endforeach
@@ -124,12 +124,12 @@
     {{-- ============ ÉTUDIANTS ============ --}}
     <section class="bg-slate-50 py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-6 flex items-center justify-between">
+            <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <x-eyebrow color="amber">Nos étudiants</x-eyebrow>
                     <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
                 </div>
-                <x-button :href="route('join')" variant="primary" class="rounded-full!">Voir tous les étudiants</x-button>
+                <x-button :href="route('join')" variant="primary" class="self-start rounded-full! sm:self-auto">Voir tous les étudiants</x-button>
             </div>
 
             <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
