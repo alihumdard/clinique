@@ -159,8 +159,8 @@
             <x-picture
                 path="placeholders/mission-consultation"
                 alt="Avocat signant un document juridique, balance de la justice en arrière-plan"
-                width="1672"
-                height="941"
+                width="1456"
+                height="1080"
                 class="aspect-[4/3] w-full object-cover"
             />
 
