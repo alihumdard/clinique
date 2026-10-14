@@ -304,8 +304,8 @@
                         <x-picture
                             path="placeholders/video-featured"
                             alt="Présentation de la Clinique Juridique"
-                            width="1672"
-                            height="941"
+                            width="1536"
+                            height="1024"
                             class="block h-full min-h-[180px] w-full object-cover transition duration-300 group-hover:scale-105 sm:min-h-0"
                         />
 
