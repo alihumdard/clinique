@@ -109,12 +109,12 @@
 
     {{-- ============ FAQ ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div class="mb-6 flex items-center justify-between">
+        <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <x-eyebrow>Questions fréquentes</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold text-slate-900">Questions sur les tarifs administratifs</h2>
             </div>
-            <x-button href="{{ route('services') }}#faq" variant="text" class="!hidden shrink-0 sm:!inline-flex">Voir toutes les questions</x-button>
+            <x-button href="{{ route('services') }}#faq" variant="text" class="self-start shrink-0 sm:self-auto">Voir toutes les questions</x-button>
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">

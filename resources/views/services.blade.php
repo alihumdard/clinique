@@ -120,12 +120,12 @@
 
     {{-- ============ FAQ ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
-        <div class="mb-6 flex items-center justify-between">
+        <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h2 class="text-2xl font-bold text-slate-900">Questions fréquentes</h2>
                 <p class="mt-1 text-sm text-slate-600">Trouvez rapidement les réponses aux questions les plus courantes sur nos services.</p>
             </div>
-            <x-button :href="route('contact')" variant="text" class="!hidden shrink-0 sm:!inline-flex">Voir toutes les questions</x-button>
+            <x-button :href="route('contact')" variant="text" class="self-start shrink-0 sm:self-auto">Voir toutes les questions</x-button>
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">

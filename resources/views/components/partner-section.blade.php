@@ -1,11 +1,11 @@
 @props(['eyebrow', 'title', 'partners'])
 
-<div class="mb-6 flex items-center justify-between">
+<div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
     <div>
         <x-eyebrow>{{ $eyebrow }}</x-eyebrow>
         <h2 class="mt-2 text-2xl font-bold text-slate-900">{{ $title }}</h2>
     </div>
-    <x-button :href="route('partners')" variant="text" class="!hidden sm:!inline-flex">Voir tous les partenaires</x-button>
+    <x-button :href="route('partners')" variant="text" class="self-start shrink-0 sm:self-auto">Voir tous les partenaires</x-button>
 </div>
 
 <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
