@@ -179,7 +179,7 @@
     {{-- ============ INLINE CTA ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
-            icon="user-plus"
+            icon="users"
             title="Rejoignez notre équipe"
             button-label="Voir les opportunités"
             :button-href="route('presaisine.index')"
