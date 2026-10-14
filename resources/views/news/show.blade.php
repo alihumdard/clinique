@@ -144,7 +144,7 @@
                     </div>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="folder" title="Catégories" color="amber">
+                <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
                     <nav class="space-y-1">
                         <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
                         <x-category-list-item icon="calendar" color="amber" count="6">Événements</x-category-list-item>

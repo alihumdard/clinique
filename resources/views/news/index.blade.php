@@ -17,9 +17,9 @@
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 
-        {{-- ============ FILTER BAR ============ --}}
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div class="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-10">
+            {{-- ============ FILTER BAR ============ --}}
+            <div class="flex gap-2 overflow-x-auto pb-1 lg:col-span-2 lg:flex-wrap lg:overflow-visible lg:pb-0">
                 <x-filter-pill :active="true">Toutes les actualités</x-filter-pill>
                 <x-filter-pill>Événements</x-filter-pill>
                 <x-filter-pill>Formations</x-filter-pill>
@@ -28,7 +28,7 @@
                 <x-filter-pill>Publications</x-filter-pill>
             </div>
 
-            <form role="search" class="relative shrink-0 lg:w-72">
+            <form role="search" class="relative">
                 <label for="news-search" class="sr-only">Rechercher une actualité</label>
                 <input
                     type="search"
@@ -42,7 +42,7 @@
             </form>
         </div>
 
-        <div class="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div class="mt-4 grid grid-cols-1 gap-10 lg:grid-cols-3">
 
             {{-- ============ NEWS GRID ============ --}}
             <div class="lg:col-span-2">
@@ -103,7 +103,7 @@
 
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6">
-                <x-sidebar-card icon="folder" title="Catégories" color="amber">
+                <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
                     <nav class="space-y-1">
                         <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
                         <x-category-list-item icon="calendar" color="amber" count="6">Événements</x-category-list-item>
