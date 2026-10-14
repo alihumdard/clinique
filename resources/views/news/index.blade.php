@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/hero-building"
+        image="placeholders/about-hero"
         title="Actualités"
         subtitle="Suivez nos dernières actualités, événements et initiatives en faveur de l'accès au droit."
         :breadcrumb="[

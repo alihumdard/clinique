@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/hero-building"
+        image="placeholders/about-hero"
         title="Nos partenaires"
         subtitle="Des institutions et organisations engagées à nos côtés pour une justice plus accessible"
         :breadcrumb="[
