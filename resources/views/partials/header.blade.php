@@ -1,7 +1,10 @@
 @php
     $navItems = [
         ['label' => 'Accueil', 'route' => 'home'],
-        ['label' => 'La Clinique', 'route' => 'about'],
+        ['label' => 'La Clinique', 'route' => 'about', 'children' => [
+            ['label' => 'À propos de la Clinique', 'route' => 'about'],
+            ['label' => 'Notre équipe', 'route' => 'about.team'],
+        ]],
         ['label' => 'Services', 'route' => 'services'],
         ['label' => 'Actualités', 'route' => 'news.index'],
         ['label' => 'Ressources', 'route' => 'resources.guides'],
@@ -53,12 +56,39 @@
                         || Route::is($item['route'] . '.*')
                         || ($item['route'] === 'resources.guides' && Route::is('resources.*'));
                 @endphp
-                <a
-                    href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}"
-                    class="pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
-                >
-                    {{ $item['label'] }}
-                </a>
+                @if(!empty($item['children']))
+                    <div class="group relative">
+                        <button
+                            type="button"
+                            class="flex items-center gap-1 pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            {{ $item['label'] }}
+                            <svg class="h-3.5 w-3.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div class="invisible absolute left-0 top-full z-50 w-56 rounded-lg border border-slate-200 bg-white py-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100">
+                            @foreach ($item['children'] as $child)
+                                <a
+                                    href="{{ Route::has($child['route']) ? route($child['route']) : '#' }}"
+                                    class="block px-4 py-2 text-sm {{ Route::is($child['route']) ? 'font-semibold text-primary-600' : 'text-slate-600 hover:bg-slate-50 hover:text-primary-600' }}"
+                                >
+                                    {{ $child['label'] }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <a
+                        href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}"
+                        class="pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
+                    >
+                        {{ $item['label'] }}
+                    </a>
+                @endif
             @endforeach
         </nav>
 
@@ -92,6 +122,18 @@
             >
                 {{ $item['label'] }}
             </a>
+            @if(!empty($item['children']))
+                <div class="ml-3 flex flex-col gap-1 border-l border-slate-200 pl-3">
+                    @foreach ($item['children'] as $child)
+                        <a
+                            href="{{ Route::has($child['route']) ? route($child['route']) : '#' }}"
+                            class="rounded-md px-3 py-1.5 text-sm {{ Route::is($child['route']) ? 'font-semibold text-primary-600' : 'text-slate-500 hover:bg-slate-50' }}"
+                        >
+                            {{ $child['label'] }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
         @endforeach
         <x-button :href="route('presaisine.index')" variant="primary" class="mt-1 w-full justify-center !rounded-full">Pré-saisine</x-button>
     </nav>
