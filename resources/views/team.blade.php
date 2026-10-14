@@ -40,7 +40,7 @@
                         ['icon' => 'user-plus', 'title' => 'Professionnels partenaires','value' => '10+', 'sub' => 'Avocats et spécialistes'],
                         ['icon' => 'document',  'title' => 'Personnel administratif',  'value' => '5+',  'sub' => 'Membres de soutien'],
                     ] as $s)
-                    <div class="flex min-w-0 items-center gap-2.5 p-3.5 sm:gap-4 sm:p-6">
+                    <div class="flex min-w-0 flex-col items-start gap-2.5 p-3.5 sm:p-6 lg:flex-row lg:items-center lg:gap-4">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600 sm:h-14 sm:w-14">
                             <x-icon :name="$s['icon']" class="h-5 w-5 sm:h-7 sm:w-7" />
                         </span>
@@ -158,7 +158,7 @@
         <x-eyebrow color="amber">Personnel administratif et technique</x-eyebrow>
         <h2 class="mt-2 text-2xl font-bold text-slate-900">Notre équipe de soutien</h2>
 
-        <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div class="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
             @foreach ([
                 ['image' => 'team/staff-1', 'name' => 'Mme Zarima Abdou', 'role' => 'Secrétaire administrative', 'bio' => 'Gestion du courrier, accueil et coordination', 'email' => 'zarima.abdou@uam.ne'],
                 ['image' => 'team/staff-2', 'name' => 'M. Souleymane Ibrahim', 'role' => 'Chargé de communication', 'bio' => 'Web, réseaux sociaux et événements', 'email' => 'souleymane.ibrahim@uam.ne'],

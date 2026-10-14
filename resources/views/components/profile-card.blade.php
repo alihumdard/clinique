@@ -45,10 +45,10 @@
         <img
             src="{{ asset('images/' . $image . '.jpg') }}"
             alt="{{ $name }}"
-            class="h-40 w-32 shrink-0 object-cover object-top"
-            loading="lazy" width="128" height="160"
+            class="h-40 w-28 shrink-0 object-cover object-top"
+            loading="lazy" width="112" height="160"
         >
-        <div class="flex min-w-0 flex-col justify-center py-3 pl-4 pr-3">
+        <div class="flex min-w-0 flex-col justify-center py-3 pl-3 pr-3">
             <p class="text-sm font-bold text-slate-900">{{ $name }}</p>
             <p class="text-xs font-medium text-primary-600">{{ $role }}</p>
             @if($bio)

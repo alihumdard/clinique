@@ -102,7 +102,7 @@
         <button
             type="button"
             id="mobile-menu-button"
-            class="inline-flex items-center justify-center rounded-md p-2 text-slate-700 lg:hidden"
+            class="inline-flex items-center justify-center rounded-md p-2 text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 lg:hidden"
             aria-expanded="false"
             aria-controls="mobile-menu"
             aria-label="Ouvrir le menu"
