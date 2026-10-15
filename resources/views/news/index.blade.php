@@ -19,7 +19,7 @@
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-8">
             {{-- ============ FILTER BAR ============ --}}
-            <div class="flex min-w-0 gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
+            <div class="flex min-w-0 gap-2 overflow-x-auto pb-2 lg:pb-0">
                 <x-filter-pill :active="true">Toutes les actualités</x-filter-pill>
                 <x-filter-pill>Événements</x-filter-pill>
                 <x-filter-pill>Formations</x-filter-pill>
