@@ -1,7 +1,7 @@
 @props(['icon', 'title', 'color' => 'primary', 'tint' => false])
 
 <div @class([
-    'rounded-xl border p-4',
+    'rounded-xl border p-5',
     'border-primary-100 bg-primary-50/60' => $tint,
     'border-slate-200 bg-white' => !$tint,
 ])>

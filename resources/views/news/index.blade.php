@@ -102,7 +102,7 @@
             </div>
 
             {{-- ============ SIDEBAR ============ --}}
-            <aside class="space-y-5">
+            <aside class="space-y-6">
                 <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
                     <nav class="space-y-1">
                         <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
@@ -115,7 +115,7 @@
                 </x-sidebar-card>
 
                 <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
-                    <div class="space-y-4">
+                    <div class="space-y-5">
                         <x-mini-article-row
                             image="placeholders/news-1"
                             title="Conférence sur l'accès au droit des personnes vulnérables"
@@ -144,7 +144,7 @@
                     </div>
                 </x-sidebar-card>
 
-                <div class="rounded-xl bg-primary-50/60 p-5">
+                <div class="rounded-xl bg-primary-50/60 p-6">
                     <div class="flex items-center justify-between">
                         <x-icon-badge size="sm" class="!bg-amber-50 !text-amber-500"><x-icon name="mail" class="h-5 w-5" /></x-icon-badge>
                         <x-icon name="paper-plane" class="h-6 w-6 text-primary-300" />
