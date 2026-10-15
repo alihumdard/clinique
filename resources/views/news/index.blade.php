@@ -15,9 +15,9 @@
         ]"
     />
 
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-10">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-8">
             {{-- ============ FILTER BAR ============ --}}
             <div class="flex min-w-0 gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
                 <x-filter-pill :active="true">Toutes les actualités</x-filter-pill>
@@ -42,11 +42,11 @@
             </form>
         </div>
 
-        <div class="mt-4 grid grid-cols-1 items-start gap-10 lg:grid-cols-[2fr_1fr]">
+        <div class="mt-6 grid grid-cols-1 items-start gap-8 lg:grid-cols-[2fr_1fr]">
 
             {{-- ============ NEWS GRID ============ --}}
             <div class="min-w-0">
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <x-news-card
                         image="placeholders/news-1"
                         category="Événement"
@@ -98,11 +98,11 @@
                     />
                 </div>
 
-                <x-pagination :current="1" :total="5" />
+                <x-pagination :current="1" :total="5" class="!mt-6" />
             </div>
 
             {{-- ============ SIDEBAR ============ --}}
-            <aside class="space-y-6">
+            <aside class="space-y-5">
                 <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
                     <nav class="space-y-1">
                         <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
@@ -136,6 +136,11 @@
                             title="Formation des étudiants sur la médiation"
                             date="5 septembre 2024"
                         />
+                        <x-mini-article-row
+                            image="placeholders/news-candidatures"
+                            title="Ouverture des candidatures pour la nouvelle promotion"
+                            date="20 août 2024"
+                        />
                     </div>
                 </x-sidebar-card>
 
@@ -164,7 +169,7 @@
     </section>
 
     {{-- ============ CTA (dark) ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <x-inline-cta
             variant="dark"
             icon="scale"
