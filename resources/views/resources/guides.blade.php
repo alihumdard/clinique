@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/signing-document"
+        image="placeholders/legal-scales-gavel"
         title="Fiches pratiques juridiques"
         subtitle="Des guides simples et clairs pour comprendre vos droits et vous accompagner dans vos démarches."
         :breadcrumb="[
