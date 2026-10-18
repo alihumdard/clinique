@@ -27,7 +27,7 @@ class SecurityHeaders
             return $response;
         }
 
-        foreach ($this->headers() as $header => $value) {
+        foreach ($this->headers($request) as $header => $value) {
             // Never clobber a header a controller set deliberately.
             if (! $response->headers->has($header)) {
                 $response->headers->set($header, $value);
@@ -40,7 +40,7 @@ class SecurityHeaders
     /**
      * @return array<string, string>
      */
-    protected function headers(): array
+    protected function headers(Request $request): array
     {
         return [
             'X-Content-Type-Options' => 'nosniff',
@@ -52,11 +52,11 @@ class SecurityHeaders
             // No feature on the public site needs these devices.
             'Permissions-Policy' => 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()',
 
-            'Content-Security-Policy' => $this->contentSecurityPolicy(),
+            'Content-Security-Policy' => $this->contentSecurityPolicy($request),
         ];
     }
 
-    protected function contentSecurityPolicy(): string
+    protected function contentSecurityPolicy(Request $request): string
     {
         // Video hosts for the Web TV embeds (Module 2). Players load only
         // on click, but the frame-src must permit them when they do.
@@ -85,8 +85,14 @@ class SecurityHeaders
             "connect-src 'self'",
             "media-src 'self'",
             "frame-src {$frameSrc}",
-            'upgrade-insecure-requests',
         ];
+
+        // Only meaningful once the site is actually served over TLS. On a
+        // plain-HTTP deployment it rewrites every asset URL to https://,
+        // where nothing is listening, and the page loads with no CSS at all.
+        if ($request->isSecure()) {
+            $directives[] = 'upgrade-insecure-requests';
+        }
 
         return implode('; ', $directives);
     }
