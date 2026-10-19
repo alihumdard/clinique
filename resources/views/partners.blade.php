@@ -16,11 +16,11 @@
     />
 
     {{-- ============ INTRO + STATS PANEL ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
+        <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10">
             <div>
                 <x-eyebrow>Une collaboration pour l'intérêt général</x-eyebrow>
-                <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Des partenariats au service de la justice</h2>
+                <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">Des partenariats au service de la justice</h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM travaille en étroite collaboration avec des institutions
                     publiques, des organisations internationales, des ONG, des ordres professionnels et des
@@ -29,7 +29,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 gap-x-8 gap-y-6 rounded-xl border border-slate-200 bg-slate-50 p-6">
+            <div class="grid grid-cols-2 gap-x-5 gap-y-5 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:gap-x-8 sm:gap-y-6 sm:p-6">
                 <x-mini-stat icon="users" title="Partenaires" value="15+" subtitle="institutionnels" />
                 <x-mini-stat icon="search" title="Organisations" value="5+" subtitle="internationales" />
                 <x-mini-stat icon="user-plus" title="ONG et associations" value="10+" subtitle="" />
@@ -39,7 +39,7 @@
     </section>
 
     {{-- ============ INSTITUTIONS NATIONALES ============ --}}
-    <section class="bg-slate-50 py-16">
+    <section class="bg-slate-50 py-10 sm:py-12 lg:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-partner-section
                 eyebrow="Nos partenaires institutionnels"
@@ -57,7 +57,7 @@
     </section>
 
     {{-- ============ PARTENAIRES INTERNATIONAUX ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <x-partner-section
             eyebrow="Organisations internationales"
             title="Partenaires internationaux"
@@ -73,7 +73,7 @@
     </section>
 
     {{-- ============ SOCIETE CIVILE ET ONG ============ --}}
-    <section class="bg-slate-50 py-16">
+    <section class="bg-slate-50 py-10 sm:py-12 lg:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <x-partner-section
                 eyebrow="ONG et associations"
@@ -91,7 +91,7 @@
     </section>
 
     {{-- ============ INLINE CTA ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-12 lg:px-8 lg:pb-16">
         <x-inline-cta
             icon="users"
             title="Vous souhaitez devenir partenaire ?"
