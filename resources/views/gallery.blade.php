@@ -19,7 +19,7 @@
 
         {{-- ============ CATEGORY FILTERS ============ --}}
         {{-- Static pills until Module 2 wires them to real album queries. --}}
-        <div class="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
+        <div class="scrollbar-hide flex gap-1.5 overflow-x-auto">
             <x-filter-pill :active="true">Toutes les photos</x-filter-pill>
             <x-filter-pill>Caravanes juridiques</x-filter-pill>
             <x-filter-pill>Formations</x-filter-pill>
