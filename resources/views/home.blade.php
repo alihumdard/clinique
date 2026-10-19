@@ -269,11 +269,13 @@
                                     {{ $article['title'] }}
                                 </h3>
 
-                                <a href="{{ url('/actualites') }}"
-                                   aria-label="Lire la suite : {{ $article['title'] }}"
-                                   class="mt-2.5 flex h-7 w-7 items-center justify-center self-end rounded-full bg-blue-800 text-white transition hover:bg-blue-700">
-                                    <x-icon name="arrow-right" class="h-4 w-4" />
-                                </a>
+                                <div class="mt-auto flex justify-end pt-2.5">
+                                    <a href="{{ url('/actualites') }}"
+                                       aria-label="Lire la suite : {{ $article['title'] }}"
+                                       class="flex h-7 w-7 items-center justify-center rounded-full bg-blue-800 text-white transition hover:bg-blue-700">
+                                        <x-icon name="arrow-right" class="h-4 w-4" />
+                                    </a>
+                                </div>
                             </div>
                         </article>
                     @endforeach
