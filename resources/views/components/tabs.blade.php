@@ -48,7 +48,7 @@
         >
     @endforeach
 
-    <div class="flex gap-6 overflow-x-auto border-b border-slate-200">
+    <div class="scrollbar-hide flex gap-6 overflow-x-auto border-b border-slate-200">
         @foreach ($keys as $i => $key)
             <label
                 for="{{ $name }}-{{ $key }}"
