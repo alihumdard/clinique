@@ -1,6 +1,6 @@
 <footer class="relative bg-navy-900 text-slate-300">
-    <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.2fr_0.85fr_0.85fr_0.85fr] lg:gap-x-10">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:gap-x-6">
             <div class="col-span-2 lg:col-span-1">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5">
                     <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-9 w-9 shrink-0 rounded-full object-cover" width="36" height="36">
