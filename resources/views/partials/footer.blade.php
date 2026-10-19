@@ -40,6 +40,7 @@
                     <li><a href="{{ route('news.index') }}" class="hover:text-white">Actualités</a></li>
                     <li><a href="{{ route('resources.guides') }}" class="hover:text-white">Ressources</a></li>
                     <li><a href="{{ route('webtv.index') }}" class="hover:text-white">Web TV</a></li>
+                    <li><a href="{{ route('gallery') }}" class="hover:text-white">Galerie photos</a></li>
                     <li><a href="{{ route('join') }}" class="hover:text-white">Nous rejoindre</a></li>
                     <li><a href="{{ route('contact') }}" class="hover:text-white">Contact</a></li>
                 </ul>
@@ -53,6 +54,7 @@
                     <li><a href="{{ route('services') }}" class="hover:text-white">Accompagnement juridique</a></li>
                     <li><a href="{{ route('activities.index') }}" class="hover:text-white">Formations et sensibilisation</a></li>
                     <li><a href="{{ route('resources.guides') }}" class="hover:text-white">Ressources juridiques</a></li>
+                    <li><a href="{{ route('resources.reports') }}" class="hover:text-white">Rapports annuels</a></li>
                     <li><a href="{{ route('services.process') }}" class="hover:text-white">Processus de consultation</a></li>
                     <li><a href="{{ route('services.eligibility') }}" class="hover:text-white">Conditions d'accès</a></li>
                     <li><a href="{{ route('services.fees') }}" class="hover:text-white">Tarifs administratifs</a></li>

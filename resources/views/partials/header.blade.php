@@ -8,7 +8,11 @@
         ]],
         ['label' => 'Services', 'route' => 'services'],
         ['label' => 'Actualités', 'route' => 'news.index'],
-        ['label' => 'Ressources', 'route' => 'resources.guides'],
+        ['label' => 'Ressources', 'route' => 'resources.guides', 'children' => [
+            ['label' => 'Fiches pratiques juridiques', 'route' => 'resources.guides'],
+            ['label' => 'Rapports annuels', 'route' => 'resources.reports'],
+            ['label' => 'Galerie photos', 'route' => 'gallery'],
+        ]],
         ['label' => 'Web TV', 'route' => 'webtv.index'],
         ['label' => 'Contact', 'route' => 'contact'],
     ];
@@ -55,7 +59,7 @@
                 @php
                     $isActive = Route::is($item['route'])
                         || Route::is($item['route'] . '.*')
-                        || ($item['route'] === 'resources.guides' && Route::is('resources.*'));
+                        || ($item['route'] === 'resources.guides' && (Route::is('resources.*') || Route::is('gallery')));
                 @endphp
                 @if(!empty($item['children']))
                     <div class="group relative">
@@ -116,7 +120,11 @@
 
     <nav id="mobile-menu" class="hidden flex-col gap-1 border-t border-slate-200 px-4 py-3 lg:hidden" aria-label="Navigation mobile">
         @foreach ($navItems as $item)
-            @php $isActive = Route::is($item['route']) || Route::is($item['route'] . '.*'); @endphp
+            @php
+                $isActive = Route::is($item['route'])
+                    || Route::is($item['route'] . '.*')
+                    || ($item['route'] === 'resources.guides' && (Route::is('resources.*') || Route::is('gallery')));
+            @endphp
             @if(!empty($item['children']))
                 <div data-mobile-dropdown>
                     <button
