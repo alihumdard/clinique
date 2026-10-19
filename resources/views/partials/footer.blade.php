@@ -1,6 +1,6 @@
 <footer class="relative bg-navy-900 text-slate-300">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-8">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.2fr_0.85fr_0.85fr_0.85fr] lg:gap-x-10">
             <div class="col-span-2 lg:col-span-1">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5">
                     <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-9 w-9 shrink-0 rounded-full object-cover" width="36" height="36">
@@ -79,7 +79,7 @@
                         <span>Lun - Ven : 9h00 - 17h00</span>
                     </li>
                     <li class="flex items-center gap-2.5">
-                        <x-icon name="whatsapp" class="h-4 w-4 shrink-0 text-slate-400" />
+                        <svg class="h-4 w-4 shrink-0 text-slate-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.93 11.93 0 0012.04 0C5.47 0 .14 5.33.14 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.3-1.65a11.86 11.86 0 005.74 1.46h.01c6.57 0 11.9-5.33 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43zm-8.48 18.3h-.01a9.9 9.9 0 01-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.87 9.87 0 01-1.51-5.27c0-5.46 4.44-9.9 9.91-9.9a9.85 9.85 0 017 2.9 9.85 9.85 0 012.9 7.01c0 5.46-4.45 9.9-9.91 9.9zm5.43-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.91-2.21-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35z"/></svg>
                         <a href="https://wa.me/227XXXXXXXX" target="_blank" rel="noopener" class="hover:text-white">WhatsApp</a>
                     </li>
                 </ul>
