@@ -53,8 +53,14 @@
         <x-eyebrow>Grille des tarifs</x-eyebrow>
         <h2 class="mt-2 text-2xl font-bold text-slate-900">Détail des tarifs administratifs</h2>
 
-        <div class="mt-6 overflow-x-auto rounded-lg border border-slate-200">
-            <table class="w-full min-w-[640px] text-left text-sm">
+        <p class="mt-6 flex items-center gap-1.5 text-xs text-slate-500 sm:hidden">
+            <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
+            Faites glisser le tableau pour voir les montants
+        </p>
+
+        <div class="relative mt-2 sm:mt-6">
+            <div class="overflow-x-auto rounded-lg border border-slate-200">
+                <table class="w-full min-w-[640px] text-left text-sm">
                 <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     <tr>
                         <th scope="col" class="px-5 py-3">N°</th>
@@ -81,7 +87,9 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+                </table>
+            </div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent sm:hidden" aria-hidden="true"></div>
         </div>
 
         <div class="mt-6">
