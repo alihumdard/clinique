@@ -26,15 +26,15 @@
 
     <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         @if(count($breadcrumb))
-            <nav aria-label="Fil d'Ariane" class="mb-4 flex items-center gap-2 text-sm text-slate-300">
+            <nav aria-label="Fil d'Ariane" class="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-300">
                 @foreach ($breadcrumb as $i => $crumb)
                     @if($i > 0)
-                        <span aria-hidden="true">&rsaquo;</span>
+                        <span aria-hidden="true" class="shrink-0">&rsaquo;</span>
                     @endif
                     @if(!empty($crumb['url']) && !$loop->last)
-                        <a href="{{ $crumb['url'] }}" class="hover:text-white">{{ $crumb['label'] }}</a>
+                        <a href="{{ $crumb['url'] }}" class="shrink-0 whitespace-nowrap hover:text-white">{{ $crumb['label'] }}</a>
                     @else
-                        <span class="text-white">{{ $crumb['label'] }}</span>
+                        <span class="whitespace-nowrap text-white">{{ $crumb['label'] }}</span>
                     @endif
                 @endforeach
             </nav>
