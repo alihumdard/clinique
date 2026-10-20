@@ -44,15 +44,15 @@
                          */
                         $reports = [
                             [
-                                'cover' => 'placeholders/about-legal',
-                                'title' => "Rapport annuel d'activité 2024",
+                                'cover' => 'placeholders/report-cover-2026',
+                                'title' => "Rapport annuel d'activité 2026",
                                 'excerpt' => "Un bilan complet de nos activités, des chiffres clés, des témoignages et des perspectives pour renforcer l'accès au droit.",
-                                'date' => 'Janvier 2025',
+                                'date' => 'Janvier 2027',
                                 'size' => '4,2 Mo',
                                 'views' => '1 250',
                             ],
                             [
-                                'cover' => 'placeholders/article-highlight-1',
+                                'cover' => 'placeholders/report-cover-2023',
                                 'title' => "Rapport annuel d'activité 2023",
                                 'excerpt' => "Nos réalisations, nos partenariats et l'impact de nos actions sur les communautés locales au Niger.",
                                 'date' => 'Janvier 2024',
@@ -60,7 +60,7 @@
                                 'views' => '980',
                             ],
                             [
-                                'cover' => 'placeholders/article-highlight-2',
+                                'cover' => 'placeholders/report-cover-2022',
                                 'title' => "Rapport annuel d'activité 2022",
                                 'excerpt' => "Une année d'engagement pour l'accès au droit et la protection des personnes vulnérables.",
                                 'date' => 'Janvier 2023',
@@ -68,7 +68,7 @@
                                 'views' => '760',
                             ],
                             [
-                                'cover' => 'placeholders/article-highlight-3',
+                                'cover' => 'placeholders/report-cover-2021',
                                 'title' => "Rapport annuel d'activité 2021",
                                 'excerpt' => "Retour sur nos principales actions, nos formations et nos caravanes juridiques.",
                                 'date' => 'Janvier 2022',
