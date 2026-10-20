@@ -201,10 +201,10 @@
                 <x-sidebar-card icon="heart" title="Fiches les plus consultées">
                     @php
                         $popular = [
-                            ['image' => 'placeholders/guide-family', 'title' => 'Guide pratique : droits de la famille', 'downloads' => '2 450'],
-                            ['image' => 'placeholders/guide-penal', 'title' => 'Comprendre la garde à vue', 'downloads' => '1 980'],
-                            ['image' => 'placeholders/guide-civil', 'title' => "La procédure d'état civil au Niger", 'downloads' => '1 750'],
-                            ['image' => 'placeholders/guide-labor', 'title' => 'Le contrat de travail', 'downloads' => '1 420'],
+                            ['image' => 'placeholders/news-guide', 'title' => 'Guide pratique : droits de la famille', 'downloads' => '2 450'],
+                            ['image' => 'placeholders/news-2', 'title' => 'Comprendre la garde à vue', 'downloads' => '1 980'],
+                            ['image' => 'placeholders/about-legal', 'title' => "La procédure d'état civil au Niger", 'downloads' => '1 750'],
+                            ['image' => 'placeholders/news-partenariat', 'title' => 'Le contrat de travail', 'downloads' => '1 420'],
                             ['image' => 'placeholders/news-1', 'title' => 'Accès à la propriété foncière', 'downloads' => '1 280'],
                         ];
                     @endphp
