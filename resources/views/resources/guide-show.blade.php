@@ -221,10 +221,10 @@
                 <x-sidebar-card icon="document" title="Fiches similaires">
                     @php
                         $similar = [
-                            ['image' => 'placeholders/news-1', 'title' => 'Le divorce : procédures et conséquences', 'category' => 'Droit de la famille'],
-                            ['image' => 'placeholders/about-legal', 'title' => "La procédure d'état civil au Niger", 'category' => 'Droit civil'],
-                            ['image' => 'placeholders/news-3', 'title' => 'Protection des enfants et personnes vulnérables', 'category' => 'Droits humains'],
-                            ['image' => 'placeholders/article-highlight-1', 'title' => 'La succession : démarches et droits des héritiers', 'category' => 'Droit des successions'],
+                            ['image' => 'placeholders/guide-family', 'title' => 'Le divorce : procédures et conséquences', 'category' => 'Droit de la famille'],
+                            ['image' => 'placeholders/guide-civil', 'title' => "La procédure d'état civil au Niger", 'category' => 'Droit civil'],
+                            ['image' => 'placeholders/guide-human-rights', 'title' => 'Protection des enfants et personnes vulnérables', 'category' => 'Droits humains'],
+                            ['image' => 'placeholders/guide-succession', 'title' => 'La succession : démarches et droits des héritiers', 'category' => 'Droit des successions'],
                         ];
                     @endphp
 
