@@ -18,7 +18,7 @@
         :path="$cover"
         :alt="'Couverture : ' . $title"
         width="400" height="520"
-        class="aspect-[4/3] w-full shrink-0 object-cover sm:aspect-auto sm:h-auto sm:w-40"
+        class="aspect-[10/13] w-full shrink-0 object-cover sm:aspect-auto sm:h-auto sm:w-40"
     />
 
     <div class="flex flex-1 flex-col p-5">
