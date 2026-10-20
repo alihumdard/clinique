@@ -45,7 +45,7 @@
                         video-id="dQw4w9WgXcQ"
                         duration="12:35"
                         title="Lancement des activités de la Clinique Juridique FSJP-UAM"
-                        class="!aspect-auto lg:h-full"
+                        class="!aspect-auto lg:h-full lg:max-h-80"
                     />
 
                     <div class="flex flex-col">
@@ -71,7 +71,7 @@
                             Juridique FSJP-UAM, avec les interventions des autorités universitaires et des partenaires.
                         </p>
 
-                        <div class="mt-auto pt-5">
+                        <div class="mt-5">
                             <x-button :href="route('webtv.show')" variant="primary">
                                 Voir la vidéo
                             </x-button>
