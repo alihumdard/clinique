@@ -60,7 +60,7 @@
                      */
                     $guides = [
                         [
-                            'image' => 'placeholders/news-guide',
+                            'image' => 'placeholders/guide-family',
                             'category' => 'Droit de la famille',
                             'color' => 'primary',
                             'title' => 'Guide pratique : droits de la famille',
@@ -68,7 +68,7 @@
                             'size' => '2,1 Mo',
                         ],
                         [
-                            'image' => 'placeholders/about-legal',
+                            'image' => 'placeholders/guide-civil',
                             'category' => 'Droit civil',
                             'color' => 'green',
                             'title' => "La procédure d'état civil au Niger",
@@ -76,7 +76,7 @@
                             'size' => '1,8 Mo',
                         ],
                         [
-                            'image' => 'placeholders/news-2',
+                            'image' => 'placeholders/guide-penal',
                             'category' => 'Droit pénal',
                             'color' => 'red',
                             'title' => 'Comprendre la garde à vue',
@@ -92,7 +92,7 @@
                             'size' => '1,9 Mo',
                         ],
                         [
-                            'image' => 'placeholders/news-partenariat',
+                            'image' => 'placeholders/guide-labor',
                             'category' => 'Droit du travail',
                             'color' => 'purple',
                             'title' => 'Le contrat de travail',
@@ -100,7 +100,7 @@
                             'size' => '1,6 Mo',
                         ],
                         [
-                            'image' => 'placeholders/signing-document',
+                            'image' => 'placeholders/guide-human-rights',
                             'category' => 'Droits humains',
                             'color' => 'primary',
                             'title' => 'Protection des personnes vulnérables',
@@ -116,7 +116,7 @@
                             'size' => '1,7 Mo',
                         ],
                         [
-                            'image' => 'placeholders/about-hero',
+                            'image' => 'placeholders/guide-admin',
                             'category' => 'Droit administratif',
                             'color' => 'green',
                             'title' => 'Recours contre une décision administrative',
@@ -201,10 +201,10 @@
                 <x-sidebar-card icon="heart" title="Fiches les plus consultées">
                     @php
                         $popular = [
-                            ['image' => 'placeholders/news-guide', 'title' => 'Guide pratique : droits de la famille', 'downloads' => '2 450'],
-                            ['image' => 'placeholders/news-2', 'title' => 'Comprendre la garde à vue', 'downloads' => '1 980'],
-                            ['image' => 'placeholders/about-legal', 'title' => "La procédure d'état civil au Niger", 'downloads' => '1 750'],
-                            ['image' => 'placeholders/news-partenariat', 'title' => 'Le contrat de travail', 'downloads' => '1 420'],
+                            ['image' => 'placeholders/guide-family', 'title' => 'Guide pratique : droits de la famille', 'downloads' => '2 450'],
+                            ['image' => 'placeholders/guide-penal', 'title' => 'Comprendre la garde à vue', 'downloads' => '1 980'],
+                            ['image' => 'placeholders/guide-civil', 'title' => "La procédure d'état civil au Niger", 'downloads' => '1 750'],
+                            ['image' => 'placeholders/guide-labor', 'title' => 'Le contrat de travail', 'downloads' => '1 420'],
                             ['image' => 'placeholders/news-1', 'title' => 'Accès à la propriété foncière', 'downloads' => '1 280'],
                         ];
                     @endphp
