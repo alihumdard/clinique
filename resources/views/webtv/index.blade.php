@@ -6,7 +6,8 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/video-featured"
+        image="placeholders/webtv-hero"
+        image-position="object-center"
         title="Web TV"
         subtitle="Des vidéos pour informer, sensibiliser et promouvoir l'accès au droit pour tous."
         :breadcrumb="[
