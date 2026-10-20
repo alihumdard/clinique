@@ -72,7 +72,7 @@
                         </p>
 
                         <div class="mt-5">
-                            <x-button :href="route('webtv.show')" variant="primary">
+                            <x-button :href="route('webtv.show', ['poster' => 'placeholders/video-featured'])" variant="primary">
                                 Voir la vidéo
                             </x-button>
                         </div>
@@ -113,7 +113,7 @@
                                 :title="$video['title']"
                                 :date="$video['date']"
                                 :views="$video['views']"
-                                :href="route('webtv.show')"
+                                :href="route('webtv.show', ['poster' => $video['image']])"
                             />
                         @endforeach
                     </div>

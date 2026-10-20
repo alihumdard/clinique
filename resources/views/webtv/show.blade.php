@@ -5,6 +5,33 @@
 
 @section('content')
 
+    @php
+        /*
+         * Design-phase only: there is a single static video detail page, so
+         * every listing (index cards, playlist, related videos) links here
+         * with a ?poster= query param carrying its own thumbnail. This keeps
+         * the clicked card's image visible on the page it opens, without a
+         * real per-video route. Module 2 replaces this with dynamic routing
+         * and removes the query-param fallback entirely.
+         */
+        $allowedPosters = [
+            'placeholders/webtv-show-hero',
+            'placeholders/video-featured',
+            'placeholders/news-caravan',
+            'placeholders/news-3',
+            'placeholders/news-formation',
+            'placeholders/webtv-interview',
+            'placeholders/news-2',
+            'placeholders/news-1',
+            'placeholders/about-hero',
+            'placeholders/news-candidatures',
+            'placeholders/news-partenariat',
+        ];
+        $poster = in_array(request('poster'), $allowedPosters, true)
+            ? request('poster')
+            : 'placeholders/webtv-show-hero';
+    @endphp
+
     <x-page-hero
         image="placeholders/webtv-show-hero"
         image-position="object-right"
@@ -24,7 +51,7 @@
             <div class="lg:col-span-2">
 
                 <x-video-player
-                    poster="placeholders/webtv-show-hero"
+                    :poster="$poster"
                     video-id="dQw4w9WgXcQ"
                     duration="12:35"
                     title="Caravane juridique à Tillabéri : accès au droit pour les populations"
