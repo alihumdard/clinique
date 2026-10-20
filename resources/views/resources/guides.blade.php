@@ -116,7 +116,7 @@
                             'size' => '1,7 Mo',
                         ],
                         [
-                            'image' => 'placeholders/guide-admin',
+                            'image' => 'placeholders/guide-succession-event',
                             'category' => 'Droit administratif',
                             'color' => 'green',
                             'title' => 'Recours contre une décision administrative',
