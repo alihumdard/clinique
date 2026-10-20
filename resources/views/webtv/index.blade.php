@@ -20,7 +20,7 @@
 
         {{-- ============ CATEGORY FILTERS ============ --}}
         {{-- Static pills until Module 2 wires them to real rubrique queries. --}}
-        <div class="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
+        <div class="scrollbar-hide flex gap-1.5 overflow-x-auto">
             <x-filter-pill :active="true">Toutes les vidéos</x-filter-pill>
             <x-filter-pill>Émissions</x-filter-pill>
             <x-filter-pill>Caravanes juridiques</x-filter-pill>
