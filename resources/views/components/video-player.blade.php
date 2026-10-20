@@ -29,7 +29,7 @@
 @endphp
 
 <div
-    class="relative aspect-video w-full overflow-hidden rounded-xl bg-slate-900"
+    {{ $attributes->merge(['class' => 'relative aspect-video w-full overflow-hidden rounded-xl bg-slate-900']) }}
     data-video-embed="{{ $embed }}"
     data-video-title="{{ $title }}"
 >

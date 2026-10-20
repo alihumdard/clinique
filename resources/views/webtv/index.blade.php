@@ -45,6 +45,7 @@
                         video-id="dQw4w9WgXcQ"
                         duration="12:35"
                         title="Lancement des activités de la Clinique Juridique FSJP-UAM"
+                        class="!aspect-[4/3]"
                     />
 
                     <div>
@@ -91,7 +92,7 @@
                             ['image' => 'placeholders/news-caravan', 'category' => 'Caravane juridique', 'color' => 'amber', 'duration' => '8:24', 'title' => "Caravane juridique à Tillabéri : accès au droit pour les populations", 'date' => '28 septembre 2024', 'views' => '1 250'],
                             ['image' => 'placeholders/news-3', 'category' => 'Sensibilisation', 'color' => 'purple', 'duration' => '6:18', 'title' => "Les droits des femmes : paroles d'étudiantes", 'date' => '12 octobre 2024', 'views' => '980'],
                             ['image' => 'placeholders/news-formation', 'category' => 'Formation', 'color' => 'green', 'duration' => '15:42', 'title' => 'Session de formation sur la médiation', 'date' => '5 septembre 2024', 'views' => '1 420'],
-                            ['image' => 'placeholders/about-team', 'category' => 'Interview', 'color' => 'slate', 'duration' => '10:36', 'title' => 'Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'date' => '20 août 2024', 'views' => '2 100'],
+                            ['image' => 'placeholders/webtv-interview', 'category' => 'Interview', 'color' => 'slate', 'duration' => '10:36', 'title' => 'Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'date' => '20 août 2024', 'views' => '2 100'],
                             ['image' => 'placeholders/news-2', 'category' => 'Témoignage', 'color' => 'red', 'duration' => '7:50', 'title' => "Témoignages : l'impact des caravanes juridiques", 'date' => '15 juillet 2024', 'views' => '1 780'],
                             ['image' => 'placeholders/news-1', 'category' => 'Émission', 'color' => 'primary', 'duration' => '9:12', 'title' => 'Accès au droit : enjeux et perspectives', 'date' => '3 juin 2024', 'views' => '1 560'],
                             ['image' => 'placeholders/about-hero', 'category' => 'Événement officiel', 'color' => 'primary', 'duration' => '12:20', 'title' => 'Table ronde : justice et développement local', 'date' => '25 mai 2024', 'views' => '1 320'],
