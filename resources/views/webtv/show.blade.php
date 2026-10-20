@@ -241,9 +241,9 @@
 
                     @php
                         $more = [
-                            ['image' => 'placeholders/webtv-interview', 'duration' => '10:36', 'title' => 'Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'date' => '20 août 2024', 'views' => '2 100'],
-                            ['image' => 'placeholders/news-3', 'duration' => '6:18', 'title' => "Les droits des femmes : paroles d'étudiantes", 'date' => '12 octobre 2024', 'views' => '980'],
-                            ['image' => 'placeholders/news-formation', 'duration' => '15:42', 'title' => 'Session de formation sur la médiation', 'date' => '5 septembre 2024', 'views' => '1 420'],
+                            ['image' => 'placeholders/webtv-show-hero', 'duration' => '10:36', 'title' => 'Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'date' => '20 août 2024', 'views' => '2 100'],
+                            ['image' => 'placeholders/webtv-show-hero', 'duration' => '6:18', 'title' => "Les droits des femmes : paroles d'étudiantes", 'date' => '12 octobre 2024', 'views' => '980'],
+                            ['image' => 'placeholders/webtv-show-hero', 'duration' => '15:42', 'title' => 'Session de formation sur la médiation', 'date' => '5 septembre 2024', 'views' => '1 420'],
                         ];
                     @endphp
 
@@ -269,10 +269,10 @@
                     @php
                         $playlist = [
                             ['image' => 'placeholders/webtv-show-hero', 'title' => "Caravane juridique à Tillabéri : accès au droit...", 'duration' => '12:35', 'views' => '1 250', 'active' => true],
-                            ['image' => 'placeholders/gallery-caravan-meeting', 'title' => 'Caravane juridique à Dosso : sensibilisation...', 'duration' => '10:20', 'views' => '980'],
-                            ['image' => 'placeholders/news-3', 'title' => 'Caravane juridique à Maradi : droits des femmes', 'duration' => '8:15', 'views' => '1 420'],
-                            ['image' => 'placeholders/news-2', 'title' => 'Caravane juridique à Zinder : justice de proximité', 'duration' => '11:08', 'views' => '950'],
-                            ['image' => 'placeholders/news-partenariat', 'title' => "Caravane juridique à Agadez : accès à l'état civil", 'duration' => '9:45', 'views' => '870'],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => 'Caravane juridique à Dosso : sensibilisation...', 'duration' => '10:20', 'views' => '980'],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => 'Caravane juridique à Maradi : droits des femmes', 'duration' => '8:15', 'views' => '1 420'],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => 'Caravane juridique à Zinder : justice de proximité', 'duration' => '11:08', 'views' => '950'],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => "Caravane juridique à Agadez : accès à l'état civil", 'duration' => '9:45', 'views' => '870'],
                         ];
                     @endphp
 
@@ -314,9 +314,9 @@
                 <x-sidebar-card icon="youtube" title="Autres vidéos similaires" :tint="true">
                     @php
                         $similar = [
-                            ['image' => 'placeholders/news-3', 'title' => "Les droits des femmes : paroles d'étudiantes", 'duration' => '6:18', 'views' => '1 250'],
-                            ['image' => 'placeholders/news-formation', 'title' => 'Session de formation sur la médiation', 'duration' => '15:42', 'views' => '1 420'],
-                            ['image' => 'placeholders/news-2', 'title' => "Témoignages : l'impact des caravanes juridiques", 'duration' => '7:50', 'views' => '1 780'],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => "Les droits des femmes : paroles d'étudiantes", 'duration' => '6:18', 'views' => '1 250'],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => 'Session de formation sur la médiation', 'duration' => '15:42', 'views' => '1 420'],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => "Témoignages : l'impact des caravanes juridiques", 'duration' => '7:50', 'views' => '1 780'],
                         ];
                     @endphp
 
