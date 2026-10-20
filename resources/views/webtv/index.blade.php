@@ -39,7 +39,7 @@
                 {{-- Featured capsule --}}
                 <x-section-label>Vidéo à la une</x-section-label>
 
-                <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr] lg:items-center">
                     <x-video-player
                         poster="placeholders/video-featured"
                         video-id="dQw4w9WgXcQ"
