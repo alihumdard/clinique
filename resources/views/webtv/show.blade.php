@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/news-caravan"
+        image="placeholders/gallery-caravan-assembly"
         title="Caravane juridique à Tillabéri : accès au droit pour les populations"
         subtitle="Une capsule vidéo qui présente les objectifs, les activités et l'impact de la caravane juridique organisée par la Clinique Juridique FSJP-UAM."
         :breadcrumb="[
