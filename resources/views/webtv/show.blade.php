@@ -184,7 +184,7 @@
                 </x-tabs>
 
                 {{-- ============ SHARE ============ --}}
-                <div class="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-slate-200 p-5">
+                <div class="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-primary-100 bg-primary-50/60 p-5">
                     <x-share-buttons title="Caravane juridique à Tillabéri : accès au droit pour les populations" />
 
                     <x-button href="#" variant="outline" :arrow="false">
