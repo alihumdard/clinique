@@ -216,7 +216,7 @@
                         </div>
                     </div>
 
-                    <form class="mt-4 flex flex-wrap items-start gap-3 rounded-lg border border-slate-200 bg-white p-4">
+                    <form class="mt-4 flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-4 sm:flex-row sm:items-start">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                             <x-icon name="user" class="h-5 w-5" />
                         </span>
@@ -229,7 +229,7 @@
                             class="min-w-0 flex-1 rounded-md border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
 
-                        <x-button variant="primary" :arrow="false" class="shrink-0">Publier</x-button>
+                        <x-button variant="primary" :arrow="false" class="w-full shrink-0 justify-center sm:w-auto">Publier</x-button>
                     </form>
                 </div>
 
@@ -241,7 +241,7 @@
 
                     @php
                         $more = [
-                            ['image' => 'placeholders/about-team', 'duration' => '10:36', 'title' => 'Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'date' => '20 août 2024', 'views' => '2 100'],
+                            ['image' => 'placeholders/webtv-interview', 'duration' => '10:36', 'title' => 'Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'date' => '20 août 2024', 'views' => '2 100'],
                             ['image' => 'placeholders/news-3', 'duration' => '6:18', 'title' => "Les droits des femmes : paroles d'étudiantes", 'date' => '12 octobre 2024', 'views' => '980'],
                             ['image' => 'placeholders/news-formation', 'duration' => '15:42', 'title' => 'Session de formation sur la médiation', 'date' => '5 septembre 2024', 'views' => '1 420'],
                         ];
