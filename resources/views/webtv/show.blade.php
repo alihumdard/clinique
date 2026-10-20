@@ -310,7 +310,7 @@
                     </a>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="play-circle" title="Autres vidéos similaires" :tint="true">
+                <x-sidebar-card icon="youtube" title="Autres vidéos similaires" :tint="true">
                     @php
                         $similar = [
                             ['image' => 'placeholders/news-3', 'title' => "Les droits des femmes : paroles d'étudiantes", 'duration' => '6:18', 'views' => '1 250'],
