@@ -196,7 +196,7 @@
                 {{-- ============ COMMENTS ============ --}}
                 {{-- Presentation only: submission is wired up in Module 2 with
                      validation, anti-spam and moderation before publication. --}}
-                <div class="mt-8">
+                <div class="mt-8 rounded-lg border border-primary-100 bg-primary-50/60 p-5">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                             <x-icon name="chat" class="h-5 w-5 text-primary-600" />
@@ -207,7 +207,7 @@
                             <label for="comments-sort" class="text-sm text-slate-500">Trier par :</label>
                             <select
                                 id="comments-sort"
-                                class="rounded-md border border-slate-200 py-2 pl-3 pr-8 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                class="rounded-md border border-slate-200 bg-white py-2 pl-3 pr-8 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
                                 <option>Plus récents</option>
                                 <option>Plus anciens</option>
@@ -215,9 +215,9 @@
                         </div>
                     </div>
 
-                    <form class="mt-4 flex flex-wrap items-start gap-3 rounded-lg border border-slate-200 p-4">
+                    <form class="mt-4 flex flex-wrap items-start gap-3 rounded-lg border border-slate-200 bg-white p-4">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                            <x-icon name="users" class="h-5 w-5" />
+                            <x-icon name="user" class="h-5 w-5" />
                         </span>
 
                         <label for="comment-body" class="sr-only">Ajouter un commentaire</label>
