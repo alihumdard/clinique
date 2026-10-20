@@ -8,14 +8,14 @@
         ['logo' => 'barreau-fes', 'name' => 'Barreau de Fès', 'subtitle' => null],
         ['logo' => 'pndd', 'name' => 'PNDD', 'subtitle' => null],
     ] as $partner)
-        <div class="flex h-24 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-3 transition hover:shadow-md">
+        <div class="flex h-40 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-4 transition hover:shadow-md">
             <img
                 src="{{ asset('images/partners/' . $partner['logo'] . '.png') }}"
                 alt="{{ $partner['name'] }}"
-                class="h-8 w-auto max-w-full object-contain"
+                class="h-20 w-auto max-w-full object-contain"
                 loading="lazy"
             >
-            <span class="text-center text-[9px] font-semibold leading-tight text-slate-600">
+            <span class="text-center text-xs font-semibold leading-tight text-slate-600">
                 {{ $partner['name'] }}
             </span>
         </div>

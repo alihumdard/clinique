@@ -60,6 +60,32 @@ select,
     a:visited * {
         color: inherit !important;
     }
+
+    /* Buttons/pills/icons set their own text colour (e.g. white on primary,
+       blue on outline, blue-700 on the "voir tout" pills, white captions and
+       icons over a photo) and must keep that colour even after the link --
+       the link itself or one of its descendants -- has been visited. */
+    a.text-white:visited,
+    a.text-white:visited *,
+    a:visited [class~="text-white"] {
+        color: #fff !important;
+    }
+
+    a.text-primary-600:visited,
+    a.text-primary-600:visited *,
+    a:visited [class~="text-primary-600"] {
+        color: var(--color-primary-600) !important;
+    }
+
+    a.text-blue-700:visited,
+    a.text-blue-700:visited *,
+    a:visited [class~="text-blue-700"] {
+        color: var(--color-blue-700) !important;
+    }
+
+    a:visited [class~="text-white/80"] {
+        color: rgb(255 255 255 / 0.8) !important;
+    }
 }
 
 /* Skip-to-content link for keyboard/screen-reader users */

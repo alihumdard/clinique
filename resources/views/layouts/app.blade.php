@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#1d4ed8">
+    <link rel="icon" href="{{ asset('images/brand/logo.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/brand/logo.png') }}">
     <title>@yield('title', config('app.name'))</title>
     <meta name="description" content="@yield('meta_description', 'Clinique Juridique de la FSJP - Universite Abdou Moumouni de Niamey. Consultations juridiques gratuites assurees par des etudiants encadres.')">
 

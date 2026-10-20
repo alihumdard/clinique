@@ -79,6 +79,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Animated stat counters: count up from 0 to their target value once
+    // scrolled into view, keeping any non-numeric suffix (e.g. "500+").
+    const counters = document.querySelectorAll('[data-counter]');
+    if (counters.length && 'IntersectionObserver' in window) {
+        const animateCounter = (el) => {
+            const raw = el.dataset.counter;
+            const target = parseInt(raw.replace(/[^\d]/g, ''), 10);
+            const suffix = raw.replace(/^[\d\s]+/, '');
+            if (Number.isNaN(target)) return;
+
+            const duration = 1200;
+            const start = performance.now();
+
+            const step = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(eased * target) + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            };
+
+            requestAnimationFrame(step);
+        };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.4 });
+
+        counters.forEach((el) => counterObserver.observe(el));
+    }
+
     // Click-to-load video embeds: swap the poster for the real iframe only
     // once the visitor presses play. Keeps ~1 Mo per embed off the initial
     // page load for visitors on metered mobile data.
