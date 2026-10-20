@@ -268,7 +268,7 @@
                 <x-sidebar-card icon="folder" title="Playlist : Caravanes juridiques" :tint="true">
                     @php
                         $playlist = [
-                            ['image' => 'placeholders/news-caravan', 'title' => "Caravane juridique à Tillabéri : accès au droit...", 'duration' => '12:35', 'views' => '1 250', 'active' => true],
+                            ['image' => 'placeholders/webtv-show-hero', 'title' => "Caravane juridique à Tillabéri : accès au droit...", 'duration' => '12:35', 'views' => '1 250', 'active' => true],
                             ['image' => 'placeholders/news-1', 'title' => 'Caravane juridique à Dosso : sensibilisation...', 'duration' => '10:20', 'views' => '980'],
                             ['image' => 'placeholders/news-3', 'title' => 'Caravane juridique à Maradi : droits des femmes', 'duration' => '8:15', 'views' => '1 420'],
                             ['image' => 'placeholders/news-2', 'title' => 'Caravane juridique à Zinder : justice de proximité', 'duration' => '11:08', 'views' => '950'],
