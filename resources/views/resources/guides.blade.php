@@ -168,7 +168,7 @@
                     </button>
                 </form>
 
-                <x-sidebar-card icon="folder" title="Catégories">
+                <x-sidebar-card icon="folder" title="Catégories" :tint="true">
                     @php
                         $categories = [
                             ['label' => 'Toutes les fiches', 'count' => 24, 'icon' => 'folder', 'color' => 'amber', 'active' => true],
@@ -198,7 +198,7 @@
                     </nav>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="heart" title="Fiches les plus consultées">
+                <x-sidebar-card icon="heart" title="Fiches les plus consultées" :tint="true">
                     @php
                         $popular = [
                             ['image' => 'placeholders/guide-family', 'title' => 'Guide pratique : droits de la famille', 'downloads' => '2 450'],
