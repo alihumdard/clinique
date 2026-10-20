@@ -97,7 +97,7 @@
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
 
-                <x-sidebar-card icon="camera" title="Albums photos">
+                <x-sidebar-card icon="camera" title="Albums photos" :tint="true">
                     @php
                         $albumIndex = [
                             ['path' => 'placeholders/news-caravan', 'title' => 'Caravanes juridiques', 'count' => 124],
