@@ -3,7 +3,7 @@
     Repeats on every resource page, so the markup lives here once.
 --}}
 @props([
-    'icon' => 'ear',
+    'icon' => 'headset',
     'title',
     'buttonLabel' => 'Nous contacter',
     'buttonHref' => null,

@@ -6,7 +6,8 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/news-caravan"
+        image="placeholders/gallery-hero"
+        image-position="object-left-top"
         title="Galerie photos"
         subtitle="Découvrez en images nos activités, caravanes juridiques, formations et rencontres avec les communautés."
         :breadcrumb="[
@@ -42,16 +43,16 @@
                         ['path' => 'placeholders/news-caravan', 'alt' => 'Caravane juridique en plein air à Tillabéri'],
                         ['path' => 'placeholders/news-1', 'alt' => "Séance d'information avec les habitants"],
                         ['path' => 'placeholders/news-3', 'alt' => 'Échange avec les participantes à la caravane'],
-                        ['path' => 'placeholders/news-2', 'alt' => 'Assemblée communautaire sous les arbres'],
-                        ['path' => 'placeholders/news-partenariat', 'alt' => "Entretien individuel lors d'une permanence mobile"],
-                        ['path' => 'placeholders/news-candidatures', 'alt' => "Équipe de la Clinique en déplacement"],
+                        ['path' => 'placeholders/gallery-caravan-team', 'alt' => "Équipe de la Clinique devant le véhicule de la caravane"],
+                        ['path' => 'placeholders/gallery-caravan-meeting', 'alt' => "Entretien individuel lors d'une permanence mobile"],
+                        ['path' => 'placeholders/gallery-caravan-assembly', 'alt' => "Assemblée communautaire lors d'une caravane juridique"],
                     ],
                 ],
                 [
                     'title' => 'Formations',
                     'photos' => [
                         ['path' => 'placeholders/news-formation', 'alt' => 'Formation des étudiants cliniciens en amphithéâtre'],
-                        ['path' => 'placeholders/about-team', 'alt' => 'Atelier pratique encadré par un enseignant'],
+                        ['path' => 'placeholders/gallery-conference', 'alt' => 'Atelier pratique encadré par un enseignant'],
                         ['path' => 'placeholders/news-guide', 'alt' => 'Travaux de groupe pendant une session de formation'],
                     ],
                 ],
@@ -96,13 +97,13 @@
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
 
-                <x-sidebar-card icon="camera" title="Albums photos">
+                <x-sidebar-card icon="camera" title="Albums photos" :tint="true">
                     @php
                         $albumIndex = [
                             ['path' => 'placeholders/news-caravan', 'title' => 'Caravanes juridiques', 'count' => 124],
                             ['path' => 'placeholders/news-formation', 'title' => 'Formations', 'count' => 86],
                             ['path' => 'placeholders/news-3', 'title' => 'Sensibilisations', 'count' => 72],
-                            ['path' => 'placeholders/about-team', 'title' => 'Ateliers', 'count' => 48],
+                            ['path' => 'placeholders/gallery-conference', 'title' => 'Ateliers', 'count' => 48],
                             ['path' => 'placeholders/news-2', 'title' => 'Rencontres communautaires', 'count' => 65],
                             ['path' => 'placeholders/about-hero', 'title' => 'Événements officiels', 'count' => 39],
                         ];

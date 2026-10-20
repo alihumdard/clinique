@@ -10,6 +10,7 @@
     'badge' => null,
     'badgeColor' => 'primary',
     'titleLine2' => null,
+    'imagePosition' => 'object-left',
 ])
 
 <section class="relative overflow-hidden">
@@ -19,7 +20,7 @@
             alt=""
             width="2170" height="725"
             :eager="true"
-            class="h-full w-full object-cover object-left"
+            class="h-full w-full object-cover {{ $imagePosition }}"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-900/30 to-transparent sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
     </div>

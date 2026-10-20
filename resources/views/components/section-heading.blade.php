@@ -11,7 +11,7 @@
     'linkLabel' => 'Voir tout',
 ])
 
-<div {{ $attributes->merge(['class' => 'flex flex-wrap items-center justify-between gap-3']) }}>
+<div {{ $attributes->merge(['class' => 'flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3']) }}>
     <x-section-label :color="$color">{{ $slot }}</x-section-label>
 
     @if($link)
