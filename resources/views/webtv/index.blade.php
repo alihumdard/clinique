@@ -175,7 +175,7 @@
                 <x-sidebar-card icon="play-circle" title="Nos chaînes" :tint="true">
                     <div class="flex items-start gap-3">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
-                            <x-icon name="play-circle" class="h-5 w-5" />
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.56A3.02 3.02 0 00.5 6.2 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.8 3.02 3.02 0 002.12 2.14c1.88.56 9.38.56 9.38.56s7.5 0 9.38-.56a3.02 3.02 0 002.12-2.14A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.8zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
                         </span>
                         <div class="min-w-0">
                             <p class="text-sm font-semibold text-slate-900">YouTube</p>
@@ -190,7 +190,7 @@
                     </x-button>
                 </x-sidebar-card>
 
-                <x-help-card icon="chat" title="Vous avez une vidéo à proposer ?">
+                <x-help-card icon="bell" title="Vous avez une vidéo à proposer ?">
                     Partagez vos initiatives, témoignages ou événements pour une diffusion sur notre Web TV.
                 </x-help-card>
 
