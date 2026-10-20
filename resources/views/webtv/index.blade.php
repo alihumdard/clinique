@@ -140,7 +140,7 @@
                     />
                 </div>
 
-                <x-sidebar-card icon="folder" title="Playlists thématiques">
+                <x-sidebar-card icon="folder" title="Playlists thématiques" :tint="true">
                     @php
                         $playlists = [
                             ['image' => 'placeholders/news-caravan', 'title' => 'Caravanes juridiques', 'count' => 12],
@@ -172,7 +172,7 @@
                     </ul>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="play-circle" title="Nos chaînes">
+                <x-sidebar-card icon="play-circle" title="Nos chaînes" :tint="true">
                     <div class="flex items-start gap-3">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
                             <x-icon name="play-circle" class="h-5 w-5" />
