@@ -71,9 +71,11 @@
                             Juridique FSJP-UAM, avec les interventions des autorités universitaires et des partenaires.
                         </p>
 
-                        <x-button :href="route('webtv.show')" variant="primary" class="mt-auto pt-5 self-start">
-                            Voir la vidéo
-                        </x-button>
+                        <div class="mt-auto pt-5">
+                            <x-button :href="route('webtv.show')" variant="primary">
+                                Voir la vidéo
+                            </x-button>
+                        </div>
                     </div>
                 </div>
 
