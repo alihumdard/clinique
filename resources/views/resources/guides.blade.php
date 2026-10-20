@@ -76,7 +76,7 @@
                             'size' => '1,8 Mo',
                         ],
                         [
-                            'image' => 'placeholders/guide-penal',
+                            'image' => 'placeholders/guide-penal-v2',
                             'category' => 'Droit pénal',
                             'color' => 'red',
                             'title' => 'Comprendre la garde à vue',
@@ -116,7 +116,7 @@
                             'size' => '1,7 Mo',
                         ],
                         [
-                            'image' => 'placeholders/guide-succession-event',
+                            'image' => 'placeholders/guide-penal',
                             'category' => 'Droit administratif',
                             'color' => 'green',
                             'title' => 'Recours contre une décision administrative',
@@ -202,7 +202,7 @@
                     @php
                         $popular = [
                             ['image' => 'placeholders/guide-family', 'title' => 'Guide pratique : droits de la famille', 'downloads' => '2 450'],
-                            ['image' => 'placeholders/guide-penal', 'title' => 'Comprendre la garde à vue', 'downloads' => '1 980'],
+                            ['image' => 'placeholders/guide-penal-v2', 'title' => 'Comprendre la garde à vue', 'downloads' => '1 980'],
                             ['image' => 'placeholders/guide-civil', 'title' => "La procédure d'état civil au Niger", 'downloads' => '1 750'],
                             ['image' => 'placeholders/guide-labor', 'title' => 'Le contrat de travail', 'downloads' => '1 420'],
                             ['image' => 'placeholders/guide-succession-event', 'title' => 'Accès à la propriété foncière', 'downloads' => '1 280'],
