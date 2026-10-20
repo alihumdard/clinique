@@ -49,7 +49,7 @@
                     />
 
                     <div class="flex flex-col">
-                        <x-category-badge color="primary" position="inline">Événement officiel</x-category-badge>
+                        <x-category-badge color="primary" position="inline" class="self-start">Événement officiel</x-category-badge>
 
                         <h3 class="mt-3 text-xl font-bold leading-snug text-slate-900">
                             Lancement des activités de la Clinique Juridique FSJP-UAM
