@@ -185,10 +185,10 @@
                 </x-tabs>
 
                 {{-- ============ SHARE ============ --}}
-                <div class="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-primary-100 bg-primary-50/60 p-5">
+                <div class="mt-8 flex flex-col gap-4 rounded-lg border border-primary-100 bg-primary-50/60 p-5 sm:flex-row sm:items-center sm:justify-between">
                     <x-share-buttons title="Caravane juridique à Tillabéri : accès au droit pour les populations" />
 
-                    <x-button href="#" variant="outline" :arrow="false">
+                    <x-button href="#" variant="outline" :arrow="false" class="justify-center">
                         <x-icon name="download" class="h-4 w-4" />
                         Télécharger la vidéo
                     </x-button>
