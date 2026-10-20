@@ -41,21 +41,23 @@
     ];
 @endphp
 
-<div {{ $attributes->merge(['class' => 'flex flex-wrap items-center gap-2']) }}>
+<div {{ $attributes->merge(['class' => 'flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center']) }}>
     <span class="text-sm font-medium text-slate-500">Partager :</span>
 
-    @foreach ($targets as $target)
-        <a
-            href="{{ $target['href'] }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="{{ $target['label'] }}"
-            class="inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors {{ $target['class'] }}"
-        >
-            <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="{{ $target['path'] }}" />
-            </svg>
-            {{ $target['short'] }}
-        </a>
-    @endforeach
+    <div class="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
+        @foreach ($targets as $target)
+            <a
+                href="{{ $target['href'] }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ $target['label'] }}"
+                class="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors {{ $target['class'] }}"
+            >
+                <svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="{{ $target['path'] }}" />
+                </svg>
+                {{ $target['short'] }}
+            </a>
+        @endforeach
+    </div>
 </div>
