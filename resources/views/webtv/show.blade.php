@@ -264,7 +264,7 @@
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
 
-                <x-sidebar-card icon="folder" title="Playlist : Caravanes juridiques">
+                <x-sidebar-card icon="folder" title="Playlist : Caravanes juridiques" :tint="true">
                     @php
                         $playlist = [
                             ['image' => 'placeholders/news-caravan', 'title' => "Caravane juridique à Tillabéri : accès au droit...", 'duration' => '12:35', 'views' => '1 250', 'active' => true],
@@ -310,7 +310,7 @@
                     </a>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="play-circle" title="Autres vidéos similaires">
+                <x-sidebar-card icon="play-circle" title="Autres vidéos similaires" :tint="true">
                     @php
                         $similar = [
                             ['image' => 'placeholders/news-3', 'title' => "Les droits des femmes : paroles d'étudiantes", 'duration' => '6:18', 'views' => '1 250'],
@@ -345,7 +345,7 @@
                     </ul>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="youtube" title="Notre chaîne YouTube">
+                <x-sidebar-card icon="youtube" title="Notre chaîne YouTube" :tint="true">
                     <p class="text-sm leading-relaxed text-slate-600">
                         Suivez toutes nos vidéos sur notre chaîne officielle.
                     </p>
