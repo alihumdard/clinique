@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/webtv-hero"
-        image-position="object-center"
+        image-position="object-right"
         title="Web TV"
         subtitle="Des vidéos pour informer, sensibiliser et promouvoir l'accès au droit pour tous."
         :breadcrumb="[
