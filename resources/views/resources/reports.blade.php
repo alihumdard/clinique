@@ -101,10 +101,10 @@
 
                     @php
                         $evolution = [
-                            ['value' => '620', 'year' => '2021'],
-                            ['value' => '980', 'year' => '2022'],
-                            ['value' => '1 850', 'year' => '2023'],
-                            ['value' => '2 450', 'year' => '2024'],
+                            ['value' => '620', 'year' => '2021', 'icon' => 'users'],
+                            ['value' => '980', 'year' => '2022', 'icon' => 'chart-bar'],
+                            ['value' => '1 850', 'year' => '2023', 'icon' => 'chart-bar'],
+                            ['value' => '2 450', 'year' => '2024', 'icon' => 'chart-bar'],
                         ];
                     @endphp
 
@@ -112,7 +112,7 @@
                         @foreach ($evolution as $step)
                             <div class="flex items-center gap-3">
                                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-primary-600">
-                                    <x-icon name="chart-bar" class="h-5 w-5" />
+                                    <x-icon :name="$step['icon']" class="h-5 w-5" />
                                 </span>
                                 <div>
                                     <dd class="text-xl font-bold leading-tight text-slate-900">{{ $step['value'] }}</dd>
