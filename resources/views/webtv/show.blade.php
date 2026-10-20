@@ -345,7 +345,7 @@
                     </ul>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="play-circle" title="Notre chaîne YouTube">
+                <x-sidebar-card icon="youtube" title="Notre chaîne YouTube">
                     <p class="text-sm leading-relaxed text-slate-600">
                         Suivez toutes nos vidéos sur notre chaîne officielle.
                     </p>
