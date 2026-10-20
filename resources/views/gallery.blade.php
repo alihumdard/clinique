@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/news-caravan"
+        image="placeholders/gallery-hero"
         title="Galerie photos"
         subtitle="Découvrez en images nos activités, caravanes juridiques, formations et rencontres avec les communautés."
         :breadcrumb="[
