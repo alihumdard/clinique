@@ -23,33 +23,49 @@
             <div class="lg:col-span-2">
 
                 <x-video-player
-                    poster="placeholders/news-caravan"
+                    poster="placeholders/webtv-show-hero"
                     video-id="dQw4w9WgXcQ"
                     duration="12:35"
                     title="Caravane juridique à Tillabéri : accès au droit pour les populations"
                 />
 
                 <div class="mt-5">
-                    <x-category-badge color="amber" position="inline">Caravane juridique</x-category-badge>
+                    <x-category-badge color="primary" position="inline">Caravane juridique</x-category-badge>
 
                     <h2 class="mt-3 text-xl font-bold leading-snug text-slate-900 sm:text-2xl">
                         Caravane juridique à Tillabéri : accès au droit pour les populations
                     </h2>
 
                     {{-- Meta strip: publication data left, actions right --}}
-                    <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-slate-100 pb-5 text-sm text-slate-500">
-                        <span class="inline-flex items-center gap-1.5">
-                            <x-icon name="calendar" class="h-4 w-4 shrink-0" />
-                            28 septembre 2024
-                        </span>
-                        <span class="inline-flex items-center gap-1.5">
-                            <x-icon name="eye" class="h-4 w-4 shrink-0" />
-                            1 250 vues
-                        </span>
-                        <span class="inline-flex items-center gap-1.5">
-                            <x-icon name="heart" class="h-4 w-4 shrink-0" />
-                            42
-                        </span>
+                    <div class="mt-3 flex flex-wrap items-center justify-between gap-x-5 gap-y-2 border-b border-slate-100 pb-5 text-sm text-slate-500">
+                        <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+                            <span class="inline-flex items-center gap-1.5">
+                                <x-icon name="calendar" class="h-4 w-4 shrink-0" />
+                                28 septembre 2024
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <x-icon name="eye" class="h-4 w-4 shrink-0" />
+                                1 250 vues
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <x-icon name="thumb-up" class="h-4 w-4 shrink-0" />
+                                42
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-x-5 gap-y-2">
+                            <button type="button" class="inline-flex items-center gap-1.5 hover:text-primary-600">
+                                <x-icon name="share" class="h-4 w-4 shrink-0" />
+                                Partager
+                            </button>
+                            <button type="button" class="inline-flex items-center gap-1.5 hover:text-primary-600">
+                                <x-icon name="bookmark" class="h-4 w-4 shrink-0" />
+                                Enregistrer
+                            </button>
+                            <button type="button" aria-label="Plus d'options" class="text-slate-400 hover:text-slate-600">
+                                <x-icon name="dots-vertical" class="h-4 w-4 shrink-0" />
+                            </button>
+                        </div>
                     </div>
                 </div>
 
