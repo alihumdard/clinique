@@ -45,7 +45,7 @@
                         ['path' => 'placeholders/news-3', 'alt' => 'Échange avec les participantes à la caravane'],
                         ['path' => 'placeholders/gallery-caravan-team', 'alt' => "Équipe de la Clinique devant le véhicule de la caravane"],
                         ['path' => 'placeholders/gallery-caravan-meeting', 'alt' => "Entretien individuel lors d'une permanence mobile"],
-                        ['path' => 'placeholders/news-candidatures', 'alt' => "Équipe de la Clinique en déplacement"],
+                        ['path' => 'placeholders/gallery-caravan-assembly', 'alt' => "Assemblée communautaire lors d'une caravane juridique"],
                     ],
                 ],
                 [
