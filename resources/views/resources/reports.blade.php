@@ -145,7 +145,7 @@
                     />
                 </div>
 
-                <x-sidebar-card icon="folder" title="Autres documents">
+                <x-sidebar-card icon="folder" title="Autres documents" :tint="true">
                     @php
                         $documents = [
                             ['label' => 'Rapports thématiques', 'icon' => 'document', 'color' => 'blue'],
