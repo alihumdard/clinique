@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/gallery-hero"
+        image-position="object-left-top"
         title="Galerie photos"
         subtitle="Découvrez en images nos activités, caravanes juridiques, formations et rencontres avec les communautés."
         :breadcrumb="[
@@ -51,7 +52,7 @@
                     'title' => 'Formations',
                     'photos' => [
                         ['path' => 'placeholders/news-formation', 'alt' => 'Formation des étudiants cliniciens en amphithéâtre'],
-                        ['path' => 'placeholders/about-team', 'alt' => 'Atelier pratique encadré par un enseignant'],
+                        ['path' => 'placeholders/gallery-conference', 'alt' => 'Atelier pratique encadré par un enseignant'],
                         ['path' => 'placeholders/news-guide', 'alt' => 'Travaux de groupe pendant une session de formation'],
                     ],
                 ],
@@ -102,7 +103,7 @@
                             ['path' => 'placeholders/news-caravan', 'title' => 'Caravanes juridiques', 'count' => 124],
                             ['path' => 'placeholders/news-formation', 'title' => 'Formations', 'count' => 86],
                             ['path' => 'placeholders/news-3', 'title' => 'Sensibilisations', 'count' => 72],
-                            ['path' => 'placeholders/about-team', 'title' => 'Ateliers', 'count' => 48],
+                            ['path' => 'placeholders/gallery-conference', 'title' => 'Ateliers', 'count' => 48],
                             ['path' => 'placeholders/news-2', 'title' => 'Rencontres communautaires', 'count' => 65],
                             ['path' => 'placeholders/about-hero', 'title' => 'Événements officiels', 'count' => 39],
                         ];
