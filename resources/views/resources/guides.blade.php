@@ -84,7 +84,7 @@
                             'size' => '1,4 Mo',
                         ],
                         [
-                            'image' => 'placeholders/news-1',
+                            'image' => 'placeholders/guide-succession-event',
                             'category' => 'Droit foncier',
                             'color' => 'amber',
                             'title' => 'Accès à la propriété foncière',
@@ -205,7 +205,7 @@
                             ['image' => 'placeholders/guide-penal', 'title' => 'Comprendre la garde à vue', 'downloads' => '1 980'],
                             ['image' => 'placeholders/guide-civil', 'title' => "La procédure d'état civil au Niger", 'downloads' => '1 750'],
                             ['image' => 'placeholders/guide-labor', 'title' => 'Le contrat de travail', 'downloads' => '1 420'],
-                            ['image' => 'placeholders/news-1', 'title' => 'Accès à la propriété foncière', 'downloads' => '1 280'],
+                            ['image' => 'placeholders/guide-succession-event', 'title' => 'Accès à la propriété foncière', 'downloads' => '1 280'],
                         ];
                     @endphp
 
