@@ -39,16 +39,16 @@
                 {{-- Featured capsule --}}
                 <x-section-label>Vidéo à la une</x-section-label>
 
-                <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr] lg:items-center">
+                <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr] lg:items-stretch">
                     <x-video-player
                         poster="placeholders/video-featured"
                         video-id="dQw4w9WgXcQ"
                         duration="12:35"
                         title="Lancement des activités de la Clinique Juridique FSJP-UAM"
-                        class="!aspect-[4/3]"
+                        class="!aspect-auto lg:h-full"
                     />
 
-                    <div>
+                    <div class="flex flex-col">
                         <x-category-badge color="primary" position="inline">Événement officiel</x-category-badge>
 
                         <h3 class="mt-3 text-xl font-bold leading-snug text-slate-900">
@@ -71,7 +71,7 @@
                             Juridique FSJP-UAM, avec les interventions des autorités universitaires et des partenaires.
                         </p>
 
-                        <x-button :href="route('webtv.show')" variant="primary" class="mt-5">
+                        <x-button :href="route('webtv.show')" variant="primary" class="mt-auto pt-5 self-start">
                             Voir la vidéo
                         </x-button>
                     </div>
