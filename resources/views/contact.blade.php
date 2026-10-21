@@ -193,7 +193,7 @@
         </div>
 
         {{-- ============ LOCATION ============ --}}
-        <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-5">
+        <div class="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
 
             <div class="lg:col-span-3">
                 <x-section-label>Notre localisation</x-section-label>
