@@ -43,7 +43,7 @@
         <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-5">
 
             {{-- Coordinates: every value comes from config/clinique.php --}}
-            <div class="rounded-xl border border-slate-200 p-6 lg:col-span-2">
+            <div class="rounded-xl border border-primary-100 bg-primary-50/60 p-6 lg:col-span-2">
                 <x-section-label>Nos coordonnées</x-section-label>
 
                 <ul class="mt-6 space-y-6">
@@ -295,7 +295,7 @@
                             <a
                                 href="{{ $url ?? '#' }}"
                                 @if($url) target="_blank" rel="noopener noreferrer" @endif
-                                class="flex h-full flex-col items-center rounded-xl border border-slate-200 p-5 text-center transition-colors hover:border-primary-200 hover:bg-primary-50/40"
+                                class="flex h-full flex-col items-center rounded-xl border border-primary-100 bg-primary-50/60 p-5 text-center transition-colors hover:border-primary-200 hover:bg-primary-50"
                             >
                                 <svg class="h-8 w-8 {{ $channel['color'] }}" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="{{ $channel['path'] }}" />
@@ -321,15 +321,6 @@
         >
             Vous pouvez également faire une pré-saisine en ligne pour être orienté plus rapidement.
         </x-inline-cta>
-    </section>
-
-    {{-- ============ PARTENAIRES ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <x-eyebrow>Ils nous soutiennent</x-eyebrow>
-        <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
-        <div class="mt-8">
-            @include('partials.partners-grid')
-        </div>
     </section>
 
 @endsection
