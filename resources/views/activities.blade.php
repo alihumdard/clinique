@@ -75,7 +75,7 @@
 
             <ul class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 @foreach ($domains as $domain)
-                    <li class="rounded-lg border border-slate-200 bg-white p-5">
+                    <li class="rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:bg-primary-50/40 hover:shadow-md">
                         <span class="flex h-11 w-11 items-center justify-center rounded-full {{ $badgeColors[$domain['color']] }}">
                             <x-icon :name="$domain['icon']" class="h-5 w-5" />
                         </span>
