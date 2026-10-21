@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/about-hero"
+        image="placeholders/contact-hero"
         title="Contactez-nous"
         subtitle="Une question, une demande d'information ou besoin d'accompagnement ? Notre équipe est à votre écoute."
         :breadcrumb="[
