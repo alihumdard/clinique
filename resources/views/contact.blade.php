@@ -99,7 +99,7 @@
             </div>
 
             {{-- Message form --}}
-            <div class="flex flex-col rounded-xl border border-slate-200 p-6 lg:col-span-3">
+            <div class="rounded-xl border border-slate-200 p-6 lg:col-span-3">
                 <x-section-label>Envoyez-nous un message</x-section-label>
 
                 {{--
@@ -107,7 +107,7 @@
                     validation, anti-spam and mail delivery. Client-side `required`
                     attributes are a convenience, never the security boundary.
                 --}}
-                <form class="mt-6 flex flex-1 flex-col gap-5" method="post" action="#" novalidate>
+                <form class="mt-6 space-y-5" method="post" action="#" novalidate>
                     @csrf
 
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -165,7 +165,6 @@
                         placeholder="Décrivez votre demande ou votre question..."
                         :required="true"
                         :rows="6"
-                        class="flex flex-1 flex-col [&_textarea]:flex-1 [&_textarea]:resize-none [&>div:nth-child(2)]:flex-1 [&>div:nth-child(2)]:flex"
                     />
 
                     {{-- Consent is separate from any terms acceptance, per the
