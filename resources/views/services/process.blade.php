@@ -26,7 +26,7 @@
                     première prise de contact jusqu'au suivi de votre dossier.
                 </p>
 
-                <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <x-process-step boxed number="1" icon="document" title="Orientation initiale" duration="15 à 30 minutes">
                         Nous analysons votre situation et vous orientons vers le service approprié.
                     </x-process-step>
