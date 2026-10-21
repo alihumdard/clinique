@@ -17,7 +17,7 @@
 
     {{-- ============ ETAPES + A RETENIR ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-3">
             <div class="lg:col-span-2">
                 <x-eyebrow>Comment ça marche ?</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étapes de votre consultation</h2>
