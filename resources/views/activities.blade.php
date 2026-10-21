@@ -154,7 +154,7 @@
             ];
         @endphp
 
-        <dl class="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
+        <dl class="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-slate-200 lg:grid-cols-4">
             @foreach ($impact as $item)
                 <div class="flex items-center gap-4 bg-primary-50/60 p-6">
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600">
