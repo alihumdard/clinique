@@ -58,9 +58,10 @@ class SecurityHeaders
 
     protected function contentSecurityPolicy(Request $request): string
     {
-        // Video hosts for the Web TV embeds (Module 2). Players load only
-        // on click, but the frame-src must permit them when they do.
-        $frameSrc = "'self' https://www.youtube-nocookie.com https://www.youtube.com https://player.vimeo.com";
+        // Video hosts for the Web TV embeds (Module 2) plus Google Maps for
+        // the Contact page location embed. Players load only on click, but
+        // the frame-src must permit them when they do.
+        $frameSrc = "'self' https://www.youtube-nocookie.com https://www.youtube.com https://player.vimeo.com https://www.google.com";
 
         $directives = [
             "default-src 'self'",

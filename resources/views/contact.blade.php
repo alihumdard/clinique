@@ -20,7 +20,7 @@
         {{-- ============ CONTACT REASONS ============ --}}
         @php
             $reasons = [
-                ['icon' => 'ear', 'title' => 'Informations générales', 'text' => 'Des renseignements sur nos services et nos activités.'],
+                ['icon' => 'headset', 'title' => 'Informations générales', 'text' => 'Des renseignements sur nos services et nos activités.'],
                 ['icon' => 'document', 'title' => "Demande d'assistance", 'text' => "Un besoin d'orientation juridique ou de pré-saisine."],
                 ['icon' => 'handshake', 'title' => 'Partenariats', 'text' => 'Des collaborations pour soutenir nos actions.'],
                 ['icon' => 'users', 'title' => 'Recrutement', 'text' => "Des opportunités de stage, volontariat ou emploi."],
@@ -29,8 +29,8 @@
 
         <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($reasons as $reason)
-                <li class="rounded-xl bg-primary-50/60 p-6 text-center">
-                    <x-icon-badge class="mx-auto !bg-white">
+                <li class="group rounded-xl bg-primary-50/60 p-6 text-center transition-transform duration-300 hover:scale-105">
+                    <x-icon-badge class="mx-auto !bg-white transition-transform duration-300 group-hover:scale-110">
                         <x-icon :name="$reason['icon']" class="h-6 w-6" />
                     </x-icon-badge>
                     <h2 class="mt-4 text-base font-bold text-slate-900">{{ $reason['title'] }}</h2>
@@ -43,7 +43,7 @@
         <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-5">
 
             {{-- Coordinates: every value comes from config/clinique.php --}}
-            <div class="rounded-xl border border-slate-200 p-6 lg:col-span-2">
+            <div class="rounded-xl border border-primary-100 bg-primary-50/60 p-6 lg:col-span-2">
                 <x-section-label>Nos coordonnées</x-section-label>
 
                 <ul class="mt-6 space-y-6">
@@ -193,28 +193,21 @@
         </div>
 
         {{-- ============ LOCATION ============ --}}
-        <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-5">
+        <div class="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
 
             <div class="lg:col-span-3">
                 <x-section-label>Notre localisation</x-section-label>
 
-                {{--
-                    Static map preview rather than an embedded map frame: an
-                    interactive embed pulls several hundred Ko and sets
-                    third-party cookies before the visitor asks for it.
-                    The button opens the real map on demand.
-                --}}
                 <div class="relative mt-5 overflow-hidden rounded-xl border border-slate-200">
-                    <x-picture
-                        path="placeholders/about-hero"
-                        alt="Plan de localisation de la Clinique Juridique sur le campus de l'Université Abdou Moumouni"
-                        width="900" height="500"
-                        class="aspect-[16/9] w-full object-cover"
-                    />
+                    <iframe
+                        src="https://www.google.com/maps?q={{ urlencode('Faculté des Sciences Juridiques et Politiques, Université Abdou Moumouni, Niamey, Niger') }}&output=embed"
+                        class="aspect-[16/5] w-full border-0"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Plan de localisation de la Clinique Juridique sur le campus de l'Université Abdou Moumouni"
+                    ></iframe>
 
-                    <div class="absolute inset-0 bg-slate-900/10"></div>
-
-                    <div class="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-between gap-3 bg-white/95 p-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-white p-4">
                         <p class="flex items-center gap-2 text-sm font-semibold text-slate-900">
                             <x-icon name="map-pin" class="h-5 w-5 shrink-0 text-rose-500" />
                             Clinique Juridique FSJP - UAM
@@ -260,24 +253,24 @@
         </div>
 
         {{-- ============ FAQ + SOCIAL ============ --}}
-        <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-5">
+        <div class="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
 
             <div class="lg:col-span-3">
                 <x-section-label>Questions fréquentes</x-section-label>
 
                 <div class="mt-5 space-y-3">
-                    <x-faq-item question="Comment puis-je bénéficier d'une assistance juridique ?">
+                    <x-faq-item :tint="true" question="Comment puis-je bénéficier d'une assistance juridique ?">
                         Vous pouvez vous présenter directement à nos permanences aux heures d'ouverture, ou remplir
                         le formulaire de pré-saisine en ligne. Après étude de votre demande, un étudiant clinicien
                         encadré prendra contact avec vous pour organiser la consultation.
                     </x-faq-item>
 
-                    <x-faq-item question="Quels sont vos horaires de consultation ?">
+                    <x-faq-item :tint="true" question="Quels sont vos horaires de consultation ?">
                         Les permanences se tiennent du lundi au vendredi de 08h00 à 16h00, et le samedi de 08h00
                         à 12h00. La Clinique est fermée le dimanche et les jours fériés.
                     </x-faq-item>
 
-                    <x-faq-item question="Puis-je vous contacter en dehors des heures d'ouverture ?">
+                    <x-faq-item :tint="true" question="Puis-je vous contacter en dehors des heures d'ouverture ?">
                         Oui. Vous pouvez nous écrire à tout moment par email ou via le formulaire de contact de
                         cette page. Votre demande sera traitée dès la réouverture de la Clinique.
                     </x-faq-item>
@@ -302,7 +295,7 @@
                             <a
                                 href="{{ $url ?? '#' }}"
                                 @if($url) target="_blank" rel="noopener noreferrer" @endif
-                                class="flex h-full flex-col items-center rounded-xl border border-slate-200 p-5 text-center transition-colors hover:border-primary-200 hover:bg-primary-50/40"
+                                class="flex h-full flex-col items-center rounded-xl border border-primary-100 bg-primary-50/60 p-5 text-center transition-colors hover:border-primary-200 hover:bg-primary-50"
                             >
                                 <svg class="h-8 w-8 {{ $channel['color'] }}" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="{{ $channel['path'] }}" />
@@ -328,15 +321,6 @@
         >
             Vous pouvez également faire une pré-saisine en ligne pour être orienté plus rapidement.
         </x-inline-cta>
-    </section>
-
-    {{-- ============ PARTENAIRES ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <x-eyebrow>Ils nous soutiennent</x-eyebrow>
-        <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
-        <div class="mt-8">
-            @include('partials.partners-grid')
-        </div>
     </section>
 
 @endsection

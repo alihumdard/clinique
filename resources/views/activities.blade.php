@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/news-caravan"
+        image="placeholders/webtv-show-hero"
         title="Activités et caravanes juridiques"
         subtitle="Aller vers les populations pour une justice plus proche de tous"
         :breadcrumb="[
@@ -75,7 +75,7 @@
 
             <ul class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 @foreach ($domains as $domain)
-                    <li class="rounded-lg border border-slate-200 bg-white p-5">
+                    <li class="rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:bg-primary-50/40 hover:shadow-md">
                         <span class="flex h-11 w-11 items-center justify-center rounded-full {{ $badgeColors[$domain['color']] }}">
                             <x-icon :name="$domain['icon']" class="h-5 w-5" />
                         </span>
@@ -154,17 +154,26 @@
             ];
         @endphp
 
-        <dl class="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-slate-200 sm:grid-cols-2 lg:grid-cols-4">
+        <dl class="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-slate-200 lg:grid-cols-4">
             @foreach ($impact as $item)
-                <div class="flex items-center gap-4 bg-primary-50/60 p-6">
-                    <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600">
-                        <x-icon :name="$item['icon']" class="h-6 w-6" />
+                <div class="flex items-center gap-3 bg-primary-50/60 p-4 sm:gap-4 sm:p-6">
+                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600 sm:h-12 sm:w-12">
+                        <x-icon :name="$item['icon']" class="h-5 w-5 sm:h-6 sm:w-6" />
                     </span>
-                    <div>
+                    <div class="min-w-0">
                         <dt class="sr-only">{{ $item['label'] }}</dt>
                         <dd>
-                            <span class="block text-2xl font-bold text-slate-900">{{ $item['value'] }}</span>
-                            <span class="mt-0.5 block text-sm text-slate-600">{{ $item['label'] }}</span>
+                            @php
+                                $numeric = (int) str_replace(' ', '', $item['value']);
+                                $suffix = preg_replace('/[\d\s]+/', '', $item['value']);
+                            @endphp
+                            <span
+                                class="block text-xl font-bold text-slate-900 sm:text-2xl"
+                                data-counter
+                                data-counter-target="{{ $numeric }}"
+                                data-counter-suffix="{{ $suffix }}"
+                            >0{{ $suffix }}</span>
+                            <span class="mt-0.5 block text-xs text-slate-600 sm:text-sm">{{ $item['label'] }}</span>
                         </dd>
                     </div>
                 </div>
