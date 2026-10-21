@@ -201,7 +201,7 @@
                 <div class="relative mt-5 overflow-hidden rounded-xl border border-slate-200">
                     <iframe
                         src="https://www.google.com/maps?q={{ urlencode('Faculté des Sciences Juridiques et Politiques, Université Abdou Moumouni, Niamey, Niger') }}&output=embed"
-                        class="aspect-[16/9] w-full border-0"
+                        class="aspect-[21/10] w-full border-0"
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"
                         title="Plan de localisation de la Clinique Juridique sur le campus de l'Université Abdou Moumouni"
