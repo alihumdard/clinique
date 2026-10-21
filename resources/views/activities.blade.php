@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/news-caravan"
+        image="placeholders/webtv-show-hero"
         title="Activités et caravanes juridiques"
         subtitle="Aller vers les populations pour une justice plus proche de tous"
         :breadcrumb="[
