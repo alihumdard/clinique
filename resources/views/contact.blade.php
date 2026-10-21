@@ -198,23 +198,16 @@
             <div class="lg:col-span-3">
                 <x-section-label>Notre localisation</x-section-label>
 
-                {{--
-                    Static map preview rather than an embedded map frame: an
-                    interactive embed pulls several hundred Ko and sets
-                    third-party cookies before the visitor asks for it.
-                    The button opens the real map on demand.
-                --}}
                 <div class="relative mt-5 overflow-hidden rounded-xl border border-slate-200">
-                    <x-picture
-                        path="placeholders/about-hero"
-                        alt="Plan de localisation de la Clinique Juridique sur le campus de l'Université Abdou Moumouni"
-                        width="900" height="500"
-                        class="aspect-[16/9] w-full object-cover"
-                    />
+                    <iframe
+                        src="https://www.google.com/maps?q={{ urlencode('Faculté des Sciences Juridiques et Politiques, Université Abdou Moumouni, Niamey, Niger') }}&output=embed"
+                        class="aspect-[16/9] w-full border-0"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Plan de localisation de la Clinique Juridique sur le campus de l'Université Abdou Moumouni"
+                    ></iframe>
 
-                    <div class="absolute inset-0 bg-slate-900/10"></div>
-
-                    <div class="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-between gap-3 bg-white/95 p-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-white p-4">
                         <p class="flex items-center gap-2 text-sm font-semibold text-slate-900">
                             <x-icon name="map-pin" class="h-5 w-5 shrink-0 text-rose-500" />
                             Clinique Juridique FSJP - UAM
