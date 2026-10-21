@@ -253,24 +253,24 @@
         </div>
 
         {{-- ============ FAQ + SOCIAL ============ --}}
-        <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-5">
+        <div class="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
 
             <div class="lg:col-span-3">
                 <x-section-label>Questions fréquentes</x-section-label>
 
                 <div class="mt-5 space-y-3">
-                    <x-faq-item question="Comment puis-je bénéficier d'une assistance juridique ?">
+                    <x-faq-item :tint="true" question="Comment puis-je bénéficier d'une assistance juridique ?">
                         Vous pouvez vous présenter directement à nos permanences aux heures d'ouverture, ou remplir
                         le formulaire de pré-saisine en ligne. Après étude de votre demande, un étudiant clinicien
                         encadré prendra contact avec vous pour organiser la consultation.
                     </x-faq-item>
 
-                    <x-faq-item question="Quels sont vos horaires de consultation ?">
+                    <x-faq-item :tint="true" question="Quels sont vos horaires de consultation ?">
                         Les permanences se tiennent du lundi au vendredi de 08h00 à 16h00, et le samedi de 08h00
                         à 12h00. La Clinique est fermée le dimanche et les jours fériés.
                     </x-faq-item>
 
-                    <x-faq-item question="Puis-je vous contacter en dehors des heures d'ouverture ?">
+                    <x-faq-item :tint="true" question="Puis-je vous contacter en dehors des heures d'ouverture ?">
                         Oui. Vous pouvez nous écrire à tout moment par email ou via le formulaire de contact de
                         cette page. Votre demande sera traitée dès la réouverture de la Clinique.
                     </x-faq-item>
