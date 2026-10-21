@@ -45,12 +45,12 @@
                 eyebrow="Nos partenaires institutionnels"
                 title="Institutions nationales"
                 :partners="[
-                    ['name' => 'Ministère de la Justice', 'subtitle' => 'Niger'],
-                    ['name' => 'Université Abdou Moumouni', 'subtitle' => 'Niamey'],
-                    ['name' => 'Cour d\'Appel de Niamey', 'subtitle' => 'Niger'],
-                    ['name' => 'Tribunal de Grande Instance', 'subtitle' => 'Niamey'],
-                    ['name' => 'Conseil Supérieur de la Magistrature', 'subtitle' => 'Niger'],
-                    ['name' => 'Ordre des Avocats du Niger', 'subtitle' => 'Niamey'],
+                    ['name' => 'Ministère de la Justice', 'subtitle' => 'Niger', 'logo' => 'uemf'],
+                    ['name' => 'Université Abdou Moumouni', 'subtitle' => 'Niamey', 'logo' => 'ministere-justice'],
+                    ['name' => 'Cour d\'Appel de Niamey', 'subtitle' => 'Niger', 'logo' => 'onu-femmes'],
+                    ['name' => 'Tribunal de Grande Instance', 'subtitle' => 'Niamey', 'logo' => 'amdh'],
+                    ['name' => 'Conseil Supérieur de la Magistrature', 'subtitle' => 'Niger', 'logo' => 'barreau-fes'],
+                    ['name' => 'Ordre des Avocats du Niger', 'subtitle' => 'Niamey', 'logo' => 'pndd'],
                 ]"
             />
         </div>
@@ -62,12 +62,12 @@
             eyebrow="Organisations internationales"
             title="Partenaires internationaux"
             :partners="[
-                ['name' => 'PNUD', 'subtitle' => 'Programme des Nations Unies pour le Développement'],
-                ['name' => 'UNICEF', 'subtitle' => 'Fonds des Nations Unies pour l\'enfance'],
-                ['name' => 'Union Européenne', 'subtitle' => 'Délégation au Niger'],
-                ['name' => 'AFD', 'subtitle' => 'Agence Française de Développement'],
-                ['name' => 'OIM', 'subtitle' => 'Organisation Internationale pour les Migrations'],
-                ['name' => 'CICR', 'subtitle' => 'Comité International de la Croix-Rouge'],
+                ['name' => 'PNUD', 'subtitle' => 'Programme des Nations Unies pour le Développement', 'logo' => 'uemf'],
+                ['name' => 'UNICEF', 'subtitle' => 'Fonds des Nations Unies pour l\'enfance', 'logo' => 'ministere-justice'],
+                ['name' => 'Union Européenne', 'subtitle' => 'Délégation au Niger', 'logo' => 'onu-femmes'],
+                ['name' => 'AFD', 'subtitle' => 'Agence Française de Développement', 'logo' => 'amdh'],
+                ['name' => 'OIM', 'subtitle' => 'Organisation Internationale pour les Migrations', 'logo' => 'barreau-fes'],
+                ['name' => 'CICR', 'subtitle' => 'Comité International de la Croix-Rouge', 'logo' => 'pndd'],
             ]"
         />
     </section>
@@ -79,19 +79,19 @@
                 eyebrow="ONG et associations"
                 title="Société civile et ONG"
                 :partners="[
-                    ['name' => 'ASF', 'subtitle' => 'Avocats Sans Frontières'],
-                    ['name' => 'Amnesty International', 'subtitle' => null],
-                    ['name' => 'Human Rights Watch', 'subtitle' => null],
-                    ['name' => 'Search for Common Ground', 'subtitle' => null],
-                    ['name' => 'ALIMA', 'subtitle' => 'The Alliance for International Medical Action'],
-                    ['name' => 'Plan International', 'subtitle' => null],
+                    ['name' => 'ASF', 'subtitle' => 'Avocats Sans Frontières', 'logo' => 'uemf'],
+                    ['name' => 'Amnesty International', 'subtitle' => null, 'logo' => 'ministere-justice'],
+                    ['name' => 'Human Rights Watch', 'subtitle' => null, 'logo' => 'onu-femmes'],
+                    ['name' => 'Search for Common Ground', 'subtitle' => null, 'logo' => 'amdh'],
+                    ['name' => 'ALIMA', 'subtitle' => 'The Alliance for International Medical Action', 'logo' => 'barreau-fes'],
+                    ['name' => 'Plan International', 'subtitle' => null, 'logo' => 'pndd'],
                 ]"
             />
         </div>
     </section>
 
     {{-- ============ INLINE CTA ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-12 lg:px-8 lg:pb-16">
+    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <x-inline-cta
             icon="users"
             title="Vous souhaitez devenir partenaire ?"

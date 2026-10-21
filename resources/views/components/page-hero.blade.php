@@ -22,7 +22,7 @@
             :eager="true"
             class="h-full w-full object-cover {{ $imagePosition }}"
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-900/30 to-transparent sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
+        <div class="absolute inset-0 bg-navy-950/60 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
     </div>
 
     <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">

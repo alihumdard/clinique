@@ -10,7 +10,7 @@
 
 <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
     @foreach ($partners as $partner)
-        <x-logo-placeholder size="lg" :name="$partner['name']" :subtitle="$partner['subtitle'] ?? null" />
+        <x-logo-placeholder size="lg" :name="$partner['name']" :subtitle="$partner['subtitle'] ?? null" :icon="$partner['icon'] ?? null" :logo="$partner['logo'] ?? null" />
     @endforeach
 </div>
 
