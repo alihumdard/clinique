@@ -157,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    initCounters();
+
     /* ── Admin dashboard functionality ───────────────────── */
     initAdminToast();
     initAdminSelectAll();
@@ -417,4 +419,52 @@ function initAdminSettingsTabs() {
             }
         });
     });
+}
+
+/* ── Animated stat counters (e.g. "Impact de nos activités") ─────────────
+   Counts up from 0 to the target value once the element scrolls into
+   view, then disconnects — no repeat animation on re-scroll. Respects
+   prefers-reduced-motion by jumping straight to the final value. */
+function initCounters() {
+    const counters = document.querySelectorAll('[data-counter]');
+    if (!counters.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const duration = 1200;
+
+    const animate = (el) => {
+        const target = parseInt(el.dataset.counterTarget, 10) || 0;
+        const suffix = el.dataset.counterSuffix || '';
+
+        if (prefersReducedMotion) {
+            el.textContent = target.toLocaleString('fr-FR') + suffix;
+            return;
+        }
+
+        const start = performance.now();
+
+        const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+            el.textContent = current.toLocaleString('fr-FR') + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            }
+        };
+
+        requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animate(entry.target);
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+
+    counters.forEach(el => observer.observe(el));
 }

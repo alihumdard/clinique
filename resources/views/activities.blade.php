@@ -163,7 +163,16 @@
                     <div>
                         <dt class="sr-only">{{ $item['label'] }}</dt>
                         <dd>
-                            <span class="block text-2xl font-bold text-slate-900">{{ $item['value'] }}</span>
+                            @php
+                                $numeric = (int) str_replace(' ', '', $item['value']);
+                                $suffix = preg_replace('/[\d\s]+/', '', $item['value']);
+                            @endphp
+                            <span
+                                class="block text-2xl font-bold text-slate-900"
+                                data-counter
+                                data-counter-target="{{ $numeric }}"
+                                data-counter-suffix="{{ $suffix }}"
+                            >0{{ $suffix }}</span>
                             <span class="mt-0.5 block text-sm text-slate-600">{{ $item['label'] }}</span>
                         </dd>
                     </div>
