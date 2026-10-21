@@ -20,7 +20,7 @@
         {{-- ============ CONTACT REASONS ============ --}}
         @php
             $reasons = [
-                ['icon' => 'ear', 'title' => 'Informations générales', 'text' => 'Des renseignements sur nos services et nos activités.'],
+                ['icon' => 'headset', 'title' => 'Informations générales', 'text' => 'Des renseignements sur nos services et nos activités.'],
                 ['icon' => 'document', 'title' => "Demande d'assistance", 'text' => "Un besoin d'orientation juridique ou de pré-saisine."],
                 ['icon' => 'handshake', 'title' => 'Partenariats', 'text' => 'Des collaborations pour soutenir nos actions.'],
                 ['icon' => 'users', 'title' => 'Recrutement', 'text' => "Des opportunités de stage, volontariat ou emploi."],
@@ -29,8 +29,8 @@
 
         <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($reasons as $reason)
-                <li class="rounded-xl bg-primary-50/60 p-6 text-center">
-                    <x-icon-badge class="mx-auto !bg-white">
+                <li class="group rounded-xl bg-primary-50/60 p-6 text-center transition-transform duration-300 hover:scale-105">
+                    <x-icon-badge class="mx-auto !bg-white transition-transform duration-300 group-hover:scale-110">
                         <x-icon :name="$reason['icon']" class="h-6 w-6" />
                     </x-icon-badge>
                     <h2 class="mt-4 text-base font-bold text-slate-900">{{ $reason['title'] }}</h2>
