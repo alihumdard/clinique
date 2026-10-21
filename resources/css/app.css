@@ -77,6 +77,12 @@ select,
         color: var(--color-primary-600) !important;
     }
 
+    a.text-primary-700:visited,
+    a.text-primary-700:visited *,
+    a:visited [class~="text-primary-700"] {
+        color: var(--color-primary-700) !important;
+    }
+
     a.text-blue-700:visited,
     a.text-blue-700:visited *,
     a:visited [class~="text-blue-700"] {
