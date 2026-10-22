@@ -10,7 +10,7 @@
     'eager' => false,
 ])
 
-<picture>
+<picture class="contents">
     <source srcset="{{ asset('images/' . $path . '.webp') }}" type="image/webp">
     <img
         src="{{ asset('images/' . $path . '.jpg') }}"

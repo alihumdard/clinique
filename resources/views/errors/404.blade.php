@@ -14,6 +14,7 @@
             width="2170" height="725"
             class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
         />
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
 
         <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:py-24">
 
