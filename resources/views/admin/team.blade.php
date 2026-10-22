@@ -32,8 +32,8 @@
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                <div class="flex flex-wrap items-center gap-3 p-5">
-                    <form role="search" class="relative w-full min-w-[12rem] flex-1 sm:w-auto sm:max-w-xs">
+                <div class="space-y-3 p-5">
+                    <form role="search" class="relative w-full lg:max-w-xs">
                         <label for="team-search" class="sr-only">Rechercher un membre</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -55,24 +55,26 @@
                         ];
                     @endphp
 
-                    @foreach ($selects as $select)
-                        <div class="shrink-0">
-                            <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
-                            <select
-                                id="{{ $select['id'] }}"
-                                class="rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                                @foreach ($select['options'] as $option)
-                                    <option>{{ $option }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endforeach
+                    <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
+                        @foreach ($selects as $select)
+                            <div class="min-w-0">
+                                <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
+                                <select
+                                    id="{{ $select['id'] }}"
+                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                                >
+                                    @foreach ($select['options'] as $option)
+                                        <option>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endforeach
 
-                    <button type="button" class="inline-flex shrink-0 items-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50">
-                        <x-icon name="filter" class="h-4 w-4" />
-                        Filtrer
-                    </button>
+                        <button type="button" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                            <x-icon name="filter" class="h-4 w-4" />
+                            Filtrer
+                        </button>
+                    </div>
                 </div>
 
                 @php
