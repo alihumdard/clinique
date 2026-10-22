@@ -86,7 +86,9 @@
 
 <aside
     id="admin-sidebar"
-    class="fixed inset-y-0 left-0 z-40 flex w-72 -translate-x-full flex-col bg-navy-900 shadow-xl transition-transform duration-200 lg:w-64 lg:translate-x-0 lg:shadow-none"
+    {{-- h-screen, not inset-y-0: an explicit height is what gives the nav
+         below a real box to scroll inside. --}}
+    class="fixed left-0 top-0 z-40 flex h-screen w-72 -translate-x-full flex-col bg-navy-900 shadow-xl transition-transform duration-200 lg:w-64 lg:translate-x-0 lg:shadow-none"
     aria-label="Navigation de l'administration"
 >
     {{-- Brand: fixed height so the nav below gets the rest --}}
@@ -106,7 +108,7 @@
         <button
             type="button"
             id="admin-sidebar-close"
-            class="ml-auto shrink-0 rounded-lg p-1.5 text-slate-400 transition hover:bg-white/10 hover:text-white lg:hidden"
+            class="ml-auto shrink-0 rounded-lg p-1.5 text-slate-200 transition hover:bg-white/10 hover:text-white lg:hidden"
             aria-label="Fermer le menu"
         >
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -119,10 +121,10 @@
         The nav scrolls on its own when the list outruns the viewport;
         overscroll-contain stops the page behind it scrolling too.
     --}}
-    <nav class="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
+    <nav class="sidebar-scroll flex-1 overflow-y-auto overscroll-contain px-3 py-4">
         @foreach ($navGroups as $group)
             @if($group['label'])
-                <p class="px-3 pb-2 pt-4 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-300">
                     {{ $group['label'] }}
                 </p>
             @endif
@@ -140,11 +142,11 @@
                         <a
                             href="{{ $linkTo($item['route']) }}"
                             @if($isActive) aria-current="page" @endif
-                            class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition {{ $isOpen ? 'bg-primary-600 font-semibold text-white shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white' }}"
+                            class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition {{ $isOpen ? 'bg-primary-600 font-semibold text-white shadow-sm' : 'text-slate-100 hover:bg-white/10 hover:text-white' }}"
                         >
                             <x-icon
                                 :name="$item['icon']"
-                                class="h-5 w-5 shrink-0 {{ $isOpen ? 'text-white' : 'text-slate-400 group-hover:text-white' }}"
+                                class="h-5 w-5 shrink-0 {{ $isOpen ? 'text-white' : 'text-slate-300 group-hover:text-white' }}"
                             />
                             <span class="min-w-0 flex-1 truncate">{{ $item['label'] }}</span>
 
@@ -164,9 +166,9 @@
                                         <a
                                             href="{{ $linkTo($child['route']) }}"
                                             @if($childActive) aria-current="page" @endif
-                                            class="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition {{ $childActive ? 'bg-white/10 font-semibold text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}"
+                                            class="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition {{ $childActive ? 'bg-white/10 font-semibold text-white' : 'text-slate-200 hover:bg-white/5 hover:text-white' }}"
                                         >
-                                            <span class="h-1.5 w-1.5 shrink-0 rounded-full {{ $childActive ? 'bg-primary-400' : 'bg-slate-600' }}" aria-hidden="true"></span>
+                                            <span class="h-1.5 w-1.5 shrink-0 rounded-full {{ $childActive ? 'bg-primary-400' : 'bg-slate-400' }}" aria-hidden="true"></span>
                                             <span class="min-w-0 truncate">{{ $child['label'] }}</span>
                                         </a>
                                     </li>
@@ -185,7 +187,7 @@
             href="{{ route('home') }}"
             target="_blank"
             rel="noopener"
-            class="flex items-center gap-2 px-5 py-3 text-sm text-slate-400 transition hover:bg-white/5 hover:text-white"
+            class="flex items-center gap-2 px-5 py-3 text-sm text-slate-200 transition hover:bg-white/5 hover:text-white"
         >
             <x-icon name="globe" class="h-4 w-4 shrink-0" />
             Retour au site public
@@ -201,7 +203,7 @@
 
             <div class="min-w-0 flex-1">
                 <p class="truncate text-sm font-semibold text-white">{{ auth()->user()?->name ?? 'Administrateur' }}</p>
-                <p class="truncate text-xs text-slate-400">{{ auth()->user()?->email }}</p>
+                <p class="truncate text-xs text-slate-300">{{ auth()->user()?->email }}</p>
             </div>
 
             {{-- POST: signing out changes state, so it must not be reachable by a link --}}
@@ -210,7 +212,7 @@
                 <button
                     type="submit"
                     aria-label="Se déconnecter"
-                    class="shrink-0 rounded-lg p-1.5 text-slate-400 transition hover:bg-white/10 hover:text-rose-300"
+                    class="shrink-0 rounded-lg p-1.5 text-slate-200 transition hover:bg-white/10 hover:text-rose-300"
                 >
                     <x-icon name="logout" class="h-5 w-5" />
                 </button>
