@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
         // real Clinic data during development, and requires production
         // passwords to be at least 12 characters and changed at first login.
         User::updateOrCreate(
-            ['email' => 'admin@clinique-fsjp.ne'],
+            ['email' => 'clinique@gmail.com'],
             [
                 'name' => 'Administrateur',
-                'password' => Hash::make('ClinicAdmin2025!'),
+                'password' => Hash::make('password'),
             ]
         );
     }
