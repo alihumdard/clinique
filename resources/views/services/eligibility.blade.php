@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/about-hero"
+        image="placeholders/eligibility-hero"
         title="Conditions d'accès et gratuité"
         subtitle="Une justice accessible à tous, sans discrimination"
         :breadcrumb="[
