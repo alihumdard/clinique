@@ -152,7 +152,7 @@
                                         <x-admin.badge :tone="$guide['tone']">{{ $guide['category'] }}</x-admin.badge>
                                     </td>
 
-                                    <td class="px-3 py-3">
+                                    <td class="whitespace-nowrap px-3 py-3">
                                         <span class="flex items-start gap-1.5">
                                             <x-icon name="document" class="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />
                                             <span class="leading-tight">
