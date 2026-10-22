@@ -20,7 +20,10 @@
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
             <div class="lg:col-span-2">
-                <x-eyebrow>Notre engagement</x-eyebrow>
+                <div class="flex items-center gap-2.5">
+                    <span class="h-0.5 w-6 shrink-0 bg-amber-400" aria-hidden="true"></span>
+                    <x-eyebrow>Notre engagement</x-eyebrow>
+                </div>
                 <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
                     Une assistance juridique gratuite et ouverte à tous
                 </h2>
@@ -32,7 +35,7 @@
                 </p>
             </div>
 
-            <x-quote-card attribution="Notre mission au service de la population">
+            <x-quote-card attribution="Notre mission au service de la population" :tint="true">
                 « Rendre le droit plus accessible à toutes et à tous, en particulier aux personnes les plus vulnérables. »
             </x-quote-card>
         </div>
