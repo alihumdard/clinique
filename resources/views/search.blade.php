@@ -224,7 +224,7 @@
                             'href' => route('activities.index'),
                         ],
                         [
-                            'image' => 'placeholders/about-legal',
+                            'image' => 'placeholders/search-services-gavel',
                             'type' => 'Page',
                             'title' => 'Nos services juridiques',
                             'excerpt' => "La Clinique Juridique offre des services d'information, d'orientation et d'assistance juridique, notamment en matière de droits des femmes...",
