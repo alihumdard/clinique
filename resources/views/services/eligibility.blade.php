@@ -82,15 +82,15 @@
 
     {{-- ============ LA GRATUITE (split) ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
+        <div class="grid grid-cols-1 gap-6 rounded-xl border border-primary-100 bg-primary-50/60 p-2 lg:grid-cols-2 lg:items-center lg:gap-0 lg:p-0">
             <x-picture
                 path="placeholders/gratuite-image"
                 alt="Balance de la justice et avocat signant un document"
                 width="700" height="500"
-                class="aspect-[4/3] w-full rounded-xl object-cover"
+                class="aspect-[4/3] w-full rounded-lg object-cover lg:aspect-auto lg:h-full lg:rounded-none lg:rounded-l-xl"
             />
 
-            <div class="rounded-xl border border-primary-100 bg-primary-50/60 p-6">
+            <div class="p-4 lg:p-8">
                 <x-eyebrow>La gratuité</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900">Des services entièrement gratuits</h2>
                 <p class="mt-3 max-w-lg text-sm leading-relaxed text-slate-600">
@@ -107,7 +107,7 @@
                     <x-compact-checklist-item icon="gavel">Soutien dans la recherche de solutions</x-compact-checklist-item>
                 </div>
 
-                <div class="-mx-6 -mb-6 mt-6 flex items-start gap-3 rounded-b-xl bg-primary-100/50 p-4">
+                <div class="-mx-4 -mb-4 mt-6 flex items-start gap-3 rounded-b-lg bg-primary-100/50 p-4 lg:-mx-8 lg:-mb-8 lg:rounded-bl-none lg:rounded-br-xl">
                     <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-primary-600" />
                     <p class="text-sm leading-relaxed text-slate-700">
                         La gratuité de nos services s'inscrit dans notre mission de service public et de
