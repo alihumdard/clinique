@@ -110,9 +110,7 @@
                         href="{{ route($shortcut['route']) }}"
                         class="group flex items-center gap-3 rounded-lg bg-primary-50/60 p-4 transition-colors hover:bg-primary-50"
                     >
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-primary-600">
-                            <x-icon :name="$shortcut['icon']" class="h-5 w-5" />
-                        </span>
+                        <x-icon :name="$shortcut['icon']" class="h-6 w-6 shrink-0 text-primary-600" />
 
                         <span class="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900 group-hover:text-primary-600">
                             {{ $shortcut['label'] }}
