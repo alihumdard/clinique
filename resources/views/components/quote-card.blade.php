@@ -1,7 +1,7 @@
 @props(['attribution' => null, 'tint' => false])
 
 <div @class([
-    'rounded-xl border p-6',
+    'rounded-xl border border-l-4 border-l-amber-400 p-6',
     'border-primary-100 bg-primary-50/60' => $tint,
     'border-slate-200 bg-white' => !$tint,
 ])>
