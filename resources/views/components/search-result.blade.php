@@ -24,14 +24,14 @@
     ];
 @endphp
 
-<article class="group flex items-stretch gap-4 border-b border-slate-100 py-5 last:border-0">
+<article class="group flex flex-col gap-4 border-b border-slate-100 py-5 last:border-0 sm:flex-row sm:items-stretch">
     @if($image)
         <a href="{{ $href }}" class="relative block shrink-0">
             <x-picture
                 :path="$image"
                 alt=""
                 width="320" height="200"
-                class="h-full w-32 rounded-lg object-cover sm:w-36"
+                class="h-40 w-full rounded-lg object-cover sm:h-full sm:w-36"
             />
 
             @if($video)

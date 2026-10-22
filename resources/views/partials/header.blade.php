@@ -166,6 +166,13 @@
                 </a>
             @endif
         @endforeach
+        <a
+            href="{{ route('search') }}"
+            class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+        >
+            <x-icon name="search" class="h-4 w-4" />
+            Rechercher
+        </a>
         <x-button :href="route('presaisine.index')" variant="primary" class="mt-1 w-full justify-center !rounded-full">Pré-saisine</x-button>
     </nav>
 </header>
