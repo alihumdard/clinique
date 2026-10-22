@@ -65,7 +65,7 @@
             'label' => 'Personnes',
             'items' => [
                 ['label' => 'Équipe',      'icon' => 'users',     'route' => 'admin.team'],
-                ['label' => 'Partenaires', 'icon' => 'handshake', 'route' => 'admin.partners'],
+                ['label' => 'Partenaires', 'icon' => 'globe', 'route' => 'admin.partners'],
             ],
         ],
         [
@@ -120,9 +120,13 @@
 
     {{--
         The nav scrolls on its own when the list outruns the viewport;
-        overscroll-contain stops the page behind it scrolling too.
+        overscroll-contain stops the page behind it scrolling too. The
+        wrapper is relative so the fade below can hint there's more to
+        scroll to — on a phone/tablet drawer the thin custom scrollbar
+        alone wasn't a strong enough cue that "Administration" existed.
     --}}
-    <nav class="admin-sidebar-scroll flex-1 overflow-y-auto overscroll-contain px-3 py-4">
+    <div class="relative min-h-0 flex-1">
+        <nav class="admin-sidebar-scroll h-full overflow-y-auto overscroll-contain px-3 py-4">
         @foreach ($navGroups as $group)
             @if($group['label'])
                 <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-300">
@@ -199,7 +203,9 @@
                 @endforeach
             </ul>
         @endforeach
-    </nav>
+        </nav>
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#0b1f38] to-transparent" aria-hidden="true"></div>
+    </div>
 
     {{-- Footer: fixed, never scrolls away from the sign-out control --}}
     <div class="shrink-0 border-t border-white/10">

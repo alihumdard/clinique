@@ -24,7 +24,7 @@
 
     @include('admin.partials.topbar')
 
-    <main id="admin-content" class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+    <main id="admin-content" class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
         @yield('content')
     </main>
 </div>

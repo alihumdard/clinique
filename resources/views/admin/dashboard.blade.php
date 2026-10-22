@@ -37,7 +37,7 @@
     {{-- ============ CHARTS ============ --}}
     <div class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-3">
 
-        <section class="rounded-xl border border-slate-200 bg-white p-5 xl:col-span-2">
+        <section class="min-w-0 rounded-xl border border-slate-200 bg-white p-5 xl:col-span-2">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="chart-bar" class="h-5 w-5 text-primary-600" />
@@ -96,7 +96,7 @@
     {{-- ============ RECENT LISTS ============ --}}
     <div class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-3">
 
-        <section class="rounded-xl border border-slate-200 bg-white xl:col-span-2">
+        <section class="min-w-0 rounded-xl border border-slate-200 bg-white xl:col-span-2">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 p-5">
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="document" class="h-5 w-5 text-primary-600" />
@@ -134,17 +134,17 @@
 
                     <tbody class="divide-y divide-slate-100">
                         @foreach ($latest as $i => $row)
-                            <tr class="hover:bg-slate-50">
-                                <td class="px-5 py-3.5 text-sm text-slate-500">{{ $i + 1 }}</td>
-                                <td class="px-5 py-3.5 text-sm font-medium text-slate-900">{{ $row['title'] }}</td>
-                                <td class="px-5 py-3.5">
+                            <tr class="align-middle hover:bg-slate-50">
+                                <td class="px-5 py-3.5 align-middle text-sm text-slate-500">{{ $i + 1 }}</td>
+                                <td class="px-5 py-3.5 align-middle text-sm font-medium text-slate-900">{{ $row['title'] }}</td>
+                                <td class="px-5 py-3.5 align-middle">
                                     <span class="inline-block rounded px-2 py-0.5 text-xs font-medium {{ $row['color'] }}">{{ $row['category'] }}</span>
                                 </td>
-                                <td class="px-5 py-3.5">
+                                <td class="px-5 py-3.5 align-middle">
                                     <span class="inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Publié</span>
                                 </td>
-                                <td class="px-5 py-3.5 text-sm text-slate-500">{{ $row['date'] }}</td>
-                                <td class="px-5 py-3.5">
+                                <td class="px-5 py-3.5 align-middle text-sm text-slate-500">{{ $row['date'] }}</td>
+                                <td class="px-5 py-3.5 align-middle">
                                     <x-admin.row-actions :label="$row['title']" :duplicate="false" />
                                 </td>
                             </tr>
