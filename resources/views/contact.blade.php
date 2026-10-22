@@ -31,7 +31,11 @@
             @foreach ($reasons as $reason)
                 <li class="group rounded-xl bg-primary-50/60 p-6 text-center transition-transform duration-300 hover:scale-105">
                     <x-icon-badge class="mx-auto !bg-white transition-transform duration-300 group-hover:scale-110">
-                        <x-icon :name="$reason['icon']" class="h-6 w-6" />
+                        @if($reason['icon'] === 'handshake')
+                            <img src="{{ asset('images/icons/handshake.png') }}" alt="" class="h-6 w-6" aria-hidden="true">
+                        @else
+                            <x-icon :name="$reason['icon']" class="h-6 w-6" />
+                        @endif
                     </x-icon-badge>
                     <h2 class="mt-4 text-base font-bold text-slate-900">{{ $reason['title'] }}</h2>
                     <p class="mt-1.5 text-sm leading-relaxed text-slate-600">{{ $reason['text'] }}</p>
