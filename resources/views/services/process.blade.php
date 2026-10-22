@@ -40,7 +40,7 @@
                         @if(!$loop->last)
                             <div class="absolute left-full top-4 hidden w-4 border-t-2 border-dashed border-primary-200 lg:block"></div>
                         @endif
-                        <div class="flex min-h-[340px] flex-col rounded-lg border border-primary-100 bg-primary-50/60 p-5">
+                        <div class="flex flex-col rounded-lg border border-primary-100 bg-primary-50/60 p-5">
                             <div class="flex items-center gap-2">
                                 <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
                                     {{ $step['number'] }}
@@ -49,9 +49,9 @@
                                     <x-icon :name="$step['icon']" class="h-4 w-4" />
                                 </span>
                             </div>
-                            <p class="mt-4 text-sm font-semibold text-slate-900">{{ $step['title'] }}</p>
-                            <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600">{{ $step['text'] }}</p>
-                            <p class="mt-4 flex items-center gap-1.5 text-xs text-slate-500">
+                            <p class="mt-3.5 text-sm font-semibold text-slate-900">{{ $step['title'] }}</p>
+                            <p class="mt-1.5 text-xs leading-relaxed text-slate-600">{{ $step['text'] }}</p>
+                            <p class="mt-3.5 flex items-center gap-1.5 text-xs text-slate-500">
                                 <x-icon name="clock" class="h-3.5 w-3.5 shrink-0" />
                                 Durée : {{ $step['duration'] }}
                             </p>
