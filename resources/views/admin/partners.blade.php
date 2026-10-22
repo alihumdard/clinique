@@ -156,7 +156,7 @@
                                         <x-admin.badge :tone="$partner['statusTone']">{{ $partner['status'] }}</x-admin.badge>
                                     </td>
 
-                                    <td class="px-3 py-3 text-sm leading-tight text-slate-500">
+                                    <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
                                         {{ $partner['date'] }}<br>
                                         <span class="text-xs">{{ $partner['time'] }}</span>
                                     </td>

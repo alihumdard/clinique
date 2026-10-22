@@ -148,7 +148,7 @@
                                 <td class="px-5 py-3.5 align-middle">
                                     <span class="inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Publié</span>
                                 </td>
-                                <td class="px-5 py-3.5 align-middle text-sm text-slate-500">{{ $row['date'] }}</td>
+                                <td class="whitespace-nowrap px-5 py-3.5 align-middle text-sm text-slate-500">{{ $row['date'] }}</td>
                                 <td class="px-5 py-3.5 align-middle">
                                     <x-admin.row-actions :label="$row['title']" :duplicate="false" />
                                 </td>

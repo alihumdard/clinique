@@ -141,7 +141,7 @@
                                         </span>
                                     </td>
 
-                                    <td class="px-3 py-3 text-sm leading-tight text-slate-500">
+                                    <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
                                         {{ $letter['date'] }}<br>
                                         <span class="text-xs">{{ $letter['time'] }}</span>
                                     </td>

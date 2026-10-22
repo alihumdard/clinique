@@ -158,10 +158,16 @@
                                     <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 11-1.06 1.06l-1.17-1.17V19.5a1.5 1.5 0 01-1.5 1.5h-3a.75.75 0 01-.75-.75V15a.75.75 0 00-.75-.75h-1.5a.75.75 0 00-.75.75v5.25a.75.75 0 01-.75.75h-3a1.5 1.5 0 01-1.5-1.5v-7.07l-1.17 1.17a.75.75 0 11-1.06-1.06l8.69-8.69z" />
                                 </svg>
                             @elseif(!empty($item['filled']) && $item['icon'] === 'play-circle')
-                                {{-- Filled play button: the shared play-circle path is outline-only --}}
+                                {{--
+                                    Filled play button: the shared play-circle path is
+                                    outline-only. The triangle is fixed to the sidebar's
+                                    own dark navy rather than white, so it still reads
+                                    against the circle once .is-active forces the circle
+                                    itself (currentColor) to white.
+                                --}}
                                 <svg class="admin-nav-icon h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <circle cx="12" cy="12" r="10" />
-                                    <path d="M10 8.5l6 3.5-6 3.5z" fill="#fff" />
+                                    <path d="M10 8.5l6 3.5-6 3.5z" fill="#0b1f38" />
                                 </svg>
                             @else
                                 <x-icon
