@@ -13,7 +13,3 @@
         <x-logo-placeholder size="lg" :name="$partner['name']" :subtitle="$partner['subtitle'] ?? null" :icon="$partner['icon'] ?? null" :logo="$partner['logo'] ?? null" />
     @endforeach
 </div>
-
-<div class="mt-4 sm:hidden">
-    <x-button :href="route('partners')" variant="text">Voir tous les partenaires</x-button>
-</div>
