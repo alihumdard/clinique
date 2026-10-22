@@ -127,7 +127,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[42rem] text-left">
                     <thead>
-                        <tr class="border-b border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <tr class="whitespace-nowrap border-b border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="px-5 py-3">#</th>
                             <th scope="col" class="px-5 py-3">Titre</th>
                             <th scope="col" class="px-5 py-3">Catégorie</th>

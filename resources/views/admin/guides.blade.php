@@ -100,7 +100,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[64rem] text-left">
                         <thead>
-                            <tr class="border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 <th scope="col" class="w-12 px-5 py-3">
                                     <input
                                         type="checkbox"
