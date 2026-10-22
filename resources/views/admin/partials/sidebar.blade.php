@@ -94,16 +94,18 @@
 >
     {{-- Brand: fixed height so the nav below gets the rest --}}
     <div class="flex shrink-0 items-center gap-3 border-b border-white/10 px-5 py-4">
-        <img
-            src="{{ asset('images/brand/logo.png') }}"
-            alt=""
-            class="h-10 w-10 shrink-0 rounded-full bg-white/10 object-cover"
-            width="40" height="40"
-        >
-        <span class="min-w-0 leading-tight text-white">
-            <span class="block truncate text-sm font-bold tracking-wide">CLINIQUE JURIDIQUE</span>
-            <span class="block truncate text-sm font-bold tracking-wide">FSJP - UAM</span>
-        </span>
+        <a href="{{ route('home') }}" target="_blank" rel="noopener" class="flex min-w-0 items-center gap-3">
+            <img
+                src="{{ asset('images/brand/logo.png') }}"
+                alt=""
+                class="h-10 w-10 shrink-0 rounded-full bg-white/10 object-cover"
+                width="40" height="40"
+            >
+            <span class="min-w-0 leading-tight text-white">
+                <span class="block truncate text-sm font-bold tracking-wide">CLINIQUE JURIDIQUE</span>
+                <span class="block truncate text-sm font-bold tracking-wide">FSJP - UAM</span>
+            </span>
+        </a>
 
         {{-- Close control for the mobile drawer; the backdrop also closes it --}}
         <button

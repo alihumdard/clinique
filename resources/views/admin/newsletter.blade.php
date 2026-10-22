@@ -55,7 +55,7 @@
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
                         @foreach ($selects as $select)
-                            <div class="min-w-0">
+                            <div class="min-w-0 sm:shrink-0">
                                 <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
                                 <select
                                     id="{{ $select['id'] }}"
