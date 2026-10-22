@@ -16,7 +16,7 @@
     ];
 @endphp
 
-<nav {{ $attributes->merge(['class' => 'overflow-hidden rounded-xl bg-slate-50']) }} aria-label="Pages légales">
+<nav {{ $attributes->merge(['class' => 'overflow-hidden rounded-xl bg-primary-50/60']) }} aria-label="Pages légales">
     <ul>
         @foreach ($links as $link)
             @php
@@ -30,7 +30,7 @@
                 <a
                     href="{{ $href }}"
                     @if($isCurrent) aria-current="page" @endif
-                    class="flex items-center gap-3 px-5 py-3.5 text-sm {{ $isCurrent ? 'bg-primary-600 font-semibold text-white' : 'text-slate-600 hover:bg-slate-100' }}"
+                    class="flex items-center gap-3 px-5 py-3.5 text-sm {{ $isCurrent ? 'bg-primary-700 font-semibold text-white' : 'text-slate-600 hover:bg-primary-100/60' }}"
                 >
                     <x-icon :name="$link['icon']" class="h-5 w-5 shrink-0 {{ $isCurrent ? 'text-white' : 'text-slate-400' }}" />
                     {{ $link['label'] }}

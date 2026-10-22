@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/about-legal"
+        image="placeholders/legal-scales-gavel"
         title="Mentions légales"
         subtitle="Informations légales relatives à l'utilisation du site web de la Clinique Juridique FSJP-UAM."
         :breadcrumb="[
