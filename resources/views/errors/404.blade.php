@@ -5,32 +5,10 @@
 
 @section('content')
 
-    <section class="relative overflow-hidden">
-
-        {{--
-            Decorative illustration backdrop. The source is a very wide
-            (2170x725) illustration whose important elements — the scales
-            and the paper plane — sit near its left/right edges. On phones
-            (section taller than wide) a plain object-cover <img> crops
-            the sides, which is fine since the art is purely decorative
-            there. From sm: up the section is wide enough that we instead
-            scale the image to full width and let any vertical overflow
-            sit on a matching light background, so nothing gets cropped
-            off the sides and no gap shows if the image is shorter than
-            the section.
-        --}}
-        <div class="pointer-events-none absolute inset-0 hidden bg-white sm:block" aria-hidden="true"></div>
-        <div
-            class="pointer-events-none absolute inset-x-0 top-1/2 hidden aspect-[2170/725] w-full -translate-y-1/2 bg-cover bg-center sm:block"
-            style="background-image: url('{{ asset('images/placeholders/404-illustration.jpg') }}')"
-            aria-hidden="true"
-        ></div>
-        <x-picture
-            path="placeholders/404-illustration"
-            alt=""
-            width="2170" height="725"
-            class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center sm:hidden"
-        />
+    <section
+        class="relative overflow-hidden bg-cover bg-center"
+        style="background-image: url('{{ asset('images/placeholders/404-illustration.jpg') }}')"
+    >
         <div class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
 
         <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:py-24">
