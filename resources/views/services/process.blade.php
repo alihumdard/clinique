@@ -40,18 +40,18 @@
                         @if(!$loop->last)
                             <div class="absolute left-full top-4 hidden w-4 border-t-2 border-dashed border-primary-200 lg:block"></div>
                         @endif
-                        <div class="flex h-full flex-col rounded-lg border border-primary-100 bg-primary-50/60 p-4">
+                        <div class="flex h-full flex-col rounded-lg border border-primary-100 bg-primary-50/60 p-5">
                             <div class="flex items-center gap-2">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-600 text-xs font-bold text-white">
+                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
                                     {{ $step['number'] }}
                                 </span>
-                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-primary-600">
+                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-primary-600">
                                     <x-icon :name="$step['icon']" class="h-4 w-4" />
                                 </span>
                             </div>
-                            <p class="mt-2.5 text-sm font-semibold text-slate-900">{{ $step['title'] }}</p>
-                            <p class="mt-1 flex-1 text-xs leading-snug text-slate-600">{{ $step['text'] }}</p>
-                            <p class="mt-2.5 flex items-center gap-1.5 text-xs text-slate-500">
+                            <p class="mt-3.5 text-sm font-semibold text-slate-900">{{ $step['title'] }}</p>
+                            <p class="mt-1.5 flex-1 text-xs leading-relaxed text-slate-600">{{ $step['text'] }}</p>
+                            <p class="mt-3.5 flex items-center gap-1.5 text-xs text-slate-500">
                                 <x-icon name="clock" class="h-3.5 w-3.5 shrink-0" />
                                 Durée : {{ $step['duration'] }}
                             </p>
@@ -66,7 +66,7 @@
                     <h3 class="text-base font-bold text-slate-900">À retenir</h3>
                 </div>
 
-                <div class="mt-4 space-y-4">
+                <div class="mt-4 space-y-3.5">
                     <x-checklist-item icon="gift" title="Service gratuit">
                         Aucun frais n'est demandé pour les consultations.
                     </x-checklist-item>
