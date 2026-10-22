@@ -81,23 +81,23 @@
 
     {{-- ============ NOTRE ENGAGEMENT ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 gap-8 rounded-xl border border-slate-200 bg-white p-2 lg:grid-cols-2 lg:items-center lg:gap-0 lg:p-0">
+        <div class="grid grid-cols-1 gap-6 rounded-xl border border-primary-100 bg-primary-50/60 p-2 lg:grid-cols-2 lg:items-center lg:gap-0 lg:p-0">
             <x-picture
                 path="placeholders/scales-gavel-engagement"
                 alt="Balance de la justice et marteau de juge"
-                width="700" height="500"
-                class="aspect-[4/3] w-full rounded-lg object-cover lg:aspect-auto lg:h-full lg:rounded-none lg:rounded-l-xl"
+                width="700" height="400"
+                class="aspect-[16/10] w-full rounded-lg object-cover lg:aspect-auto lg:h-full lg:max-h-72 lg:rounded-none lg:rounded-l-xl"
             />
 
-            <div class="p-4 lg:p-10">
+            <div class="p-4 lg:p-8">
                 <x-eyebrow>Notre engagement</x-eyebrow>
-                <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900">Une justice plus proche</h2>
-                <p class="mt-3 max-w-md text-sm leading-relaxed text-slate-600">
+                <h2 class="mt-2 text-xl font-bold leading-tight text-slate-900 sm:text-2xl">Une justice plus proche</h2>
+                <p class="mt-2.5 max-w-md text-sm leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM s'engage à rendre le droit plus accessible et à renforcer
                     la culture juridique au Niger, à travers un accompagnement de proximité, humain et de qualité.
                 </p>
 
-                <div class="mt-6 flex flex-wrap items-center gap-5">
+                <div class="mt-4 flex flex-wrap items-center gap-5">
                     <x-inline-icon-label icon="ear" label="Écoute" />
                     <x-inline-icon-label icon="chat" label="Conseil" />
                     <x-inline-icon-label icon="heart" label="Accompagnement" />
