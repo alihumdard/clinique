@@ -172,7 +172,7 @@
                                 data-counter
                                 data-counter-target="{{ $numeric }}"
                                 data-counter-suffix="{{ $suffix }}"
-                            >0{{ $suffix }}</span>
+                            >{{ $item['value'] }}</span>
                             <span class="mt-0.5 block text-xs text-slate-600 sm:text-sm">{{ $item['label'] }}</span>
                         </dd>
                     </div>
