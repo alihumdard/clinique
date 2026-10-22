@@ -6,7 +6,12 @@
             ['label' => 'Notre équipe', 'route' => 'about.team'],
             ['label' => 'Nos partenaires', 'route' => 'partners'],
         ]],
-        ['label' => 'Services', 'route' => 'services'],
+        ['label' => 'Services', 'route' => 'services', 'children' => [
+            ['label' => 'Nos services', 'route' => 'services'],
+            ['label' => 'Processus de consultation', 'route' => 'services.process'],
+            ['label' => "Conditions d'accès et gratuité", 'route' => 'services.eligibility'],
+            ['label' => 'Tarifs administratifs', 'route' => 'services.fees'],
+        ]],
         ['label' => 'Actualités', 'route' => 'news.index'],
         ['label' => 'Ressources', 'route' => 'resources.guides', 'children' => [
             ['label' => 'Fiches pratiques juridiques', 'route' => 'resources.guides'],
