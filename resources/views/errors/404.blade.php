@@ -6,7 +6,7 @@
 @section('content')
 
     <section
-        class="relative overflow-hidden bg-cover bg-center"
+        class="relative overflow-hidden bg-top bg-no-repeat bg-[length:100%_auto] lg:bg-center lg:bg-cover"
         style="background-image: url('{{ asset('images/placeholders/404-illustration.jpg') }}')"
     >
         <div class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
