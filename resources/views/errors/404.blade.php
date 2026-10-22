@@ -7,12 +7,17 @@
 
     <section class="relative overflow-hidden">
 
-        {{-- Decorative illustration backdrop, provided by the reference mockup --}}
+        {{--
+            Decorative illustration backdrop: sized to full width (not full
+            height) so the scales/plane near the left and right edges never
+            get cropped out — any overflow is trimmed top/bottom instead,
+            which is just empty sky/snow in the source image.
+        --}}
         <x-picture
             path="placeholders/404-illustration"
             alt=""
             width="2170" height="725"
-            class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+            class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center sm:h-auto sm:w-full sm:-translate-y-1/2 sm:top-1/2"
         />
         <div class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
 
