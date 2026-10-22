@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/about-hero"
+        image="placeholders/fees-hero"
         title="Tarifs administratifs"
         subtitle="Des frais administratifs transparents et accessibles"
         :breadcrumb="[
