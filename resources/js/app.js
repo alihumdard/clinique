@@ -136,23 +136,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminSidebar = document.getElementById('admin-sidebar');
     const adminToggle = document.getElementById('admin-sidebar-toggle');
     const adminBackdrop = document.getElementById('admin-sidebar-backdrop');
+    const adminClose = document.getElementById('admin-sidebar-close');
 
     if (adminSidebar && adminToggle) {
         const setDrawer = (open) => {
             adminSidebar.classList.toggle('-translate-x-full', !open);
             adminToggle.setAttribute('aria-expanded', String(open));
             adminBackdrop?.classList.toggle('hidden', !open);
+
+            // Stop the page scrolling behind the open drawer.
+            document.body.classList.toggle('overflow-hidden', open);
+
+            // Move focus into the drawer when it opens, back to the button
+            // when it closes, so keyboard users are never left adrift.
+            if (open) {
+                adminSidebar.querySelector('a, button')?.focus();
+            } else if (document.activeElement && adminSidebar.contains(document.activeElement)) {
+                adminToggle.focus();
+            }
         };
 
         adminToggle.addEventListener('click', () => {
             setDrawer(adminSidebar.classList.contains('-translate-x-full'));
         });
 
+        adminClose?.addEventListener('click', () => setDrawer(false));
         adminBackdrop?.addEventListener('click', () => setDrawer(false));
 
         // Escape closes the drawer, matching normal dialog behaviour.
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') setDrawer(false);
+        });
+
+        // Returning to desktop width leaves the drawer state behind.
+        window.matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
+            if (event.matches) {
+                adminBackdrop?.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
         });
     }
 });
