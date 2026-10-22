@@ -25,14 +25,14 @@
         [
             'label' => null,
             'items' => [
-                ['label' => 'Tableau de bord', 'icon' => 'home', 'route' => 'admin.dashboard'],
+                ['label' => 'Tableau de bord', 'icon' => 'home', 'filled' => true, 'route' => 'admin.dashboard'],
             ],
         ],
         [
             'label' => 'Contenus',
             'items' => [
                 ['label' => 'Actualités',       'icon' => 'document',    'route' => 'admin.news'],
-                ['label' => 'Web TV',           'icon' => 'play-circle', 'route' => 'admin.webtv'],
+                ['label' => 'Web TV',           'icon' => 'play-circle', 'filled' => true, 'route' => 'admin.webtv'],
                 ['label' => 'Fiches pratiques', 'icon' => 'book',        'route' => 'admin.guides'],
                 ['label' => 'Rapports annuels', 'icon' => 'chart-bar',   'route' => 'admin.reports'],
                 [
@@ -148,10 +148,23 @@
                                 'is-active' => $isOpen,
                             ])
                         >
-                            <x-icon
-                                :name="$item['icon']"
-                                class="admin-nav-icon h-5 w-5 shrink-0"
-                            />
+                            @if(!empty($item['filled']) && $item['icon'] === 'home')
+                                {{-- Filled house: the shared `home` path is outline-only --}}
+                                <svg class="admin-nav-icon h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 11-1.06 1.06l-1.17-1.17V19.5a1.5 1.5 0 01-1.5 1.5h-3a.75.75 0 01-.75-.75V15a.75.75 0 00-.75-.75h-1.5a.75.75 0 00-.75.75v5.25a.75.75 0 01-.75.75h-3a1.5 1.5 0 01-1.5-1.5v-7.07l-1.17 1.17a.75.75 0 11-1.06-1.06l8.69-8.69z" />
+                                </svg>
+                            @elseif(!empty($item['filled']) && $item['icon'] === 'play-circle')
+                                {{-- Filled play button: the shared play-circle path is outline-only --}}
+                                <svg class="admin-nav-icon h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M10 8.5l6 3.5-6 3.5z" fill="#fff" />
+                                </svg>
+                            @else
+                                <x-icon
+                                    :name="$item['icon']"
+                                    class="admin-nav-icon h-5 w-5 shrink-0"
+                                />
+                            @endif
                             <span class="min-w-0 flex-1 truncate">{{ $item['label'] }}</span>
 
                             @if(count($children))
