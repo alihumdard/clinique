@@ -34,28 +34,23 @@
                 ];
             @endphp
 
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 @foreach ($timelineSteps as $step)
-                    <div class="relative">
-                        @if(!$loop->last)
-                            <div class="absolute left-full top-4 hidden w-4 border-t-2 border-dashed border-primary-200 lg:block"></div>
-                        @endif
-                        <div class="flex flex-col rounded-lg border border-primary-100 bg-primary-50/60 p-5">
-                            <div class="flex items-center gap-2">
-                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
-                                    {{ $step['number'] }}
-                                </span>
-                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-primary-600">
-                                    <x-icon :name="$step['icon']" class="h-4 w-4" />
-                                </span>
-                            </div>
-                            <p class="mt-3.5 text-sm font-semibold text-slate-900">{{ $step['title'] }}</p>
-                            <p class="mt-1.5 text-xs leading-relaxed text-slate-600">{{ $step['text'] }}</p>
-                            <p class="mt-3.5 flex items-center gap-1.5 text-xs text-slate-500">
-                                <x-icon name="clock" class="h-3.5 w-3.5 shrink-0" />
-                                Durée : {{ $step['duration'] }}
-                            </p>
+                    <div class="flex flex-col rounded-lg border border-primary-100 bg-primary-50/60 p-5">
+                        <div class="flex items-center gap-2">
+                            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
+                                {{ $step['number'] }}
+                            </span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-primary-600">
+                                <x-icon :name="$step['icon']" class="h-4 w-4" />
+                            </span>
                         </div>
+                        <p class="mt-3.5 text-sm font-semibold text-slate-900">{{ $step['title'] }}</p>
+                        <p class="mt-1.5 text-xs leading-relaxed text-slate-600">{{ $step['text'] }}</p>
+                        <p class="mt-3.5 flex items-center gap-1.5 text-xs text-slate-500">
+                            <x-icon name="clock" class="h-3.5 w-3.5 shrink-0" />
+                            Durée : {{ $step['duration'] }}
+                        </p>
                     </div>
                 @endforeach
             </div>
