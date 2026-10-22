@@ -7,45 +7,13 @@
 
     <section class="relative overflow-hidden bg-primary-50/40">
 
-        {{--
-            Decorative backdrop as inline SVG rather than an image: it costs
-            no extra request, scales to any screen and stays crisp. Hidden
-            from assistive tech since it carries no information.
-        --}}
-        <svg
-            class="pointer-events-none absolute inset-0 h-full w-full text-primary-100"
-            viewBox="0 0 1200 500"
-            preserveAspectRatio="xMidYMid slice"
-            fill="currentColor"
-            aria-hidden="true"
-            focusable="false"
-        >
-            <path d="M0 360c120-40 200 20 320-10s180-90 300-70 200 110 330 80 180-70 250-60v160H0z" opacity=".55" />
-            <circle cx="150" cy="120" r="46" opacity=".5" />
-            <circle cx="1040" cy="150" r="34" opacity=".5" />
-            <circle cx="930" cy="90" r="18" opacity=".45" />
-            <ellipse cx="300" cy="95" rx="60" ry="22" opacity=".45" />
-
-            {{-- Scales of justice, bottom-left --}}
-            <g transform="translate(70 300)" opacity=".6" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="40" y1="10" x2="40" y2="140" />
-                <line x1="0" y1="140" x2="80" y2="140" />
-                <line x1="0" y1="30" x2="80" y2="30" />
-                <line x1="0" y1="30" x2="-24" y2="75" />
-                <line x1="0" y1="30" x2="24" y2="75" />
-                <path d="M-24 75a24 20 0 0048 0z" />
-                <line x1="80" y1="30" x2="56" y2="75" />
-                <line x1="80" y1="30" x2="104" y2="75" />
-                <path d="M56 75a24 20 0 0048 0z" />
-                <circle cx="40" cy="10" r="8" fill="currentColor" stroke="none" />
-            </g>
-            <rect x="60" y="440" width="100" height="18" rx="3" opacity=".6" />
-            <rect x="68" y="420" width="84" height="18" rx="3" opacity=".6" />
-
-            {{-- Paper plane with dashed trail, top-right --}}
-            <path d="M980 160c40-30 90-55 140-70" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".7" />
-            <path d="M1120 80l-34 10 6 16 8-10 4 22z" opacity=".7" />
-        </svg>
+        {{-- Decorative illustration backdrop, provided by the reference mockup --}}
+        <x-picture
+            path="placeholders/404-illustration"
+            alt=""
+            width="2170" height="725"
+            class="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
 
         <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:py-24">
 
