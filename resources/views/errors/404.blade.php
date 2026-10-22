@@ -78,7 +78,15 @@
                         href="{{ route($shortcut['route']) }}"
                         class="group flex items-center gap-3 rounded-lg bg-primary-50/60 p-4 transition-colors hover:bg-primary-50"
                     >
-                        <x-icon :name="$shortcut['icon']" class="h-6 w-6 shrink-0 text-primary-600" />
+                        @if($shortcut['icon'] === 'play-circle')
+                            {{-- Filled play button: the shared play-circle path is outline-only and used by admin pages, so this one stays local --}}
+                            <svg class="h-6 w-6 shrink-0 text-primary-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M10 8.5l6 3.5-6 3.5z" fill="white" />
+                            </svg>
+                        @else
+                            <x-icon :name="$shortcut['icon']" class="h-6 w-6 shrink-0 text-primary-600" />
+                        @endif
 
                         <span class="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900 group-hover:text-primary-600">
                             {{ $shortcut['label'] }}
