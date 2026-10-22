@@ -162,12 +162,7 @@
                                     </td>
 
                                     <td class="px-5 py-3">
-                                        {{-- This screen swaps "duplicate" for a gallery shortcut --}}
-                                        <x-admin.row-actions
-                                            :label="$activity['title']"
-                                            :duplicate="false"
-                                            gallery-href="{{ route('admin.gallery') }}"
-                                        />
+                                        <x-admin.row-actions :label="$activity['title']" />
                                     </td>
                                 </tr>
                             @endforeach

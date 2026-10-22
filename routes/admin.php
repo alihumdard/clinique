@@ -34,12 +34,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::view('/pages', 'admin.pages')->name('pages');
         Route::view('/pages/nouvelle', 'admin.pages')->name('pages.create');
         Route::view('/pages/categories', 'admin.pages')->name('pages.categories');
-        Route::view('/medias', 'admin.media')->name('media');
-        Route::view('/appels-candidatures', 'admin.calls')->name('calls');
-        Route::view('/candidatures', 'admin.applications')->name('applications');
-        Route::view('/galerie', 'admin.gallery')->name('gallery');
-        Route::view('/utilisateurs', 'admin.users')->name('users');
-        Route::view('/commentaires', 'admin.comments')->name('comments');
         Route::view('/actualites', 'admin.news')->name('news');
         Route::view('/web-tv', 'admin.webtv')->name('webtv');
         Route::view('/partenaires', 'admin.partners')->name('partners');

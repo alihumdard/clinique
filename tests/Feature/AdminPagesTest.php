@@ -169,4 +169,32 @@ class AdminPagesTest extends TestCase
             ->get('/admin/login')
             ->assertRedirect(route('admin.dashboard'));
     }
+
+    /**
+     * Every GET route under /admin must render. A route pointing at a view
+     * that was never built raises a 500 the moment someone clicks it in the
+     * sidebar, which is how six dead links reached the server.
+     */
+    public function test_every_admin_get_route_renders(): void
+    {
+        $this->actingAs($this->admin());
+
+        $routes = collect(\Illuminate\Support\Facades\Route::getRoutes())
+            ->filter(fn ($route) => str_starts_with($route->uri(), 'admin')
+                && in_array('GET', $route->methods(), true)
+                && ! str_contains($route->uri(), '{'));
+
+        $this->assertGreaterThan(10, $routes->count(), 'Expected the admin routes to be registered.');
+
+        foreach ($routes as $route) {
+            $uri = '/'.$route->uri();
+            $status = $this->get($uri)->getStatusCode();
+
+            $this->assertContains(
+                $status,
+                [200, 302],
+                "{$uri} returned {$status}; a sidebar link that errors is a dead screen."
+            );
+        }
+    }
 }

@@ -14,6 +14,13 @@
      * group expands while one of its routes is active. Screens still to be
      * built resolve to the dashboard rather than producing a dead link.
      */
+    /*
+     * The twelve screens the Phase 2 plan lists, grouped by the work they
+     * belong to. Items are added here only once their screen exists —
+     * Médias, Candidatures, Utilisateurs and Commentaires were in the
+     * dashboard mockup but are not in the approved inventory, and linking
+     * to them raised a 500.
+     */
     $navGroups = [
         [
             'label' => null,
@@ -38,7 +45,6 @@
                         ['label' => 'Catégories',       'route' => 'admin.pages.categories'],
                     ],
                 ],
-                ['label' => 'Médias', 'icon' => 'image', 'route' => 'admin.media'],
             ],
         ],
         [
@@ -51,7 +57,6 @@
                     'children' => [
                         ['label' => 'Toutes les activités', 'route' => 'admin.activities'],
                         ['label' => 'Ajouter une activité', 'route' => 'admin.activities.create'],
-                        ['label' => 'Galerie photos',       'route' => 'admin.gallery'],
                     ],
                 ],
             ],
@@ -59,18 +64,14 @@
         [
             'label' => 'Personnes',
             'items' => [
-                ['label' => 'Appels à candidatures', 'icon' => 'megaphone',  'route' => 'admin.calls'],
-                ['label' => 'Candidatures',          'icon' => 'user-plus',  'route' => 'admin.applications'],
-                ['label' => 'Équipe',                'icon' => 'users',      'route' => 'admin.team'],
-                ['label' => 'Partenaires',           'icon' => 'handshake',  'route' => 'admin.partners'],
-                ['label' => 'Commentaires',          'icon' => 'chat',       'route' => 'admin.comments'],
+                ['label' => 'Équipe',      'icon' => 'users',     'route' => 'admin.team'],
+                ['label' => 'Partenaires', 'icon' => 'handshake', 'route' => 'admin.partners'],
             ],
         ],
         [
             'label' => 'Administration',
             'items' => [
                 ['label' => 'Newsletter',         'icon' => 'mail',     'route' => 'admin.newsletter'],
-                ['label' => 'Utilisateurs',       'icon' => 'lock',     'route' => 'admin.users'],
                 ['label' => 'Paramètres du site', 'icon' => 'settings', 'route' => 'admin.settings'],
             ],
         ],
