@@ -6,7 +6,7 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/signing-document"
+        image="placeholders/privacy-security"
         title="Politique de confidentialité"
         subtitle="La Clinique Juridique FSJP-UAM s'engage à protéger vos données personnelles et à respecter votre vie privée."
         :breadcrumb="[
