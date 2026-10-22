@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/join-hero"
+        image-position="object-right"
         title="Rejoindre la Clinique"
         title-line2="Appels à candidatures"
         subtitle="Rejoignez une équipe engagée pour la promotion de l'accès au droit et la justice au service des populations."
