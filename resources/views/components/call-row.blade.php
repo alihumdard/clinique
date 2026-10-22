@@ -19,7 +19,7 @@
         :path="$image"
         :alt="$title"
         width="400" height="300"
-        class="h-44 w-full shrink-0 object-cover sm:h-auto sm:w-56"
+        class="h-44 w-full shrink-0 object-cover sm:h-full sm:w-56"
     />
 
     <div class="flex flex-1 flex-col p-5">
