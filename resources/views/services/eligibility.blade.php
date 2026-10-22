@@ -107,7 +107,7 @@
                     <x-compact-checklist-item icon="gavel">Soutien dans la recherche de solutions</x-compact-checklist-item>
                 </div>
 
-                <div class="mt-6 flex items-start gap-3 rounded-lg bg-white/70 p-4">
+                <div class="mt-6 flex items-start gap-3 border-t border-primary-100 pt-4">
                     <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-primary-600" />
                     <p class="text-sm leading-relaxed text-slate-700">
                         La gratuité de nos services s'inscrit dans notre mission de service public et de
