@@ -56,8 +56,13 @@ select,
    colour randomly tint some of them blue depending on browsing history. Links
    should only ever take colour from the classes we give them. */
 @layer utilities {
-    a:visited,
-    a:visited * {
+    /* `inherit` takes the colour from the PARENT, not from the link's own
+       class, so inside a dark panel a visited link inherited the panel's
+       dark text colour and turned near-black on navy. Scoping this to the
+       public site keeps the original fix where it was needed and leaves the
+       admin sidebar's own classes in charge. */
+    body:not(.admin-shell) a:visited,
+    body:not(.admin-shell) a:visited * {
         color: inherit !important;
     }
 
@@ -65,31 +70,31 @@ select,
        blue on outline, blue-700 on the "voir tout" pills, white captions and
        icons over a photo) and must keep that colour even after the link --
        the link itself or one of its descendants -- has been visited. */
-    a.text-white:visited,
-    a.text-white:visited *,
-    a:visited [class~="text-white"] {
+    body:not(.admin-shell) a.text-white:visited,
+    body:not(.admin-shell) a.text-white:visited *,
+    body:not(.admin-shell) a:visited [class~="text-white"] {
         color: #fff !important;
     }
 
-    a.text-primary-600:visited,
-    a.text-primary-600:visited *,
-    a:visited [class~="text-primary-600"] {
+    body:not(.admin-shell) a.text-primary-600:visited,
+    body:not(.admin-shell) a.text-primary-600:visited *,
+    body:not(.admin-shell) a:visited [class~="text-primary-600"] {
         color: var(--color-primary-600) !important;
     }
 
-    a.text-primary-700:visited,
-    a.text-primary-700:visited *,
-    a:visited [class~="text-primary-700"] {
+    body:not(.admin-shell) a.text-primary-700:visited,
+    body:not(.admin-shell) a.text-primary-700:visited *,
+    body:not(.admin-shell) a:visited [class~="text-primary-700"] {
         color: var(--color-primary-700) !important;
     }
 
-    a.text-blue-700:visited,
-    a.text-blue-700:visited *,
-    a:visited [class~="text-blue-700"] {
+    body:not(.admin-shell) a.text-blue-700:visited,
+    body:not(.admin-shell) a.text-blue-700:visited *,
+    body:not(.admin-shell) a:visited [class~="text-blue-700"] {
         color: var(--color-blue-700) !important;
     }
 
-    a:visited [class~="text-white/80"] {
+    body:not(.admin-shell) a:visited [class~="text-white/80"] {
         color: rgb(255 255 255 / 0.8) !important;
     }
 }
@@ -129,4 +134,94 @@ select,
 }
 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
     background-color: rgb(255 255 255 / 0.4);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Admin sidebar
+
+   Written as explicit rules rather than utility classes because the
+   sidebar's links kept losing their colour: a site-wide `a:visited`
+   utility set `color: inherit !important`, so once a link had been
+   visited it took the panel's own dark colour and went near-black on
+   navy. These rules are specific enough to hold, and keep the palette
+   in one place.
+
+   Three text levels, nothing dimmer: white for an active label,
+   slate-200 at rest, slate-400 for group headings.
+   ───────────────────────────────────────────────────────────────────── */
+.admin-sidebar {
+    background-color: #0b1f38;
+}
+
+.admin-sidebar .admin-nav-link,
+.admin-sidebar .admin-nav-link:visited {
+    color: #e2e8f0;                 /* slate-200 */
+}
+.admin-sidebar .admin-nav-link .admin-nav-icon {
+    color: #94a3b8;                 /* slate-400 */
+}
+
+.admin-sidebar .admin-nav-link:hover,
+.admin-sidebar .admin-nav-link:focus-visible {
+    background-color: rgb(255 255 255 / 0.08);
+    color: #fff;
+}
+.admin-sidebar .admin-nav-link:hover .admin-nav-icon,
+.admin-sidebar .admin-nav-link:focus-visible .admin-nav-icon {
+    color: #fff;
+}
+
+/* The active row is the one accent in the panel. */
+.admin-sidebar .admin-nav-link.is-active,
+.admin-sidebar .admin-nav-link.is-active:visited,
+.admin-sidebar .admin-nav-link.is-active:hover {
+    background-color: var(--color-primary-600);
+    color: #fff;
+    font-weight: 600;
+}
+.admin-sidebar .admin-nav-link.is-active .admin-nav-icon {
+    color: #fff;
+}
+
+.admin-sidebar .admin-nav-sublink,
+.admin-sidebar .admin-nav-sublink:visited {
+    color: #cbd5e1;                 /* slate-300 */
+}
+.admin-sidebar .admin-nav-sublink .admin-nav-dot {
+    background-color: #64748b;      /* slate-500 */
+}
+.admin-sidebar .admin-nav-sublink:hover,
+.admin-sidebar .admin-nav-sublink:focus-visible {
+    background-color: rgb(255 255 255 / 0.06);
+    color: #fff;
+}
+.admin-sidebar .admin-nav-sublink.is-active,
+.admin-sidebar .admin-nav-sublink.is-active:visited {
+    background-color: rgb(255 255 255 / 0.1);
+    color: #fff;
+    font-weight: 600;
+}
+.admin-sidebar .admin-nav-sublink.is-active .admin-nav-dot,
+.admin-sidebar .admin-nav-sublink:hover .admin-nav-dot {
+    background-color: var(--color-primary-400);
+}
+
+/* A default Windows scrollbar is an opaque grey bar drawn over the panel:
+   it covered the labels and made them look faded. This one sits inside. */
+.admin-sidebar-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.2) transparent;
+}
+.admin-sidebar-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.admin-sidebar-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.admin-sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: rgb(255 255 255 / 0.2);
+    border-radius: 3px;
+}
+.admin-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255 255 255 / 0.35);
 }

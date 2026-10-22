@@ -88,7 +88,7 @@
     id="admin-sidebar"
     {{-- h-screen, not inset-y-0: an explicit height is what gives the nav
          below a real box to scroll inside. --}}
-    class="fixed left-0 top-0 z-40 flex h-screen w-72 -translate-x-full flex-col bg-navy-900 shadow-xl transition-transform duration-200 lg:w-64 lg:translate-x-0 lg:shadow-none"
+    class="admin-sidebar fixed left-0 top-0 z-40 flex h-screen w-72 -translate-x-full flex-col shadow-xl transition-transform duration-200 lg:w-64 lg:translate-x-0 lg:shadow-none"
     aria-label="Navigation de l'administration"
 >
     {{-- Brand: fixed height so the nav below gets the rest --}}
@@ -121,7 +121,7 @@
         The nav scrolls on its own when the list outruns the viewport;
         overscroll-contain stops the page behind it scrolling too.
     --}}
-    <nav class="sidebar-scroll flex-1 overflow-y-auto overscroll-contain px-3 py-4">
+    <nav class="admin-sidebar-scroll flex-1 overflow-y-auto overscroll-contain px-3 py-4">
         @foreach ($navGroups as $group)
             @if($group['label'])
                 <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-300">
@@ -142,11 +142,14 @@
                         <a
                             href="{{ $linkTo($item['route']) }}"
                             @if($isActive) aria-current="page" @endif
-                            class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition {{ $isOpen ? 'bg-primary-600 font-semibold text-white shadow-sm' : 'text-slate-100 hover:bg-white/10 hover:text-white' }}"
+                            @class([
+                                'admin-nav-link group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition',
+                                'is-active' => $isOpen,
+                            ])
                         >
                             <x-icon
                                 :name="$item['icon']"
-                                class="h-5 w-5 shrink-0 {{ $isOpen ? 'text-white' : 'text-slate-300 group-hover:text-white' }}"
+                                class="admin-nav-icon h-5 w-5 shrink-0"
                             />
                             <span class="min-w-0 flex-1 truncate">{{ $item['label'] }}</span>
 
@@ -166,9 +169,12 @@
                                         <a
                                             href="{{ $linkTo($child['route']) }}"
                                             @if($childActive) aria-current="page" @endif
-                                            class="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition {{ $childActive ? 'bg-white/10 font-semibold text-white' : 'text-slate-200 hover:bg-white/5 hover:text-white' }}"
+                                            @class([
+                                                'admin-nav-sublink flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition',
+                                                'is-active' => $childActive,
+                                            ])
                                         >
-                                            <span class="h-1.5 w-1.5 shrink-0 rounded-full {{ $childActive ? 'bg-primary-400' : 'bg-slate-400' }}" aria-hidden="true"></span>
+                                            <span class="admin-nav-dot h-1.5 w-1.5 shrink-0 rounded-full" aria-hidden="true"></span>
                                             <span class="min-w-0 truncate">{{ $child['label'] }}</span>
                                         </a>
                                     </li>
@@ -187,9 +193,9 @@
             href="{{ route('home') }}"
             target="_blank"
             rel="noopener"
-            class="flex items-center gap-2 px-5 py-3 text-sm text-slate-200 transition hover:bg-white/5 hover:text-white"
+            class="admin-nav-link flex items-center gap-2.5 px-5 py-3 text-sm transition"
         >
-            <x-icon name="globe" class="h-4 w-4 shrink-0" />
+            <x-icon name="globe" class="admin-nav-icon h-4 w-4 shrink-0" />
             Retour au site public
             <svg class="ml-auto h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />

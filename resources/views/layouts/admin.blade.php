@@ -9,7 +9,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-50">
+<body class="admin-shell min-h-screen bg-slate-50">
 
 {{--
     The sidebar is position:fixed, so it sits outside the page flow: it
