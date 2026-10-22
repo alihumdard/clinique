@@ -33,7 +33,7 @@
             <section class="rounded-xl border border-slate-200 bg-white">
 
                 <div class="flex flex-wrap items-center gap-3 p-5">
-                    <form role="search" class="relative min-w-0 flex-1 sm:max-w-xs">
+                    <form role="search" class="relative w-full min-w-[12rem] flex-1 sm:w-auto sm:max-w-xs">
                         <label for="team-search" class="sr-only">Rechercher un membre</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -108,7 +108,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Photo</th>
-                                <th scope="col" class="px-3 py-3">Nom complet</th>
+                                <th scope="col" class="min-w-[14rem] px-3 py-3">Nom complet</th>
                                 <th scope="col" class="px-3 py-3">Poste / Fonction</th>
                                 <th scope="col" class="px-3 py-3">Département</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>

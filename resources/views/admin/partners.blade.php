@@ -33,7 +33,7 @@
             <section class="rounded-xl border border-slate-200 bg-white">
 
                 <div class="flex flex-wrap items-center gap-3 p-5">
-                    <form role="search" class="relative min-w-0 flex-1 sm:max-w-xs">
+                    <form role="search" class="relative w-full min-w-[12rem] flex-1 sm:w-auto sm:max-w-xs">
                         <label for="partners-search" class="sr-only">Rechercher un partenaire</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -113,7 +113,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Logo</th>
-                                <th scope="col" class="px-3 py-3">Nom du partenaire</th>
+                                <th scope="col" class="min-w-[14rem] px-3 py-3">Nom du partenaire</th>
                                 <th scope="col" class="px-3 py-3">Catégorie</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
                                 <th scope="col" class="px-3 py-3">Date d'ajout</th>

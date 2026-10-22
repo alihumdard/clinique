@@ -44,7 +44,7 @@
                     />
 
                     <div class="flex shrink-0 flex-wrap items-center gap-3">
-                        <form role="search" class="relative min-w-0 flex-1 sm:w-56">
+                        <form role="search" class="relative w-full min-w-[12rem] flex-1 sm:w-56">
                             <label for="activities-search" class="sr-only">Rechercher une activité</label>
                             <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                                 <x-icon name="search" class="h-4 w-4" />
@@ -98,7 +98,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Image</th>
-                                <th scope="col" class="px-3 py-3">Titre de l'activité</th>
+                                <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de l'activité</th>
                                 <th scope="col" class="px-3 py-3">Type</th>
                                 <th scope="col" class="px-3 py-3">Lieu</th>
                                 <th scope="col" class="px-3 py-3">Date</th>
