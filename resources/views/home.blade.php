@@ -7,6 +7,10 @@
 
 @section('content')
 
+{{-- ============ SERVICE STATUS ============ --}}
+{{-- Module 2 drives the state and message from CMS settings. --}}
+<x-service-status-banner state="open" />
+
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-primary-50">
     {{-- Photo (full-bleed to viewport edge, independent of the content max-width) --}}
@@ -153,6 +157,101 @@
                 <p class="text-sm font-semibold text-slate-800">{{ $item['label'] }}</p>
             </div>
         @endforeach
+    </div>
+</section>
+
+{{-- ============ LEGAL DOMAINS ============ --}}
+{{--
+    The plan asks for each academic heading to carry a plain-language
+    restatement, so a visitor can tell whether their problem is covered
+    without knowing the legal vocabulary.
+--}}
+<section class="bg-slate-50 py-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <x-eyebrow>Nos domaines d'intervention</x-eyebrow>
+        <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Dans quels domaines pouvons-nous vous aider ?</h2>
+        <p class="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
+            Nos étudiants encadrés vous informent et vous orientent dans les principaux domaines du droit.
+            Si votre situation n'apparaît pas ici, contactez-nous : nous vous orienterons vers le bon interlocuteur.
+        </p>
+
+        @php
+            $domains = [
+                ['icon' => 'users',          'title' => 'Droit de la famille',   'plain' => 'Mariage, divorce, filiation, garde des enfants',       'color' => 'blue'],
+                ['icon' => 'map-pin',        'title' => 'Droit foncier',         'plain' => 'Terrains, titres de propriété, litiges de voisinage',  'color' => 'amber'],
+                ['icon' => 'handshake',      'title' => 'Droit du travail',      'plain' => 'Contrats, licenciement, salaires impayés',             'color' => 'green'],
+                ['icon' => 'gavel',          'title' => 'Droit pénal',           'plain' => 'Plaintes, garde à vue, droits de la défense',          'color' => 'red'],
+                ['icon' => 'building',       'title' => 'Droit administratif',   'plain' => "Démarches et recours face à l'administration",         'color' => 'purple'],
+                ['icon' => 'document',       'title' => "Droit de l'état civil", 'plain' => 'Actes de naissance, de mariage, de décès',             'color' => 'blue'],
+                ['icon' => 'heart',          'title' => 'Droits humains',        'plain' => 'Femmes, enfants, personnes en situation de handicap',  'color' => 'red'],
+                ['icon' => 'folder',         'title' => 'Successions',           'plain' => 'Héritage, partage des biens, droits des héritiers',    'color' => 'amber'],
+            ];
+
+            $domainSwatches = [
+                'blue'   => 'bg-primary-50 text-primary-600',
+                'green'  => 'bg-emerald-50 text-emerald-600',
+                'amber'  => 'bg-amber-50 text-amber-600',
+                'red'    => 'bg-rose-50 text-rose-600',
+                'purple' => 'bg-violet-50 text-violet-600',
+            ];
+        @endphp
+
+        <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            @foreach ($domains as $domain)
+                <li class="rounded-xl border border-slate-200 bg-white p-5 transition hover:shadow-md">
+                    <span class="flex h-11 w-11 items-center justify-center rounded-full {{ $domainSwatches[$domain['color']] }}">
+                        <x-icon :name="$domain['icon']" class="h-5 w-5" />
+                    </span>
+                    <h3 class="mt-4 text-base font-semibold text-slate-900">{{ $domain['title'] }}</h3>
+                    {{-- The plain-language line is the point of this card. --}}
+                    <p class="mt-1.5 text-sm leading-relaxed text-slate-600">{{ $domain['plain'] }}</p>
+                </li>
+            @endforeach
+        </ul>
+
+        <div class="mt-8">
+            <x-button :href="route('services')" variant="outline">Découvrir tous nos services</x-button>
+        </div>
+    </div>
+</section>
+
+{{-- ============ HOW IT WORKS ============ --}}
+<section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <x-eyebrow>Comment ça marche</x-eyebrow>
+    <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Quatre étapes, de votre demande à la réponse</h2>
+
+    @php
+        $steps = [
+            ['icon' => 'document',    'title' => 'Vous décrivez votre situation', 'text' => "En ligne via la pré-saisine, ou directement à l'accueil pendant les permanences."],
+            ['icon' => 'search',      'title' => 'Nous étudions votre demande',   'text' => "Un étudiant clinicien encadré examine votre dossier et vérifie sa recevabilité."],
+            ['icon' => 'users',       'title' => 'Vous êtes reçu en consultation', 'text' => "Un rendez-vous est fixé dans nos locaux à Niamey pour approfondir votre situation."],
+            ['icon' => 'check-circle','title' => 'Vous recevez une orientation',  'text' => "Une réponse écrite, validée par un encadrant, vous informe de vos droits et démarches."],
+        ];
+    @endphp
+
+    <ol class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        @foreach ($steps as $i => $step)
+            <li class="relative flex flex-col rounded-xl border border-slate-200 bg-white p-6">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white">
+                    {{ $i + 1 }}
+                </span>
+                <x-icon :name="$step['icon']" class="mt-4 h-6 w-6 text-primary-600" />
+                <h3 class="mt-3 text-base font-semibold text-slate-900">{{ $step['title'] }}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-slate-600">{{ $step['text'] }}</p>
+            </li>
+        @endforeach
+    </ol>
+
+    <div class="mt-8">
+        <x-inline-cta
+            variant="dark"
+            icon="paper-plane"
+            title="Prêt à nous soumettre votre situation ?"
+            button-label="Faire une pré-saisine"
+            :button-href="route('presaisine.index')"
+        >
+            La pré-saisine est gratuite et vous oriente en quelques minutes vers la bonne démarche.
+        </x-inline-cta>
     </div>
 </section>
 
@@ -394,6 +493,192 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</section>
+
+{{-- ============ ACTIVITIES ============ --}}
+<section class="bg-slate-50 py-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <x-section-heading :link="route('activities.index')" link-label="Voir toutes les activités">
+            Activités et caravanes juridiques
+        </x-section-heading>
+
+        <p class="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
+            Nous allons à la rencontre des populations, y compris dans les zones rurales et périurbaines.
+        </p>
+
+        @php
+            $homeActivities = [
+                [
+                    'image' => 'placeholders/news-caravan',
+                    'category' => 'Caravane juridique',
+                    'color' => 'amber',
+                    'date' => '28 septembre 2024',
+                    'location' => 'Tillabéri',
+                    'title' => 'Caravane juridique à Tillabéri',
+                    'excerpt' => "Une journée d'information et de conseil juridique pour les populations locales.",
+                ],
+                [
+                    'image' => 'placeholders/news-3',
+                    'category' => 'Sensibilisation',
+                    'color' => 'purple',
+                    'date' => '12 octobre 2024',
+                    'location' => 'Niamey',
+                    'title' => 'Session de sensibilisation des jeunes',
+                    'excerpt' => "Sensibilisation des étudiants sur l'accès au droit et la prévention des conflits.",
+                ],
+                [
+                    'image' => 'placeholders/news-formation',
+                    'category' => 'Formation',
+                    'color' => 'green',
+                    'date' => '5 septembre 2024',
+                    'location' => 'Niamey',
+                    'title' => 'Formation sur la médiation',
+                    'excerpt' => "Renforcement des capacités des étudiants sur les techniques de médiation.",
+                ],
+            ];
+        @endphp
+
+        <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach ($homeActivities as $activity)
+                <x-activity-card
+                    :image="$activity['image']"
+                    :category="$activity['category']"
+                    :category-color="$activity['color']"
+                    :date="$activity['date']"
+                    :location="$activity['location']"
+                    :title="$activity['title']"
+                    :excerpt="$activity['excerpt']"
+                    :href="route('activities.index')"
+                />
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- ============ PRACTICAL INFO ============ --}}
+{{--
+    The plan requires the homepage itself to carry the permanence hours,
+    the address of the local and a clickable phone and WhatsApp link —
+    a visitor should not have to reach the contact page for those.
+--}}
+<section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <x-eyebrow>Infos pratiques</x-eyebrow>
+    <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Nous rencontrer, nous joindre</h2>
+
+    <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
+
+        <div class="rounded-xl border border-slate-200 bg-white p-6">
+            <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
+            <h3 class="mt-4 text-base font-bold text-slate-900">Horaires des permanences</h3>
+
+            <dl class="mt-3 space-y-1.5 text-sm">
+                @foreach (config('clinique.hours.schedule') as $slot)
+                    <div class="flex items-baseline justify-between gap-4">
+                        <dt class="text-slate-600">{{ $slot['days'] }}</dt>
+                        <dd class="font-semibold text-slate-900">{{ $slot['time'] }}</dd>
+                    </div>
+                @endforeach
+            </dl>
+
+            <p class="mt-3 text-sm text-slate-500">{{ config('clinique.hours.closed') }}</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 bg-white p-6">
+            <x-icon-badge size="sm"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
+            <h3 class="mt-4 text-base font-bold text-slate-900">Adresse du local</h3>
+
+            <address class="mt-3 text-sm not-italic leading-relaxed text-slate-600">
+                {{ config('clinique.contact.address.line1') }}<br>
+                {{ config('clinique.contact.address.line2') }}<br>
+                {{ config('clinique.contact.address.line3') }}, {{ config('clinique.contact.address.city') }}
+            </address>
+
+            <p class="mt-3 text-sm text-slate-500">{{ config('clinique.hours.note') }}</p>
+        </div>
+
+        <div class="rounded-xl bg-primary-50/60 p-6">
+            <x-icon-badge size="sm" class="!bg-white"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
+            <h3 class="mt-4 text-base font-bold text-slate-900">Nous joindre</h3>
+
+            <ul class="mt-3 space-y-2.5 text-sm">
+                <li>
+                    <a href="tel:{{ config('clinique.contact.phone.tel') }}" class="inline-flex items-center gap-2 font-semibold text-primary-700 hover:text-primary-800">
+                        <x-icon name="phone" class="h-4 w-4 shrink-0" />
+                        {{ config('clinique.contact.phone.display') }}
+                    </a>
+                </li>
+                <li>
+                    <a href="https://wa.me/{{ config('clinique.contact.whatsapp.number') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-semibold text-primary-700 hover:text-primary-800">
+                        <x-icon name="whatsapp" class="h-4 w-4 shrink-0" />
+                        WhatsApp
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:{{ config('clinique.contact.email') }}" class="inline-flex items-center gap-2 break-all font-semibold text-primary-700 hover:text-primary-800">
+                        <x-icon name="mail" class="h-4 w-4 shrink-0" />
+                        {{ config('clinique.contact.email') }}
+                    </a>
+                </li>
+            </ul>
+
+            <x-button :href="route('contact')" variant="primary" class="mt-5 w-full justify-center">
+                Nous contacter
+            </x-button>
+        </div>
+    </div>
+</section>
+
+{{-- ============ FAQ ============ --}}
+<section class="bg-slate-50 py-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+
+            <div>
+                <x-eyebrow>Questions fréquentes</x-eyebrow>
+                <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Vous vous posez une question ?</h2>
+                <p class="mt-3 text-base leading-relaxed text-slate-600">
+                    Les réponses aux questions que l'on nous pose le plus souvent.
+                </p>
+
+                <x-button :href="route('services.eligibility')" variant="outline" class="mt-5">
+                    Conditions d'accès
+                </x-button>
+            </div>
+
+            {{-- Native <details>: keyboard-accessible, works without JavaScript. --}}
+            <div class="space-y-3 lg:col-span-2">
+                <x-faq-item question="Les consultations sont-elles gratuites ?">
+                    Oui. Les consultations juridiques de la Clinique sont gratuites. Seuls certains frais
+                    administratifs, fixés et affichés à l'avance, peuvent s'appliquer pour des démarches
+                    particulières — ils sont détaillés sur la page des tarifs administratifs.
+                </x-faq-item>
+
+                <x-faq-item question="Qui peut bénéficier de nos services ?">
+                    Toute personne confrontée à une difficulté juridique peut nous solliciter, avec une
+                    attention particulière aux personnes en situation de vulnérabilité. L'accueil se tient
+                    uniquement à Niamey ; si vous ne pouvez pas vous y déplacer, contactez-nous et nous vous
+                    orienterons vers un partenaire proche de chez vous.
+                </x-faq-item>
+
+                <x-faq-item question="Qui va traiter mon dossier ?">
+                    Des étudiants en droit de la FSJP, systématiquement encadrés par des enseignants et des
+                    praticiens. Aucune réponse ne vous est transmise sans avoir été validée par un encadrant.
+                </x-faq-item>
+
+                <x-faq-item question="Quels documents dois-je apporter ?">
+                    Une pièce d'identité et tout document utile à votre situation : contrat, acte, courrier
+                    reçu, décision administrative. Si vous n'avez aucun document, venez tout de même : nous
+                    vous indiquerons les pièces à réunir.
+                </x-faq-item>
+
+                <x-faq-item question="Combien de temps avant d'obtenir une réponse ?">
+                    Après une pré-saisine, vous recevez une réponse sur la recevabilité de votre demande dans
+                    un délai de cinq jours ouvrables. Le délai de traitement complet dépend ensuite de la
+                    complexité de votre situation.
+                </x-faq-item>
+            </div>
         </div>
     </div>
 </section>
