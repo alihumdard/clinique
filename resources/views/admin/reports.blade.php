@@ -90,6 +90,11 @@
                     ];
                 @endphp
 
+                <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
+                    <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
+                    Faites glisser le tableau pour voir toutes les colonnes
+                </p>
+
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[62rem] text-left">
                         <thead>

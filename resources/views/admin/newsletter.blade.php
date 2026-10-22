@@ -86,6 +86,11 @@
                     ];
                 @endphp
 
+                <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
+                    <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
+                    Faites glisser le tableau pour voir toutes les colonnes
+                </p>
+
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[62rem] text-left">
                         <thead>
@@ -155,7 +160,7 @@
                                         {{-- A sent newsletter cannot be re-sent, so the row
                                              offers preview, stats, duplicate, edit and delete. --}}
                                         <div class="flex items-center justify-end gap-1">
-                                            @php $base = 'flex h-8 w-8 items-center justify-center rounded-md transition-colors'; @endphp
+                                            @php $base = 'relative flex h-8 w-8 items-center justify-center rounded-md transition-colors'; @endphp
 
                                             <a href="#" class="{{ $base }} text-slate-500 hover:bg-slate-100">
                                                 <x-icon name="eye" class="h-4 w-4" />

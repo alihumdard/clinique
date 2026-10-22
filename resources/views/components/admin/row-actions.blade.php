@@ -16,7 +16,10 @@
 ])
 
 @php
-    $base = 'flex h-8 w-8 items-center justify-center rounded-md transition-colors';
+    // relative: without it, the sr-only label's absolute positioning falls
+    // back to a further-out ancestor and can widen the document's scrollable
+    // area even though it's visually clipped inside a scrolling table wrapper.
+    $base = 'relative flex h-8 w-8 items-center justify-center rounded-md transition-colors';
 @endphp
 
 <div {{ $attributes->merge(['class' => 'flex items-center justify-end gap-1']) }}>
