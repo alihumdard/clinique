@@ -15,7 +15,7 @@
 ])
 
 <article class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white sm:flex-row sm:items-stretch">
-    <div class="shrink-0 overflow-hidden sm:aspect-[4/3] sm:h-auto sm:w-56 sm:self-center">
+    <div class="shrink-0 overflow-hidden sm:aspect-square sm:h-auto sm:w-44 sm:self-center">
         <x-picture
             :path="$image"
             :alt="$title"
