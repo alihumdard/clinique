@@ -7,16 +7,9 @@
 
     <section class="relative overflow-hidden">
 
-        {{--
-            Decorative illustration, full bleed behind the whole hero.
-            On phones the section is much taller than wide, so a plain
-            bg-cover zooms in on the empty sky band and crops the scales/
-            plane off the sides entirely; bg-[length:100%_auto] there
-            instead fits the image to the section's width so both stay
-            visible, positioned toward the top where the lockup has room.
-        --}}
+        {{-- Decorative illustration, full bleed behind the whole hero on every breakpoint --}}
         <div
-            class="absolute inset-0 bg-top bg-no-repeat bg-[length:100%_auto] sm:bg-center sm:bg-cover"
+            class="absolute inset-0 bg-cover bg-center"
             style="background-image: url('{{ asset('images/placeholders/404-illustration.jpg') }}')"
             aria-hidden="true"
         ></div>
