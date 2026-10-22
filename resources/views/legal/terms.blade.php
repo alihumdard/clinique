@@ -14,7 +14,7 @@
 @endphp
 
     <x-page-hero
-        image="placeholders/about-legal"
+        image="placeholders/legal-scales-gavel"
         title="Conditions d'utilisation"
         subtitle="Les présentes conditions régissent l'utilisation du site web de la Clinique Juridique FSJP-UAM."
         :breadcrumb="$breadcrumb"
