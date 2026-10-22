@@ -129,13 +129,13 @@
                             ['icon' => 'graduation-cap', 'title' => 'Étudiants en droit', 'text' => 'Stages académiques'],
                             ['icon' => 'users', 'title' => 'Jeunes diplômés', 'text' => 'Volontariat et projets'],
                             ['icon' => 'folder', 'title' => 'Experts et consultants', 'text' => 'Appui technique'],
-                            ['icon' => 'handshake', 'title' => 'Partenaires', 'text' => 'Institutions et ONG'],
+                            ['icon' => 'globe', 'title' => 'Partenaires', 'text' => 'Institutions et ONG'],
                         ];
                     @endphp
 
                     <ul class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         @foreach ($profiles as $profile)
-                            <li class="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-4">
+                            <li class="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-4 transition-all duration-200 hover:-translate-y-1 hover:border-primary-200 hover:bg-primary-50/40 hover:shadow-md">
                                 <x-icon-badge size="sm" class="shrink-0">
                                     <x-icon :name="$profile['icon']" class="h-5 w-5" />
                                 </x-icon-badge>
