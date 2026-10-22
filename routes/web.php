@@ -105,3 +105,12 @@ Route::get('/pre-saisine', fn () => view('home'))->name('presaisine.index');
 Route::get('/mentions-legales', fn () => view('legal.notice'))->name('legal.notice');
 Route::get('/conditions-utilisation', fn () => view('legal.terms'))->name('legal.terms');
 Route::get('/politique-confidentialite', fn () => view('legal.privacy'))->name('legal.privacy');
+
+/*
+|--------------------------------------------------------------------------
+| 404 page preview (direct URL so the design can be reviewed without
+| having to visit a broken link)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/404', fn () => response()->view('errors.404', [], 404))->name('error.404');
