@@ -154,7 +154,7 @@
                                 href="{{ route('search') }}"
                                 class="flex w-full items-center justify-center gap-2 rounded-md bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-100"
                             >
-                                <x-icon name="arrow-up" class="h-4 w-4" />
+                                <x-icon name="refresh" class="h-4 w-4" />
                                 Réinitialiser
                             </a>
                         </div>
