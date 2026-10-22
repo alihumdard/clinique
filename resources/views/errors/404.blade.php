@@ -19,7 +19,7 @@
             off the sides and no gap shows if the image is shorter than
             the section.
         --}}
-        <div class="pointer-events-none absolute inset-0 hidden bg-primary-50/60 sm:block" aria-hidden="true"></div>
+        <div class="pointer-events-none absolute inset-0 hidden bg-white sm:block" aria-hidden="true"></div>
         <div
             class="pointer-events-none absolute inset-x-0 top-1/2 hidden aspect-[2170/725] w-full -translate-y-1/2 bg-cover bg-center sm:block"
             style="background-image: url('{{ asset('images/placeholders/404-illustration.jpg') }}')"
