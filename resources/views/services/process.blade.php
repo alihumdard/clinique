@@ -70,7 +70,7 @@
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 gap-8 rounded-xl border border-slate-200 bg-white p-2 lg:grid-cols-2 lg:items-center lg:gap-0 lg:p-0">
             <x-picture
-                path="placeholders/about-legal"
+                path="placeholders/scales-gavel-engagement"
                 alt="Balance de la justice et marteau de juge"
                 width="700" height="500"
                 class="aspect-[4/3] w-full rounded-lg object-cover lg:aspect-auto lg:h-full lg:rounded-none lg:rounded-l-xl"
