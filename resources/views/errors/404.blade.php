@@ -5,13 +5,21 @@
 
 @section('content')
 
-    <section
-        class="relative overflow-hidden bg-top bg-no-repeat bg-[length:100%_auto] lg:bg-center lg:bg-cover"
-        style="background-image: url('{{ asset('images/placeholders/404-illustration.jpg') }}')"
-    >
-        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
+    <section class="relative overflow-hidden">
 
-        <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:py-24">
+        {{--
+            Decorative illustration: a fixed-height banner strip on phones
+            (never overlaps the 404 lockup below it), full bleed behind the
+            whole hero from lg: up.
+        --}}
+        <div
+            class="h-28 bg-top bg-no-repeat bg-[length:100%_auto] sm:h-40 lg:absolute lg:inset-0 lg:h-full lg:bg-center lg:bg-cover"
+            style="background-image: url('{{ asset('images/placeholders/404-illustration.jpg') }}')"
+            aria-hidden="true"
+        ></div>
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-16 bg-gradient-to-b from-transparent to-white lg:block" aria-hidden="true"></div>
+
+        <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 pb-20 pt-10 text-center sm:px-6 sm:pt-12 lg:py-24">
 
             {{-- 404 lockup: the middle zero is a document glyph --}}
             <p class="flex items-center justify-center gap-0 text-[5.5rem] font-extrabold leading-none text-primary-600 sm:text-[8rem]">
