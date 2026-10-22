@@ -6,7 +6,8 @@
 @section('content')
 
     <x-page-hero
-        image="placeholders/about-legal"
+        image="placeholders/search-hero"
+        image-position="object-right"
         title="Résultats de recherche"
         subtitle="Trouvez rapidement des actualités, guides pratiques, vidéos et informations sur nos services."
         :breadcrumb="[
