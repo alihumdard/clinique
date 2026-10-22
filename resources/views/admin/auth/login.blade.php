@@ -9,12 +9,12 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="h-full bg-white">
+<body class="h-full overflow-hidden bg-white">
 
-<div class="flex min-h-full flex-col lg:flex-row">
+<div class="flex h-full flex-col lg:flex-row">
 
     {{-- ============ BRAND PANEL ============ --}}
-    <div class="relative overflow-hidden bg-primary-700 px-6 py-12 lg:w-1/2 lg:px-12 lg:py-16">
+    <div class="relative overflow-hidden bg-primary-700 px-6 py-8 lg:w-1/2 lg:px-12 lg:py-10">
 
         <div class="absolute inset-0">
             <x-picture
@@ -40,17 +40,17 @@
                 </span>
             </div>
 
-            <div class="mt-12 lg:mt-16">
-                <h1 class="text-4xl font-bold leading-tight text-white lg:text-5xl">
+            <div class="mt-6 lg:mt-8">
+                <h1 class="text-3xl font-bold leading-tight text-white lg:text-4xl">
                     Espace<br>Administration
                 </h1>
 
-                <p class="mt-5 max-w-md text-base leading-relaxed text-primary-100">
+                <p class="mt-3 max-w-md text-sm leading-relaxed text-primary-100">
                     Gérez les contenus, les candidatures, les actualités et toutes les activités
                     de la Clinique Juridique FSJP-UAM.
                 </p>
 
-                <span class="mt-7 block h-0.5 w-12 bg-white/40" aria-hidden="true"></span>
+                <span class="mt-4 block h-0.5 w-12 bg-white/40" aria-hidden="true"></span>
 
                 @php
                     $capabilities = [
@@ -61,24 +61,24 @@
                     ];
                 @endphp
 
-                <ul class="mt-8 space-y-5">
+                <ul class="mt-5 space-y-3">
                     @foreach ($capabilities as $capability)
-                        <li class="flex items-start gap-4">
-                            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 text-white">
-                                <x-icon :name="$capability['icon']" class="h-5 w-5" />
+                        <li class="flex items-start gap-3">
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white">
+                                <x-icon :name="$capability['icon']" class="h-4 w-4" />
                             </span>
                             <div class="min-w-0">
-                                <p class="font-semibold text-white">{{ $capability['title'] }}</p>
-                                <p class="mt-0.5 text-sm text-primary-100">{{ $capability['text'] }}</p>
+                                <p class="text-sm font-semibold text-white">{{ $capability['title'] }}</p>
+                                <p class="mt-0.5 text-xs text-primary-100">{{ $capability['text'] }}</p>
                             </div>
                         </li>
                     @endforeach
                 </ul>
             </div>
 
-            <div class="mt-12 lg:mt-auto">
+            <div class="mt-6 lg:mt-auto lg:pt-6">
                 <span class="block h-0.5 w-10 bg-amber-400" aria-hidden="true"></span>
-                <p class="mt-4 text-xs uppercase tracking-[0.2em] text-primary-100">
+                <p class="mt-3 text-xs uppercase tracking-[0.2em] text-primary-100">
                     Droit &nbsp;&bull;&nbsp; Justice &nbsp;&bull;&nbsp; Accès pour tous
                 </p>
             </div>
@@ -86,7 +86,7 @@
     </div>
 
     {{-- ============ FORM PANEL ============ --}}
-    <div class="relative flex flex-1 flex-col bg-slate-50 px-6 py-10 lg:px-12">
+    <div class="relative flex flex-1 flex-col overflow-y-auto bg-slate-50 px-6 py-5 lg:px-12">
 
         <div class="flex justify-end">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700">
@@ -97,20 +97,20 @@
             </a>
         </div>
 
-        <div class="flex flex-1 items-center justify-center py-10">
-            <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm sm:p-10">
+        <div class="flex flex-1 items-center justify-center py-5">
+            <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-sm sm:p-8">
 
-                <span class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary-50">
-                    <x-icon name="lock-shield" class="h-10 w-10 text-primary-600" />
+                <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-50">
+                    <x-icon name="lock-shield" class="h-8 w-8 text-primary-600" />
                 </span>
 
-                <h2 class="mt-6 text-center text-2xl font-bold text-slate-900">Connexion Administrateur</h2>
-                <p class="mt-2 text-center text-sm leading-relaxed text-slate-600">
+                <h2 class="mt-4 text-center text-xl font-bold text-slate-900">Connexion Administrateur</h2>
+                <p class="mt-1.5 text-center text-sm leading-relaxed text-slate-600">
                     Accédez à votre espace d'administration de la Clinique Juridique FSJP-UAM.
                 </p>
 
                 @if ($errors->any())
-                    <div role="alert" class="mt-6 flex items-start gap-3 rounded-lg border border-rose-200 bg-rose-50 p-4">
+                    <div role="alert" class="mt-4 flex items-start gap-3 rounded-lg border border-rose-200 bg-rose-50 p-4">
                         <x-icon name="help-circle" class="mt-0.5 h-5 w-5 shrink-0 text-rose-600" />
                         <div class="min-w-0 text-sm text-rose-700">
                             @foreach ($errors->all() as $error)
@@ -120,7 +120,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('admin.login.attempt') }}" class="mt-7 space-y-5">
+                <form method="POST" action="{{ route('admin.login.attempt') }}" class="mt-5 space-y-4">
                     @csrf
 
                     <div>
@@ -138,7 +138,7 @@
                                 required
                                 autofocus
                                 placeholder="votre@email.com"
-                                class="w-full rounded-lg border border-slate-200 py-3 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                                 autocomplete="current-password"
                                 required
                                 placeholder="Votre mot de passe"
-                                class="w-full rounded-lg border border-slate-200 py-3 pl-11 pr-11 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-11 pr-11 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
 
                             <button
@@ -198,13 +198,13 @@
                     </button>
                 </form>
 
-                <div class="mt-7 flex items-center gap-4">
+                <div class="mt-5 flex items-center gap-4">
                     <span class="h-px flex-1 bg-slate-200"></span>
                     <span class="text-xs text-slate-400">ou</span>
                     <span class="h-px flex-1 bg-slate-200"></span>
                 </div>
 
-                <div class="mt-5 flex items-start gap-3 rounded-lg bg-primary-50/70 p-4">
+                <div class="mt-4 flex items-start gap-3 rounded-lg bg-primary-50/70 p-3.5">
                     <x-icon name="shield" class="mt-0.5 h-5 w-5 shrink-0 text-primary-600" />
                     <div class="min-w-0 text-sm">
                         <p class="font-semibold text-primary-700">Accès réservé aux administrateurs et membres autorisés</p>
