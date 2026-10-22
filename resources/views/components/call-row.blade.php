@@ -14,13 +14,15 @@
     'href' => '#',
 ])
 
-<article class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white sm:flex-row">
-    <x-picture
-        :path="$image"
-        :alt="$title"
-        width="400" height="300"
-        class="h-44 w-full shrink-0 object-cover sm:h-full sm:w-56"
-    />
+<article class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white sm:flex-row sm:items-stretch">
+    <div class="shrink-0 overflow-hidden sm:aspect-[4/3] sm:h-auto sm:w-56 sm:self-center">
+        <x-picture
+            :path="$image"
+            :alt="$title"
+            width="400" height="300"
+            class="h-44 w-full object-cover sm:h-full sm:w-full"
+        />
+    </div>
 
     <div class="flex flex-1 flex-col p-5">
         <x-category-badge :color="$typeColor" position="inline" class="self-start">{{ $type }}</x-category-badge>
