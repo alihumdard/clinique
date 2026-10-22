@@ -11,7 +11,7 @@
     ];
 @endphp
 
-<div class="flex items-start gap-4 rounded-lg border border-slate-200 bg-white {{ $compact ? 'p-5' : 'p-6' }}">
+<div class="group flex items-start gap-4 rounded-lg border border-slate-200 bg-white transition-colors duration-200 hover:border-primary-200 hover:bg-primary-50/40 {{ $compact ? 'p-5' : 'p-6' }}">
     <span class="flex {{ $compact ? 'h-10 w-10' : 'h-12 w-12' }} shrink-0 items-center justify-center rounded-full {{ $colors[$color] ?? $colors['primary'] }}">
         <x-icon :name="$icon" class="{{ $compact ? 'h-5 w-5' : 'h-6 w-6' }}" />
     </span>

@@ -67,7 +67,7 @@
                 <x-service-card compact :link="false" icon="building" title="Justiciables à faible revenu" color="red">
                     Les personnes qui n'ont pas les moyens de recourir à une assistance payante.
                 </x-service-card>
-                <x-service-card compact :link="false" icon="handshake" title="Personnes en situation de crise" color="teal">
+                <x-service-card compact :link="false" icon="heart" title="Personnes en situation de crise" color="teal">
                     Les personnes affectées par des situations d'urgence (déplacement, catastrophes, conflits, etc.).
                 </x-service-card>
                 <x-service-card compact :link="false" icon="book" title="Autres publics" color="purple">
