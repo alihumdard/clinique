@@ -58,7 +58,7 @@
                      */
                     $calls = [
                         [
-                            'image' => 'placeholders/about-team',
+                            'image' => 'placeholders/join-call-stage',
                             'type' => 'Stage académique',
                             'color' => 'primary',
                             'title' => 'Stage pour étudiants en droit',
@@ -76,7 +76,7 @@
                             'deadline' => '30 septembre 2024',
                         ],
                         [
-                            'image' => 'placeholders/signing-document',
+                            'image' => 'placeholders/join-call-consultance',
                             'type' => 'Consultance',
                             'color' => 'purple',
                             'title' => 'Consultant(e) en communication',
@@ -94,7 +94,7 @@
                             'deadline' => '30 octobre 2024',
                         ],
                         [
-                            'image' => 'placeholders/news-candidatures',
+                            'image' => 'placeholders/join-call-recherche',
                             'type' => 'Recherche',
                             'color' => 'primary',
                             'title' => 'Assistant(e) de recherche',
