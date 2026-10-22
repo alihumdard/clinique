@@ -86,7 +86,7 @@
                 path="placeholders/scales-gavel-engagement"
                 alt="Balance de la justice et marteau de juge"
                 width="700" height="400"
-                class="aspect-[16/10] w-full rounded-lg object-cover lg:aspect-auto lg:h-full lg:max-h-72 lg:rounded-none lg:rounded-l-xl"
+                class="aspect-[16/10] w-full rounded-lg object-cover lg:aspect-auto lg:h-full lg:rounded-none lg:rounded-l-xl"
             />
 
             <div class="p-4 lg:p-8">
