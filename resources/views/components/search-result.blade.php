@@ -26,12 +26,12 @@
 
 <article class="group flex items-start gap-4 border-b border-slate-100 py-5 last:border-0">
     @if($image)
-        <a href="{{ $href }}" class="relative hidden shrink-0 sm:block">
+        <a href="{{ $href }}" class="relative block shrink-0">
             <x-picture
                 :path="$image"
                 alt=""
                 width="320" height="200"
-                class="h-24 w-36 rounded-lg object-cover"
+                class="h-24 w-32 rounded-lg object-cover sm:h-24 sm:w-36"
             />
 
             @if($video)
