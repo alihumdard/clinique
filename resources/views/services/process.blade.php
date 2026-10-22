@@ -55,7 +55,7 @@
                 @endforeach
             </div>
 
-            <div class="rounded-xl bg-primary-50/60 p-5">
+            <div class="rounded-xl bg-primary-50/60 p-5 lg:-mt-6">
                 <div class="flex items-center gap-2">
                     <x-icon-badge size="sm"><x-icon name="shield" class="h-5 w-5" /></x-icon-badge>
                     <h3 class="text-base font-bold text-slate-900">À retenir</h3>
