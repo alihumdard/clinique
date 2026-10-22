@@ -25,12 +25,32 @@
             <circle cx="1040" cy="150" r="34" opacity=".5" />
             <circle cx="930" cy="90" r="18" opacity=".45" />
             <ellipse cx="300" cy="95" rx="60" ry="22" opacity=".45" />
+
+            {{-- Scales of justice, bottom-left --}}
+            <g transform="translate(70 300)" opacity=".6" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="40" y1="10" x2="40" y2="140" />
+                <line x1="0" y1="140" x2="80" y2="140" />
+                <line x1="0" y1="30" x2="80" y2="30" />
+                <line x1="0" y1="30" x2="-24" y2="75" />
+                <line x1="0" y1="30" x2="24" y2="75" />
+                <path d="M-24 75a24 20 0 0048 0z" />
+                <line x1="80" y1="30" x2="56" y2="75" />
+                <line x1="80" y1="30" x2="104" y2="75" />
+                <path d="M56 75a24 20 0 0048 0z" />
+                <circle cx="40" cy="10" r="8" fill="currentColor" stroke="none" />
+            </g>
+            <rect x="60" y="440" width="100" height="18" rx="3" opacity=".6" />
+            <rect x="68" y="420" width="84" height="18" rx="3" opacity=".6" />
+
+            {{-- Paper plane with dashed trail, top-right --}}
+            <path d="M980 160c40-30 90-55 140-70" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".7" />
+            <path d="M1120 80l-34 10 6 16 8-10 4 22z" opacity=".7" />
         </svg>
 
         <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:py-24">
 
             {{-- 404 lockup: the middle zero is a document glyph --}}
-            <p class="flex items-center justify-center gap-1 text-[5rem] font-bold leading-none text-primary-600 sm:text-[7rem]">
+            <p class="flex items-center justify-center gap-0 text-[5.5rem] font-extrabold leading-none text-primary-600 sm:text-[8rem]">
                 <span aria-hidden="true">4</span>
 
                 <span class="relative inline-flex h-[0.9em] w-[0.9em] shrink-0 items-center justify-center rounded-full bg-primary-600">
