@@ -5,14 +5,14 @@
 
 @section('content')
 
-    <section class="relative overflow-hidden bg-primary-50/40">
+    <section class="relative overflow-hidden">
 
         {{-- Decorative illustration backdrop, provided by the reference mockup --}}
         <x-picture
             path="placeholders/404-illustration"
             alt=""
             width="2170" height="725"
-            class="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
         />
 
         <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:py-24">
