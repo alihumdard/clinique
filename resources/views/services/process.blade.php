@@ -17,38 +17,56 @@
 
     {{-- ============ ETAPES + A RETENIR ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-3">
-            <div class="lg:col-span-2">
-                <x-eyebrow>Comment ça marche ?</x-eyebrow>
-                <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étapes de votre consultation</h2>
-                <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM vous accompagne tout au long de votre démarche, depuis votre
-                    première prise de contact jusqu'au suivi de votre dossier.
-                </p>
+        <x-eyebrow>Comment ça marche ?</x-eyebrow>
+        <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étapes de votre consultation</h2>
+        <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
+            La Clinique Juridique FSJP-UAM vous accompagne tout au long de votre démarche, depuis votre
+            première prise de contact jusqu'au suivi de votre dossier.
+        </p>
 
-                <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <x-process-step boxed number="1" icon="document" title="Orientation initiale" duration="15 à 30 minutes">
-                        Nous analysons votre situation et vous orientons vers le service approprié.
-                    </x-process-step>
-                    <x-process-step boxed number="2" icon="users" title="Entretien" duration="30 à 60 minutes">
-                        Rencontre avec nos étudiants encadrés pour comprendre votre situation.
-                    </x-process-step>
-                    <x-process-step boxed number="3" icon="search" title="Analyse juridique" duration="2 à 5 jours">
-                        Étude de votre dossier et recherche des solutions adaptées.
-                    </x-process-step>
-                    <x-process-step boxed number="4" icon="document" title="Orientation / Suivi" duration="selon le cas">
-                        Recommandations et accompagnement vers les structures compétentes si nécessaire.
-                    </x-process-step>
-                </div>
+        <div class="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_260px]">
+            @php
+                $timelineSteps = [
+                    ['number' => '1', 'icon' => 'document', 'title' => 'Orientation initiale', 'duration' => '15 à 30 minutes', 'text' => 'Nous analysons votre situation et vous orientons vers le service approprié.'],
+                    ['number' => '2', 'icon' => 'users', 'title' => 'Entretien', 'duration' => '30 à 60 minutes', 'text' => 'Rencontre avec nos étudiants encadrés pour comprendre votre situation.'],
+                    ['number' => '3', 'icon' => 'search', 'title' => 'Analyse juridique', 'duration' => '2 à 5 jours', 'text' => 'Étude de votre dossier et recherche des solutions adaptées.'],
+                    ['number' => '4', 'icon' => 'document', 'title' => 'Orientation / Suivi', 'duration' => 'selon le cas', 'text' => 'Recommandations et accompagnement vers les structures compétentes si nécessaire.'],
+                ];
+            @endphp
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach ($timelineSteps as $step)
+                    <div class="relative">
+                        @if(!$loop->last)
+                            <div class="absolute left-full top-4 hidden w-4 border-t-2 border-dashed border-primary-200 lg:block"></div>
+                        @endif
+                        <div class="flex h-full flex-col rounded-lg border border-primary-100 bg-primary-50/60 p-4">
+                            <div class="flex items-center gap-2">
+                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-600 text-xs font-bold text-white">
+                                    {{ $step['number'] }}
+                                </span>
+                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-primary-600">
+                                    <x-icon :name="$step['icon']" class="h-4 w-4" />
+                                </span>
+                            </div>
+                            <p class="mt-2.5 text-sm font-semibold text-slate-900">{{ $step['title'] }}</p>
+                            <p class="mt-1 flex-1 text-xs leading-snug text-slate-600">{{ $step['text'] }}</p>
+                            <p class="mt-2.5 flex items-center gap-1.5 text-xs text-slate-500">
+                                <x-icon name="clock" class="h-3.5 w-3.5 shrink-0" />
+                                Durée : {{ $step['duration'] }}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
 
-            <div class="rounded-xl bg-primary-50/60 p-6">
+            <div class="rounded-xl bg-primary-50/60 p-5">
                 <div class="flex items-center gap-2">
                     <x-icon-badge size="sm"><x-icon name="shield" class="h-5 w-5" /></x-icon-badge>
                     <h3 class="text-base font-bold text-slate-900">À retenir</h3>
                 </div>
 
-                <div class="mt-6 space-y-5">
+                <div class="mt-4 space-y-4">
                     <x-checklist-item icon="gift" title="Service gratuit">
                         Aucun frais n'est demandé pour les consultations.
                     </x-checklist-item>
