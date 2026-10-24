@@ -164,7 +164,7 @@
                                 <td class="px-5 py-3">
                                     <x-admin.row-actions
                                         :label="$article->title"
-                                        :view-href="$article->isPublic() ? route('news.show') : null"
+                                        :view-href="$article->isPublic() ? route('news.show', $article) : null"
                                         :delete-action="route('admin.news.destroy', $article)"
                                     />
                                 </td>

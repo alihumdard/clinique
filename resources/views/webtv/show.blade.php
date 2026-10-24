@@ -412,7 +412,7 @@
                                 'tone' => 'blue',
                                 'icon' => 'calendar',
                                 'title' => "Conférence sur l'accès au droit des personnes vulnérables",
-                                'href' => route('news.show'),
+                                'href' => route('news.index'),
                             ],
                         ];
                     @endphp

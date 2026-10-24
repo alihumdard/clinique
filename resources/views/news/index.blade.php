@@ -47,58 +47,24 @@
             {{-- ============ NEWS GRID ============ --}}
             <div class="min-w-0">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <x-news-card
-                        image="placeholders/news-1"
-                        category="Événement"
-                        category-color="primary"
-                        date="12 octobre 2024"
-                        title="Conférence sur l'accès au droit des personnes vulnérables"
-                        excerpt="La Clinique Juridique FSJP-UAM a organisé une conférence-débat sur l'accès au droit des personnes en situation de vulnérabilité, avec la participation d'experts et d'étudiants."
-                        :href="route('news.show')"
-                    />
-                    <x-news-card
-                        image="placeholders/news-caravan"
-                        category="Caravane juridique"
-                        category-color="amber"
-                        date="28 septembre 2024"
-                        title="Caravane juridique à Tillabéri : une forte mobilisation"
-                        excerpt="La Clinique Juridique FSJP-UAM a mené une caravane d'information juridique dans la région de Tillabéri pour sensibiliser les populations sur leurs droits."
-                    />
-                    <x-news-card
-                        image="placeholders/news-guide"
-                        category="Publication"
-                        category-color="green"
-                        date="15 septembre 2024"
-                        title="Nouveau guide pratique : droits de la famille"
-                        excerpt="La Clinique Juridique FSJP-UAM publie un guide pratique pour mieux comprendre les droits de la famille au Niger, destiné au grand public."
-                    />
-                    <x-news-card
-                        image="placeholders/news-formation"
-                        category="Formation"
-                        category-color="purple"
-                        date="5 septembre 2024"
-                        title="Formation des étudiants sur la médiation"
-                        excerpt="Une session de formation a été organisée pour les étudiants de la FSJP-UAM sur les techniques de médiation et de résolution des conflits."
-                    />
-                    <x-news-card
-                        image="placeholders/news-candidatures"
-                        category="Communiqué"
-                        category-color="red"
-                        date="20 août 2024"
-                        title="Ouverture des candidatures pour la nouvelle promotion"
-                        excerpt="La Clinique Juridique FSJP-UAM lance un appel à candidatures pour intégrer sa nouvelle promotion d'étudiants encadrés."
-                    />
-                    <x-news-card
-                        image="placeholders/news-partenariat"
-                        category="Actualité"
-                        category-color="primary"
-                        date="10 août 2024"
-                        title="Signature d'un partenariat avec une ONG"
-                        excerpt="Une convention de partenariat a été signée avec une ONG locale pour renforcer l'accès au droit dans les communautés rurales."
-                    />
+                    @forelse ($articles as $article)
+                        <x-news-card
+                            :image-url="$article->imageUrl()"
+                            :category="$article->category?->name"
+                            :category-color="$article->category?->tone ?? 'primary'"
+                            :date="$article->published_at?->translatedFormat('j F Y')"
+                            :title="$article->title"
+                            :excerpt="$article->excerpt"
+                            :href="route('news.show', $article)"
+                        />
+                    @empty
+                        <p class="sm:col-span-2 rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
+                            Aucune actualité ne correspond à votre recherche.
+                        </p>
+                    @endforelse
                 </div>
 
-                <x-pagination :current="1" :total="5" class="!mt-6" />
+                <x-pagination :paginator="$articles" class="!mt-6" />
             </div>
 
             {{-- ============ SIDEBAR ============ --}}
@@ -120,26 +86,20 @@
                     Module 2 replaces the array with a grouped query.
                 --}}
                 <x-sidebar-card icon="calendar" title="Archives" color="amber" :tint="true">
-                    @php
-                        $archives = [
-                            ['year' => 2025, 'count' => 12],
-                            ['year' => 2024, 'count' => 24],
-                            ['year' => 2023, 'count' => 18],
-                            ['year' => 2022, 'count' => 9],
-                        ];
-                    @endphp
-
                     <nav class="space-y-1">
-                        @foreach ($archives as $archive)
+                        @forelse ($archives as $archive)
                             <x-category-list-item
                                 icon="calendar"
                                 color="amber"
-                                :count="$archive['count']"
-                                :href="route('news.index') . '?annee=' . $archive['year']"
+                                :count="$archive->total"
+                                :active="(int) ($filters['annee'] ?? 0) === (int) $archive->year"
+                                :href="route('news.index', ['annee' => $archive->year])"
                             >
-                                {{ $archive['year'] }}
+                                {{ $archive->year }}
                             </x-category-list-item>
-                        @endforeach
+                        @empty
+                            <p class="px-3 py-2 text-sm text-slate-500">Aucune archive pour le moment.</p>
+                        @endforelse
                     </nav>
                 </x-sidebar-card>
 

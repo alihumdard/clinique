@@ -10,6 +10,61 @@ use Tests\TestCase;
  */
 class PublicPagesTest extends TestCase
 {
+    use \Illuminate\Foundation\Testing\RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // The actualités pages read from the database; without a row the
+        // index is empty and the detail route has nothing to resolve.
+        \App\Models\Article::create([
+            'title' => "Conférence sur l'accès au droit",
+            'slug' => 'conference-sur-l-acces-au-droit',
+            'excerpt' => 'Un aperçu de la conférence.',
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+        ]);
+    }
+
+    public function test_the_news_index_renders(): void
+    {
+        $this->get('/actualites')
+            ->assertOk()
+            ->assertSee('Actualit', escape: false);
+    }
+
+    public function test_a_published_article_renders(): void
+    {
+        $this->get('/actualites/conference-sur-l-acces-au-droit')
+            ->assertOk()
+            ->assertSee('Conférence', escape: false);
+    }
+
+    public function test_a_draft_article_is_not_public(): void
+    {
+        \App\Models\Article::create([
+            'title' => 'Brouillon',
+            'slug' => 'brouillon',
+            'status' => \App\Models\Article::STATUS_DRAFT,
+        ]);
+
+        $this->get('/actualites/brouillon')->assertNotFound();
+    }
+
+    /** Published, but dated ahead: not yet visible to anyone. */
+    public function test_a_scheduled_article_is_not_public(): void
+    {
+        \App\Models\Article::create([
+            'title' => 'À paraître',
+            'slug' => 'a-paraitre',
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->addWeek(),
+        ]);
+
+        $this->get('/actualites/a-paraitre')->assertNotFound();
+    }
+
     /**
      * Every public route from the Phase 2 page inventory.
      *
@@ -26,8 +81,6 @@ class PublicPagesTest extends TestCase
             'processus' => ['/services/processus-de-consultation', 'consultation'],
             'conditions' => ['/services/conditions-acces-gratuite', 'gratuit'],
             'tarifs' => ['/services/tarifs-administratifs', 'Tarifs'],
-            'actualites' => ['/actualites', 'Actualit'],
-            'actualite detail' => ['/actualites/conference-acces-droit-personnes-vulnerables', 'rence'],
             'activites' => ['/activites', 'caravanes'],
             'galerie' => ['/galerie', 'Galerie'],
             'fiches pratiques' => ['/ressources/fiches-pratiques', 'Fiches pratiques'],

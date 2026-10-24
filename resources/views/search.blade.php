@@ -193,7 +193,7 @@
                             'excerpt' => "À l'occasion de la Journée internationale des droits des femmes, la Clinique Juridique organise une série d'activités de sensibilisation sur l'accès à la justice...",
                             'date' => '8 mars 2025',
                             'views' => '256',
-                            'href' => route('news.show'),
+                            'href' => route('news.index'),
                         ],
                         [
                             'image' => 'placeholders/news-guide',

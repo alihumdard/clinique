@@ -1,9 +1,19 @@
 {{-- Static visual pagination for the design phase; wired to real query results in the backend phase. --}}
 @props([
+    // Pass a paginator and the links come from it; the loose props stay
+    // for the pages still showing example rows.
+    'paginator' => null,
     'current' => 1,
     'total' => 5,
     'edges' => false,
 ])
+
+@php
+    if ($paginator) {
+        $current = $paginator->currentPage();
+        $total = $paginator->lastPage();
+    }
+@endphp
 
 @php
     $arrow = 'flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:bg-slate-50';
