@@ -211,7 +211,7 @@
                             'excerpt' => "Dans cette capsule, notre invitée aborde les principaux droits des femmes et les défis liés à leur mise en œuvre au Niger.",
                             'date' => '15 janvier 2025',
                             'views' => '1,2K',
-                            'href' => route('webtv.show'),
+                            'href' => route('webtv.index'),
                             'video' => true,
                         ],
                         [

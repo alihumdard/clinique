@@ -5,11 +5,13 @@
 
 @section('content')
 
+    <x-admin.flash />
+
     <x-admin.page-header
         title="Gestion de la Web TV"
         lead="Ajoutez, modifiez et organisez toutes les capsules vidéo de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter une vidéo"
-        :action-href="route('admin.webtv')"
+        action-href="#ajouter-une-video"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Web TV'],
@@ -21,19 +23,20 @@
         <div class="space-y-5 xl:col-span-3">
 
             {{-- ============ KPIs ============ --}}
-            {{-- Counts are illustrative until Module 2 supplies real queries. --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="play-circle" color="blue"  value="12"    label="Vidéos publiées"    trend="+20%" note="ce mois-ci" />
-                <x-admin.stat-card icon="eye"         color="green" value="1 245" label="Vues totales"       trend="+32%" note="par rapport au mois dernier" />
-                <x-admin.stat-card icon="clock"       color="amber" value="3"     label="Vidéos en brouillon" note="Non publiées" />
-                <x-admin.stat-card icon="trash"       color="red"   value="1"     label="Vidéo archivée" />
+                <x-admin.stat-card icon="play-circle" color="blue"  :value="$counts['published']" label="Vidéos publiées" />
+                <x-admin.stat-card icon="eye"         color="green" :value="number_format($counts['views'], 0, ',', ' ')" label="Vues totales" />
+                <x-admin.stat-card icon="clock"       color="amber" :value="$counts['drafts']"    label="Vidéos en brouillon" note="Non publiées" />
+                <x-admin.stat-card icon="trash"       color="red"   :value="$counts['trashed']"   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                <div class="space-y-3 p-5">
-                    <form role="search" class="relative w-full lg:max-w-xs">
+                {{-- One GET form: search, rubrique and statut submit together,
+                     so a filtered list is a URL that can be shared. --}}
+                <form method="GET" action="{{ route('admin.webtv') }}" class="space-y-3 p-5">
+                    <div role="search" class="relative w-full lg:max-w-xs">
                         <label for="webtv-search" class="sr-only">Rechercher une vidéo</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -42,55 +45,62 @@
                             type="search"
                             id="webtv-search"
                             name="q"
+                            value="{{ $filters['q'] ?? '' }}"
                             placeholder="Rechercher une vidéo..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                    </form>
+                    </div>
 
                     @php
-                        $selects = [
-                            ['id' => 'webtv-category', 'label' => 'Filtrer par catégorie', 'options' => ['Toutes les catégories', 'Conférences', 'Sensibilisation', 'Terrain', 'Interviews', 'Capsules', 'Événements', 'Fiches pratiques', 'FAQ', 'Témoignages']],
-                            ['id' => 'webtv-status',   'label' => 'Filtrer par statut',    'options' => ['Tous les statuts', 'Publié', 'Brouillon', 'Archivé']],
-                            ['id' => 'webtv-date',     'label' => 'Filtrer par date',      'options' => ['Toutes les dates', 'Ce mois-ci', 'Ce trimestre', 'Cette année']],
+                        $statuses = [
+                            '' => 'Tous les statuts',
+                            'published' => 'Publiées',
+                            'draft' => 'Brouillons',
+                            'archived' => 'Archivées',
+                            'corbeille' => 'Corbeille',
                         ];
                     @endphp
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                        @foreach ($selects as $select)
-                            <div class="min-w-0 sm:shrink-0">
-                                <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
-                                <select
-                                    id="{{ $select['id'] }}"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
-                                >
-                                    @foreach ($select['options'] as $option)
-                                        <option>{{ $option }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endforeach
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="webtv-category" class="sr-only">Filtrer par rubrique</label>
+                            <select
+                                id="webtv-category"
+                                name="categorie"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                <option value="">Toutes les rubriques</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" @selected((int) ($filters['categorie'] ?? 0) === $category->id)>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                        <button type="button" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="webtv-status" class="sr-only">Filtrer par statut</label>
+                            <select
+                                id="webtv-status"
+                                name="statut"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                @foreach ($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(($filters['statut'] ?? '') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:w-auto">
                             <x-icon name="filter" class="h-4 w-4" />
                             Filtrer
                         </button>
-                    </div>
-                </div>
 
-                @php
-                    $videos = [
-                        ['image' => 'placeholders/news-3',            'title' => 'Accès à la justice pour tous',     'category' => 'Conférences',      'tone' => 'blue',   'duration' => '12:35', 'views' => '452', 'date' => '10 juin 2025', 'time' => '14:32', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/about-legal',       'title' => 'Les droits des femmes en pratique','category' => 'Sensibilisation',  'tone' => 'pink',   'duration' => '08:20', 'views' => '320', 'date' => '8 juin 2025',  'time' => '11:20', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/news-caravan',      'title' => 'Caravane juridique à Zinder',      'category' => 'Terrain',          'tone' => 'green',  'duration' => '15:10', 'views' => '615', 'date' => '5 juin 2025',  'time' => '09:15', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/about-team',        'title' => 'Entretien avec un magistrat',      'category' => 'Interviews',       'tone' => 'amber',  'duration' => '18:45', 'views' => '298', 'date' => '1 juin 2025',  'time' => '12:10', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/video-featured',    'title' => 'Capsule : Comprendre la justice',  'category' => 'Capsules',         'tone' => 'purple', 'duration' => '06:30', 'views' => '501', 'date' => '28 mai 2025',  'time' => '16:45', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/news-1',            'title' => 'Table ronde : Justice sociale',    'category' => 'Événements',       'tone' => 'blue',   'duration' => '25:40', 'views' => '722', 'date' => '25 mai 2025',  'time' => '10:22', 'status' => 'Brouillon', 'statusTone' => 'amber'],
-                        ['image' => 'placeholders/news-guide',        'title' => 'Fiche pratique en vidéo',          'category' => 'Fiches pratiques', 'tone' => 'green',  'duration' => '09:15', 'views' => '410', 'date' => '20 mai 2025',  'time' => '15:30', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/news-2',            'title' => 'Caravane de Maradi',               'category' => 'Terrain',          'tone' => 'green',  'duration' => '13:36', 'views' => '369', 'date' => '16 mai 2025',  'time' => '13:18', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/article-highlight-2','title' => 'Questions fréquentes en droit',   'category' => 'FAQ',              'tone' => 'red',    'duration' => '07:50', 'views' => '287', 'date' => '12 mai 2025',  'time' => '09:40', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['image' => 'placeholders/news-candidatures', 'title' => 'Témoignages des bénéficiaires',    'category' => 'Témoignages',      'tone' => 'purple', 'duration' => '11:20', 'views' => '533', 'date' => '8 mai 2025',   'time' => '11:05', 'status' => 'Archivé',   'statusTone' => 'red'],
-                    ];
-                @endphp
+                        @if (array_filter($filters))
+                            <a href="{{ route('admin.webtv') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                                Réinitialiser
+                            </a>
+                        @endif
+                    </div>
+                </form>
 
                 <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
                     <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
@@ -111,7 +121,7 @@
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-24 px-2 py-3">Miniature</th>
                                 <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de la vidéo</th>
-                                <th scope="col" class="px-3 py-3">Catégorie</th>
+                                <th scope="col" class="px-3 py-3">Rubrique</th>
                                 <th scope="col" class="px-3 py-3">Durée</th>
                                 <th scope="col" class="px-3 py-3">Vues</th>
                                 <th scope="col" class="px-3 py-3">Date</th>
@@ -121,86 +131,113 @@
                         </thead>
 
                         <tbody class="divide-y divide-slate-100">
-                            @foreach ($videos as $i => $video)
+                            @forelse ($videos as $video)
                                 <tr class="hover:bg-slate-50">
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $video['title'] }}"
+                                            aria-label="Sélectionner : {{ $video->title }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
 
-                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $i + 1 }}</td>
+                                    <td class="px-2 py-3 text-sm text-slate-500">
+                                        {{ $loop->iteration + ($videos->firstItem() - 1) }}
+                                    </td>
 
                                     <td class="px-2 py-3">
                                         {{-- Duration sits on the thumbnail, as it does on the public site --}}
                                         <span class="relative block w-16">
-                                            <x-picture
-                                                :path="$video['image']"
+                                            <img
+                                                src="{{ $video->coverUrl() }}"
                                                 alt=""
                                                 width="128" height="72"
+                                                loading="lazy"
                                                 class="h-11 w-16 rounded-md object-cover"
-                                            />
-                                            <span class="absolute bottom-0.5 right-0.5 rounded bg-slate-900/80 px-1 text-[10px] font-medium text-white">
-                                                {{ $video['duration'] }}
-                                            </span>
+                                            >
+                                            @if($video->durationLabel())
+                                                <span class="absolute bottom-0.5 right-0.5 rounded bg-slate-900/80 px-1 text-[10px] font-medium text-white">
+                                                    {{ $video->durationLabel() }}
+                                                </span>
+                                            @endif
                                         </span>
                                     </td>
 
                                     <td class="px-3 py-3">
                                         <span class="block max-w-[14rem] text-sm font-semibold leading-snug text-slate-900">
-                                            {{ $video['title'] }}
+                                            {{ $video->title }}
+                                        </span>
+                                        <span class="mt-0.5 block text-xs text-slate-400">
+                                            {{ $video->provider === 'vimeo' ? 'Vimeo' : 'YouTube' }} &middot; {{ $video->provider_id }}
                                         </span>
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$video['tone']">{{ $video['category'] }}</x-admin.badge>
+                                        @if($video->category)
+                                            <x-admin.badge :tone="$video->category->tone">{{ $video->category->name }}</x-admin.badge>
+                                        @else
+                                            <span class="text-sm text-slate-400">&mdash;</span>
+                                        @endif
                                     </td>
 
-                                    <td class="px-3 py-3 text-sm text-slate-500">{{ $video['duration'] }}</td>
+                                    <td class="px-3 py-3 text-sm text-slate-500">
+                                        {{ $video->durationLabel() ?? '—' }}
+                                    </td>
 
-                                    <td class="px-3 py-3 text-sm text-slate-500">{{ $video['views'] }}</td>
+                                    <td class="px-3 py-3 text-sm text-slate-500">
+                                        {{ number_format($video->views, 0, ',', ' ') }}
+                                    </td>
 
                                     <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
-                                        {{ $video['date'] }}<br>
-                                        <span class="text-xs">{{ $video['time'] }}</span>
+                                        @if($video->published_at)
+                                            {{ $video->published_at->translatedFormat('j F Y') }}<br>
+                                            <span class="text-xs">{{ $video->published_at->format('H:i') }}</span>
+                                        @else
+                                            <span class="text-slate-400">&mdash;</span>
+                                        @endif
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$video['statusTone']">{{ $video['status'] }}</x-admin.badge>
+                                        <x-admin.badge :tone="$video->statusTone()">{{ $video->statusLabel() }}</x-admin.badge>
                                     </td>
 
                                     <td class="px-5 py-3">
-                                        <x-admin.row-actions :label="$video['title']" />
+                                        <x-admin.row-actions
+                                            :label="$video->title"
+                                            :view-href="$video->isPublic() ? route('webtv.show', $video) : null"
+                                            :delete-action="route('admin.webtv.destroy', $video)"
+                                        />
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="10" class="px-5 py-12 text-center">
+                                        <p class="text-sm text-slate-500">Aucune vidéo ne correspond à cette recherche.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <x-admin.table-footer
-                    :from="1" :to="10" :total="12" unit="vidéos"
-                    :current="1" :pages="2"
-                />
+                <x-admin.table-footer :paginator="$videos" unit="vidéos" />
             </section>
         </div>
 
         {{-- ============ ADD VIDEO ============ --}}
-        {{--
-            Presentation only: Module 2 adds the POST route, server-side
-            validation and the video-link parser. The accept and size hints
-            are conveniences, never the security boundary.
-        --}}
         <aside>
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section id="ajouter-une-video" class="rounded-xl border border-slate-200 bg-white p-5">
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="play-circle" class="h-5 w-5 text-primary-600" />
                     Ajouter une vidéo
                 </h2>
 
-                <form method="POST" action="#" class="mt-4 space-y-4">
+                {{--
+                    The accept and size hints below are conveniences, never
+                    the security boundary: VideoRequest re-checks every field
+                    and MediaStorage re-reads the file's own bytes.
+                --}}
+                <form method="POST" action="{{ route('admin.webtv.store') }}" enctype="multipart/form-data" class="mt-4 space-y-4">
                     @csrf
 
                     <div>
@@ -212,73 +249,37 @@
                         <input
                             type="text"
                             id="video-title"
-                            name="titre"
+                            name="title"
                             required
+                            value="{{ old('title') }}"
                             placeholder="Saisissez le titre..."
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
 
                     <div>
-                        <label for="video-category" class="block text-sm font-medium text-slate-700">
-                            Catégorie
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                        <label for="video-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
                         <select
                             id="video-category"
-                            name="categorie"
-                            required
+                            name="category_id"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option value="">Sélectionner une catégorie</option>
-                            <option>Conférences</option>
-                            <option>Sensibilisation</option>
-                            <option>Terrain</option>
-                            <option>Interviews</option>
-                            <option>Capsules</option>
-                            <option>Événements</option>
-                            <option>Témoignages</option>
+                            <option value="">Sélectionner une rubrique</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div>
                         <label for="video-description" class="block text-sm font-medium text-slate-700">Description</label>
-
-                        {{-- Formatting controls are inert until Module 2 wires
-                             an editor; they are buttons, never links. --}}
-                        <div class="mt-1.5 overflow-hidden rounded-lg border border-slate-200">
-                            <div class="flex items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-1.5">
-                                @php
-                                    $tools = [
-                                        ['icon' => 'bold',        'label' => 'Gras'],
-                                        ['icon' => 'italic',      'label' => 'Italique'],
-                                        ['icon' => 'underline',   'label' => 'Souligné'],
-                                        ['icon' => 'list-bullet', 'label' => 'Liste à puces'],
-                                        ['icon' => 'list-number', 'label' => 'Liste numérotée'],
-                                        ['icon' => 'link',        'label' => 'Insérer un lien'],
-                                    ];
-                                @endphp
-
-                                @foreach ($tools as $tool)
-                                    <button
-                                        type="button"
-                                        class="flex h-7 w-7 items-center justify-center rounded text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
-                                    >
-                                        <x-icon :name="$tool['icon']" class="h-4 w-4" />
-                                        <span class="sr-only">{{ $tool['label'] }}</span>
-                                    </button>
-                                @endforeach
-                            </div>
-
-                            <textarea
-                                id="video-description"
-                                name="description"
-                                rows="4"
-                                placeholder="Décrivez brièvement la vidéo..."
-                                class="w-full resize-y border-0 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-0"
-                            ></textarea>
-                        </div>
+                        <textarea
+                            id="video-description"
+                            name="summary"
+                            rows="4"
+                            placeholder="Décrivez brièvement la vidéo..."
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('summary') }}</textarea>
                     </div>
 
                     <div>
@@ -291,15 +292,20 @@
                             <input
                                 type="url"
                                 id="video-link"
-                                name="lien"
+                                name="video_url"
                                 required
-                                placeholder="Lien YouTube, Vimeo ou fichier vidéo"
+                                value="{{ old('video_url') }}"
+                                aria-describedby="video-link-hint"
+                                placeholder="https://youtu.be/..."
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-10 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
                             <span class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                                 <x-icon name="link" class="h-4 w-4" />
                             </span>
                         </div>
+                        <p id="video-link-hint" class="mt-1.5 text-xs text-slate-500">
+                            Collez simplement le lien YouTube ou Vimeo : la vidéo reste hébergée sur la chaîne de la Clinique.
+                        </p>
                     </div>
 
                     <div>
@@ -317,11 +323,14 @@
                             <input
                                 type="file"
                                 id="video-cover"
-                                name="couverture"
-                                accept="image/jpeg,image/png"
+                                name="cover"
+                                accept="image/jpeg,image/png,image/webp"
                                 class="sr-only"
                             >
                         </label>
+                        <p class="mt-1.5 text-xs text-slate-500">
+                            Facultatif : sans image, la miniature de la chaîne est utilisée.
+                        </p>
                     </div>
 
                     <div>
@@ -333,23 +342,42 @@
                             <input
                                 type="text"
                                 id="video-duration"
-                                name="duree"
+                                name="duration"
                                 inputmode="numeric"
-                                pattern="[0-9]{1,3}:[0-9]{2}"
+                                pattern="[0-9]{1,3}:[0-5][0-9]"
+                                value="{{ old('duration') }}"
                                 placeholder="Ex: 12:35"
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
                         </div>
                     </div>
 
-                    <div class="space-y-3 pt-1">
-                        <x-admin.toggle name="publier" label="Publier immédiatement" :checked="true" />
-                        <x-admin.toggle name="commentaires" label="Autoriser les commentaires" />
+                    <div>
+                        <label for="video-transcript" class="block text-sm font-medium text-slate-700">Transcription</label>
+                        <textarea
+                            id="video-transcript"
+                            name="transcript"
+                            rows="4"
+                            placeholder="Collez ici la transcription écrite, lorsqu'elle existe..."
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('transcript') }}</textarea>
+                        <p class="mt-1.5 text-xs text-slate-500">
+                            Affichée sous la vidéo, pour l'accessibilité et le référencement.
+                        </p>
                     </div>
 
+                    <div class="pt-1">
+                        <x-admin.toggle name="allow_comments" label="Autoriser les commentaires" :checked="(bool) old('allow_comments')" />
+                    </div>
+
+                    {{-- Two submits, one form: the status is carried by the
+                         button that was pressed, so there is no hidden state
+                         to keep in step with the toggle. --}}
                     <div class="space-y-2.5 pt-1">
                         <button
                             type="submit"
+                            name="status"
+                            value="published"
                             class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
                         >
                             <x-icon name="paper-plane" class="h-4 w-4" />
@@ -358,8 +386,8 @@
 
                         <button
                             type="submit"
-                            name="brouillon"
-                            value="1"
+                            name="status"
+                            value="draft"
                             class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
                         >
                             <x-icon name="save" class="h-4 w-4" />

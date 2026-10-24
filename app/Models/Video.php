@@ -52,6 +52,27 @@ class Video extends Model
         };
     }
 
+    /**
+     * The thumbnail shown before the visitor presses play. An uploaded
+     * cover wins; otherwise the provider's own thumbnail saves the editor
+     * a step, and only then do we fall back to a placeholder.
+     */
+    public function coverUrl(): string
+    {
+        if (filled($this->cover)) {
+            return $this->imageUrl($this->cover, 'placeholders/video-featured');
+        }
+
+        return \App\Support\VideoLink::thumbnail($this->provider, $this->provider_id)
+            ?? asset('images/placeholders/video-featured.jpg');
+    }
+
+    /** Minutes:seconds, as the cards show it. */
+    public function durationLabel(): ?string
+    {
+        return $this->duration ?: null;
+    }
+
     public function hasTranscript(): bool
     {
         return filled($this->transcript);

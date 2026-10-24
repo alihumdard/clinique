@@ -3,7 +3,11 @@
     then title and a date / views meta row.
 --}}
 @props([
-    'image',
+    // `image` is a placeholder path under public/images; `imageUrl` is a
+    // ready URL, which is what a stored cover or a channel thumbnail
+    // gives. One or the other.
+    'image' => null,
+    'imageUrl' => null,
     'title',
     'category' => null,
     'categoryColor' => 'primary',
@@ -15,12 +19,16 @@
 
 <article class="flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
     <a href="{{ $href }}" class="group relative block">
-        <x-picture
-            :path="$image"
-            :alt="$title"
-            width="640" height="360"
-            class="aspect-video w-full object-cover"
-        />
+        @if($imageUrl)
+            <img src="{{ $imageUrl }}" alt="{{ $title }}" width="640" height="360" loading="lazy" class="aspect-video w-full object-cover">
+        @else
+            <x-picture
+                :path="$image"
+                :alt="$title"
+                width="640" height="360"
+                class="aspect-video w-full object-cover"
+            />
+        @endif
 
         {{-- Play affordance appears on hover/focus; the card is a link, not a player --}}
         <span class="absolute inset-0 flex items-center justify-center bg-slate-900/10 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true">

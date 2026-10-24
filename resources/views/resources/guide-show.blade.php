@@ -220,7 +220,7 @@
 
                 {{-- The reciprocal of the link on the capsule's own page. --}}
                 <x-sidebar-card icon="play-circle" title="Capsule vidéo associée">
-                    <a href="{{ route('webtv.show') }}" class="group block">
+                    <a href="{{ route('webtv.index') }}" class="group block">
                         <span class="relative block">
                             <x-picture
                                 path="placeholders/news-caravan"

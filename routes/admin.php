@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +47,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/actualites/{article:id}', [ArticleController::class, 'destroy'])->name('news.destroy');
         Route::post('/actualites/{id}/restaurer', [ArticleController::class, 'restore'])->name('news.restore');
         Route::delete('/actualites/{id}/definitif', [ArticleController::class, 'forceDestroy'])->name('news.force-destroy');
-        Route::view('/web-tv', 'admin.webtv')->name('webtv');
+        /*
+        | Web TV. The capsule is published by pasting a link: the provider
+        | and its id are parsed server-side, never typed by the editor.
+        */
+        Route::get('/web-tv', [VideoController::class, 'index'])->name('webtv');
+        Route::post('/web-tv', [VideoController::class, 'store'])->name('webtv.store');
+        Route::put('/web-tv/{video:id}', [VideoController::class, 'update'])->name('webtv.update');
+        Route::delete('/web-tv/{video:id}', [VideoController::class, 'destroy'])->name('webtv.destroy');
+        Route::post('/web-tv/{id}/restaurer', [VideoController::class, 'restore'])->name('webtv.restore');
+        Route::delete('/web-tv/{id}/definitif', [VideoController::class, 'forceDestroy'])->name('webtv.force-destroy');
         Route::view('/partenaires', 'admin.partners')->name('partners');
         Route::view('/equipe', 'admin.team')->name('team');
         Route::view('/activites', 'admin.activities')->name('activities');

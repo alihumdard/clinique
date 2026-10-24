@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Web TV - ' . config('app.name'))
+@section('title', ($current ? $current->name . ' - Web TV - ' : 'Web TV - ') . config('app.name'))
 @section('meta_description', "Des videos pour informer, sensibiliser et promouvoir l'acces au droit pour tous : capsules, emissions, temoignages et formations de la Clinique Juridique FSJP-UAM.")
 
 @section('content')
@@ -18,17 +18,21 @@
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 
-        {{-- ============ CATEGORY FILTERS ============ --}}
-        {{-- Static pills until Module 2 wires them to real rubrique queries. --}}
+        {{-- ============ RUBRIQUE FILTERS ============ --}}
         <div class="scrollbar-hide flex gap-1.5 overflow-x-auto">
-            <x-filter-pill :active="true">Toutes les vidéos</x-filter-pill>
-            <x-filter-pill>Émissions</x-filter-pill>
-            <x-filter-pill>Caravanes juridiques</x-filter-pill>
-            <x-filter-pill>Sensibilisations</x-filter-pill>
-            <x-filter-pill>Formations</x-filter-pill>
-            <x-filter-pill>Témoignages</x-filter-pill>
-            <x-filter-pill>Interviews</x-filter-pill>
-            <x-filter-pill>Événements officiels</x-filter-pill>
+            <x-filter-pill :href="route('webtv.index')" :active="! $current">
+                Toutes les vidéos
+            </x-filter-pill>
+
+            @foreach ($categories as $category)
+                @continue($category->videos_count === 0)
+                <x-filter-pill
+                    :href="route('webtv.index', ['categorie' => $category->slug])"
+                    :active="$current?->id === $category->id"
+                >
+                    {{ $category->name }}
+                </x-filter-pill>
+            @endforeach
         </div>
 
         <div class="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-3">
@@ -36,87 +40,86 @@
             {{-- ============ MAIN ============ --}}
             <div class="lg:col-span-2">
 
-                {{-- Featured capsule --}}
-                <x-section-label>Vidéo à la une</x-section-label>
+                {{-- Featured capsule: the newest one, and only on the
+                     unfiltered list, so it is never also in the grid. --}}
+                @if($featured)
+                    <x-section-label>Vidéo à la une</x-section-label>
 
-                <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr] lg:items-stretch">
-                    <x-video-player
-                        poster="placeholders/video-featured"
-                        video-id="dQw4w9WgXcQ"
-                        duration="12:35"
-                        title="Lancement des activités de la Clinique Juridique FSJP-UAM"
-                        class="!aspect-auto lg:h-full lg:max-h-80"
-                    />
+                    <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr] lg:items-stretch">
+                        <x-video-player
+                            :poster-url="$featured->coverUrl()"
+                            :video-id="$featured->provider_id"
+                            :provider="$featured->provider"
+                            :duration="$featured->durationLabel()"
+                            :title="$featured->title"
+                            class="!aspect-auto lg:h-full lg:max-h-80"
+                        />
 
-                    <div class="flex flex-col">
-                        <x-category-badge color="primary" position="inline" class="self-start">Événement officiel</x-category-badge>
+                        <div class="flex flex-col">
+                            @if($featured->category)
+                                <x-category-badge color="primary" position="inline" class="self-start">
+                                    {{ $featured->category->name }}
+                                </x-category-badge>
+                            @endif
 
-                        <h3 class="mt-3 text-xl font-bold leading-snug text-slate-900">
-                            Lancement des activités de la Clinique Juridique FSJP-UAM
-                        </h3>
+                            <h3 class="mt-3 text-xl font-bold leading-snug text-slate-900">
+                                {{ $featured->title }}
+                            </h3>
 
-                        <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
-                            <span class="inline-flex items-center gap-1.5">
-                                <x-icon name="calendar" class="h-3.5 w-3.5 shrink-0" />
-                                15 mars 2024
-                            </span>
-                            <span class="inline-flex items-center gap-1.5">
-                                <x-icon name="eye" class="h-3.5 w-3.5 shrink-0" />
-                                2 450 vues
-                            </span>
-                        </div>
+                            <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
+                                @if($featured->published_at)
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <x-icon name="calendar" class="h-3.5 w-3.5 shrink-0" />
+                                        {{ $featured->published_at->translatedFormat('j F Y') }}
+                                    </span>
+                                @endif
+                                <span class="inline-flex items-center gap-1.5">
+                                    <x-icon name="eye" class="h-3.5 w-3.5 shrink-0" />
+                                    {{ number_format($featured->views, 0, ',', ' ') }} vues
+                                </span>
+                            </div>
 
-                        <p class="mt-3 text-sm leading-relaxed text-slate-600">
-                            Revivez les temps forts de la cérémonie de lancement des activités de la Clinique
-                            Juridique FSJP-UAM, avec les interventions des autorités universitaires et des partenaires.
-                        </p>
+                            @if($featured->summary)
+                                <p class="mt-3 text-sm leading-relaxed text-slate-600">
+                                    {{ $featured->summary }}
+                                </p>
+                            @endif
 
-                        <div class="mt-5">
-                            <x-button :href="route('webtv.show', ['poster' => 'placeholders/video-featured'])" variant="primary">
-                                Voir la vidéo
-                            </x-button>
+                            <div class="mt-5">
+                                <x-button :href="route('webtv.show', $featured)" variant="primary">
+                                    Voir la vidéo
+                                </x-button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
-                {{-- Latest capsules --}}
-                <div class="mt-12">
-                    <x-section-heading :link="route('webtv.index')" link-label="Voir toutes les vidéos">
-                        Dernières vidéos
+                {{-- Capsule grid --}}
+                <div class="{{ $featured ? 'mt-12' : '' }}">
+                    <x-section-heading>
+                        {{ $current ? $current->name : 'Dernières vidéos' }}
                     </x-section-heading>
 
-                    @php
-                        /*
-                         * Capsule grid. Module 2 replaces this with a query;
-                         * each record carries its own external video address.
-                         */
-                        $videos = [
-                            ['image' => 'placeholders/news-caravan', 'category' => 'Caravane juridique', 'color' => 'amber', 'duration' => '8:24', 'title' => "Caravane juridique à Tillabéri : accès au droit pour les populations", 'date' => '28 septembre 2024', 'views' => '1 250'],
-                            ['image' => 'placeholders/news-3', 'category' => 'Sensibilisation', 'color' => 'purple', 'duration' => '6:18', 'title' => "Les droits des femmes : paroles d'étudiantes", 'date' => '12 octobre 2024', 'views' => '980'],
-                            ['image' => 'placeholders/news-formation', 'category' => 'Formation', 'color' => 'green', 'duration' => '15:42', 'title' => 'Session de formation sur la médiation', 'date' => '5 septembre 2024', 'views' => '1 420'],
-                            ['image' => 'placeholders/webtv-interview', 'category' => 'Interview', 'color' => 'slate', 'duration' => '10:36', 'title' => 'Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'date' => '20 août 2024', 'views' => '2 100'],
-                            ['image' => 'placeholders/news-2', 'category' => 'Témoignage', 'color' => 'red', 'duration' => '7:50', 'title' => "Témoignages : l'impact des caravanes juridiques", 'date' => '15 juillet 2024', 'views' => '1 780'],
-                            ['image' => 'placeholders/news-1', 'category' => 'Émission', 'color' => 'primary', 'duration' => '9:12', 'title' => 'Accès au droit : enjeux et perspectives', 'date' => '3 juin 2024', 'views' => '1 560'],
-                            ['image' => 'placeholders/about-hero', 'category' => 'Événement officiel', 'color' => 'primary', 'duration' => '12:20', 'title' => 'Table ronde : justice et développement local', 'date' => '25 mai 2024', 'views' => '1 320'],
-                            ['image' => 'placeholders/news-candidatures', 'category' => 'Sensibilisation', 'color' => 'purple', 'duration' => '6:45', 'title' => 'Protection des enfants : que dit la loi ?', 'date' => '18 avril 2024', 'views' => '940'],
-                            ['image' => 'placeholders/news-partenariat', 'category' => 'Formation', 'color' => 'green', 'duration' => '11:08', 'title' => 'Les mécanismes de règlement des conflits', 'date' => '10 mars 2024', 'views' => '1 110'],
-                        ];
-                    @endphp
-
                     <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                        @foreach ($videos as $video)
+                        @forelse ($videos as $video)
                             <x-video-card
-                                :image="$video['image']"
-                                :category="$video['category']"
-                                :category-color="$video['color']"
-                                :duration="$video['duration']"
-                                :title="$video['title']"
-                                :date="$video['date']"
-                                :views="$video['views']"
-                                :href="route('webtv.show', ['poster' => $video['image']])"
+                                :image-url="$video->coverUrl()"
+                                :category="$video->category?->name"
+                                category-color="primary"
+                                :duration="$video->durationLabel()"
+                                :title="$video->title"
+                                :date="$video->published_at?->translatedFormat('j F Y')"
+                                :views="number_format($video->views, 0, ',', ' ')"
+                                :href="route('webtv.show', $video)"
                             />
-                        @endforeach
+                        @empty
+                            <p class="text-sm text-slate-500 sm:col-span-2 xl:col-span-3">
+                                Aucune vidéo n'est disponible dans cette rubrique pour le moment.
+                            </p>
+                        @endforelse
                     </div>
+
+                    <x-pagination :paginator="$videos" :edges="true" />
                 </div>
             </div>
 
@@ -134,38 +137,31 @@
                     <x-figure-list
                         class="mt-4"
                         :items="[
-                            ['icon' => 'youtube', 'value' => '120+', 'label' => 'Vidéos publiées', 'color' => 'red'],
-                            ['icon' => 'users', 'value' => '50 000+', 'label' => 'Vues cumulées', 'color' => 'blue'],
-                            ['icon' => 'graduation-cap', 'value' => '15', 'label' => 'Émissions', 'color' => 'green'],
-                            ['icon' => 'folder', 'value' => '8', 'label' => 'Séries thématiques', 'color' => 'purple'],
+                            ['icon' => 'youtube', 'value' => number_format($totals['videos'], 0, ',', ' '), 'label' => 'Vidéos publiées', 'color' => 'red'],
+                            ['icon' => 'users', 'value' => number_format($totals['views'], 0, ',', ' '), 'label' => 'Vues cumulées', 'color' => 'blue'],
+                            ['icon' => 'folder', 'value' => $totals['rubriques'], 'label' => 'Rubriques thématiques', 'color' => 'purple'],
                         ]"
                     />
                 </div>
 
                 <x-sidebar-card icon="folder" title="Playlists thématiques" :tint="true">
-                    @php
-                        $playlists = [
-                            ['image' => 'placeholders/news-caravan', 'title' => 'Caravanes juridiques', 'count' => 12],
-                            ['image' => 'placeholders/news-formation', 'title' => 'Formations', 'count' => 18],
-                            ['image' => 'placeholders/news-3', 'title' => 'Sensibilisations', 'count' => 20],
-                            ['image' => 'placeholders/about-team', 'title' => 'Interviews', 'count' => 10],
-                            ['image' => 'placeholders/about-hero', 'title' => 'Événements officiels', 'count' => 8],
-                        ];
-                    @endphp
-
                     <ul class="space-y-3">
-                        @foreach ($playlists as $playlist)
+                        @foreach ($categories as $category)
+                            @continue($category->videos_count === 0)
                             <li>
-                                <a href="{{ route('webtv.index') }}" class="group flex items-center gap-3">
-                                    <x-picture
-                                        :path="$playlist['image']"
+                                <a href="{{ route('webtv.index', ['categorie' => $category->slug]) }}" class="group flex items-center gap-3">
+                                    <img
+                                        src="{{ $category->coverUrl() }}"
                                         alt=""
                                         width="80" height="80"
+                                        loading="lazy"
                                         class="h-12 w-12 shrink-0 rounded-md object-cover"
-                                    />
+                                    >
                                     <span class="min-w-0 flex-1">
-                                        <span class="block truncate text-sm font-semibold text-slate-900 group-hover:text-primary-600">{{ $playlist['title'] }}</span>
-                                        <span class="block text-xs text-slate-500">{{ $playlist['count'] }} vidéos</span>
+                                        <span class="block truncate text-sm font-semibold text-slate-900 group-hover:text-primary-600">{{ $category->name }}</span>
+                                        <span class="block text-xs text-slate-500">
+                                            {{ $category->videos_count }} {{ $category->videos_count === 1 ? 'vidéo' : 'vidéos' }}
+                                        </span>
                                     </span>
                                     <x-icon name="arrow-right" class="h-4 w-4 shrink-0 text-slate-400 group-hover:text-primary-600" />
                                 </a>
@@ -187,7 +183,7 @@
                         </div>
                     </div>
 
-                    <x-button href="#" variant="outline" class="mt-4 w-full justify-center">
+                    <x-button :href="config('clinique.social.youtube') ?: '#'" variant="outline" class="mt-4 w-full justify-center">
                         Voir la chaîne
                     </x-button>
                 </x-sidebar-card>
@@ -207,7 +203,7 @@
             icon="paper-plane"
             title="Abonnez-vous à notre Web TV"
             button-label="Voir la chaîne YouTube"
-            button-href="#"
+            :button-href="config('clinique.social.youtube') ?: '#'"
         >
             Restez informé de nos dernières vidéos, émissions et événements.
         </x-inline-cta>

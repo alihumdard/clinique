@@ -68,25 +68,13 @@ trait Publishable
     }
 
     /**
-     * A URL for the row's own image, wherever it was stored. Uploads land
-     * on the public disk; the seeded rows still point at the placeholder
-     * files under public/images, so both have to resolve while the Clinic's
-     * real pictures are still to come.
+     * A URL for the row's own image, wherever it was stored. The resolution
+     * itself lives in the Media helper, because rows that are not content
+     * types — a category's representative cover, for one — need it too.
      */
     public function imageUrl(?string $path = null, string $fallback = 'placeholders/news-1'): string
     {
-        $path ??= $this->image ?? null;
-
-        if (blank($path)) {
-            return asset("images/{$fallback}.jpg");
-        }
-
-        // Stored uploads keep their extension; placeholders do not.
-        if (str_contains($path, '/') && ! str_ends_with($path, '.jpg') && ! str_ends_with($path, '.png') && ! str_ends_with($path, '.webp')) {
-            return asset("images/{$path}.jpg");
-        }
-
-        return \Illuminate\Support\Facades\Storage::disk('public')->url($path);
+        return \App\Support\Media::url($path ?? $this->image ?? null, $fallback);
     }
 
     public function statusTone(): string

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -66,6 +67,75 @@ class ContentSeeder extends Seeder
                     'published_at' => $publishedAt,
                 ]
             );
+        }
+
+        $this->videos();
+    }
+
+    /**
+     * Web TV capsules. Real addresses are not used: the ids below are
+     * fictitious, so a seeded capsule shows the click-to-load poster and
+     * never embeds someone else's video.
+     */
+    private function videos(): void
+    {
+        $rubriques = collect([
+            ['name' => 'Émissions', 'tone' => 'blue'],
+            ['name' => 'Caravanes juridiques', 'tone' => 'amber'],
+            ['name' => 'Sensibilisations', 'tone' => 'purple'],
+            ['name' => 'Formations', 'tone' => 'green'],
+            ['name' => 'Témoignages', 'tone' => 'red'],
+            ['name' => 'Interviews', 'tone' => 'slate'],
+            ['name' => 'Événements officiels', 'tone' => 'pink'],
+        ])->map(fn (array $c, int $i) => Category::updateOrCreate(
+            ['type' => 'video', 'slug' => Str::slug($c['name'])],
+            ['name' => $c['name'], 'tone' => $c['tone'], 'position' => $i]
+        ))->keyBy('name');
+
+        $videos = [
+            ["Lancement des activités de la Clinique Juridique FSJP-UAM", 'Événements officiels', 'placeholders/video-featured', '12:35', 2450, '2025-06-12 10:00', 'published'],
+            ["Caravane juridique à Tillabéri : accès au droit pour les populations", 'Caravanes juridiques', 'placeholders/news-caravan', '8:24', 1250, '2025-05-28 09:00', 'published'],
+            ["Les droits des femmes : paroles d'étudiantes", 'Sensibilisations', 'placeholders/news-3', '6:18', 980, '2025-05-12 14:00', 'published'],
+            ['Session de formation sur la médiation', 'Formations', 'placeholders/news-formation', '15:42', 1420, '2025-04-05 11:00', 'published'],
+            ['Entretien avec le Doyen de la FSJP sur la Clinique Juridique', 'Interviews', 'placeholders/webtv-interview', '10:36', 2100, '2025-03-20 16:00', 'published'],
+            ["Témoignages : l'impact des caravanes juridiques", 'Témoignages', 'placeholders/news-2', '7:50', 1780, '2025-02-15 10:30', 'published'],
+            ['Accès au droit : enjeux et perspectives', 'Émissions', 'placeholders/news-1', '9:12', 1560, '2025-01-03 12:00', 'published'],
+            ['Table ronde : justice et développement local', 'Événements officiels', 'placeholders/about-hero', '12:20', 1320, '2024-11-25 15:00', 'published'],
+            ['Protection des enfants : que dit la loi ?', 'Sensibilisations', 'placeholders/news-candidatures', '6:45', 940, '2024-10-18 09:45', 'published'],
+            ['Les mécanismes de règlement des conflits', 'Formations', 'placeholders/news-partenariat', '11:08', 1110, '2024-09-10 13:00', 'published'],
+            ['Capsule : comprendre la procédure civile', 'Émissions', 'placeholders/article-highlight-1', '5:40', 0, null, 'draft'],
+            ['Rencontre avec les chefs traditionnels', 'Interviews', 'placeholders/about-team', '14:02', 0, '2026-12-01 10:00', 'published'],
+        ];
+
+        foreach ($videos as [$title, $rubrique, $cover, $duration, $views, $publishedAt, $status]) {
+            // Only the lead capsule carries a transcription, which is how
+            // the plan describes it: "lorsqu'elle existe".
+            $transcript = $title === $videos[0][0]
+                ? "Transcription d'exemple de la capsule « {$title} ». La transcription réelle sera fournie par la Clinique."
+                : null;
+
+            // A plausible 11-character id without pointing at a real video.
+            $id = substr(str_replace('-', '_', Str::slug($title)) . 'aaaaaaaaaaa', 0, 11);
+
+            $video = Video::updateOrCreate(
+                ['slug' => Str::slug($title)],
+                [
+                    'title' => $title,
+                    'summary' => "Capsule d'exemple : « {$title} ». Le contenu réel de la Clinique sera intégré ultérieurement.",
+                    'video_url' => "https://www.youtube.com/watch?v={$id}",
+                    'provider' => 'youtube',
+                    'provider_id' => $id,
+                    'cover' => $cover,
+                    'duration' => $duration,
+                    'transcript' => $transcript,
+                    'category_id' => $rubriques[$rubrique]->id,
+                    'status' => $status,
+                    'published_at' => $publishedAt,
+                ]
+            );
+
+            // views is a counter, not editor input, so it is not fillable.
+            $video->forceFill(['views' => $views])->save();
         }
     }
 }

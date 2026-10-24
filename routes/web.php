@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\WebTvController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,8 +71,8 @@ Route::get('/galerie', fn () => view('gallery'))->name('gallery');
 |--------------------------------------------------------------------------
 */
 
-Route::get('/web-tv', fn () => view('webtv.index'))->name('webtv.index');
-Route::get('/web-tv/caravane-juridique-tillaberi', fn () => view('webtv.show'))->name('webtv.show');
+Route::get('/web-tv', [WebTvController::class, 'index'])->name('webtv.index');
+Route::get('/web-tv/{video}', [WebTvController::class, 'show'])->name('webtv.show');
 
 /*
 |--------------------------------------------------------------------------

@@ -16,14 +16,27 @@ class PublicPagesTest extends TestCase
     {
         parent::setUp();
 
-        // The actualités pages read from the database; without a row the
-        // index is empty and the detail route has nothing to resolve.
+        // The actualités and Web TV pages read from the database; without a
+        // row the listing is empty and the detail route has nothing to
+        // resolve.
         \App\Models\Article::create([
             'title' => "Conférence sur l'accès au droit",
             'slug' => 'conference-sur-l-acces-au-droit',
             'excerpt' => 'Un aperçu de la conférence.',
             'status' => \App\Models\Article::STATUS_PUBLISHED,
             'published_at' => now()->subDay(),
+        ]);
+
+        \App\Models\Video::create([
+            'title' => 'Caravane juridique à Tillabéri',
+            'slug' => 'caravane-juridique-tillaberi',
+            'summary' => 'Une capsule de terrain.',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+            'provider' => 'youtube',
+            'provider_id' => 'dQw4w9WgXcQ',
+            'duration' => '12:35',
+            'status' => \App\Models\Video::STATUS_PUBLISHED,
+            'published_at' => now()->subDays(2),
         ]);
     }
 
@@ -65,6 +78,57 @@ class PublicPagesTest extends TestCase
         $this->get('/actualites/a-paraitre')->assertNotFound();
     }
 
+    public function test_a_draft_capsule_is_not_public(): void
+    {
+        \App\Models\Video::create([
+            'title' => 'Capsule en brouillon',
+            'slug' => 'capsule-en-brouillon',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+            'provider' => 'youtube',
+            'provider_id' => 'dQw4w9WgXcQ',
+            'status' => \App\Models\Video::STATUS_DRAFT,
+        ]);
+
+        $this->get('/web-tv/capsule-en-brouillon')->assertNotFound();
+    }
+
+    public function test_watching_a_capsule_counts_a_view(): void
+    {
+        $video = \App\Models\Video::firstWhere('slug', 'caravane-juridique-tillaberi');
+
+        $this->get('/web-tv/caravane-juridique-tillaberi')->assertOk();
+
+        $this->assertSame($video->views + 1, $video->fresh()->views);
+    }
+
+    public function test_the_web_tv_list_can_be_filtered_by_rubrique(): void
+    {
+        $rubrique = \App\Models\Category::create([
+            'type' => 'video',
+            'name' => 'Formations',
+            'slug' => 'formations',
+            'tone' => 'green',
+        ]);
+
+        \App\Models\Video::create([
+            'title' => 'Session de formation sur la médiation',
+            'slug' => 'session-de-formation-sur-la-mediation',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+            'provider' => 'youtube',
+            'provider_id' => 'dQw4w9WgXcQ',
+            'category_id' => $rubrique->id,
+            'status' => \App\Models\Video::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+        ]);
+
+        $this->get('/web-tv?categorie=formations')
+            ->assertOk()
+            ->assertSee('Session de formation', escape: false)
+            // Inside a rubrique nothing is featured, so a capsule from
+            // another rubrique must not appear at all.
+            ->assertDontSee('Caravane juridique à Tillabéri', escape: false);
+    }
+
     /**
      * Every public route from the Phase 2 page inventory.
      *
@@ -88,6 +152,7 @@ class PublicPagesTest extends TestCase
             'rapports' => ['/ressources/rapports-annuels', 'Rapports annuels'],
             'web tv' => ['/web-tv', 'Web TV'],
             'web tv detail' => ['/web-tv/caravane-juridique-tillaberi', 'Caravane'],
+            // seeded in setUp, so these two exercise the real queries
             'rejoindre' => ['/rejoindre', 'candidatures'],
             'contact' => ['/contact', 'Contactez-nous'],
             'mentions legales' => ['/mentions-legales', 'Mentions'],
