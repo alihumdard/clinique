@@ -3,10 +3,12 @@
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CallController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\GuideController;
+use App\Http\Controllers\Admin\ReferenceController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TeamController;
@@ -128,6 +130,33 @@ Route::prefix('admin')->name('admin.')->group(function () {
         */
         Route::get('/parametres', [SettingController::class, 'index'])->name('settings');
         Route::put('/parametres', [SettingController::class, 'update'])->name('settings.update');
+
+        /*
+        | Appels à candidatures. Not one of the twelve designed screens:
+        | the content type was in the plan and in the schema, but the
+        | screen inventory never covered it.
+        */
+        Route::get('/appels', [CallController::class, 'index'])->name('calls');
+        Route::post('/appels', [CallController::class, 'store'])->name('calls.store');
+        Route::put('/appels/{call:id}', [CallController::class, 'update'])->name('calls.update');
+        Route::delete('/appels/{call:id}', [CallController::class, 'destroy'])->name('calls.destroy');
+        Route::post('/appels/{id}/restaurer', [CallController::class, 'restore'])->name('calls.restore');
+        Route::delete('/appels/{id}/definitif', [CallController::class, 'forceDestroy'])->name('calls.force-destroy');
+
+        /*
+        | Référentiels: the fee grid and the legal domains. Two flat lists
+        | of a dozen short rows each, edited in place on one screen rather
+        | than taking one apiece.
+        */
+        Route::get('/referentiels', [ReferenceController::class, 'index'])->name('references');
+
+        Route::post('/referentiels/tarifs', [ReferenceController::class, 'storeFee'])->name('references.fees.store');
+        Route::put('/referentiels/tarifs/{fee}', [ReferenceController::class, 'updateFee'])->name('references.fees.update');
+        Route::delete('/referentiels/tarifs/{fee}', [ReferenceController::class, 'destroyFee'])->name('references.fees.destroy');
+
+        Route::post('/referentiels/domaines', [ReferenceController::class, 'storeDomain'])->name('references.domains.store');
+        Route::put('/referentiels/domaines/{domain}', [ReferenceController::class, 'updateDomain'])->name('references.domains.update');
+        Route::delete('/referentiels/domaines/{domain}', [ReferenceController::class, 'destroyDomain'])->name('references.domains.destroy');
 
         /*
         | Messages de contact. Not one of the twelve designed screens:

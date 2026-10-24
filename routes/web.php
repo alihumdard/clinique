@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NewsletterController;
@@ -18,8 +19,12 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+/*
+| The domain list is CMS-managed and appears on both the home page and the
+| Services page, so both read it rather than each listing it.
+*/
 Route::get('/', function () {
-    return view('home');
+    return view('home', ['domains' => App\Models\LegalDomain::active()->get()]);
 })->name('home');
 
 Route::get('/a-propos', function () {
@@ -31,7 +36,7 @@ Route::get('/a-propos/equipe', [TeamController::class, 'index'])->name('about.te
 Route::get('/partenaires', [PartnerController::class, 'index'])->name('partners');
 
 Route::get('/services', function () {
-    return view('services');
+    return view('services', ['domains' => App\Models\LegalDomain::active()->get()]);
 })->name('services');
 
 Route::get('/services/processus-de-consultation', function () {
@@ -42,8 +47,9 @@ Route::get('/services/conditions-acces-gratuite', function () {
     return view('services.eligibility');
 })->name('services.eligibility');
 
+// The fee grid is CMS-managed, so the page reads it rather than listing it.
 Route::get('/services/tarifs-administratifs', function () {
-    return view('services.fees');
+    return view('services.fees', ['fees' => App\Models\Fee::visible()->get()]);
 })->name('services.fees');
 
 Route::get('/actualites', [NewsController::class, 'index'])->name('news.index');
@@ -92,7 +98,7 @@ Route::get('/web-tv/{video}', [WebTvController::class, 'show'])->name('webtv.sho
 |--------------------------------------------------------------------------
 */
 
-Route::get('/rejoindre', fn () => view('join'))->name('join');
+Route::get('/rejoindre', [JoinController::class, 'index'])->name('join');
 Route::get('/contact', fn () => view('contact'))->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 

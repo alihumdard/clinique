@@ -70,22 +70,20 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    @foreach ([
-                        ['1', 'Frais de photocopie', 'Photocopie de documents (par page)', '50 FCFA'],
-                        ['2', "Frais d'impression", 'Impression de documents (par page)', '100 FCFA'],
-                        ['3', 'Frais de timbre', 'Achat de timbres fiscaux (selon le type de document)', 'Selon tarif en vigueur'],
-                        ['4', 'Frais de déplacement', "Déplacement dans le cadre d'une enquête ou d'une démarche administrative (si nécessaire)", '5 000 - 15 000 FCFA'],
-                        ['5', 'Frais de correspondance', 'Envoi de courriers recommandés ou autres envois postaux', 'Selon tarif en vigueur'],
-                        ['6', 'Frais de certification', 'Certification ou légalisation de documents (si nécessaire)', '1 000 - 5 000 FCFA'],
-                        ['7', 'Autres frais spécifiques', 'Tout autre frais exceptionnel lié au traitement du dossier', 'Sur décision de la Clinique'],
-                    ] as $row)
+                    @forelse ($fees as $fee)
                         <tr class="bg-white">
-                            <td class="px-5 py-4 text-slate-500">{{ $row[0] }}</td>
-                            <td class="px-5 py-4 font-semibold text-slate-900">{{ $row[1] }}</td>
-                            <td class="px-5 py-4 text-slate-600">{{ $row[2] }}</td>
-                            <td class="px-5 py-4 font-semibold text-slate-900">{{ $row[3] }}</td>
+                            <td class="px-5 py-4 text-slate-500">{{ $loop->iteration }}</td>
+                            <td class="px-5 py-4 font-semibold text-slate-900">{{ $fee->label }}</td>
+                            <td class="px-5 py-4 text-slate-600">{{ $fee->note }}</td>
+                            <td class="px-5 py-4 font-semibold text-slate-900">{{ $fee->amountForHumans() }}</td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr class="bg-white">
+                            <td colspan="4" class="px-5 py-8 text-center text-slate-500">
+                                La grille tarifaire sera publiée prochainement.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
                 </table>
             </div>

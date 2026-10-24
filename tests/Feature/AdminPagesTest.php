@@ -44,6 +44,8 @@ class AdminPagesTest extends TestCase
             'settings' => ['/admin/parametres', 'Param'],
             'newsletter' => ['/admin/newsletter', 'abonnés'],
             'messages' => ['/admin/messages', 'Messages de contact'],
+            'calls' => ['/admin/appels', 'Appels à candidatures'],
+            'references' => ['/admin/referentiels', 'Grille tarifaire'],
         ];
     }
 

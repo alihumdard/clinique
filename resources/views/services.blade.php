@@ -23,22 +23,28 @@
             juridique gratuite dans plusieurs domaines du droit, en fonction des besoins de la population.
         </p>
 
+        @php
+            // x-service-card has its own palette names; the domain's tone
+            // maps onto them.
+            $cardColours = [
+                'blue' => 'primary', 'green' => 'green', 'amber' => 'amber',
+                'red' => 'red', 'purple' => 'purple', 'pink' => 'red', 'slate' => 'teal',
+            ];
+        @endphp
+
         <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <x-service-card icon="users" title="Droit de la famille" color="primary">
-                Mariage, divorce, filiation, succession, autorité parentale, protection de l'enfant.
-            </x-service-card>
-            <x-service-card icon="scale" title="Droit civil" color="amber">
-                Contrats, responsabilités, litiges civils, biens et propriété.
-            </x-service-card>
-            <x-service-card icon="document" title="Droit du travail" color="green">
-                Relations employeur-employé, contrats de travail, licenciement, droits sociaux.
-            </x-service-card>
-            <x-service-card icon="gavel" title="Droit administratif" color="purple">
-                Relations avec l'administration, recours administratifs, services publics.
-            </x-service-card>
-            <x-service-card icon="scale" title="Droits humains" color="red">
-                Protection et promotion des droits fondamentaux, non-discrimination.
-            </x-service-card>
+            @foreach ($domains as $domain)
+                <x-service-card
+                    :icon="$domain->icon ?? 'scale'"
+                    :title="$domain->name"
+                    :color="$cardColours[$domain->tone] ?? 'primary'"
+                >
+                    {{ $domain->plain_language }}
+                </x-service-card>
+            @endforeach
+
+            {{-- Always last: the Clinic orients anyone whose situation is
+                 not on the list, which is the point of saying so here. --}}
             <x-service-card icon="users" title="Autres domaines" color="teal">
                 Orientation vers des services spécialisés selon la nature de votre situation.
             </x-service-card>

@@ -51,6 +51,11 @@
             'label' => 'Terrain',
             'items' => [
                 [
+                    'label' => 'Appels à candidatures',
+                    'icon' => 'user-plus',
+                    'route' => 'admin.calls',
+                ],
+                [
                     'label' => 'Activités & caravanes',
                     'icon' => 'calendar',
                     'route' => 'admin.activities',
@@ -73,6 +78,7 @@
             'items' => [
                 ['label' => 'Messages de contact', 'icon' => 'chat',    'route' => 'admin.messages'],
                 ['label' => 'Newsletter',         'icon' => 'mail',     'route' => 'admin.newsletter'],
+                ['label' => 'Référentiels',       'icon' => 'folder',   'route' => 'admin.references'],
                 ['label' => 'Paramètres du site', 'icon' => 'settings', 'route' => 'admin.settings'],
             ],
         ],

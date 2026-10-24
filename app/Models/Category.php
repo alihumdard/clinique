@@ -45,6 +45,11 @@ class Category extends Model
         return $this->hasMany(Partner::class);
     }
 
+    public function calls()
+    {
+        return $this->hasMany(Call::class);
+    }
+
     /**
      * A thumbnail for the rubrique, taken from whichever row the listing
      * query selected as representative. Null when none was selected, so
