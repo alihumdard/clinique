@@ -18,14 +18,20 @@
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 
         {{-- ============ CATEGORY FILTERS ============ --}}
-        {{-- Static pills until Module 2 wires them to real query filters. --}}
         <div class="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
-            <x-filter-pill :active="true">Toutes les activités</x-filter-pill>
-            <x-filter-pill>Caravanes juridiques</x-filter-pill>
-            <x-filter-pill>Sensibilisations</x-filter-pill>
-            <x-filter-pill>Formations</x-filter-pill>
-            <x-filter-pill>Ateliers</x-filter-pill>
-            <x-filter-pill>Rencontres communautaires</x-filter-pill>
+            <x-filter-pill :href="route('activities.index')" :active="! $current">
+                Toutes les activités
+            </x-filter-pill>
+
+            @foreach ($categories as $category)
+                @continue($category->activities_count === 0)
+                <x-filter-pill
+                    :href="route('activities.index', ['categorie' => $category->slug])"
+                    :active="$current?->id === $category->id"
+                >
+                    {{ $category->name }}
+                </x-filter-pill>
+            @endforeach
         </div>
 
         {{-- ============ INTRO + HIGHLIGHT ============ --}}
@@ -89,56 +95,30 @@
 
     {{-- ============ DERNIERES ACTIVITES ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <x-section-heading :link="route('activities.index')" link-label="Voir toutes les activités">
-            Nos dernières activités
+        <x-section-heading>
+            {{ $current ? $current->name : 'Nos dernières activités' }}
         </x-section-heading>
 
-        @php
-            $activities = [
-                [
-                    'image' => 'placeholders/news-caravan',
-                    'category' => 'Caravane juridique',
-                    'color' => 'amber',
-                    'date' => '28 septembre 2024',
-                    'location' => 'Tillabéri',
-                    'title' => 'Caravane juridique à Tillabéri',
-                    'excerpt' => "Une journée d'information et de conseil juridique pour les populations locales sur leurs droits et démarches administratives.",
-                ],
-                [
-                    'image' => 'placeholders/news-3',
-                    'category' => 'Sensibilisation',
-                    'color' => 'purple',
-                    'date' => '12 octobre 2024',
-                    'location' => 'Niamey',
-                    'title' => 'Session de sensibilisation des jeunes',
-                    'excerpt' => "Sensibilisation des étudiants et jeunes sur l'importance de l'accès au droit et la prévention des conflits.",
-                ],
-                [
-                    'image' => 'placeholders/news-formation',
-                    'category' => 'Formation',
-                    'color' => 'green',
-                    'date' => '5 septembre 2024',
-                    'location' => 'Niamey',
-                    'title' => 'Formation sur la médiation',
-                    'excerpt' => "Renforcement des capacités des étudiants de la Clinique sur les techniques de médiation et de résolution des conflits.",
-                ],
-            ];
-        @endphp
-
         <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($activities as $activity)
+            @forelse ($activities as $activity)
                 <x-activity-card
-                    :image="$activity['image']"
-                    :category="$activity['category']"
-                    :category-color="$activity['color']"
-                    :date="$activity['date']"
-                    :location="$activity['location']"
-                    :title="$activity['title']"
-                    :excerpt="$activity['excerpt']"
-                    :href="route('activities.index')"
+                    :image-url="$activity->coverUrl()"
+                    :category="$activity->category?->name"
+                    category-color="primary"
+                    :date="$activity->held_on?->translatedFormat('j F Y')"
+                    :location="$activity->location"
+                    :title="$activity->title"
+                    :excerpt="$activity->excerpt"
+                    :href="route('activities.index', ['categorie' => $activity->category?->slug])"
                 />
-            @endforeach
+            @empty
+                <p class="text-sm text-slate-500 sm:col-span-2 lg:col-span-3">
+                    Aucune activité n'est publiée dans cette rubrique pour le moment.
+                </p>
+            @endforelse
         </div>
+
+        <x-pagination :paginator="$activities" />
     </section>
 
     {{-- ============ IMPACT ============ --}}
@@ -187,18 +167,8 @@
             Galerie photos
         </x-section-heading>
 
-        @php
-            $gallery = [
-                ['path' => 'placeholders/news-caravan', 'alt' => 'Caravane juridique en zone rurale'],
-                ['path' => 'placeholders/news-1', 'alt' => "Séance d'information collective"],
-                ['path' => 'placeholders/news-3', 'alt' => 'Rencontre communautaire'],
-                ['path' => 'placeholders/news-formation', 'alt' => 'Formation des étudiants cliniciens'],
-                ['path' => 'placeholders/news-2', 'alt' => 'Atelier de sensibilisation'],
-            ];
-        @endphp
-
         <div class="mt-5">
-            <x-gallery-strip :items="$gallery" :href="route('gallery')" />
+            <x-gallery-strip :photos="$strip" :href="route('gallery')" />
         </div>
     </section>
 

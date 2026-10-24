@@ -4,8 +4,11 @@
     this from x-news-card, where events have no place).
 --}}
 @props([
-    'image',
-    'category',
+    // `image` is a placeholder path under public/images; `imageUrl` is a
+    // ready URL, which is what a stored image gives. One or the other.
+    'image' => null,
+    'imageUrl' => null,
+    'category' => null,
     'categoryColor' => 'primary',
     'date',
     'location' => null,
@@ -16,13 +19,20 @@
 
 <article class="flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
     <div class="relative">
-        <x-picture
-            :path="$image"
-            :alt="$title"
-            width="700" height="420"
-            class="aspect-[5/3] w-full object-cover"
-        />
-        <x-category-badge :color="$categoryColor">{{ $category }}</x-category-badge>
+        @if($imageUrl)
+            <img src="{{ $imageUrl }}" alt="{{ $title }}" width="700" height="420" loading="lazy" class="aspect-[5/3] w-full object-cover">
+        @else
+            <x-picture
+                :path="$image"
+                :alt="$title"
+                width="700" height="420"
+                class="aspect-[5/3] w-full object-cover"
+            />
+        @endif
+
+        @if($category)
+            <x-category-badge :color="$categoryColor">{{ $category }}</x-category-badge>
+        @endif
     </div>
 
     <div class="flex flex-1 flex-col p-5">

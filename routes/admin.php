@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\GuideController;
 use App\Http\Controllers\Admin\ReportController;
@@ -61,8 +62,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/web-tv/{id}/definitif', [VideoController::class, 'forceDestroy'])->name('webtv.force-destroy');
         Route::view('/partenaires', 'admin.partners')->name('partners');
         Route::view('/equipe', 'admin.team')->name('team');
-        Route::view('/activites', 'admin.activities')->name('activities');
-        Route::view('/activites/nouvelle', 'admin.activities')->name('activities.create');
+
+        /*
+        | Activités et galerie photos. The gallery is a hasMany on the
+        | activity, so photos are added with the activity and removed one
+        | at a time from its own row.
+        */
+        Route::get('/activites', [ActivityController::class, 'index'])->name('activities');
+        Route::post('/activites', [ActivityController::class, 'store'])->name('activities.store');
+        Route::put('/activites/{activity:id}', [ActivityController::class, 'update'])->name('activities.update');
+        Route::delete('/activites/{activity:id}', [ActivityController::class, 'destroy'])->name('activities.destroy');
+        Route::post('/activites/{id}/restaurer', [ActivityController::class, 'restore'])->name('activities.restore');
+        Route::delete('/activites/{id}/definitif', [ActivityController::class, 'forceDestroy'])->name('activities.force-destroy');
+        Route::delete('/activites/{activity:id}/photos/{photo}', [ActivityController::class, 'destroyPhoto'])->name('activities.photos.destroy');
+
 
         /*
         | Fiches pratiques and rapports annuels. Both carry a PDF, which is

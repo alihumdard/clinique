@@ -27,6 +27,30 @@ class PublicPagesTest extends TestCase
             'published_at' => now()->subDay(),
         ]);
 
+        $caravanes = \App\Models\Category::create([
+            'type' => 'activity',
+            'name' => 'Caravanes juridiques',
+            'slug' => 'caravanes-juridiques',
+            'tone' => 'purple',
+        ]);
+
+        $activity = \App\Models\Activity::create([
+            'title' => 'Caravane juridique à Tillabéri',
+            'slug' => 'caravane-juridique-a-tillaberi',
+            'excerpt' => "Une journée de conseil juridique.",
+            'location' => 'Tillabéri',
+            'held_on' => now()->subMonth(),
+            'category_id' => $caravanes->id,
+            'status' => \App\Models\Activity::STATUS_PUBLISHED,
+            'published_at' => now()->subMonth(),
+        ]);
+
+        $activity->photos()->create([
+            'path' => 'placeholders/news-caravan',
+            'caption' => 'Caravane juridique en plein air',
+            'position' => 1,
+        ]);
+
         \App\Models\Guide::create([
             'title' => 'Droits de la famille',
             'slug' => 'droits-de-la-famille',
@@ -123,6 +147,81 @@ class PublicPagesTest extends TestCase
         $this->get('/web-tv/caravane-juridique-tillaberi')->assertOk();
 
         $this->assertSame($video->views + 1, $video->fresh()->views);
+    }
+
+    public function test_a_draft_activity_is_not_on_the_public_site(): void
+    {
+        \App\Models\Activity::create([
+            'title' => 'Atelier interne de préparation',
+            'slug' => 'atelier-interne',
+            'status' => \App\Models\Activity::STATUS_DRAFT,
+        ]);
+
+        $this->get('/activites')
+            ->assertOk()
+            ->assertDontSee('Atelier interne', escape: false);
+    }
+
+    /**
+     * A draft activity's photos must not reach the gallery either: the
+     * gallery reads photos through their activity, not on their own.
+     */
+    public function test_photos_of_a_draft_activity_are_not_in_the_gallery(): void
+    {
+        $draft = \App\Models\Activity::create([
+            'title' => 'Atelier interne',
+            'slug' => 'atelier-interne',
+            'status' => \App\Models\Activity::STATUS_DRAFT,
+            'category_id' => \App\Models\Category::create([
+                'type' => 'activity',
+                'name' => 'Ateliers',
+                'slug' => 'ateliers',
+                'tone' => 'green',
+            ])->id,
+        ]);
+
+        $draft->photos()->create([
+            'path' => 'placeholders/gallery-conference',
+            'caption' => 'Photo interne confidentielle',
+            'position' => 1,
+        ]);
+
+        $this->get('/galerie')
+            ->assertOk()
+            ->assertDontSee('Photo interne confidentielle', escape: false)
+            ->assertDontSee('Ateliers', escape: false);
+    }
+
+    public function test_the_gallery_groups_photos_by_album(): void
+    {
+        $this->get('/galerie')
+            ->assertOk()
+            ->assertSee('Caravanes juridiques', escape: false)
+            ->assertSee('Caravane juridique en plein air', escape: false);
+    }
+
+    public function test_the_activities_list_can_be_filtered_by_type(): void
+    {
+        $formations = \App\Models\Category::create([
+            'type' => 'activity',
+            'name' => 'Formations',
+            'slug' => 'formations-activite',
+            'tone' => 'blue',
+        ]);
+
+        \App\Models\Activity::create([
+            'title' => 'Formation sur la médiation',
+            'slug' => 'formation-sur-la-mediation',
+            'category_id' => $formations->id,
+            'held_on' => now()->subWeek(),
+            'status' => \App\Models\Activity::STATUS_PUBLISHED,
+            'published_at' => now()->subWeek(),
+        ]);
+
+        $this->get('/activites?categorie=formations-activite')
+            ->assertOk()
+            ->assertSee('Formation sur la médiation', escape: false)
+            ->assertDontSee('Caravane juridique à Tillabéri', escape: false);
     }
 
     public function test_the_web_tv_list_can_be_filtered_by_rubrique(): void

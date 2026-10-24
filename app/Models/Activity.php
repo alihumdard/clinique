@@ -37,4 +37,29 @@ class Activity extends Model
     {
         return $this->hasMany(ActivityPhoto::class)->orderBy('position');
     }
+
+    public function coverUrl(): string
+    {
+        return $this->imageUrl($this->image, 'placeholders/news-caravan');
+    }
+
+    /**
+     * Whether the activity has already taken place. The plan's "À venir" and
+     * "Passées" views are this, not a status: an activity is published
+     * either way, and the date is what moves it from one list to the other.
+     */
+    public function isUpcoming(): bool
+    {
+        return $this->held_on && $this->held_on->isFuture();
+    }
+
+    public function scopeUpcoming($query)
+    {
+        return $query->whereNotNull('held_on')->where('held_on', '>=', now()->startOfDay());
+    }
+
+    public function scopePast($query)
+    {
+        return $query->whereNotNull('held_on')->where('held_on', '<', now()->startOfDay());
+    }
 }

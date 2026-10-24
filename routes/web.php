@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ResourceController;
@@ -72,8 +73,8 @@ Route::get('/ressources/rapports-annuels/{report}/telecharger', [DocumentControl
 |--------------------------------------------------------------------------
 */
 
-Route::get('/activites', fn () => view('activities'))->name('activities.index');
-Route::get('/galerie', fn () => view('gallery'))->name('gallery');
+Route::get('/activites', [ActivityController::class, 'index'])->name('activities.index');
+Route::get('/galerie', [ActivityController::class, 'gallery'])->name('gallery');
 
 /*
 |--------------------------------------------------------------------------

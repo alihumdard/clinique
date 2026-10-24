@@ -35,6 +35,11 @@ class Category extends Model
         return $this->hasMany(Guide::class);
     }
 
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
     /**
      * A thumbnail for the rubrique, taken from whichever row the listing
      * query selected as representative. Null when none was selected, so
