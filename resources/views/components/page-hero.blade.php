@@ -30,8 +30,9 @@
             <x-picture
                 :path="$image"
                 alt=""
-                width="2170" height="725"
+                width="1600" height="535"
                 :eager="true"
+                :hero="true"
                 class="h-full w-full object-cover {{ $imagePosition }}"
             />
         @endif
