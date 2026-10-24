@@ -22,8 +22,20 @@ class Setting extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget(self::CACHE_KEY));
-        static::deleted(fn () => Cache::forget(self::CACHE_KEY));
+        static::saved(fn () => self::flushCache());
+        static::deleted(fn () => self::flushCache());
+    }
+
+    /**
+     * Drops the cached set.
+     *
+     * The events above cover every write through a model. A mass update or
+     * delete — $query->delete() — fires no model events at all, so code
+     * that writes that way has to call this itself.
+     */
+    public static function flushCache(): void
+    {
+        Cache::forget(self::CACHE_KEY);
     }
 
     public static function all($columns = ['*'])

@@ -23,6 +23,20 @@ return [
     'university' => 'Université Abdou Moumouni de Niamey',
 
     /*
+    | The one-paragraph description of the Clinic, used as the default meta
+    | description and in the footer. Editable from Paramètres du site.
+    */
+    'description' => "La Clinique Juridique de la FSJP-UAM contribue à l'accès à la justice et à la promotion des droits humains à travers la formation, la sensibilisation et l'assistance juridique.",
+
+    /*
+    | Defaults used when a page sets no title or description of its own.
+    */
+    'seo' => [
+        'title' => 'Clinique Juridique FSJP-UAM - Accès au droit pour tous',
+        'description' => "La Clinique Juridique FSJP-UAM offre une assistance juridique gratuite, des consultations, des caravanes juridiques et des ressources pratiques pour l'accès au droit au Niger.",
+    ],
+
+    /*
     | Contact. Phone numbers are stored in two forms: `tel` is the E.164
     | value used in href attributes, `display` is the human-readable
     | spacing shown on screen.

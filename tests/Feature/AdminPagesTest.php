@@ -42,7 +42,7 @@ class AdminPagesTest extends TestCase
             'guides' => ['/admin/fiches-pratiques', 'Gestion des fiches pratiques'],
             'reports' => ['/admin/rapports-annuels', 'Gestion des rapports annuels'],
             'settings' => ['/admin/parametres', 'Param'],
-            'newsletter' => ['/admin/newsletter', 'Gestion de la newsletter'],
+            'newsletter' => ['/admin/newsletter', 'abonnés'],
         ];
     }
 

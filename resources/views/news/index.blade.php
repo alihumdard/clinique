@@ -142,16 +142,40 @@
                     <p class="mt-1 text-sm leading-relaxed text-slate-600">
                         Abonnez-vous à notre newsletter pour recevoir nos dernières actualités et événements.
                     </p>
-                    <form class="mt-4 space-y-2.5">
-                        <label for="newsletter-email" class="sr-only">Votre adresse e-mail</label>
-                        <input
-                            type="email"
-                            id="newsletter-email"
-                            placeholder="Votre adresse e-mail"
-                            class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                        <x-button variant="primary" class="w-full justify-center">S'abonner</x-button>
-                    </form>
+                    @if(session('newsletter'))
+                        <p role="status" class="mt-4 rounded-md bg-emerald-50 p-3 text-sm text-emerald-800">
+                            {{ session('newsletter') }}
+                        </p>
+                    @else
+                        <form method="POST" action="{{ route('newsletter.store') }}" class="mt-4 space-y-2.5">
+                            @csrf
+
+                            <label for="newsletter-email" class="sr-only">Votre adresse e-mail</label>
+                            <input
+                                type="email"
+                                id="newsletter-email"
+                                name="email"
+                                required
+                                value="{{ old('email') }}"
+                                placeholder="Votre adresse e-mail"
+                                @error('email') aria-invalid="true" aria-describedby="newsletter-error" @enderror
+                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            >
+
+                            {{-- A field nobody sees and a script usually fills in;
+                                 the server refuses the request if it arrives filled. --}}
+                            <div class="hidden" aria-hidden="true">
+                                <label for="newsletter-website">Site web</label>
+                                <input type="text" id="newsletter-website" name="website" tabindex="-1" autocomplete="off">
+                            </div>
+
+                            @error('email')
+                                <p id="newsletter-error" role="alert" class="text-sm text-rose-700">{{ $message }}</p>
+                            @enderror
+
+                            <x-button variant="primary" type="submit" class="w-full justify-center">S'abonner</x-button>
+                        </form>
+                    @endif
                 </div>
             </aside>
         </div>

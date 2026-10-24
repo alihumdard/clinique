@@ -3,9 +3,11 @@
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\GuideController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -119,7 +121,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/rapports-annuels/{id}/restaurer', [ReportController::class, 'restore'])->name('reports.restore');
         Route::delete('/rapports-annuels/{id}/definitif', [ReportController::class, 'forceDestroy'])->name('reports.force-destroy');
 
-        Route::view('/parametres', 'admin.settings')->name('settings');
-        Route::view('/newsletter', 'admin.newsletter')->name('newsletter');
+        /*
+        | Paramètres du site. These are the CMS-editable half of
+        | config/clinique.php, plus the bandeau d'état.
+        */
+        Route::get('/parametres', [SettingController::class, 'index'])->name('settings');
+        Route::put('/parametres', [SettingController::class, 'update'])->name('settings.update');
+
+        /*
+        | Newsletter. Phase 2 collects addresses and exports them; the
+        | Clinic sends with their own tool, so there is nothing to send
+        | from here.
+        */
+        Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter');
+        Route::get('/newsletter/export', [NewsletterController::class, 'export'])->name('newsletter.export');
+        Route::post('/newsletter/{subscriber}/desinscrire', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+        Route::delete('/newsletter/{subscriber}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
     });
 });

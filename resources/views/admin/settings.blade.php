@@ -14,44 +14,18 @@
         ]"
     />
 
+    <x-admin.flash />
+
     {{--
-        Presentation only: Module 2 wires these fields to CMS-backed site
-        settings. The values shown come from config/clinique.php, which is
-        the current single source of truth for the public site.
+        The fields below are the CMS-editable half of config/clinique.php.
+        Every value shown is what the site is currently using: the stored
+        setting where the Clinic has filled one in, and the file's default
+        where they have not. Emptying a field restores the default rather
+        than blanking the site.
     --}}
-    <form method="POST" action="#" class="mt-6">
+    <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data" class="mt-6">
         @csrf
-
-        {{-- ============ SECTION TABS ============ --}}
-        @php
-            $tabs = [
-                ['icon' => 'info',      'label' => 'Informations générales', 'active' => true],
-                ['icon' => 'palette',   'label' => 'Apparence'],
-                ['icon' => 'search',    'label' => 'SEO'],
-                ['icon' => 'share',     'label' => 'Réseaux sociaux'],
-                ['icon' => 'mail',      'label' => 'Contact'],
-                ['icon' => 'mail',      'label' => 'Email'],
-                ['icon' => 'window',    'label' => 'Pied de page'],
-                ['icon' => 'sparkles',  'label' => 'Autres paramètres'],
-            ];
-        @endphp
-
-        <div class="rounded-xl border border-slate-200 bg-white px-5">
-            <div data-settings-tabs class="flex gap-6 overflow-x-auto">
-                @foreach ($tabs as $tab)
-                    @php $active = $tab['active'] ?? false; @endphp
-
-                    <a
-                        href="{{ url()->current() }}"
-                        @if($active) aria-current="page" @endif
-                        class="flex shrink-0 items-center gap-2 border-b-2 py-4 text-sm transition-colors {{ $active ? 'border-primary-600 font-semibold text-primary-600' : 'border-transparent font-medium text-slate-500 hover:text-primary-600' }}"
-                    >
-                        <x-icon :name="$tab['icon']" class="h-4 w-4 shrink-0" />
-                        {{ $tab['label'] }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
+        @method('PUT')
 
         {{-- ============ SETTINGS CARDS ============ --}}
         <div class="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
@@ -76,9 +50,9 @@
                         <input
                             type="text"
                             id="site-name"
-                            name="nom_site"
+                            name="site_name"
                             required
-                            value="{{ config('clinique.name') }}"
+                            value="{{ old('site_name', config('clinique.name')) }}"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
@@ -88,8 +62,8 @@
                         <input
                             type="text"
                             id="site-subtitle"
-                            name="sous_titre"
-                            value="{{ config('clinique.faculty') }}"
+                            name="site_faculty"
+                            value="{{ old('site_faculty', config('clinique.faculty')) }}"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
@@ -102,23 +76,30 @@
                         </label>
                         <textarea
                             id="site-description"
-                            name="description"
+                            name="site_description"
                             rows="3"
                             required
                             class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >La Clinique Juridique de la FSJP-UAM contribue à l'accès à la justice et à la promotion des droits humains à travers la formation, la sensibilisation et l'assistance juridique.</textarea>
+                        >{{ old('site_description', config('clinique.description')) }}</textarea>
                     </div>
 
                     <div>
-                        <label for="site-language" class="block text-sm font-medium text-slate-700">Langue principale</label>
-                        <select
-                            id="site-language"
-                            name="langue"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        <label for="site-university" class="block text-sm font-medium text-slate-700">Université</label>
+                        <input
+                            type="text"
+                            id="site-university"
+                            name="site_university"
+                            value="{{ old('site_university', config('clinique.university')) }}"
+                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option>Français</option>
-                        </select>
                     </div>
+
+                    {{-- The site is French-only by plan, so there is no
+                         language to choose; a select with one option is not
+                         a choice, it is a label. --}}
+                    <p class="text-xs text-slate-500">
+                        Langue du site : français.
+                    </p>
                 </div>
             </section>
 
@@ -128,56 +109,57 @@
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="image" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
                         <h2 class="text-base font-bold text-slate-900">Logo et identité visuelle</h2>
-                        <p class="mt-0.5 text-xs text-slate-500">Gérez le logo, le favicon et l'identité visuelle.</p>
+                        <p class="mt-0.5 text-xs text-slate-500">Logo affiché dans l'en-tête et favicon de l'onglet.</p>
                     </div>
                 </div>
 
                 @php
                     $assets = [
-                        ['key' => 'logo',    'label' => 'Logo principal', 'required' => true,  'hint' => 'PNG, SVG - Taille max : 2MB', 'accept' => 'image/png,image/svg+xml', 'box' => 'h-24 w-40'],
-                        ['key' => 'favicon', 'label' => 'Favicon',        'required' => false, 'hint' => 'ICO, PNG - Taille max : 1MB', 'accept' => 'image/png,image/x-icon',  'box' => 'h-24 w-24'],
+                        ['field' => 'logo',    'key' => 'site.logo',    'label' => 'Logo principal', 'box' => 'h-24 w-24'],
+                        ['field' => 'favicon', 'key' => 'site.favicon', 'label' => 'Favicon',        'box' => 'h-24 w-24'],
                     ];
                 @endphp
 
                 <div class="mt-5 space-y-5">
                     @foreach ($assets as $asset)
                         <div>
-                            <span class="block text-sm font-medium text-slate-700">
-                                {{ $asset['label'] }}
-                                @if($asset['required'])
-                                    <span class="text-rose-600" aria-hidden="true">*</span>
-                                    <span class="sr-only">(obligatoire)</span>
-                                @endif
-                            </span>
+                            <span class="block text-sm font-medium text-slate-700">{{ $asset['label'] }}</span>
 
                             <div class="mt-1.5 flex flex-wrap items-center gap-4">
-                                <span class="flex {{ $asset['box'] }} shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-slate-400">
-                                    <x-icon name="scale" class="h-8 w-8" />
-                                </span>
+                                <img
+                                    src="{{ \App\Support\SiteSettings::imageUrl($asset['key']) }}"
+                                    alt=""
+                                    class="{{ $asset['box'] }} shrink-0 rounded-lg border border-slate-200 bg-white object-contain p-1"
+                                >
 
                                 <div class="min-w-0">
-                                    <div class="flex items-center gap-2">
-                                        <label
-                                            for="asset-{{ $asset['key'] }}"
-                                            class="cursor-pointer rounded-lg bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 transition-colors hover:bg-primary-100"
+                                    <label
+                                        for="asset-{{ $asset['field'] }}"
+                                        class="inline-block cursor-pointer rounded-lg bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 transition-colors hover:bg-primary-100"
+                                    >
+                                        Changer
+                                        <input
+                                            type="file"
+                                            id="asset-{{ $asset['field'] }}"
+                                            name="{{ $asset['field'] }}"
+                                            accept="image/png,image/jpeg,image/webp"
+                                            class="sr-only"
                                         >
-                                            Changer
+                                    </label>
+
+                                    @if (! blank($values[$asset['key']] ?? null))
+                                        <label class="mt-2 flex items-center gap-2 text-xs text-slate-500">
                                             <input
-                                                type="file"
-                                                id="asset-{{ $asset['key'] }}"
-                                                name="{{ $asset['key'] }}"
-                                                accept="{{ $asset['accept'] }}"
-                                                class="sr-only"
+                                                type="checkbox"
+                                                name="remove[]"
+                                                value="{{ $asset['field'] }}"
+                                                class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500"
                                             >
+                                            Revenir à l'image par défaut
                                         </label>
+                                    @endif
 
-                                        <button type="button" class="rounded-lg p-2 text-rose-600 transition-colors hover:bg-rose-50">
-                                            <x-icon name="trash" class="h-4 w-4" />
-                                            <span class="sr-only">Supprimer le {{ mb_strtolower($asset['label']) }}</span>
-                                        </button>
-                                    </div>
-
-                                    <p class="mt-1.5 text-xs text-slate-400">{{ $asset['hint'] }}</p>
+                                    <p class="mt-1.5 text-xs text-slate-400">PNG, JPG ou WebP - Max 1MB</p>
                                 </div>
                             </div>
                         </div>
@@ -202,20 +184,28 @@
                             <span class="pointer-events-none absolute left-3.5 top-3 text-slate-400">
                                 <x-icon name="map-pin" class="h-4 w-4" />
                             </span>
-                            <textarea
+                            <input
+                                type="text"
                                 id="contact-address"
-                                name="adresse"
-                                rows="2"
-                                class="w-full resize-y rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >{{ config('clinique.contact.address.line2') }}, {{ config('clinique.contact.address.line1') }}, {{ config('clinique.contact.address.city') }}, {{ config('clinique.contact.address.country') }}</textarea>
+                                name="contact_address_line1"
+                                value="{{ old('contact_address_line1', config('clinique.contact.address.line1')) }}"
+                                placeholder="Faculté des Sciences Juridiques et Politiques"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            >
                         </div>
                     </div>
 
                     @php
                         $contactFields = [
-                            ['id' => 'contact-phone', 'name' => 'telephone', 'label' => 'Téléphone', 'type' => 'tel',   'icon' => 'phone', 'value' => config('clinique.contact.phone.display')],
-                            ['id' => 'contact-email', 'name' => 'email',     'label' => 'Email',     'type' => 'email', 'icon' => 'mail',  'value' => config('clinique.contact.email')],
-                            ['id' => 'contact-hours', 'name' => 'horaires',  'label' => 'Horaires',  'type' => 'text',  'icon' => 'clock', 'value' => config('clinique.hours.days').' : '.config('clinique.hours.time')],
+                            ['id' => 'contact-line2',   'name' => 'contact_address_line2',   'label' => 'Adresse (2e ligne)', 'type' => 'text',  'icon' => 'map-pin', 'value' => config('clinique.contact.address.line2')],
+                            ['id' => 'contact-city',    'name' => 'contact_address_city',    'label' => 'Ville',              'type' => 'text',  'icon' => 'map-pin', 'value' => config('clinique.contact.address.city')],
+                            ['id' => 'contact-country', 'name' => 'contact_address_country', 'label' => 'Pays',               'type' => 'text',  'icon' => 'globe',   'value' => config('clinique.contact.address.country')],
+                            ['id' => 'contact-phone',   'name' => 'contact_phone',           'label' => 'Téléphone affiché',  'type' => 'tel',   'icon' => 'phone',   'value' => config('clinique.contact.phone.display')],
+                            ['id' => 'contact-tel',     'name' => 'contact_phone_href',      'label' => 'Téléphone (format international, pour les liens)', 'type' => 'tel', 'icon' => 'phone', 'value' => config('clinique.contact.phone.tel')],
+                            ['id' => 'contact-email',   'name' => 'contact_email',           'label' => 'Email',              'type' => 'email', 'icon' => 'mail',    'value' => config('clinique.contact.email')],
+                            ['id' => 'hours-days',      'name' => 'hours_days',              'label' => 'Jours d\'ouverture', 'type' => 'text',  'icon' => 'calendar','value' => config('clinique.hours.days')],
+                            ['id' => 'hours-time',      'name' => 'hours_time',              'label' => 'Horaires',           'type' => 'text',  'icon' => 'clock',   'value' => config('clinique.hours.time')],
+                            ['id' => 'hours-note',      'name' => 'hours_note',              'label' => 'Note sur les horaires', 'type' => 'text', 'icon' => 'info',  'value' => config('clinique.hours.note')],
                         ];
                     @endphp
 
@@ -230,7 +220,7 @@
                                     type="{{ $field['type'] }}"
                                     id="{{ $field['id'] }}"
                                     name="{{ $field['name'] }}"
-                                    value="{{ $field['value'] }}"
+                                    value="{{ old($field['name'], $field['value']) }}"
                                     class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                                 >
                             </div>
@@ -272,8 +262,8 @@
                             <input
                                 type="url"
                                 id="social-{{ $network['key'] }}"
-                                name="social[{{ $network['key'] }}]"
-                                value="{{ config('clinique.social.'.$network['key']) }}"
+                                name="social_{{ $network['key'] }}"
+                                value="{{ old('social_'.$network['key'], config('clinique.social.'.$network['key'])) }}"
                                 placeholder="{{ $network['placeholder'] }}"
                                 class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
@@ -282,82 +272,63 @@
                 </div>
             </section>
 
-            {{-- Appearance --}}
+            {{--
+                Bandeau d'état. This card replaces the design's colour and
+                font pickers: the palette is fixed by the design system and
+                is compiled into the stylesheet, so a colour chosen here
+                could not take effect — whereas the bandeau is a plan
+                requirement that had no screen of its own.
+            --}}
             <section class="rounded-xl border border-slate-200 bg-white p-5">
                 <div class="flex items-start gap-3">
-                    <x-icon-badge size="sm" class="shrink-0"><x-icon name="palette" class="h-5 w-5" /></x-icon-badge>
+                    <x-icon-badge size="sm" class="shrink-0"><x-icon name="bell" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
-                        <h2 class="text-base font-bold text-slate-900">Apparence du site</h2>
-                        <p class="mt-0.5 text-xs text-slate-500">Couleurs principales et paramètres d'affichage.</p>
+                        <h2 class="text-base font-bold text-slate-900">Bandeau d'information</h2>
+                        <p class="mt-0.5 text-xs text-slate-500">Message affiché en haut de toutes les pages du site.</p>
                     </div>
                 </div>
 
-                @php
-                    $colours = [
-                        ['id' => 'colour-primary',   'name' => 'couleur_principale', 'label' => 'Couleur principale', 'value' => '#2563EB'],
-                        ['id' => 'colour-secondary', 'name' => 'couleur_secondaire', 'label' => 'Couleur secondaire', 'value' => '#0F2847'],
-                    ];
-                @endphp
-
                 <div class="mt-5 space-y-4">
-                    @foreach ($colours as $colour)
-                        <div>
-                            <label for="{{ $colour['id'] }}" class="block text-sm font-medium text-slate-700">{{ $colour['label'] }}</label>
+                    <x-admin.toggle
+                        name="banner_enabled"
+                        label="Afficher le bandeau"
+                        :checked="(bool) old('banner_enabled', $values['banner.enabled'] ?? false)"
+                    />
 
-                            <div class="mt-1.5 flex items-center gap-3">
-                                {{-- Native colour picker: no script, and it is the
-                                     same control screen readers already announce. --}}
-                                <input
-                                    type="color"
-                                    id="{{ $colour['id'] }}"
-                                    name="{{ $colour['name'] }}"
-                                    value="{{ $colour['value'] }}"
-                                    class="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-slate-200 bg-white p-1"
-                                >
+                    <div>
+                        <label for="banner-message" class="block text-sm font-medium text-slate-700">Message</label>
+                        <textarea
+                            id="banner-message"
+                            name="banner_message"
+                            rows="3"
+                            maxlength="300"
+                            aria-describedby="banner-message-hint"
+                            placeholder="Ex. La Clinique sera fermée du 24 au 28 décembre."
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('banner_message', $values['banner.message'] ?? '') }}</textarea>
+                        <p id="banner-message-hint" class="mt-1.5 text-xs text-slate-500">
+                            Fermeture exceptionnelle, changement d'horaires, information urgente.
+                        </p>
+                    </div>
 
-                                <label for="{{ $colour['id'] }}-hex" class="sr-only">{{ $colour['label'] }} (code hexadécimal)</label>
-                                <input
-                                    type="text"
-                                    id="{{ $colour['id'] }}-hex"
-                                    name="{{ $colour['name'] }}_hex"
-                                    value="{{ $colour['value'] }}"
-                                    pattern="#[0-9A-Fa-f]{6}"
-                                    class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2.5 font-mono text-sm uppercase text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                >
-                            </div>
-                        </div>
-                    @endforeach
-
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                            <label for="site-font" class="block text-sm font-medium text-slate-700">Police principale</label>
-                            <select
-                                id="site-font"
-                                name="police"
-                                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                                <option>Inter</option>
-                                <option>Police système</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="site-theme" class="block text-sm font-medium text-slate-700">Mode d'affichage</label>
-                            <div class="relative mt-1.5">
-                                <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                                    <x-icon name="sun" class="h-4 w-4" />
-                                </span>
-                                <select
-                                    id="site-theme"
-                                    name="theme"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                >
-                                    <option>Clair</option>
-                                    <option>Sombre</option>
-                                    <option>Automatique</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div>
+                        <label for="banner-tone" class="block text-sm font-medium text-slate-700">Type de message</label>
+                        <select
+                            id="banner-tone"
+                            name="banner_tone"
+                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                            @php
+                                $tones = [
+                                    'info' => 'Information (bleu)',
+                                    'warning' => 'Avertissement (ambre)',
+                                    'closure' => 'Fermeture (rouge)',
+                                ];
+                            @endphp
+                            @foreach ($tones as $value => $label)
+                                <option value="{{ $value }}" @selected(old('banner_tone', $values['banner.tone'] ?? 'info') === $value)>{{ $label }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </section>
@@ -378,8 +349,9 @@
                         <input
                             type="text"
                             id="seo-title"
-                            name="seo_titre"
-                            value="Clinique Juridique FSJP - UAM | Accès à la justice"
+                            name="seo_title"
+                            maxlength="70"
+                            value="{{ old('seo_title', config('clinique.seo.title')) }}"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
@@ -390,18 +362,20 @@
                             id="seo-description"
                             name="seo_description"
                             rows="3"
-                            maxlength="160"
+                            maxlength="300"
                             class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >La Clinique Juridique de la FSJP-UAM contribue à l'accès à la justice, la formation et la promotion des droits humains au Niger.</textarea>
+                        >{{ old('seo_description', config('clinique.seo.description')) }}</textarea>
                     </div>
 
                     <div>
                         <span class="block text-sm font-medium text-slate-700">Image par défaut pour le partage</span>
 
                         <div class="mt-1.5 flex flex-wrap items-center gap-4">
-                            <span class="flex h-16 w-24 shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 text-slate-400">
-                                <x-icon name="image" class="h-6 w-6" />
-                            </span>
+                            <img
+                                src="{{ \App\Support\SiteSettings::imageUrl('seo.image') }}"
+                                alt=""
+                                class="h-16 w-24 shrink-0 rounded-lg border border-slate-200 bg-white object-contain p-1"
+                            >
 
                             <div class="min-w-0">
                                 <label
@@ -413,11 +387,26 @@
                                         type="file"
                                         id="seo-image"
                                         name="seo_image"
-                                        accept="image/jpeg,image/png"
+                                        accept="image/jpeg,image/png,image/webp"
                                         class="sr-only"
                                     >
                                 </label>
-                                <p class="mt-1.5 text-xs text-slate-400">JPG, PNG - Taille max : 2MB</p>
+
+                                @if (! blank($values['seo.image'] ?? null))
+                                    <label class="mt-2 flex items-center gap-2 text-xs text-slate-500">
+                                        <input
+                                            type="checkbox"
+                                            name="remove[]"
+                                            value="seo_image"
+                                            class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500"
+                                        >
+                                        Revenir à l'image par défaut
+                                    </label>
+                                @endif
+
+                                <p class="mt-1.5 text-xs text-slate-400">
+                                    Utilisée quand un lien du site est partagé. JPG, PNG - Max 1MB
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -428,17 +417,11 @@
         {{-- ============ ACTIONS ============ --}}
         <div class="mt-5 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
 
-            {{-- Reset is a submit, not a link: it changes stored settings
-                 and must carry the CSRF token. --}}
-            <button
-                type="submit"
-                name="action"
-                value="reset"
-                class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-            >
-                <x-icon name="refresh" class="h-4 w-4" />
-                Réinitialiser les paramètres
-            </button>
+            {{-- Emptying a field already restores its default, so there is
+                 no separate reset to get wrong. --}}
+            <p class="text-xs leading-relaxed text-slate-500 sm:max-w-sm">
+                Un champ laissé vide reprend sa valeur par défaut.
+            </p>
 
             <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a

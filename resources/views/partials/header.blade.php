@@ -52,7 +52,7 @@
 <header class="sticky top-0 z-40 border-b border-slate-200 bg-white">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2.5">
-            <img src="{{ asset('images/brand/logo.png') }}" alt="Clinique Juridique FSJP - UAM" class="h-12 w-12 shrink-0 rounded-full object-cover" width="48" height="48">
+            <img src="{{ \App\Support\SiteSettings::imageUrl('site.logo') }}" alt="{{ config('clinique.name') }}" class="h-12 w-12 shrink-0 rounded-full object-cover" width="48" height="48">
             <span class="leading-tight">
                 <span class="block text-base font-bold text-slate-900">Clinique Juridique</span>
                 <span class="block text-sm font-medium text-slate-500">FSJP - UAM</span>

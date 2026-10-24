@@ -161,6 +161,30 @@ class PeopleCrudTest extends TestCase
             ->assertDontSee('en cours de validation', escape: false);
     }
 
+    /**
+     * A partner with a site becomes a link out; one without stays a plain
+     * tile. The link opens in a new tab, so it carries noopener — the
+     * address is one the Clinic typed in, not one we control.
+     */
+    public function test_a_partner_with_a_website_links_out_safely(): void
+    {
+        Partner::create($this->partnerPayload(['slug' => 'avec-site']));
+
+        $this->get('/partenaires')
+            ->assertOk()
+            ->assertSee('https://www.justice.ne', escape: false)
+            ->assertSee('rel="noopener noreferrer"', escape: false);
+    }
+
+    public function test_a_partner_without_a_website_is_not_a_link(): void
+    {
+        Partner::create($this->partnerPayload(['slug' => 'sans-site', 'website' => null]));
+
+        $html = $this->get('/partenaires')->getContent();
+
+        $this->assertStringNotContainsString('rel="noopener noreferrer"', $html);
+    }
+
     public function test_a_partner_goes_to_the_corbeille_and_can_be_restored(): void
     {
         $partner = Partner::create($this->partnerPayload(['slug' => 'ministere']));

@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\WebTvController;
@@ -92,6 +93,20 @@ Route::get('/web-tv/{video}', [WebTvController::class, 'show'])->name('webtv.sho
 Route::get('/rejoindre', fn () => view('join'))->name('join');
 Route::get('/contact', fn () => view('contact'))->name('contact');
 Route::get('/recherche', fn () => view('search'))->name('search');
+
+/*
+|--------------------------------------------------------------------------
+| Newsletter
+|--------------------------------------------------------------------------
+|
+| Subscribing is a POST from the form on the actualités page. Unsubscribing
+| is a GET because it is followed from a link in an email, and the token in
+| the URL is what authorises it.
+|
+*/
+
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
+Route::get('/newsletter/desinscription/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 
 /*
 |--------------------------------------------------------------------------
