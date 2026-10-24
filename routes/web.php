@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\WebTvController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,9 +54,17 @@ Route::get('/actualites/{article}', [NewsController::class, 'show'])->name('news
 */
 
 Route::redirect('/ressources', '/ressources/fiches-pratiques')->name('resources');
-Route::get('/ressources/fiches-pratiques', fn () => view('resources.guides'))->name('resources.guides');
-Route::get('/ressources/fiches-pratiques/droits-de-la-famille', fn () => view('resources.guide-show'))->name('resources.guides.show');
-Route::get('/ressources/rapports-annuels', fn () => view('resources.reports'))->name('resources.reports');
+Route::get('/ressources/fiches-pratiques', [ResourceController::class, 'guides'])->name('resources.guides');
+Route::get('/ressources/fiches-pratiques/{guide}', [ResourceController::class, 'guide'])->name('resources.guides.show');
+Route::get('/ressources/rapports-annuels', [ResourceController::class, 'reports'])->name('resources.reports');
+
+/*
+| Stored PDFs. They sit on a private disk outside the web root, so the
+| only way to one is through the controller, which checks the row is
+| published and counts the download.
+*/
+Route::get('/ressources/fiches-pratiques/{guide}/telecharger', [DocumentController::class, 'guide'])->name('documents.guide');
+Route::get('/ressources/rapports-annuels/{report}/telecharger', [DocumentController::class, 'report'])->name('documents.report');
 
 /*
 |--------------------------------------------------------------------------

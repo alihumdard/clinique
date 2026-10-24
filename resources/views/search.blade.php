@@ -202,7 +202,7 @@
                             'excerpt' => "Ce guide présente de manière simple et pratique les droits des femmes dans le milieu universitaire, les mécanismes de protection et les recours disponibles.",
                             'date' => '12 février 2025',
                             'views' => '420',
-                            'href' => route('resources.guides.show'),
+                            'href' => route('resources.guides'),
                         ],
                         [
                             'image' => 'placeholders/news-2',

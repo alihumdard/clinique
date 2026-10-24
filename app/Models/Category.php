@@ -30,6 +30,11 @@ class Category extends Model
         return $this->hasMany(Video::class);
     }
 
+    public function guides()
+    {
+        return $this->hasMany(Guide::class);
+    }
+
     /**
      * A thumbnail for the rubrique, taken from whichever row the listing
      * query selected as representative. Null when none was selected, so

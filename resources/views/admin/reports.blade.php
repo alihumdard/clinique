@@ -5,11 +5,13 @@
 
 @section('content')
 
+    <x-admin.flash />
+
     <x-admin.page-header
         title="Gestion des rapports annuels d'activité"
         lead="Ajoutez, modifiez et organisez les rapports annuels d'activité de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un rapport annuel"
-        :action-href="route('admin.reports')"
+        action-href="#ajouter-un-rapport"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Rapports annuels'],
@@ -21,19 +23,20 @@
         <div class="space-y-5 xl:col-span-3">
 
             {{-- ============ KPIs ============ --}}
-            {{-- Counts are illustrative until Module 2 supplies real queries. --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="document" color="blue"  value="8"     label="Rapports publiés" trend="+33%" note="par rapport à l'année dernière" />
-                <x-admin.stat-card icon="download" color="green" value="3 845" label="Téléchargements"  trend="+28%" note="cette année" />
-                <x-admin.stat-card icon="clock"    color="amber" value="1"     label="En brouillon"     note="non publié" />
-                <x-admin.stat-card icon="folder"   color="red"   value="12"    label="Pages totales"    note="dans tous les rapports" />
+                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Rapports publiés" />
+                <x-admin.stat-card icon="download" color="green" :value="number_format($counts['downloads'], 0, ',', ' ')" label="Téléchargements" />
+                <x-admin.stat-card icon="clock"    color="amber" :value="$counts['drafts']"    label="En brouillon" note="non publiés" />
+                <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                <div class="space-y-3 p-5">
-                    <form role="search" class="relative w-full lg:max-w-xs">
+                {{-- One GET form: search, année and statut submit together,
+                     so a filtered list is a URL that can be shared. --}}
+                <form method="GET" action="{{ route('admin.reports') }}" class="space-y-3 p-5">
+                    <div role="search" class="relative w-full lg:max-w-xs">
                         <label for="reports-search" class="sr-only">Rechercher un rapport</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -42,55 +45,62 @@
                             type="search"
                             id="reports-search"
                             name="q"
+                            value="{{ $filters['q'] ?? '' }}"
                             placeholder="Rechercher un rapport..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                    </form>
+                    </div>
 
                     @php
-                        $selects = [
-                            ['id' => 'reports-year',   'label' => 'Filtrer par année',   'options' => ['Toutes les années', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015']],
-                            ['id' => 'reports-status', 'label' => 'Filtrer par statut',  'options' => ['Tous les statuts', 'Publié', 'Brouillon', 'Archivé']],
-                            ['id' => 'reports-sort',   'label' => 'Trier les résultats', 'options' => ['Trier par date', 'Plus téléchargés', 'Année décroissante', 'Année croissante']],
+                        $statuses = [
+                            '' => 'Tous les statuts',
+                            'published' => 'Publiés',
+                            'draft' => 'Brouillons',
+                            'archived' => 'Archivés',
+                            'corbeille' => 'Corbeille',
                         ];
                     @endphp
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                        @foreach ($selects as $select)
-                            <div class="min-w-0 sm:shrink-0">
-                                <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
-                                <select
-                                    id="{{ $select['id'] }}"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
-                                >
-                                    @foreach ($select['options'] as $option)
-                                        <option>{{ $option }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endforeach
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="reports-year" class="sr-only">Filtrer par année</label>
+                            <select
+                                id="reports-year"
+                                name="annee"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                <option value="">Toutes les années</option>
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}" @selected((int) ($filters['annee'] ?? 0) === (int) $year)>{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                        <button type="button" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="reports-status" class="sr-only">Filtrer par statut</label>
+                            <select
+                                id="reports-status"
+                                name="statut"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                @foreach ($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(($filters['statut'] ?? '') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:w-auto">
                             <x-icon name="filter" class="h-4 w-4" />
                             Filtrer
                         </button>
-                    </div>
-                </div>
 
-                @php
-                    $reports = [
-                        ['cover' => 'placeholders/about-legal',          'year' => '2024', 'size' => '2.4 MB', 'downloads' => '842', 'date' => '15 juin 2025',  'time' => '14:32', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/article-highlight-1',  'year' => '2023', 'size' => '3.1 MB', 'downloads' => '756', 'date' => '12 juin 2025',  'time' => '11:20', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/article-highlight-2',  'year' => '2022', 'size' => '2.8 MB', 'downloads' => '689', 'date' => '28 mai 2025',   'time' => '16:45', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/article-highlight-3',  'year' => '2021', 'size' => '4.2 MB', 'downloads' => '512', 'date' => '20 mai 2025',   'time' => '09:15', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-guide',           'year' => '2020', 'size' => '2.1 MB', 'downloads' => '498', 'date' => '12 avril 2025', 'time' => '13:18', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-1',               'year' => '2019', 'size' => '1.9 MB', 'downloads' => '421', 'date' => '5 avril 2025',  'time' => '10:22', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-2',               'year' => '2018', 'size' => '2.6 MB', 'downloads' => '356', 'date' => '25 mars 2025',  'time' => '15:40', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-3',               'year' => '2017', 'size' => '2.3 MB', 'downloads' => '298', 'date' => '18 mars 2025',  'time' => '11:05', 'status' => 'Brouillon', 'statusTone' => 'amber'],
-                        ['cover' => 'placeholders/news-partenariat',     'year' => '2016', 'size' => '1.8 MB', 'downloads' => '276', 'date' => '10 mars 2025',  'time' => '09:40', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-caravan',         'year' => '2015', 'size' => '2.0 MB', 'downloads' => '319', 'date' => '2 mars 2025',   'time' => '14:25', 'status' => 'Publié',    'statusTone' => 'green'],
-                    ];
-                @endphp
+                        @if (array_filter($filters))
+                            <a href="{{ route('admin.reports') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                                Réinitialiser
+                            </a>
+                        @endif
+                    </div>
+                </form>
 
                 <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
                     <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
@@ -121,43 +131,44 @@
                         </thead>
 
                         <tbody class="divide-y divide-slate-100">
-                            @foreach ($reports as $i => $report)
-                                @php $title = "Rapport annuel d'activité " . $report['year']; @endphp
-
+                            @forelse ($reports as $report)
                                 <tr class="hover:bg-slate-50">
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $title }}"
+                                            aria-label="Sélectionner : {{ $report->title }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
 
-                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $i + 1 }}</td>
+                                    <td class="px-2 py-3 text-sm text-slate-500">
+                                        {{ $loop->iteration + ($reports->firstItem() - 1) }}
+                                    </td>
 
                                     <td class="px-2 py-3">
-                                        <x-picture
-                                            :path="$report['cover']"
+                                        <img
+                                            src="{{ $report->coverUrl() }}"
                                             alt=""
                                             width="80" height="100"
+                                            loading="lazy"
                                             class="h-12 w-10 rounded border border-slate-200 object-cover"
-                                        />
+                                        >
                                     </td>
 
                                     <td class="px-3 py-3">
                                         <span class="block max-w-[12rem] text-sm font-semibold leading-snug text-slate-900">
-                                            {{ $title }}
+                                            {{ $report->title }}
                                         </span>
                                     </td>
 
-                                    <td class="px-3 py-3 text-sm font-medium text-slate-700">{{ $report['year'] }}</td>
+                                    <td class="px-3 py-3 text-sm font-medium text-slate-700">{{ $report->year }}</td>
 
                                     <td class="whitespace-nowrap px-3 py-3">
                                         <span class="flex items-start gap-1.5">
                                             <x-icon name="document" class="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />
                                             <span class="leading-tight">
                                                 <span class="block text-sm text-slate-700">PDF</span>
-                                                <span class="block text-xs text-slate-400">{{ $report['size'] }}</span>
+                                                <span class="block text-xs text-slate-400">{{ $report->fileSizeForHumans() }}</span>
                                             </span>
                                         </span>
                                     </td>
@@ -165,52 +176,63 @@
                                     <td class="px-3 py-3">
                                         <span class="inline-flex items-center gap-1.5 text-sm text-slate-600">
                                             <x-icon name="download" class="h-4 w-4 shrink-0 text-slate-400" />
-                                            {{ $report['downloads'] }}
+                                            {{ number_format($report->downloads, 0, ',', ' ') }}
                                             <span class="sr-only">téléchargements</span>
                                         </span>
                                     </td>
 
                                     <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
-                                        {{ $report['date'] }}<br>
-                                        <span class="text-xs">{{ $report['time'] }}</span>
+                                        @if($report->published_at)
+                                            {{ $report->published_at->translatedFormat('j F Y') }}<br>
+                                            <span class="text-xs">{{ $report->published_at->format('H:i') }}</span>
+                                        @else
+                                            <span class="text-slate-400">&mdash;</span>
+                                        @endif
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$report['statusTone']">{{ $report['status'] }}</x-admin.badge>
+                                        <x-admin.badge :tone="$report->statusTone()">{{ $report->statusLabel() }}</x-admin.badge>
                                     </td>
 
                                     <td class="px-5 py-3">
-                                        <x-admin.row-actions :label="$title" />
+                                        <x-admin.row-actions
+                                            :label="$report->title"
+                                            :view-href="$report->isPublic() ? route('documents.report', $report) : null"
+                                            :delete-action="route('admin.reports.destroy', $report)"
+                                        />
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="10" class="px-5 py-12 text-center">
+                                        <p class="text-sm text-slate-500">Aucun rapport ne correspond à cette recherche.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <x-admin.table-footer
-                    :from="1" :to="10" :total="8" unit="rapports"
-                    :current="1" :pages="1"
-                />
+                <x-admin.table-footer :paginator="$reports" unit="rapports" />
             </section>
         </div>
 
         {{-- ============ ADD REPORT ============ --}}
-        {{--
-            Presentation only: Module 2 adds the POST route and server-side
-            validation. PDFs must be validated by content rather than
-            extension, stored outside the public web root, and served
-            through a controller that records the download.
-        --}}
         <aside>
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section id="ajouter-un-rapport" class="rounded-xl border border-slate-200 bg-white p-5">
 
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="document" class="h-5 w-5 text-primary-600" />
                     Ajouter un rapport annuel
                 </h2>
 
-                <form method="POST" action="#" class="mt-5 space-y-4">
+                {{--
+                    The accept and size hints below are conveniences, never
+                    the security boundary: ReportRequest re-checks every
+                    field, MediaStorage re-reads the PDF's own bytes, and the
+                    file lands on a private disk outside the web root.
+                --}}
+                <form method="POST" action="{{ route('admin.reports.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
                     @csrf
 
                     <div>
@@ -222,8 +244,9 @@
                         <input
                             type="text"
                             id="report-title"
-                            name="titre"
+                            name="title"
                             required
+                            value="{{ old('title') }}"
                             placeholder="Ex. Rapport annuel d'activité 2024"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
@@ -237,58 +260,28 @@
                         </label>
                         <select
                             id="report-year"
-                            name="annee"
+                            name="year"
                             required
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                             <option value="">Sélectionner l'année</option>
-                            @for ($year = (int) date('Y'); $year >= 2015; $year--)
-                                <option>{{ $year }}</option>
+                            {{-- The Clinic opened in 2019; the validator holds
+                                 the same bounds. --}}
+                            @for ($year = (int) date('Y') + 1; $year >= 2019; $year--)
+                                <option value="{{ $year }}" @selected((int) old('year', date('Y')) === $year)>{{ $year }}</option>
                             @endfor
                         </select>
                     </div>
 
                     <div>
-                        <label for="report-description" class="block text-sm font-medium text-slate-700">
-                            Description
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-
-                        {{-- Formatting controls are inert until Module 2 wires an editor. --}}
-                        <div class="mt-1.5 overflow-hidden rounded-lg border border-slate-200">
-                            <div class="flex items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-1.5">
-                                @php
-                                    $tools = [
-                                        ['icon' => 'bold',        'label' => 'Gras'],
-                                        ['icon' => 'italic',      'label' => 'Italique'],
-                                        ['icon' => 'underline',   'label' => 'Souligné'],
-                                        ['icon' => 'list-bullet', 'label' => 'Liste à puces'],
-                                        ['icon' => 'list-number', 'label' => 'Liste numérotée'],
-                                        ['icon' => 'link',        'label' => 'Insérer un lien'],
-                                    ];
-                                @endphp
-
-                                @foreach ($tools as $tool)
-                                    <button
-                                        type="button"
-                                        class="flex h-7 w-7 items-center justify-center rounded text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
-                                    >
-                                        <x-icon :name="$tool['icon']" class="h-4 w-4" />
-                                        <span class="sr-only">{{ $tool['label'] }}</span>
-                                    </button>
-                                @endforeach
-                            </div>
-
-                            <textarea
-                                id="report-description"
-                                name="description"
-                                rows="4"
-                                required
-                                placeholder="Décrivez brièvement le contenu du rapport..."
-                                class="w-full resize-y border-0 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-0"
-                            ></textarea>
-                        </div>
+                        <label for="report-description" class="block text-sm font-medium text-slate-700">Description</label>
+                        <textarea
+                            id="report-description"
+                            name="description"
+                            rows="4"
+                            placeholder="Décrivez brièvement le contenu du rapport..."
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('description') }}</textarea>
                     </div>
 
                     <div>
@@ -310,7 +303,7 @@
                             <input
                                 type="file"
                                 id="report-pdf"
-                                name="fichier"
+                                name="document"
                                 accept="application/pdf"
                                 required
                                 class="sr-only"
@@ -332,8 +325,8 @@
                             <input
                                 type="file"
                                 id="report-cover"
-                                name="couverture"
-                                accept="image/jpeg,image/png"
+                                name="cover"
+                                accept="image/jpeg,image/png,image/webp"
                                 class="sr-only"
                             >
                         </label>
@@ -347,19 +340,22 @@
                         </label>
                         <select
                             id="report-status"
-                            name="statut"
+                            name="status"
                             required
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option>Publié</option>
-                            <option>Brouillon</option>
-                            <option>Archivé</option>
+                            @php
+                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                            @endphp
+                            @foreach ($options as $value => $label)
+                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
                         <button
-                            type="button"
+                            type="reset"
                             class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
                         >
                             Annuler

@@ -27,6 +27,30 @@ class PublicPagesTest extends TestCase
             'published_at' => now()->subDay(),
         ]);
 
+        \App\Models\Guide::create([
+            'title' => 'Droits de la famille',
+            'slug' => 'droits-de-la-famille',
+            'description' => 'Une fiche sur les droits de la famille.',
+            'body' => 'Contenu de la fiche.',
+            'file_path' => 'documents/fiches-pratiques/droits-de-la-famille.pdf',
+            'file_name' => 'droits-de-la-famille.pdf',
+            'file_size' => 2200000,
+            'status' => \App\Models\Guide::STATUS_PUBLISHED,
+            'published_at' => now()->subDays(3),
+        ]);
+
+        \App\Models\Report::create([
+            'title' => "Rapport annuel d'activité 2024",
+            'slug' => 'rapport-annuel-d-activite-2024',
+            'year' => 2024,
+            'description' => "Le bilan de l'année.",
+            'file_path' => 'documents/rapports-annuels/rapport-2024.pdf',
+            'file_name' => 'rapport-2024.pdf',
+            'file_size' => 4200000,
+            'status' => \App\Models\Report::STATUS_PUBLISHED,
+            'published_at' => now()->subMonth(),
+        ]);
+
         \App\Models\Video::create([
             'title' => 'Caravane juridique à Tillabéri',
             'slug' => 'caravane-juridique-tillaberi',

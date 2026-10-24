@@ -32,6 +32,22 @@ class Media
         return Storage::disk('public')->url($path);
     }
 
+    /**
+     * "2,1 Mo" / "840 Ko" — the French decimal comma, as the pages show it.
+     * A small file in megabytes reads as "0,0 Mo", so the unit follows the
+     * size rather than being fixed.
+     */
+    public static function sizeForHumans(?int $bytes): string
+    {
+        $bytes = max(0, (int) $bytes);
+
+        if ($bytes < 1048576) {
+            return number_format($bytes / 1024, 0, ',', ' ').' Ko';
+        }
+
+        return number_format($bytes / 1048576, 1, ',', ' ').' Mo';
+    }
+
     /** A placeholder carries no extension; an upload always does. */
     private static function isPlaceholder(string $path): bool
     {

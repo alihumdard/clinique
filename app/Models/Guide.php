@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\Publishable;
+use App\Support\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -35,11 +36,13 @@ class Guide extends Model
         return $this->belongsTo(Category::class);
     }
 
-    /** "2,1 Mo" — the French decimal comma, as the pages show it. */
     public function fileSizeForHumans(): string
     {
-        $mb = $this->file_size / 1048576;
+        return Media::sizeForHumans($this->file_size);
+    }
 
-        return number_format($mb, 1, ',', ' ').' Mo';
+    public function coverUrl(): string
+    {
+        return $this->imageUrl($this->cover, 'placeholders/guide-practical');
     }
 }

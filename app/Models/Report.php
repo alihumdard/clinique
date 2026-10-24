@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\Publishable;
+use App\Support\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,6 +33,11 @@ class Report extends Model
 
     public function fileSizeForHumans(): string
     {
-        return number_format($this->file_size / 1048576, 1, ',', ' ').' Mo';
+        return Media::sizeForHumans($this->file_size);
+    }
+
+    public function coverUrl(): string
+    {
+        return $this->imageUrl($this->cover, 'placeholders/report-cover-2023');
     }
 }

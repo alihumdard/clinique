@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\GuideController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,8 +63,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::view('/equipe', 'admin.team')->name('team');
         Route::view('/activites', 'admin.activities')->name('activities');
         Route::view('/activites/nouvelle', 'admin.activities')->name('activities.create');
-        Route::view('/fiches-pratiques', 'admin.guides')->name('guides');
-        Route::view('/rapports-annuels', 'admin.reports')->name('reports');
+
+        /*
+        | Fiches pratiques and rapports annuels. Both carry a PDF, which is
+        | written to a private disk and only ever served through
+        | DocumentController.
+        */
+        Route::get('/fiches-pratiques', [GuideController::class, 'index'])->name('guides');
+        Route::post('/fiches-pratiques', [GuideController::class, 'store'])->name('guides.store');
+        Route::put('/fiches-pratiques/{guide:id}', [GuideController::class, 'update'])->name('guides.update');
+        Route::delete('/fiches-pratiques/{guide:id}', [GuideController::class, 'destroy'])->name('guides.destroy');
+        Route::post('/fiches-pratiques/{id}/restaurer', [GuideController::class, 'restore'])->name('guides.restore');
+        Route::delete('/fiches-pratiques/{id}/definitif', [GuideController::class, 'forceDestroy'])->name('guides.force-destroy');
+
+        Route::get('/rapports-annuels', [ReportController::class, 'index'])->name('reports');
+        Route::post('/rapports-annuels', [ReportController::class, 'store'])->name('reports.store');
+        Route::put('/rapports-annuels/{report:id}', [ReportController::class, 'update'])->name('reports.update');
+        Route::delete('/rapports-annuels/{report:id}', [ReportController::class, 'destroy'])->name('reports.destroy');
+        Route::post('/rapports-annuels/{id}/restaurer', [ReportController::class, 'restore'])->name('reports.restore');
+        Route::delete('/rapports-annuels/{id}/definitif', [ReportController::class, 'forceDestroy'])->name('reports.force-destroy');
+
         Route::view('/parametres', 'admin.settings')->name('settings');
         Route::view('/newsletter', 'admin.newsletter')->name('newsletter');
     });
