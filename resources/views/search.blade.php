@@ -18,13 +18,6 @@
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 
-        @php
-            // Echoed back into the search field and the result heading.
-            // Module 2 replaces this with the real request value.
-            $query = 'droit des femmes';
-            $resultCount = 25;
-        @endphp
-
         {{-- ============ SEARCH BAR ============ --}}
         <form role="search" method="get" action="{{ route('search') }}" class="flex flex-col gap-3 sm:flex-row">
             <div class="relative flex-1">
@@ -69,83 +62,32 @@
                         <fieldset>
                             <legend class="text-sm font-semibold text-slate-700">Type de contenu</legend>
 
-                            @php
-                                $types = [
-                                    ['value' => 'tous', 'label' => 'Tous les résultats', 'count' => 25, 'checked' => true],
-                                    ['value' => 'actualites', 'label' => 'Actualités', 'count' => 8],
-                                    ['value' => 'fiches', 'label' => 'Fiches pratiques', 'count' => 7],
-                                    ['value' => 'webtv', 'label' => 'Web TV', 'count' => 5],
-                                    ['value' => 'pages', 'label' => 'Pages', 'count' => 5],
-                                ];
-                            @endphp
-
                             <div class="mt-3 space-y-2.5">
-                                @foreach ($types as $type)
+                                @foreach ($types as $value => $label)
                                     <div class="flex items-center gap-2.5">
                                         <input
                                             type="checkbox"
-                                            id="type-{{ $type['value'] }}"
+                                            id="type-{{ $value }}"
                                             name="type[]"
-                                            value="{{ $type['value'] }}"
-                                            @checked($type['checked'] ?? false)
+                                            value="{{ $value }}"
+                                            @checked(in_array($value, $activeTypes, true))
                                             class="h-4 w-4 shrink-0 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
-                                        <label for="type-{{ $type['value'] }}" class="min-w-0 flex-1 truncate text-sm text-slate-600">
-                                            {{ $type['label'] }}
+                                        <label for="type-{{ $value }}" class="min-w-0 flex-1 truncate text-sm text-slate-600">
+                                            {{ $label }}
                                         </label>
-                                        <span class="shrink-0 text-xs text-slate-400">{{ $type['count'] }}</span>
+                                        <span class="shrink-0 text-xs text-slate-400">{{ $counts[$value] }}</span>
                                     </div>
                                 @endforeach
                             </div>
-                        </fieldset>
 
-                        @php
-                            $searchCategories = [
-                                '' => 'Toutes les catégories',
-                                'famille' => 'Droit de la famille',
-                                'civil' => 'Droit civil',
-                                'penal' => 'Droit pénal',
-                                'humains' => 'Droits humains',
-                                'administratif' => 'Droit administratif',
-                            ];
-                        @endphp
-
-                        <x-form-field
-                            name="categorie"
-                            type="select"
-                            label="Catégorie"
-                            :options="$searchCategories"
-                        />
-
-                        <fieldset>
-                            <legend class="text-sm font-semibold text-slate-700">Date de publication</legend>
-
-                            <div class="mt-3 grid grid-cols-2 gap-3">
-                                <div>
-                                    <label for="date-du" class="sr-only">Date de début</label>
-                                    <input
-                                        type="date"
-                                        id="date-du"
-                                        name="du"
-                                        placeholder="Du"
-                                        class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                    >
-                                </div>
-                                <div>
-                                    <label for="date-au" class="sr-only">Date de fin</label>
-                                    <input
-                                        type="date"
-                                        id="date-au"
-                                        name="au"
-                                        placeholder="Au"
-                                        class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                    >
-                                </div>
-                            </div>
+                            <p class="mt-3 text-xs text-slate-500">
+                                Aucun type coché : tous les types sont inclus.
+                            </p>
                         </fieldset>
 
                         <div class="space-y-2.5">
-                            <x-button variant="primary" :arrow="false" class="w-full justify-center">
+                            <x-button variant="primary" type="submit" :arrow="false" class="w-full justify-center">
                                 <x-icon name="folder" class="h-4 w-4" />
                                 Appliquer les filtres
                             </x-button>
@@ -167,88 +109,53 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
                     <p class="text-lg text-slate-700">
-                        <strong class="font-bold text-primary-600">{{ $resultCount }} résultats</strong>
-                        pour « {{ $query }} »
+                        @if($query === '')
+                            Saisissez un mot-clé pour lancer une recherche.
+                        @elseif($tooShort)
+                            Saisissez un mot-clé de deux caractères au moins.
+                        @else
+                            <strong class="font-bold text-primary-600">{{ $total }} {{ $total === 1 ? 'résultat' : 'résultats' }}</strong>
+                            pour « {{ $query }} »
+                        @endif
                     </p>
 
-                    <div class="flex items-center gap-2">
-                        <label for="search-sort" class="text-sm text-slate-500">Trier par :</label>
-                        <select
-                            id="search-sort"
-                            class="rounded-md border border-slate-200 py-2 pl-3 pr-8 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            <option>Pertinence</option>
-                            <option>Plus récents</option>
-                            <option>Plus consultés</option>
-                        </select>
-                    </div>
+                    {{-- Results come back newest first across every type;
+                         relevance ranking would need a search index, which the
+                         performance plan rules out for a corpus this size. --}}
                 </div>
 
-                @php
-                    $results = [
-                        [
-                            'image' => 'placeholders/news-3',
-                            'type' => 'Actualité',
-                            'title' => "Journée internationale des droits des femmes : la Clinique Juridique FSJP-UAM se mobilise",
-                            'excerpt' => "À l'occasion de la Journée internationale des droits des femmes, la Clinique Juridique organise une série d'activités de sensibilisation sur l'accès à la justice...",
-                            'date' => '8 mars 2025',
-                            'views' => '256',
-                            'href' => route('news.index'),
-                        ],
-                        [
-                            'image' => 'placeholders/news-guide',
-                            'type' => 'Fiche pratique',
-                            'title' => 'Guide pratique : Droits des femmes en milieu universitaire',
-                            'excerpt' => "Ce guide présente de manière simple et pratique les droits des femmes dans le milieu universitaire, les mécanismes de protection et les recours disponibles.",
-                            'date' => '12 février 2025',
-                            'views' => '420',
-                            'href' => route('resources.guides'),
-                        ],
-                        [
-                            'image' => 'placeholders/news-2',
-                            'type' => 'Web TV',
-                            'title' => 'Les droits des femmes : entretien avec une experte juridique',
-                            'excerpt' => "Dans cette capsule, notre invitée aborde les principaux droits des femmes et les défis liés à leur mise en œuvre au Niger.",
-                            'date' => '15 janvier 2025',
-                            'views' => '1,2K',
-                            'href' => route('webtv.index'),
-                            'video' => true,
-                        ],
-                        [
-                            'image' => 'placeholders/news-caravan',
-                            'type' => 'Activité',
-                            'title' => 'Caravane juridique : sensibilisation sur les droits des femmes',
-                            'excerpt' => "La Clinique Juridique FSJP-UAM a organisé une caravane juridique à Zinder pour sensibiliser les femmes sur leurs droits et les recours en cas de discrimination.",
-                            'date' => '28 novembre 2024',
-                            'views' => '312',
-                            'href' => route('activities.index'),
-                        ],
-                        [
-                            'image' => 'placeholders/search-services-gavel',
-                            'type' => 'Page',
-                            'title' => 'Nos services juridiques',
-                            'excerpt' => "La Clinique Juridique offre des services d'information, d'orientation et d'assistance juridique, notamment en matière de droits des femmes...",
-                            'href' => route('services'),
-                        ],
-                    ];
-                @endphp
-
                 <div>
-                    @foreach ($results as $result)
+                    @forelse ($results as $result)
                         <x-search-result
-                            :image="$result['image']"
+                            :image-url="$result['imageUrl'] ?? null"
                             :type="$result['type']"
                             :title="$result['title']"
-                            :excerpt="$result['excerpt']"
-                            :date="$result['date'] ?? null"
-                            :views="$result['views'] ?? null"
+                            :excerpt="$result['excerpt'] ?? null"
+                            :date="$result['date']?->translatedFormat('j F Y')"
+                            :views="isset($result['views']) ? number_format($result['views'], 0, ',', ' ') : null"
                             :href="$result['href']"
                             :video="$result['video'] ?? false"
                         />
-                    @endforeach
+                    @empty
+                        <div class="py-12 text-center">
+                            @if($query === '' || $tooShort)
+                                <p class="text-sm text-slate-500">
+                                    Recherchez une actualité, une fiche pratique, une capsule vidéo,
+                                    une activité ou un rapport.
+                                </p>
+                            @else
+                                <p class="text-sm text-slate-600">
+                                    Aucun résultat pour « {{ $query }} ».
+                                </p>
+                                <p class="mt-2 text-sm text-slate-500">
+                                    Essayez un mot-clé plus court, ou décochez les filtres de type.
+                                </p>
+                            @endif
+                        </div>
+                    @endforelse
                 </div>
 
-                <x-pagination :current="1" :total="4" :edges="true" />
+                <x-pagination :paginator="$results" :edges="true" />
             </div>
 
             {{-- ============ CONTEXT SIDEBAR ============ --}}

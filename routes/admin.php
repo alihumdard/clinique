@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\GuideController;
@@ -127,6 +128,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         */
         Route::get('/parametres', [SettingController::class, 'index'])->name('settings');
         Route::put('/parametres', [SettingController::class, 'update'])->name('settings.update');
+
+        /*
+        | Messages de contact. Not one of the twelve designed screens:
+        | without it the messages the public form stores would be
+        | unreachable, so the form would collect personal data nobody
+        | could read or delete.
+        */
+        Route::get('/messages', [MessageController::class, 'index'])->name('messages');
+        Route::post('/messages/{message}/traite', [MessageController::class, 'handle'])->name('messages.handle');
+        Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 
         /*
         | Newsletter. Phase 2 collects addresses and exports them; the

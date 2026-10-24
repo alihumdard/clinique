@@ -71,6 +71,7 @@
         [
             'label' => 'Administration',
             'items' => [
+                ['label' => 'Messages de contact', 'icon' => 'chat',    'route' => 'admin.messages'],
                 ['label' => 'Newsletter',         'icon' => 'mail',     'route' => 'admin.newsletter'],
                 ['label' => 'Paramètres du site', 'icon' => 'settings', 'route' => 'admin.settings'],
             ],

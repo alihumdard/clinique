@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\WebTvController;
 use Illuminate\Support\Facades\Route;
@@ -92,7 +94,9 @@ Route::get('/web-tv/{video}', [WebTvController::class, 'show'])->name('webtv.sho
 
 Route::get('/rejoindre', fn () => view('join'))->name('join');
 Route::get('/contact', fn () => view('contact'))->name('contact');
-Route::get('/recherche', fn () => view('search'))->name('search');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/recherche', SearchController::class)->name('search');
 
 /*
 |--------------------------------------------------------------------------

@@ -43,6 +43,7 @@ class AdminPagesTest extends TestCase
             'reports' => ['/admin/rapports-annuels', 'Gestion des rapports annuels'],
             'settings' => ['/admin/parametres', 'Param'],
             'newsletter' => ['/admin/newsletter', 'abonnés'],
+            'messages' => ['/admin/messages', 'Messages de contact'],
         ];
     }
 
