@@ -96,7 +96,7 @@ Les photographies présentées sur ce site sont des images de substitution penda
 
 Typographie
 
-Le site utilise la famille de caractères Inter, distribuée sous licence libre (SIL Open Font License).
+Le site n'utilise aucune police téléchargée : il s'appuie sur les polices déjà présentes sur votre appareil. Aucune requête n'est donc adressée à un service de polices extérieur, et le site reste rapide sur une connexion lente.
 
 Hébergement
 
