@@ -46,9 +46,18 @@ class Article extends Model
      */
     public static function archiveYears(): \Illuminate\Support\Collection
     {
+        // YEAR() is MySQL's; SQLite spells it strftime. Picking the
+        // expression from the driver keeps this working on both, which
+        // is what lets the tests cover it at all.
+        $year = match (static::query()->getConnection()->getDriverName()) {
+            'sqlite' => "CAST(strftime('%Y', published_at) AS INTEGER)",
+            'pgsql' => 'EXTRACT(YEAR FROM published_at)',
+            default => 'YEAR(published_at)',
+        };
+
         return static::query()
             ->public()
-            ->selectRaw('YEAR(published_at) as year, COUNT(*) as total')
+            ->selectRaw("{$year} as year, COUNT(*) as total")
             ->whereNotNull('published_at')
             ->groupBy('year')
             ->orderByDesc('year')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +35,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::view('/pages', 'admin.pages')->name('pages');
         Route::view('/pages/nouvelle', 'admin.pages')->name('pages.create');
         Route::view('/pages/categories', 'admin.pages')->name('pages.categories');
-        Route::view('/actualites', 'admin.news')->name('news');
+        /*
+        | Actualités — the first content type wired to the database.
+        | Restore and permanent delete are POST/DELETE because both change
+        | state; neither may be reachable by following a link.
+        */
+        Route::get('/actualites', [ArticleController::class, 'index'])->name('news');
+        Route::post('/actualites', [ArticleController::class, 'store'])->name('news.store');
+        Route::put('/actualites/{article:id}', [ArticleController::class, 'update'])->name('news.update');
+        Route::delete('/actualites/{article:id}', [ArticleController::class, 'destroy'])->name('news.destroy');
+        Route::post('/actualites/{id}/restaurer', [ArticleController::class, 'restore'])->name('news.restore');
+        Route::delete('/actualites/{id}/definitif', [ArticleController::class, 'forceDestroy'])->name('news.force-destroy');
         Route::view('/web-tv', 'admin.webtv')->name('webtv');
         Route::view('/partenaires', 'admin.partners')->name('partners');
         Route::view('/equipe', 'admin.team')->name('team');

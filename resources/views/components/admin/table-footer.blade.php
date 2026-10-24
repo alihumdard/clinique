@@ -3,6 +3,9 @@
     and pagination with first/last jumps.
 --}}
 @props([
+    // Pass a paginator and the numbers come from it. The loose props stay
+    // for the screens still showing example rows.
+    'paginator' => null,
     'from' => 1,
     'to' => 10,
     'total' => 0,
@@ -10,6 +13,16 @@
     'current' => 1,
     'pages' => 1,
 ])
+
+@php
+    if ($paginator) {
+        $total = $paginator->total();
+        $from = $paginator->firstItem() ?? 0;
+        $to = $paginator->lastItem() ?? 0;
+        $current = $paginator->currentPage();
+        $pages = $paginator->lastPage();
+    }
+@endphp
 
 @php
     $arrow = 'flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 transition-colors hover:bg-slate-50';
