@@ -114,6 +114,35 @@
                     </nav>
                 </x-sidebar-card>
 
+                {{--
+                    Archives par année — required by the Phase 2 plan:
+                    "actualités avec catégories et archives par année".
+                    Module 2 replaces the array with a grouped query.
+                --}}
+                <x-sidebar-card icon="calendar" title="Archives" color="amber" :tint="true">
+                    @php
+                        $archives = [
+                            ['year' => 2025, 'count' => 12],
+                            ['year' => 2024, 'count' => 24],
+                            ['year' => 2023, 'count' => 18],
+                            ['year' => 2022, 'count' => 9],
+                        ];
+                    @endphp
+
+                    <nav class="space-y-1">
+                        @foreach ($archives as $archive)
+                            <x-category-list-item
+                                icon="calendar"
+                                color="amber"
+                                :count="$archive['count']"
+                                :href="route('news.index') . '?annee=' . $archive['year']"
+                            >
+                                {{ $archive['year'] }}
+                            </x-category-list-item>
+                        @endforeach
+                    </nav>
+                </x-sidebar-card>
+
                 <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
                     <div class="space-y-5">
                         <x-mini-article-row

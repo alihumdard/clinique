@@ -46,7 +46,12 @@
 
             {{-- ============ ARTICLE BODY ============ --}}
             <div class="lg:col-span-2">
-                <x-article-meta-bar date="12 octobre 2024" author="Équipe de la Clinique" category="Événement" />
+                <x-article-meta-bar
+                    date="12 octobre 2024"
+                    author="Équipe de la Clinique"
+                    category="Événement"
+                    title="Conférence sur l'accès au droit des personnes vulnérables"
+                />
 
                 <p class="mt-6 text-base leading-relaxed text-slate-700">
                     La Clinique Juridique FSJP-UAM a organisé, le 10 octobre 2024, une conférence-débat sur

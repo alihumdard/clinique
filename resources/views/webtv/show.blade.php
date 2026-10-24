@@ -98,15 +98,37 @@
                 </div>
 
                 {{-- ============ TABBED DETAIL ============ --}}
-                <x-tabs
-                    class="mt-6"
-                    name="capsule"
-                    :tabs="[
+                @php
+                    /*
+                     * The plan asks for a written transcript "lorsqu'elle
+                     * existe", so the tab appears only for a capsule that has
+                     * one. Module 2 reads this from the capsule record.
+                     */
+                    $transcription = [
+                        ['speaker' => 'Dr. Amadou Issa', 'time' => '00:12', 'text' => "Bienvenue à tous. Cette caravane juridique s'inscrit dans la mission de la Clinique Juridique FSJP-UAM : rapprocher le droit des populations, en particulier dans les zones rurales."],
+                        ['speaker' => 'Dr. Amadou Issa', 'time' => '01:45', 'text' => "Nous sommes aujourd'hui à Tillabéri pour informer, écouter et accompagner les habitants dans leurs démarches juridiques."],
+                        ['speaker' => 'Me Fatima Souley', 'time' => '04:40', 'text' => "Beaucoup de questions portent sur l'état civil : l'enregistrement des naissances, les actes de mariage. Ce sont des droits fondamentaux, et pourtant les démarches restent mal connues."],
+                        ['speaker' => 'Ibrahim Moussa', 'time' => '07:20', 'text' => "En tant qu'étudiant clinicien, cette expérience de terrain est irremplaçable. Nous appliquons ce que nous apprenons en cours, sous l'encadrement de nos enseignants."],
+                        ['speaker' => 'Bénéficiaire', 'time' => '10:05', 'text' => "On m'a expliqué comment obtenir l'acte de naissance de mon fils. Je ne savais pas que c'était possible après tout ce temps."],
+                        ['speaker' => 'Dr. Amadou Issa', 'time' => '11:30', 'text' => "Nous reviendrons dans la région. L'accès au droit ne se décrète pas : il se construit, rencontre après rencontre."],
+                    ];
+
+                    $capsuleTabs = [
                         'description' => 'Description',
                         'intervenants' => 'Intervenants',
                         'chapitres' => 'Chapitres',
                         'documents' => 'Documents associés',
-                    ]"
+                    ];
+
+                    if (count($transcription)) {
+                        $capsuleTabs['transcription'] = 'Transcription';
+                    }
+                @endphp
+
+                <x-tabs
+                    class="mt-6"
+                    name="capsule"
+                    :tabs="$capsuleTabs"
                 >
                     <x-slot:description>
                         <div class="rounded-lg bg-primary-50/40 p-5">
@@ -209,6 +231,38 @@
                             @endforeach
                         </ul>
                     </x-slot:documents>
+
+                    @if(count($transcription))
+                        <x-slot:transcription>
+                            <div class="rounded-lg bg-primary-50/40 p-5">
+                                <p class="text-sm leading-relaxed text-slate-600">
+                                    Transcription écrite de la capsule, pour la lecture hors ligne et
+                                    pour les personnes sourdes ou malentendantes.
+                                </p>
+
+                                <dl class="mt-5 space-y-4">
+                                    @foreach ($transcription as $line)
+                                        <div class="flex flex-col gap-1 sm:flex-row sm:gap-4">
+                                            <dt class="flex shrink-0 items-baseline gap-2 sm:w-44">
+                                                <span class="rounded bg-white px-2 py-0.5 font-mono text-xs text-slate-600">
+                                                    {{ $line['time'] }}
+                                                </span>
+                                                <span class="text-sm font-semibold text-slate-900">{{ $line['speaker'] }}</span>
+                                            </dt>
+                                            <dd class="text-sm leading-relaxed text-slate-600">{{ $line['text'] }}</dd>
+                                        </div>
+                                    @endforeach
+                                </dl>
+
+                                <div class="mt-5 border-t border-primary-100 pt-4">
+                                    <a href="#" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
+                                        <x-icon name="download" class="h-4 w-4" />
+                                        Télécharger la transcription (PDF)
+                                    </a>
+                                </div>
+                            </div>
+                        </x-slot:transcription>
+                    @endif
                 </x-tabs>
 
                 {{-- ============ SHARE ============ --}}
@@ -336,6 +390,50 @@
                         Voir la playlist
                         <x-icon name="arrow-right" class="h-4 w-4" />
                     </a>
+                </x-sidebar-card>
+
+                {{--
+                    Contenus associés — the plan pairs a capsule with a fiche
+                    pratique or an actualité "et réciproquement", so the same
+                    link appears on the other page too.
+                --}}
+                <x-sidebar-card icon="link" title="Contenus associés" :tint="true">
+                    @php
+                        $linked = [
+                            [
+                                'kind' => 'Fiche pratique',
+                                'tone' => 'green',
+                                'icon' => 'document',
+                                'title' => 'Guide pratique : droits de la famille',
+                                'href' => route('resources.guides.show'),
+                            ],
+                            [
+                                'kind' => 'Actualité',
+                                'tone' => 'blue',
+                                'icon' => 'calendar',
+                                'title' => "Conférence sur l'accès au droit des personnes vulnérables",
+                                'href' => route('news.show'),
+                            ],
+                        ];
+                    @endphp
+
+                    <ul class="space-y-3">
+                        @foreach ($linked as $item)
+                            <li>
+                                <a href="{{ $item['href'] }}" class="group flex items-start gap-3">
+                                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-primary-600">
+                                        <x-icon :name="$item['icon']" class="h-4 w-4" />
+                                    </span>
+                                    <span class="min-w-0">
+                                        <x-admin.badge :tone="$item['tone']">{{ $item['kind'] }}</x-admin.badge>
+                                        <span class="mt-1 block text-sm font-medium leading-snug text-slate-800 group-hover:text-primary-600">
+                                            {{ $item['title'] }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </x-sidebar-card>
 
                 <x-sidebar-card icon="youtube" title="Autres vidéos similaires" :tint="true">

@@ -218,6 +218,31 @@
                     </nav>
                 </x-sidebar-card>
 
+                {{-- The reciprocal of the link on the capsule's own page. --}}
+                <x-sidebar-card icon="play-circle" title="Capsule vidéo associée">
+                    <a href="{{ route('webtv.show') }}" class="group block">
+                        <span class="relative block">
+                            <x-picture
+                                path="placeholders/news-caravan"
+                                alt=""
+                                width="320" height="180"
+                                class="aspect-video w-full rounded-lg object-cover"
+                            />
+                            <span class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                                <span class="flex h-11 w-11 items-center justify-center rounded-full bg-white/30 ring-2 ring-white/80">
+                                    <svg class="ml-0.5 h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                </span>
+                            </span>
+                            <span class="absolute bottom-2 right-2 rounded bg-slate-900/80 px-1.5 text-[11px] font-medium text-white">12:35</span>
+                        </span>
+
+                        <span class="mt-3 block text-sm font-semibold leading-snug text-slate-900 group-hover:text-primary-600">
+                            Caravane juridique à Tillabéri : accès au droit pour les populations
+                        </span>
+                        <span class="mt-1 block text-xs text-slate-500">Les droits de la famille expliqués sur le terrain</span>
+                    </a>
+                </x-sidebar-card>
+
                 <x-sidebar-card icon="document" title="Fiches similaires">
                     @php
                         $similar = [
