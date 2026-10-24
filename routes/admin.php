@@ -4,8 +4,10 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CallController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\NewsletterController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\GuideController;
 use App\Http\Controllers\Admin\ReferenceController;
@@ -37,15 +39,23 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 
-        Route::view('/', 'admin.dashboard')->name('dashboard');
+        Route::get('/', DashboardController::class)->name('dashboard');
 
         /*
         | Content management screens. Each renders its listing view; the
         | create/edit/delete actions are wired in Module 2.
         */
-        Route::view('/pages', 'admin.pages')->name('pages');
-        Route::view('/pages/nouvelle', 'admin.pages')->name('pages.create');
-        Route::view('/pages/categories', 'admin.pages')->name('pages.categories');
+        /*
+        | Pages the Clinic writes themselves. The site's own pages are
+        | designed templates with their own routes, so they appear on this
+        | screen as a read-only reference rather than as editable rows.
+        */
+        Route::get('/pages', [PageController::class, 'index'])->name('pages');
+        Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
+        Route::put('/pages/{page:id}', [PageController::class, 'update'])->name('pages.update');
+        Route::delete('/pages/{page:id}', [PageController::class, 'destroy'])->name('pages.destroy');
+        Route::post('/pages/{id}/restaurer', [PageController::class, 'restore'])->name('pages.restore');
+        Route::delete('/pages/{id}/definitif', [PageController::class, 'forceDestroy'])->name('pages.force-destroy');
         /*
         | Actualités — the first content type wired to the database.
         | Restore and permanent delete are POST/DELETE because both change

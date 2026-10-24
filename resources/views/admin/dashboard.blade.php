@@ -28,10 +28,10 @@
     {{-- ============ KPIs ============ --}}
     {{-- Figures are illustrative until Module 2 supplies real counts. --}}
     <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <x-admin.stat-card icon="document"       color="blue"   value="24" label="Actualités"            trend="+12%" note="par rapport au mois dernier" />
-        <x-admin.stat-card icon="play-circle"    color="green"  value="18" label="Capsules Web TV"       trend="+28%" note="par rapport au mois dernier" />
-        <x-admin.stat-card icon="users"          color="amber"  value="42" label="Candidatures reçues"   trend="+15%" note="ce mois-ci" />
-        <x-admin.stat-card icon="calendar"       color="purple" value="8"  label="Activités organisées"  trend="+33%" note="par rapport au mois dernier" />
+        <x-admin.stat-card icon="document"    color="blue"   :value="$kpis['articles']"   label="Actualités publiées" />
+        <x-admin.stat-card icon="play-circle" color="green"  :value="$kpis['videos']"     label="Capsules Web TV" />
+        <x-admin.stat-card icon="chat"        color="amber"  :value="$kpis['messages']"   label="Messages à traiter" note="formulaire de contact" />
+        <x-admin.stat-card icon="calendar"    color="purple" :value="$kpis['activities']" label="Activités publiées" />
     </div>
 
     {{-- ============ CHARTS ============ --}}
@@ -44,27 +44,13 @@
                     Statistiques des publications
                 </h2>
 
-                <div>
-                    <label for="stats-range" class="sr-only">Période affichée</label>
-                    <select
-                        id="stats-range"
-                        class="rounded-lg border border-slate-200 py-2 pl-3 pr-8 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                    >
-                        <option>Derniers 30 jours</option>
-                        <option>Derniers 7 jours</option>
-                        <option>Cette année</option>
-                    </select>
-                </div>
+                <p class="text-xs text-slate-500">6 derniers mois</p>
             </div>
 
             <div class="mt-5">
                 <x-admin.line-chart
-                    :labels="['10 Mai', '15 Mai', '20 Mai', '25 Mai', '30 Mai', '5 Juin', '10 Juin']"
-                    :series="[
-                        ['label' => 'Actualités',   'color' => '#2563eb', 'points' => [5, 9, 17, 14, 22, 31, 29]],
-                        ['label' => 'Web TV',       'color' => '#059669', 'points' => [4, 5, 7, 11, 9, 18, 25]],
-                        ['label' => 'Candidatures', 'color' => '#f59e0b', 'points' => [2, 8, 12, 15, 10, 19, 16]],
-                    ]"
+                    :labels="$months['labels']"
+                    :series="$months['series']"
                 />
             </div>
         </section>
@@ -76,19 +62,13 @@
             </h2>
 
             <div class="mt-5">
-                <x-admin.donut-chart
-                    :total="92"
-                    total-label="Éléments"
-                    :items="[
-                        ['label' => 'Actualités',           'value' => 24, 'color' => '#2563eb'],
-                        ['label' => 'Web TV',               'value' => 18, 'color' => '#059669'],
-                        ['label' => 'Fiches pratiques',     'value' => 12, 'color' => '#f59e0b'],
-                        ['label' => 'Activités',            'value' => 8,  'color' => '#fb923c'],
-                        ['label' => 'Appels à candidatures','value' => 15, 'color' => '#ec4899'],
-                        ['label' => 'Galerie photos',       'value' => 10, 'color' => '#60a5fa'],
-                        ['label' => 'Autres',               'value' => 5,  'color' => '#94a3b8'],
-                    ]"
-                />
+                @if(count($breakdown))
+                    <x-admin.donut-chart total-label="Éléments" :items="$breakdown" />
+                @else
+                    <p class="py-8 text-center text-sm text-slate-500">
+                        Aucun contenu publié pour le moment.
+                    </p>
+                @endif
             </div>
         </section>
     </div>
@@ -109,16 +89,6 @@
                 </a>
             </div>
 
-            @php
-                $latest = [
-                    ['title' => 'Lancement de la caravane juridique à Zinder', 'category' => 'Activités',            'color' => 'bg-primary-50 text-primary-700', 'date' => '10 juin 2025'],
-                    ['title' => 'Formation sur les droits des femmes',          'category' => 'Actualité',            'color' => 'bg-rose-50 text-rose-700',       'date' => '8 juin 2025'],
-                    ['title' => 'Nouveau guide pratique disponible',            'category' => 'Fiches pratiques',     'color' => 'bg-emerald-50 text-emerald-700', 'date' => '5 juin 2025'],
-                    ['title' => 'Appel à candidatures – Stagiaires 2025',       'category' => 'Appels à candidatures','color' => 'bg-violet-50 text-violet-700',   'date' => '1 juin 2025'],
-                    ['title' => 'Retour sur la clinique mobile à Maradi',       'category' => 'Activités',            'color' => 'bg-primary-50 text-primary-700', 'date' => '28 mai 2025'],
-                ];
-            @endphp
-
             <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
                 <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
                 Faites glisser le tableau pour voir toutes les colonnes
@@ -138,22 +108,48 @@
                     </thead>
 
                     <tbody class="divide-y divide-slate-100">
-                        @foreach ($latest as $i => $row)
+                        @forelse ($latest as $article)
                             <tr class="align-middle hover:bg-slate-50">
-                                <td class="px-5 py-3.5 align-middle text-sm text-slate-500">{{ $i + 1 }}</td>
-                                <td class="px-5 py-3.5 align-middle text-sm font-medium text-slate-900">{{ $row['title'] }}</td>
+                                <td class="px-5 py-3.5 align-middle text-sm text-slate-500">{{ $loop->iteration }}</td>
+
                                 <td class="px-5 py-3.5 align-middle">
-                                    <span class="inline-block rounded px-2 py-0.5 text-xs font-medium {{ $row['color'] }}">{{ $row['category'] }}</span>
+                                    <span class="block max-w-[20rem] truncate text-sm font-medium text-slate-900">
+                                        {{ $article->title }}
+                                    </span>
                                 </td>
+
                                 <td class="px-5 py-3.5 align-middle">
-                                    <span class="inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Publié</span>
+                                    @if($article->category)
+                                        <x-admin.badge :tone="$article->category->tone">{{ $article->category->name }}</x-admin.badge>
+                                    @else
+                                        <span class="text-sm text-slate-400">&mdash;</span>
+                                    @endif
                                 </td>
-                                <td class="whitespace-nowrap px-5 py-3.5 align-middle text-sm text-slate-500">{{ $row['date'] }}</td>
+
                                 <td class="px-5 py-3.5 align-middle">
-                                    <x-admin.row-actions :label="$row['title']" :duplicate="false" />
+                                    <x-admin.badge :tone="$article->statusTone()">{{ $article->statusLabel() }}</x-admin.badge>
+                                </td>
+
+                                <td class="whitespace-nowrap px-5 py-3.5 align-middle text-sm text-slate-500">
+                                    {{ ($article->published_at ?? $article->created_at)->translatedFormat('j F Y') }}
+                                </td>
+
+                                <td class="px-5 py-3.5 align-middle">
+                                    <x-admin.row-actions
+                                        :label="$article->title"
+                                        :duplicate="false"
+                                        :view-href="$article->isPublic() ? route('news.show', $article) : null"
+                                        :delete-action="route('admin.news.destroy', $article)"
+                                    />
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-5 py-10 text-center">
+                                    <p class="text-sm text-slate-500">Aucune actualité enregistrée.</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -162,47 +158,58 @@
         <section class="rounded-xl border border-slate-200 bg-white">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 p-5">
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="users" class="h-5 w-5 text-primary-600" />
-                    Dernières candidatures
+                    <x-icon name="chat" class="h-5 w-5 text-primary-600" />
+                    Derniers messages
                 </h2>
 
-                <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
-                    Voir toutes
+                <a href="{{ route('admin.messages') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
+                    Voir tous
                     <x-icon name="arrow-right" class="h-4 w-4" />
                 </a>
             </div>
 
-            @php
-                $applications = [
-                    ['initials' => 'AM', 'name' => 'Aicha Moussa',     'role' => 'Stagiaire – Droit public',       'date' => '9 juin 2025', 'status' => 'Nouveau',  'tone' => 'bg-primary-50 text-primary-700'],
-                    ['initials' => 'IB', 'name' => 'Ibrahim Boureima', 'role' => 'Volontaire – Communication',     'date' => '7 juin 2025', 'status' => 'En cours', 'tone' => 'bg-amber-50 text-amber-700'],
-                    ['initials' => 'FA', 'name' => 'Fatoumata Ali',    'role' => 'Stagiaire – Droit privé',        'date' => '6 juin 2025', 'status' => 'En cours', 'tone' => 'bg-amber-50 text-amber-700'],
-                    ['initials' => 'MO', 'name' => 'Moussa Oumarou',   'role' => 'Bénévole – Assistance juridique','date' => '4 juin 2025', 'status' => 'Traité',   'tone' => 'bg-emerald-50 text-emerald-700'],
-                    ['initials' => 'SD', 'name' => 'Salamatou Danladi','role' => 'Stagiaire – Recherche',          'date' => '2 juin 2025', 'status' => 'Traité',   'tone' => 'bg-emerald-50 text-emerald-700'],
-                ];
-            @endphp
-
+            {{--
+                The design had "Dernières candidatures" here. Nothing records
+                an application: a call tells the applicant how to apply and
+                they do so by e-mail or in person, so there is no table
+                behind that panel. The contact inbox is the real stream of
+                incoming requests and takes the slot.
+            --}}
             <ul class="divide-y divide-slate-100">
-                @foreach ($applications as $application)
+                @forelse ($recentMessages as $message)
                     <li class="flex items-center gap-3 p-4">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">
-                            {{ $application['initials'] }}
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600" aria-hidden="true">
+                            {{ \Illuminate\Support\Str::of($message->name)->explode(' ')->filter()->take(2)->map(fn ($part) => mb_strtoupper(mb_substr($part, 0, 1)))->implode('') }}
                         </span>
 
                         <div class="min-w-0 flex-1">
-                            <p class="truncate text-sm font-semibold text-slate-900">{{ $application['name'] }}</p>
-                            <p class="truncate text-xs text-slate-500">{{ $application['role'] }}</p>
+                            <p class="truncate text-sm font-semibold text-slate-900">{{ $message->name }}</p>
+                            <p class="truncate text-xs text-slate-500">{{ $message->email }}</p>
                         </div>
 
                         <div class="shrink-0 text-right">
-                            <p class="text-xs text-slate-500">{{ $application['date'] }}</p>
-                            <span class="mt-1 inline-block rounded px-2 py-0.5 text-xs font-medium {{ $application['tone'] }}">
-                                {{ $application['status'] }}
-                            </span>
+                            <p class="text-xs text-slate-500">{{ $message->created_at->translatedFormat('j M Y') }}</p>
+                            @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
+                                <span class="mt-1 inline-block rounded bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">Nouveau</span>
+                            @else
+                                <span class="mt-1 inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Traité</span>
+                            @endif
                         </div>
                     </li>
-                @endforeach
+                @empty
+                    <li class="p-8 text-center">
+                        <p class="text-sm text-slate-500">Aucun message reçu pour le moment.</p>
+                    </li>
+                @endforelse
             </ul>
+
+            <div class="border-t border-slate-100 p-4">
+                <p class="flex items-center gap-2 text-sm text-slate-600">
+                    <x-icon name="mail" class="h-4 w-4 shrink-0 text-slate-400" />
+                    {{ number_format($subscribers, 0, ',', ' ') }}
+                    {{ $subscribers === 1 ? 'abonné' : 'abonnés' }} à la newsletter
+                </p>
+            </div>
         </section>
     </div>
 

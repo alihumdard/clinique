@@ -41,8 +41,7 @@
                     'route' => 'admin.pages',
                     'children' => [
                         ['label' => 'Toutes les pages', 'route' => 'admin.pages'],
-                        ['label' => 'Ajouter une page', 'route' => 'admin.pages.create'],
-                        ['label' => 'Catégories',       'route' => 'admin.pages.categories'],
+                        ['label' => 'Ajouter une page', 'route' => 'admin.pages', 'anchor' => 'ajouter-une-page'],
                     ],
                 ],
             ],
