@@ -40,6 +40,11 @@ class Category extends Model
         return $this->hasMany(Activity::class);
     }
 
+    public function partners()
+    {
+        return $this->hasMany(Partner::class);
+    }
+
     /**
      * A thumbnail for the rubrique, taken from whichever row the listing
      * query selected as representative. Null when none was selected, so

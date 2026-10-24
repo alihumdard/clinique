@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\WebTvController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,13 +23,9 @@ Route::get('/a-propos', function () {
     return view('about');
 })->name('about');
 
-Route::get('/a-propos/equipe', function () {
-    return view('team');
-})->name('about.team');
+Route::get('/a-propos/equipe', [TeamController::class, 'index'])->name('about.team');
 
-Route::get('/partenaires', function () {
-    return view('partners');
-})->name('partners');
+Route::get('/partenaires', [PartnerController::class, 'index'])->name('partners');
 
 Route::get('/services', function () {
     return view('services');

@@ -5,11 +5,13 @@
 
 @section('content')
 
+    <x-admin.flash />
+
     <x-admin.page-header
         title="Gestion des partenaires"
         lead="Gérez les organisations et institutions partenaires de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un partenaire"
-        :action-href="route('admin.partners')"
+        action-href="#ajouter-un-partenaire"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Partenaires'],
@@ -21,19 +23,20 @@
         <div class="space-y-5 xl:col-span-3">
 
             {{-- ============ KPIs ============ --}}
-            {{-- Counts are illustrative until Module 2 supplies real queries. --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="users"       color="blue"  value="18" label="Partenaires"        trend="+20%" note="par rapport à l'année dernière" />
-                <x-admin.stat-card icon="check-circle" color="green" value="15" label="Partenaires actifs" trend="+25%" note="actuellement visibles" />
-                <x-admin.stat-card icon="eye"         color="amber" value="2"  label="En attente"         note="à valider" />
-                <x-admin.stat-card icon="x-circle"    color="red"   value="1"  label="Inactif"            note="non affiché" />
+                <x-admin.stat-card icon="check-circle" color="green" :value="$counts['published']" label="Partenaires visibles" note="affichés sur le site" />
+                <x-admin.stat-card icon="eye-off"      color="amber" :value="$counts['hidden']"    label="Masqués" note="enregistrés, non affichés" />
+                <x-admin.stat-card icon="document"     color="blue"  :value="$counts['drafts']"    label="Brouillons" />
+                <x-admin.stat-card icon="trash"        color="red"   :value="$counts['trashed']"   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                <div class="space-y-3 p-5">
-                    <form role="search" class="relative w-full lg:max-w-xs">
+                {{-- One GET form: search, catégorie and statut submit together,
+                     so a filtered list is a URL that can be shared. --}}
+                <form method="GET" action="{{ route('admin.partners') }}" class="space-y-3 p-5">
+                    <div role="search" class="relative w-full lg:max-w-xs">
                         <label for="partners-search" class="sr-only">Rechercher un partenaire</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -42,60 +45,62 @@
                             type="search"
                             id="partners-search"
                             name="q"
+                            value="{{ $filters['q'] ?? '' }}"
                             placeholder="Rechercher un partenaire..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                    </form>
+                    </div>
 
                     @php
-                        $selects = [
-                            ['id' => 'partners-category', 'label' => 'Filtrer par catégorie', 'options' => ['Toutes les catégories', 'Institution internationale', 'Organisation internationale', 'Bailleur de fonds', 'ONG', 'Institution académique']],
-                            ['id' => 'partners-status',   'label' => 'Filtrer par statut',    'options' => ['Tous les statuts', 'Publié', 'En attente', 'Inactif']],
-                            ['id' => 'partners-sort',     'label' => 'Trier les résultats',   'options' => ['Trier par', 'Plus récents', 'Ordre alphabétique', 'Catégorie']],
+                        $statuses = [
+                            '' => 'Tous les statuts',
+                            'published' => 'Publiés',
+                            'draft' => 'Brouillons',
+                            'archived' => 'Archivés',
+                            'corbeille' => 'Corbeille',
                         ];
                     @endphp
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                        @foreach ($selects as $select)
-                            <div class="min-w-0 sm:shrink-0">
-                                <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
-                                <select
-                                    id="{{ $select['id'] }}"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
-                                >
-                                    @foreach ($select['options'] as $option)
-                                        <option>{{ $option }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endforeach
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="partners-category" class="sr-only">Filtrer par catégorie</label>
+                            <select
+                                id="partners-category"
+                                name="categorie"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                <option value="">Toutes les catégories</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" @selected((int) ($filters['categorie'] ?? 0) === $category->id)>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                        <button type="button" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="partners-status" class="sr-only">Filtrer par statut</label>
+                            <select
+                                id="partners-status"
+                                name="statut"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                @foreach ($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(($filters['statut'] ?? '') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:w-auto">
                             <x-icon name="filter" class="h-4 w-4" />
                             Filtrer
                         </button>
-                    </div>
-                </div>
 
-                @php
-                    /*
-                     * Partner organisations. Logos are supplied by the Clinic;
-                     * until then each row shows the organisation's initials on
-                     * a plain tile rather than a stretched placeholder photo.
-                     */
-                    $partners = [
-                        ['short' => 'UE',     'name' => 'Union Européenne',                               'category' => 'Institution internationale',  'tone' => 'blue',   'status' => 'Publié',     'statusTone' => 'green', 'date' => '10 juin 2025', 'time' => '14:32'],
-                        ['short' => 'ONU',    'name' => 'Organisation des Nations Unies',                 'category' => 'Organisation internationale', 'tone' => 'purple', 'status' => 'Publié',     'statusTone' => 'green', 'date' => '8 juin 2025',  'time' => '11:20'],
-                        ['short' => 'AFD',    'name' => 'Agence Française de Développement (AFD)',        'category' => 'Bailleur de fonds',           'tone' => 'amber',  'status' => 'Publié',     'statusTone' => 'green', 'date' => '5 juin 2025',  'time' => '09:15'],
-                        ['short' => 'UNICEF', 'name' => 'UNICEF',                                         'category' => 'Organisation internationale', 'tone' => 'purple', 'status' => 'Publié',     'statusTone' => 'green', 'date' => '1 juin 2025',  'time' => '12:10'],
-                        ['short' => 'USAID',  'name' => 'USAID',                                          'category' => 'Bailleur de fonds',           'tone' => 'amber',  'status' => 'Publié',     'statusTone' => 'green', 'date' => '28 mai 2025',  'time' => '16:45'],
-                        ['short' => 'BM',     'name' => 'Banque Mondiale',                                'category' => 'Bailleur de fonds',           'tone' => 'amber',  'status' => 'En attente', 'statusTone' => 'amber', 'date' => '25 mai 2025',  'time' => '10:22'],
-                        ['short' => 'HCR',    'name' => 'HCR (Haut-Commissariat aux Réfugiés)',           'category' => 'Organisation internationale', 'tone' => 'purple', 'status' => 'Publié',     'statusTone' => 'green', 'date' => '20 mai 2025',  'time' => '15:30'],
-                        ['short' => 'OIM',    'name' => 'OIM (Organisation Internationale pour les Migrations)', 'category' => 'Organisation internationale', 'tone' => 'purple', 'status' => 'Publié', 'statusTone' => 'green', 'date' => '16 mai 2025', 'time' => '13:18'],
-                        ['short' => 'CRN',    'name' => 'Croix-Rouge Niger',                              'category' => 'ONG',                         'tone' => 'red',    'status' => 'Publié',     'statusTone' => 'green', 'date' => '12 mai 2025',  'time' => '09:40'],
-                        ['short' => 'UAM',    'name' => 'Université Abdou Moumouni',                      'category' => 'Institution académique',      'tone' => 'blue',   'status' => 'Inactif',    'statusTone' => 'red',   'date' => '8 mai 2025',   'time' => '11:05'],
-                    ];
-                @endphp
+                        @if (array_filter($filters))
+                            <a href="{{ route('admin.partners') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                                Réinitialiser
+                            </a>
+                        @endif
+                    </div>
+                </form>
 
                 <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
                     <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
@@ -117,101 +122,129 @@
                                 <th scope="col" class="w-20 px-2 py-3">Logo</th>
                                 <th scope="col" class="min-w-[14rem] px-3 py-3">Nom du partenaire</th>
                                 <th scope="col" class="px-3 py-3">Catégorie</th>
+                                <th scope="col" class="px-3 py-3">Site web</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
-                                <th scope="col" class="px-3 py-3">Date d'ajout</th>
                                 <th scope="col" class="px-5 py-3 text-right">Actions</th>
                             </tr>
                         </thead>
 
                         <tbody class="divide-y divide-slate-100">
-                            @foreach ($partners as $i => $partner)
+                            @forelse ($partners as $partner)
                                 <tr class="hover:bg-slate-50">
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $partner['name'] }}"
+                                            aria-label="Sélectionner : {{ $partner->name }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
 
-                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $i + 1 }}</td>
+                                    <td class="px-2 py-3 text-sm text-slate-500">
+                                        {{ $partner->position }}
+                                    </td>
 
                                     <td class="px-2 py-3">
                                         {{-- Logo tile: white background, since partner marks
                                              are supplied as transparent artwork. --}}
-                                        <span class="flex h-11 w-14 items-center justify-center rounded-md border border-slate-200 bg-white px-1 text-[10px] font-bold text-slate-500">
-                                            {{ $partner['short'] }}
+                                        <span class="flex h-11 w-14 items-center justify-center rounded-md border border-slate-200 bg-white px-1">
+                                            @if($partner->logo)
+                                                <img
+                                                    src="{{ $partner->logoUrl() }}"
+                                                    alt=""
+                                                    loading="lazy"
+                                                    class="max-h-9 max-w-full object-contain"
+                                                >
+                                            @else
+                                                <span class="text-[10px] font-bold text-slate-500">
+                                                    {{ mb_strtoupper(mb_substr($partner->name, 0, 4)) }}
+                                                </span>
+                                            @endif
                                         </span>
                                     </td>
 
                                     <td class="px-3 py-3">
                                         <span class="block max-w-[15rem] text-sm font-semibold leading-snug text-slate-900">
-                                            {{ $partner['name'] }}
+                                            {{ $partner->name }}
                                         </span>
+                                        @if($partner->description)
+                                            <span class="mt-0.5 block max-w-[15rem] truncate text-xs text-slate-400">
+                                                {{ $partner->description }}
+                                            </span>
+                                        @endif
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$partner['tone']">{{ $partner['category'] }}</x-admin.badge>
+                                        @if($partner->category)
+                                            <x-admin.badge :tone="$partner->category->tone">{{ $partner->category->name }}</x-admin.badge>
+                                        @else
+                                            <span class="text-sm text-slate-400">&mdash;</span>
+                                        @endif
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$partner['statusTone']">{{ $partner['status'] }}</x-admin.badge>
+                                        @if($partner->website)
+                                            <a
+                                                href="{{ $partner->website }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="inline-flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700"
+                                            >
+                                                <x-icon name="link" class="h-4 w-4 shrink-0" />
+                                                <span class="sr-only">Ouvrir le site de {{ $partner->name }}</span>
+                                                Voir
+                                            </a>
+                                        @else
+                                            <span class="text-sm text-slate-400">&mdash;</span>
+                                        @endif
                                     </td>
 
-                                    <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
-                                        {{ $partner['date'] }}<br>
-                                        <span class="text-xs">{{ $partner['time'] }}</span>
+                                    <td class="px-3 py-3">
+                                        <x-admin.badge :tone="$partner->statusTone()">{{ $partner->statusLabel() }}</x-admin.badge>
                                     </td>
 
                                     <td class="px-5 py-3">
-                                        <x-admin.row-actions :label="$partner['name']" :duplicate="false" />
+                                        <x-admin.row-actions
+                                            :label="$partner->name"
+                                            :duplicate="false"
+                                            :view-href="route('partners')"
+                                            :toggle-action="route('admin.partners.toggle', $partner)"
+                                            :is-visible="$partner->is_visible"
+                                            :delete-action="route('admin.partners.destroy', $partner)"
+                                        />
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="px-5 py-12 text-center">
+                                        <p class="text-sm text-slate-500">Aucun partenaire ne correspond à cette recherche.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <x-admin.table-footer
-                    :from="1" :to="10" :total="18" unit="partenaires"
-                    :current="1" :pages="2"
-                />
+                <x-admin.table-footer :paginator="$partners" unit="partenaires" />
             </section>
         </div>
 
         {{-- ============ ADD PARTNER ============ --}}
-        {{--
-            Presentation only: Module 2 adds the POST route and server-side
-            validation. The accept and size hints are conveniences, never
-            the security boundary — SVG uploads in particular must be
-            sanitised server-side, since SVG can carry script.
-        --}}
         <aside>
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section id="ajouter-un-partenaire" class="rounded-xl border border-slate-200 bg-white p-5">
 
-                <div class="flex items-start justify-between gap-3">
-                    <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                        <x-icon name="users" class="h-5 w-5 text-primary-600" />
-                        Ajouter un partenaire
-                    </h2>
+                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
+                    <x-icon name="users" class="h-5 w-5 text-primary-600" />
+                    Ajouter un partenaire
+                </h2>
 
-                    <button type="button" class="shrink-0 rounded-md p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        <span class="sr-only">Fermer le formulaire</span>
-                    </button>
-                </div>
-
-                <x-admin.filter-tabs
-                    class="mt-4"
-                    :tabs="[
-                        ['label' => 'Informations générales', 'active' => true],
-                        ['label' => 'Détails supplémentaires'],
-                    ]"
-                />
-
-                <form method="POST" action="#" class="mt-5 space-y-4">
+                {{--
+                    The accept and size hints below are conveniences, never
+                    the security boundary: PartnerRequest re-checks every
+                    field and MediaStorage re-reads the file's own bytes.
+                    SVG is refused outright — it is a document that can
+                    carry script, and it would be served from our own origin.
+                --}}
+                <form method="POST" action="{{ route('admin.partners.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
                     @csrf
 
                     <div>
@@ -223,98 +256,59 @@
                         <input
                             type="text"
                             id="partner-name"
-                            name="nom"
+                            name="name"
                             required
+                            value="{{ old('name') }}"
                             placeholder="Ex. Union Européenne"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
 
                     <div>
-                        <label for="partner-category" class="block text-sm font-medium text-slate-700">
-                            Catégorie
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                        <label for="partner-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
                         <select
                             id="partner-category"
-                            name="categorie"
-                            required
+                            name="category_id"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                             <option value="">Sélectionner une catégorie</option>
-                            <option>Institution internationale</option>
-                            <option>Organisation internationale</option>
-                            <option>Bailleur de fonds</option>
-                            <option>ONG</option>
-                            <option>Institution académique</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div>
-                        <label for="partner-description" class="block text-sm font-medium text-slate-700">
-                            Description
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-
-                        {{-- Formatting controls are inert until Module 2 wires an editor. --}}
-                        <div class="mt-1.5 overflow-hidden rounded-lg border border-slate-200">
-                            <div class="flex items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-1.5">
-                                @php
-                                    $tools = [
-                                        ['icon' => 'bold',        'label' => 'Gras'],
-                                        ['icon' => 'italic',      'label' => 'Italique'],
-                                        ['icon' => 'underline',   'label' => 'Souligné'],
-                                        ['icon' => 'list-bullet', 'label' => 'Liste à puces'],
-                                        ['icon' => 'list-number', 'label' => 'Liste numérotée'],
-                                        ['icon' => 'link',        'label' => 'Insérer un lien'],
-                                    ];
-                                @endphp
-
-                                @foreach ($tools as $tool)
-                                    <button
-                                        type="button"
-                                        class="flex h-7 w-7 items-center justify-center rounded text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
-                                    >
-                                        <x-icon :name="$tool['icon']" class="h-4 w-4" />
-                                        <span class="sr-only">{{ $tool['label'] }}</span>
-                                    </button>
-                                @endforeach
-                            </div>
-
-                            <textarea
-                                id="partner-description"
-                                name="description"
-                                rows="4"
-                                required
-                                placeholder="Décrivez brièvement le partenaire..."
-                                class="w-full resize-y border-0 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-0"
-                            ></textarea>
-                        </div>
+                        <label for="partner-description" class="block text-sm font-medium text-slate-700">Description</label>
+                        <textarea
+                            id="partner-description"
+                            name="description"
+                            rows="3"
+                            aria-describedby="partner-description-hint"
+                            placeholder="Ex. Programme des Nations Unies pour le Développement"
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('description') }}</textarea>
+                        <p id="partner-description-hint" class="mt-1.5 text-xs text-slate-500">
+                            Affichée sous le nom lorsqu'aucun logo n'a été importé.
+                        </p>
                     </div>
 
                     <div>
-                        <span class="block text-sm font-medium text-slate-700">
-                            Logo
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </span>
+                        <span class="block text-sm font-medium text-slate-700">Logo</span>
 
                         <label
                             for="partner-logo"
                             class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
                         >
                             <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
-                            <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG, SVG - Max 2MB)</span>
+                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer le logo</span>
+                            <span class="mt-1 text-xs text-slate-400">(PNG transparent, JPG ou WebP - Max 1MB)</span>
 
                             <input
                                 type="file"
                                 id="partner-logo"
                                 name="logo"
-                                accept="image/jpeg,image/png,image/svg+xml"
+                                accept="image/png,image/jpeg,image/webp"
                                 class="sr-only"
                             >
                         </label>
@@ -329,11 +323,28 @@
                             <input
                                 type="url"
                                 id="partner-website"
-                                name="site_web"
-                                placeholder="https://www.exemple.com"
+                                name="website"
+                                value="{{ old('website') }}"
+                                placeholder="https://www.exemple.org"
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
                         </div>
+                    </div>
+
+                    <div>
+                        <label for="partner-position" class="block text-sm font-medium text-slate-700">Ordre d'affichage</label>
+                        <input
+                            type="number"
+                            id="partner-position"
+                            name="position"
+                            min="0"
+                            value="{{ old('position') }}"
+                            aria-describedby="partner-position-hint"
+                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                        <p id="partner-position-hint" class="mt-1.5 text-xs text-slate-500">
+                            Laissez vide pour ajouter à la fin de la liste.
+                        </p>
                     </div>
 
                     <div>
@@ -344,23 +355,26 @@
                         </label>
                         <select
                             id="partner-status"
-                            name="statut"
+                            name="status"
                             required
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option>Publié</option>
-                            <option>En attente</option>
-                            <option>Inactif</option>
+                            @php
+                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                            @endphp
+                            @foreach ($options as $value => $label)
+                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="pt-1">
-                        <x-admin.toggle name="afficher" label="Afficher sur la page publique" :checked="true" />
+                        <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) old('is_visible', true)" />
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
                         <button
-                            type="button"
+                            type="reset"
                             class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
                         >
                             Annuler

@@ -1,23 +1,41 @@
 @props([
-    'image',
+    // `image` names a bundled file under public/images; `imageUrl` is a
+    // ready URL, which is what a stored photo gives. With neither, the
+    // card shows the member's initials rather than a broken image.
+    'image' => null,
+    'imageUrl' => null,
     'name',
     'role',
     'bio' => null,
     'email' => null,
     'linkedin' => null,
+    'initials' => null,
     'size' => 'compact',
 ])
+
+@php
+    $src = $imageUrl ?? ($image ? asset('images/'.$image.'.jpg') : null);
+    $initials = $initials ?? collect(explode(' ', $name))
+        ->filter()
+        ->take(2)
+        ->map(fn ($part) => mb_strtoupper(mb_substr($part, 0, 1)))
+        ->implode('');
+@endphp
 
 @if($size === 'large')
     <div {{ $attributes->merge(['class' => 'flex flex-col rounded-lg border border-slate-200 bg-white overflow-hidden sm:flex-row']) }}>
         <div class="h-56 w-full shrink-0 overflow-hidden sm:h-full sm:w-44">
-            <img
-                src="{{ asset('images/' . $image . '.jpg') }}"
-                alt="{{ $name }}"
-                class="h-full w-full object-cover object-top"
-                loading="lazy"
-                width="176" height="250"
-            >
+            @if($src)
+                <img
+                    src="{{ $src }}"
+                    alt="{{ $name }}"
+                    class="h-full w-full object-cover object-top"
+                    loading="lazy"
+                    width="176" height="250"
+                >
+            @else
+                <span class="flex h-full w-full items-center justify-center bg-primary-50 text-2xl font-bold text-primary-600" aria-hidden="true">{{ $initials }}</span>
+            @endif
         </div>
         <div class="p-5">
             <p class="text-lg font-bold text-slate-900">{{ $name }}</p>
@@ -42,12 +60,16 @@
     </div>
 @elseif($size === 'horizontal')
     <div {{ $attributes->merge(['class' => 'flex overflow-hidden rounded-lg border border-slate-200 bg-white']) }}>
-        <img
-            src="{{ asset('images/' . $image . '.jpg') }}"
-            alt="{{ $name }}"
-            class="h-40 w-28 shrink-0 object-cover object-top"
-            loading="lazy" width="112" height="160"
-        >
+        @if($src)
+            <img
+                src="{{ $src }}"
+                alt="{{ $name }}"
+                class="h-40 w-28 shrink-0 object-cover object-top"
+                loading="lazy" width="112" height="160"
+            >
+        @else
+            <span class="flex h-40 w-28 shrink-0 items-center justify-center bg-primary-50 text-xl font-bold text-primary-600" aria-hidden="true">{{ $initials }}</span>
+        @endif
         <div class="flex min-w-0 flex-col justify-center py-3 pl-3 pr-3">
             <p class="text-sm font-bold text-slate-900">{{ $name }}</p>
             <p class="text-xs font-medium text-primary-600">{{ $role }}</p>
@@ -63,13 +85,17 @@
     </div>
 @else
     <div {{ $attributes->merge(['class' => 'overflow-hidden rounded-lg border border-slate-200 bg-white']) }}>
-        <img
-            src="{{ asset('images/' . $image . '.jpg') }}"
-            alt="{{ $name }}"
-            class="w-full object-cover object-top"
-            style="aspect-ratio: 5/6;"
-            loading="lazy" width="200" height="240"
-        >
+        @if($src)
+            <img
+                src="{{ $src }}"
+                alt="{{ $name }}"
+                class="w-full object-cover object-top"
+                style="aspect-ratio: 5/6;"
+                loading="lazy" width="200" height="240"
+            >
+        @else
+            <span class="flex w-full items-center justify-center bg-primary-50 text-xl font-bold text-primary-600" style="aspect-ratio: 5/6;" aria-hidden="true">{{ $initials }}</span>
+        @endif
         <div class="px-3 py-2.5">
             <p class="text-sm font-semibold leading-snug text-slate-900">{{ $name }}</p>
             <p class="mt-0.5 text-xs font-medium text-primary-600">{{ $role }}</p>

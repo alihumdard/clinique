@@ -16,20 +16,50 @@ trait Publishable
     public const STATUS_ARCHIVED = 'archived';
 
     /**
-     * What a visitor is allowed to see: published, and not dated in the
-     * future. A row scheduled for next week is published in the admin's
-     * sense but must not appear on the site until its date arrives.
+     * Whether this type publishes on a date.
+     *
+     * Content types do: an actualité or a capsule can be scheduled, and a
+     * row dated next week must not appear until its date arrives. Others
+     * are a list that is shown or hidden in an order the Clinic chooses —
+     * partners and team members — and their tables carry no published_at
+     * at all, so the date clauses must not be applied to them.
      */
+    protected function publishesOnADate(): bool
+    {
+        return true;
+    }
+
+    /** Whether a single row can be hidden while still being published. */
+    protected function hidesIndividualRows(): bool
+    {
+        return false;
+    }
+
+    /** What a visitor is allowed to see. */
     public function scopePublic(Builder $query): Builder
     {
-        return $query->where('status', self::STATUS_PUBLISHED)
-            ->where(function (Builder $q) {
+        $query->where('status', self::STATUS_PUBLISHED);
+
+        if ($this->publishesOnADate()) {
+            $query->where(function (Builder $q) {
                 $q->whereNull('published_at')->orWhere('published_at', '<=', now());
             });
+        }
+
+        if ($this->hidesIndividualRows()) {
+            $query->where('is_visible', true);
+        }
+
+        return $query;
     }
 
     public function scopeScheduled(Builder $query): Builder
     {
+        if (! $this->publishesOnADate()) {
+            // Nothing can be scheduled without a date to schedule it for.
+            return $query->whereRaw('1 = 0');
+        }
+
         return $query->where('status', self::STATUS_PUBLISHED)
             ->where('published_at', '>', now());
     }
@@ -41,13 +71,23 @@ trait Publishable
 
     public function isPublic(): bool
     {
-        return $this->status === self::STATUS_PUBLISHED
-            && (is_null($this->published_at) || $this->published_at->isPast());
+        if ($this->status !== self::STATUS_PUBLISHED) {
+            return false;
+        }
+
+        if ($this->hidesIndividualRows() && ! $this->is_visible) {
+            return false;
+        }
+
+        return ! $this->publishesOnADate()
+            || is_null($this->published_at)
+            || $this->published_at->isPast();
     }
 
     public function isScheduled(): bool
     {
-        return $this->status === self::STATUS_PUBLISHED
+        return $this->publishesOnADate()
+            && $this->status === self::STATUS_PUBLISHED
             && $this->published_at
             && $this->published_at->isFuture();
     }
@@ -61,6 +101,9 @@ trait Publishable
 
         return match (true) {
             $this->isScheduled() => 'Programmée',
+            // Published but hidden: the row exists and is correct, it is
+            // simply not on the site, which is not the same as a draft.
+            $this->hidesIndividualRows() && $this->status === self::STATUS_PUBLISHED && ! $this->is_visible => 'Masqué',
             $this->status === self::STATUS_PUBLISHED => 'Publié',
             $this->status === self::STATUS_ARCHIVED => 'Archivé',
             default => 'Brouillon',
@@ -85,6 +128,7 @@ trait Publishable
 
         return match (true) {
             $this->isScheduled() => 'blue',
+            $this->hidesIndividualRows() && $this->status === self::STATUS_PUBLISHED && ! $this->is_visible => 'slate',
             $this->status === self::STATUS_PUBLISHED => 'green',
             $this->status === self::STATUS_ARCHIVED => 'slate',
             default => 'amber',

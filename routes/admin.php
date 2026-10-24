@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\GuideController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,8 +62,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/web-tv/{video:id}', [VideoController::class, 'destroy'])->name('webtv.destroy');
         Route::post('/web-tv/{id}/restaurer', [VideoController::class, 'restore'])->name('webtv.restore');
         Route::delete('/web-tv/{id}/definitif', [VideoController::class, 'forceDestroy'])->name('webtv.force-destroy');
-        Route::view('/partenaires', 'admin.partners')->name('partners');
-        Route::view('/equipe', 'admin.team')->name('team');
+
+        /*
+        | Partenaires and équipe. Both are a list the Clinic orders and
+        | shows or hides rather than a timeline, so each row carries
+        | is_visible and position instead of a publication date, and each
+        | has a toggle of its own.
+        */
+        Route::get('/partenaires', [PartnerController::class, 'index'])->name('partners');
+        Route::post('/partenaires', [PartnerController::class, 'store'])->name('partners.store');
+        Route::put('/partenaires/{partner:id}', [PartnerController::class, 'update'])->name('partners.update');
+        Route::delete('/partenaires/{partner:id}', [PartnerController::class, 'destroy'])->name('partners.destroy');
+        Route::post('/partenaires/{partner:id}/visibilite', [PartnerController::class, 'toggle'])->name('partners.toggle');
+        Route::post('/partenaires/{id}/restaurer', [PartnerController::class, 'restore'])->name('partners.restore');
+        Route::delete('/partenaires/{id}/definitif', [PartnerController::class, 'forceDestroy'])->name('partners.force-destroy');
+
+        Route::get('/equipe', [TeamController::class, 'index'])->name('team');
+        Route::post('/equipe', [TeamController::class, 'store'])->name('team.store');
+        Route::put('/equipe/{member:id}', [TeamController::class, 'update'])->name('team.update');
+        Route::delete('/equipe/{member:id}', [TeamController::class, 'destroy'])->name('team.destroy');
+        Route::post('/equipe/{member:id}/visibilite', [TeamController::class, 'toggle'])->name('team.toggle');
+        Route::post('/equipe/{id}/restaurer', [TeamController::class, 'restore'])->name('team.restore');
+        Route::delete('/equipe/{id}/definitif', [TeamController::class, 'forceDestroy'])->name('team.force-destroy');
+
 
         /*
         | Activités et galerie photos. The gallery is a hasMany on the

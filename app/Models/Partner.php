@@ -28,8 +28,28 @@ class Partner extends Model
         return 'slug';
     }
 
+    /*
+     * Partners are a list the Clinic orders and shows or hides, not a
+     * timeline: the table carries is_visible and position, and no
+     * published_at.
+     */
+    protected function publishesOnADate(): bool
+    {
+        return false;
+    }
+
+    protected function hidesIndividualRows(): bool
+    {
+        return true;
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function logoUrl(): string
+    {
+        return $this->imageUrl($this->logo, 'placeholders/partner-placeholder');
     }
 }

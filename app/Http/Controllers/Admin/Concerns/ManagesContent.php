@@ -62,6 +62,26 @@ trait ManagesContent
     }
 
     /**
+     * The KPI figures for a list type — partners, team members — where a
+     * row is shown or hidden rather than scheduled.
+     *
+     * @param  class-string<Model>  $model
+     * @return array<string, int>
+     */
+    protected function listCounts(string $model): array
+    {
+        return [
+            'published' => $model::public()->count(),
+            'hidden' => $model::query()
+                ->where('status', 'published')
+                ->where('is_visible', false)
+                ->count(),
+            'drafts' => $model::drafts()->count(),
+            'trashed' => $model::onlyTrashed()->count(),
+        ];
+    }
+
+    /**
      * A published row needs a date: without one it would never appear,
      * since every public listing orders and filters on it.
      *

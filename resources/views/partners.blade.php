@@ -29,66 +29,63 @@
                 </p>
             </div>
 
+            {{-- The figures are the rubriques themselves, so the panel can
+                 never drift from the lists below it. --}}
+            @php
+                $statIcons = [
+                    'institutions-nationales' => 'document',
+                    'partenaires-internationaux' => 'search',
+                    'societe-civile-et-ong' => 'user-plus',
+                ];
+            @endphp
+
             <div class="grid grid-cols-2 gap-x-5 gap-y-5 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:gap-x-8 sm:gap-y-6 sm:p-6">
-                <x-mini-stat icon="users" title="Partenaires" value="15+" subtitle="institutionnels" />
-                <x-mini-stat icon="search" title="Organisations" value="5+" subtitle="internationales" />
-                <x-mini-stat icon="user-plus" title="ONG et associations" value="10+" subtitle="" />
-                <x-mini-stat icon="document" title="Institutions publiques" value="8+" subtitle="et professionnelles" />
+                <x-mini-stat icon="users" title="Partenaires" :value="$total" subtitle="au total" />
+
+                @foreach ($sections as $section)
+                    <x-mini-stat
+                        :icon="$statIcons[$section['category']->slug] ?? 'users'"
+                        :title="$section['category']->name"
+                        :value="$section['partners']->count()"
+                        subtitle=""
+                    />
+                @endforeach
             </div>
         </div>
     </section>
 
-    {{-- ============ INSTITUTIONS NATIONALES ============ --}}
-    <section class="bg-slate-50 py-10 sm:py-12 lg:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-partner-section
-                eyebrow="Nos partenaires institutionnels"
-                title="Institutions nationales"
-                :partners="[
-                    ['name' => 'Ministère de la Justice', 'subtitle' => 'Niger', 'logo' => 'uemf'],
-                    ['name' => 'Université Abdou Moumouni', 'subtitle' => 'Niamey', 'logo' => 'ministere-justice'],
-                    ['name' => 'Cour d\'Appel de Niamey', 'subtitle' => 'Niger', 'logo' => 'onu-femmes'],
-                    ['name' => 'Tribunal de Grande Instance', 'subtitle' => 'Niamey', 'logo' => 'amdh'],
-                    ['name' => 'Conseil Supérieur de la Magistrature', 'subtitle' => 'Niger', 'logo' => 'barreau-fes'],
-                    ['name' => 'Ordre des Avocats du Niger', 'subtitle' => 'Niamey', 'logo' => 'pndd'],
-                ]"
-            />
-        </div>
-    </section>
+    {{-- ============ PARTNER SECTIONS ============ --}}
+    {{-- Alternating background, so each rubrique reads as its own band
+         however many the Clinic ends up with. --}}
+    @forelse ($sections as $section)
+        <section class="{{ $loop->even ? '' : 'bg-slate-50' }} py-10 sm:py-12 lg:py-16">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <x-partner-section
+                    eyebrow="Nos partenaires"
+                    :title="$section['category']->name"
+                    :partners="$section['partners']"
+                />
+            </div>
+        </section>
+    @empty
+        <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <p class="text-sm text-slate-500">
+                La liste de nos partenaires sera publiée prochainement.
+            </p>
+        </section>
+    @endforelse
 
-    {{-- ============ PARTENAIRES INTERNATIONAUX ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
-        <x-partner-section
-            eyebrow="Organisations internationales"
-            title="Partenaires internationaux"
-            :partners="[
-                ['name' => 'PNUD', 'subtitle' => 'Programme des Nations Unies pour le Développement', 'logo' => 'uemf'],
-                ['name' => 'UNICEF', 'subtitle' => 'Fonds des Nations Unies pour l\'enfance', 'logo' => 'ministere-justice'],
-                ['name' => 'Union Européenne', 'subtitle' => 'Délégation au Niger', 'logo' => 'onu-femmes'],
-                ['name' => 'AFD', 'subtitle' => 'Agence Française de Développement', 'logo' => 'amdh'],
-                ['name' => 'OIM', 'subtitle' => 'Organisation Internationale pour les Migrations', 'logo' => 'barreau-fes'],
-                ['name' => 'CICR', 'subtitle' => 'Comité International de la Croix-Rouge', 'logo' => 'pndd'],
-            ]"
-        />
-    </section>
-
-    {{-- ============ SOCIETE CIVILE ET ONG ============ --}}
-    <section class="bg-slate-50 py-10 sm:py-12 lg:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-partner-section
-                eyebrow="ONG et associations"
-                title="Société civile et ONG"
-                :partners="[
-                    ['name' => 'ASF', 'subtitle' => 'Avocats Sans Frontières', 'logo' => 'uemf'],
-                    ['name' => 'Amnesty International', 'subtitle' => null, 'logo' => 'ministere-justice'],
-                    ['name' => 'Human Rights Watch', 'subtitle' => null, 'logo' => 'onu-femmes'],
-                    ['name' => 'Search for Common Ground', 'subtitle' => null, 'logo' => 'amdh'],
-                    ['name' => 'ALIMA', 'subtitle' => 'The Alliance for International Medical Action', 'logo' => 'barreau-fes'],
-                    ['name' => 'Plan International', 'subtitle' => null, 'logo' => 'pndd'],
-                ]"
-            />
-        </div>
-    </section>
+    @if ($unsorted->isNotEmpty())
+        <section class="{{ $sections->count() % 2 === 0 ? '' : 'bg-slate-50' }} py-10 sm:py-12 lg:py-16">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <x-partner-section
+                    eyebrow="Nos partenaires"
+                    title="Autres partenaires"
+                    :partners="$unsorted"
+                />
+            </div>
+        </section>
+    @endif
 
     {{-- ============ INLINE CTA ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">

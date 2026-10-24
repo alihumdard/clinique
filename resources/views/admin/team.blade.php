@@ -5,11 +5,13 @@
 
 @section('content')
 
+    <x-admin.flash />
+
     <x-admin.page-header
         title="Gestion de l'équipe"
         lead="Gérez les membres de l'équipe de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un membre"
-        :action-href="route('admin.team')"
+        action-href="#ajouter-un-membre"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Équipe'],
@@ -21,19 +23,20 @@
         <div class="space-y-5 xl:col-span-3">
 
             {{-- ============ KPIs ============ --}}
-            {{-- Counts are illustrative until Module 2 supplies real queries. --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="users"   color="blue"  value="12" label="Membres de l'équipe" trend="+20%" note="par rapport à l'année dernière" />
-                <x-admin.stat-card icon="user-plus" color="green" value="8" label="Membres actifs"     trend="+33%" note="actuellement visibles" />
-                <x-admin.stat-card icon="clock"   color="amber" value="3"  label="En attente"          note="à valider" />
-                <x-admin.stat-card icon="eye-off" color="red"   value="1"  label="Inactif"             note="non affiché" />
+                <x-admin.stat-card icon="users"   color="green" :value="$counts['published']" label="Membres visibles" note="affichés sur le site" />
+                <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['hidden']"    label="Masqués" note="enregistrés, non affichés" />
+                <x-admin.stat-card icon="clock"   color="blue"  :value="$counts['drafts']"    label="Brouillons" />
+                <x-admin.stat-card icon="trash"   color="red"   :value="$counts['trashed']"   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                <div class="space-y-3 p-5">
-                    <form role="search" class="relative w-full lg:max-w-xs">
+                {{-- One GET form: search, groupe and statut submit together,
+                     so a filtered list is a URL that can be shared. --}}
+                <form method="GET" action="{{ route('admin.team') }}" class="space-y-3 p-5">
+                    <div role="search" class="relative w-full lg:max-w-xs">
                         <label for="team-search" class="sr-only">Rechercher un membre</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -42,55 +45,64 @@
                             type="search"
                             id="team-search"
                             name="q"
+                            value="{{ $filters['q'] ?? '' }}"
                             placeholder="Rechercher un membre..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                    </form>
+                    </div>
 
                     @php
-                        $selects = [
-                            ['id' => 'team-department', 'label' => 'Filtrer par département', 'options' => ['Tous les départements', 'Direction', 'Coordination', 'Conseil juridique', 'Formation', 'Communication', 'Événements', 'Administration', 'Partenariats']],
-                            ['id' => 'team-status',     'label' => 'Filtrer par statut',      'options' => ['Tous les statuts', 'Publié', 'En attente', 'Inactif']],
-                            ['id' => 'team-sort',       'label' => 'Trier les résultats',     'options' => ['Trier par', 'Plus récents', 'Ordre alphabétique', 'Département']],
+                        $statuses = [
+                            '' => 'Tous les statuts',
+                            'published' => 'Publiés',
+                            'draft' => 'Brouillons',
+                            'archived' => 'Archivés',
+                            'corbeille' => 'Corbeille',
                         ];
                     @endphp
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                        @foreach ($selects as $select)
-                            <div class="min-w-0 sm:shrink-0">
-                                <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
-                                <select
-                                    id="{{ $select['id'] }}"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
-                                >
-                                    @foreach ($select['options'] as $option)
-                                        <option>{{ $option }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endforeach
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="team-group" class="sr-only">Filtrer par groupe</label>
+                            <select
+                                id="team-group"
+                                name="groupe"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                <option value="">Tous les groupes</option>
+                                @foreach ($departments as $key => $label)
+                                    <option value="{{ $key }}" @selected(($filters['groupe'] ?? '') === $key)>
+                                        {{ $label }} ({{ $byDepartment[$key] ?? 0 }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                        <button type="button" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="team-status" class="sr-only">Filtrer par statut</label>
+                            <select
+                                id="team-status"
+                                name="statut"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                @foreach ($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(($filters['statut'] ?? '') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:w-auto">
                             <x-icon name="filter" class="h-4 w-4" />
                             Filtrer
                         </button>
-                    </div>
-                </div>
 
-                @php
-                    $members = [
-                        ['photo' => 'team/director-1', 'name' => 'Dr. Amadou Issa',       'role' => 'Directeur',                 'department' => 'Direction',         'tone' => 'blue',   'status' => 'Publié',     'statusTone' => 'green'],
-                        ['photo' => 'team/staff-1',    'name' => 'Mme Aïssatou Moussa',   'role' => 'Coordinatrice',             'department' => 'Coordination',      'tone' => 'purple', 'status' => 'Publié',     'statusTone' => 'green'],
-                        ['photo' => 'team/director-2', 'name' => 'M. Ibrahim Hamidou',    'role' => 'Juriste',                   'department' => 'Conseil juridique', 'tone' => 'green',  'status' => 'Publié',     'statusTone' => 'green'],
-                        ['photo' => 'team/staff-2',    'name' => 'Mme Fatima Ali',        'role' => 'Chargée de formation',      'department' => 'Formation',         'tone' => 'amber',  'status' => 'En attente', 'statusTone' => 'amber'],
-                        ['photo' => 'team/student-1',  'name' => 'M. Abdoulaye Sani',     'role' => 'Responsable Web TV',        'department' => 'Communication',     'tone' => 'red',    'status' => 'Publié',     'statusTone' => 'green'],
-                        ['photo' => 'team/staff-3',    'name' => 'Mme Zara Oumarou',      'role' => 'Juriste',                   'department' => 'Conseil juridique', 'tone' => 'green',  'status' => 'Publié',     'statusTone' => 'green'],
-                        ['photo' => 'team/student-2',  'name' => 'M. Moussa Saley',       'role' => 'Chargé des activités',      'department' => 'Événements',        'tone' => 'blue',   'status' => 'Publié',     'statusTone' => 'green'],
-                        ['photo' => 'team/student-3',  'name' => 'Mme Rahamatou Idrissa', 'role' => 'Assistante administrative', 'department' => 'Administration',    'tone' => 'purple', 'status' => 'Inactif',    'statusTone' => 'red'],
-                        ['photo' => 'team/student-4',  'name' => 'M. Souleymane Tahirou', 'role' => 'Graphiste / Communication', 'department' => 'Communication',     'tone' => 'red',    'status' => 'Publié',     'statusTone' => 'green'],
-                        ['photo' => 'team/student-5',  'name' => 'Mme Halima Danladi',    'role' => 'Chargée des partenariats',  'department' => 'Partenariats',      'tone' => 'green',  'status' => 'En attente', 'statusTone' => 'amber'],
-                    ];
-                @endphp
+                        @if (array_filter($filters))
+                            <a href="{{ route('admin.team') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                                Réinitialiser
+                            </a>
+                        @endif
+                    </div>
+                </form>
 
                 <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
                     <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
@@ -112,86 +124,101 @@
                                 <th scope="col" class="w-20 px-2 py-3">Photo</th>
                                 <th scope="col" class="min-w-[14rem] px-3 py-3">Nom complet</th>
                                 <th scope="col" class="px-3 py-3">Poste / Fonction</th>
-                                <th scope="col" class="px-3 py-3">Département</th>
+                                <th scope="col" class="px-3 py-3">Groupe</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
                                 <th scope="col" class="px-5 py-3 text-right">Actions</th>
                             </tr>
                         </thead>
 
                         <tbody class="divide-y divide-slate-100">
-                            @foreach ($members as $i => $member)
+                            @forelse ($members as $member)
                                 <tr class="hover:bg-slate-50">
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $member['name'] }}"
+                                            aria-label="Sélectionner : {{ $member->name }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
 
-                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $i + 1 }}</td>
+                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $member->position }}</td>
 
                                     <td class="px-2 py-3">
-                                        <x-picture
-                                            :path="$member['photo']"
-                                            alt=""
-                                            width="80" height="80"
-                                            class="h-11 w-11 rounded-lg object-cover"
-                                        />
+                                        @if($member->hasPhoto())
+                                            <img
+                                                src="{{ $member->photoUrl() }}"
+                                                alt=""
+                                                width="80" height="80"
+                                                loading="lazy"
+                                                class="h-11 w-11 rounded-lg object-cover"
+                                            >
+                                        @else
+                                            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-50 text-sm font-bold text-primary-600" aria-hidden="true">
+                                                {{ $member->initials() }}
+                                            </span>
+                                        @endif
                                     </td>
 
-                                    <td class="px-3 py-3 text-sm font-semibold text-slate-900">{{ $member['name'] }}</td>
+                                    <td class="px-3 py-3">
+                                        <span class="block text-sm font-semibold text-slate-900">{{ $member->name }}</span>
+                                        @if($member->cohort)
+                                            <span class="mt-0.5 block text-xs text-slate-400">Promotion {{ $member->cohort }}</span>
+                                        @endif
+                                    </td>
 
-                                    <td class="px-3 py-3 text-sm text-slate-600">{{ $member['role'] }}</td>
+                                    <td class="px-3 py-3 text-sm text-slate-600">{{ $member->role }}</td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$member['tone']">{{ $member['department'] }}</x-admin.badge>
+                                        <x-admin.badge tone="blue">{{ $departments[$member->department] ?? $member->department }}</x-admin.badge>
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$member['statusTone']">{{ $member['status'] }}</x-admin.badge>
+                                        <x-admin.badge :tone="$member->statusTone()">{{ $member->statusLabel() }}</x-admin.badge>
                                     </td>
 
                                     <td class="px-5 py-3">
-                                        <x-admin.row-actions :label="$member['name']" :duplicate="false" />
+                                        <x-admin.row-actions
+                                            :label="$member->name"
+                                            :duplicate="false"
+                                            :view-href="route('about.team')"
+                                            :toggle-action="route('admin.team.toggle', $member)"
+                                            :is-visible="$member->is_visible"
+                                            :delete-action="route('admin.team.destroy', $member)"
+                                        />
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="px-5 py-12 text-center">
+                                        <p class="text-sm text-slate-500">Aucun membre ne correspond à cette recherche.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <x-admin.table-footer
-                    :from="1" :to="10" :total="12" unit="membres"
-                    :current="1" :pages="2"
-                />
+                <x-admin.table-footer :paginator="$members" unit="membres" />
             </section>
         </div>
 
         {{-- ============ ADD MEMBER ============ --}}
-        {{--
-            Presentation only: Module 2 adds the POST route and server-side
-            validation. Note this form holds personal data about identifiable
-            people, so Module 2 must also apply the retention rules agreed
-            with the Clinic before any of it is stored.
-        --}}
         <aside>
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section id="ajouter-un-membre" class="rounded-xl border border-slate-200 bg-white p-5">
 
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="user-plus" class="h-5 w-5 text-primary-600" />
-                    Ajouter un membre de l'équipe
+                    Ajouter un membre
                 </h2>
 
-                <x-admin.filter-tabs
-                    class="mt-4"
-                    :tabs="[
-                        ['label' => 'Informations générales', 'active' => true],
-                        ['label' => 'Réseaux sociaux'],
-                    ]"
-                />
-
-                <form method="POST" action="#" class="mt-5 space-y-4">
+                {{--
+                    This form holds personal data about identifiable people.
+                    The e-mail address is published only where a member's own
+                    entry carries one, a member who leaves is hidden rather
+                    than left on the public page, and a permanent delete
+                    removes the row and the photo together.
+                --}}
+                <form method="POST" action="{{ route('admin.team.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
                     @csrf
 
                     <div>
@@ -203,10 +230,10 @@
                         <input
                             type="text"
                             id="member-name"
-                            name="nom"
+                            name="name"
                             required
-                            autocomplete="name"
-                            placeholder="Ex. Aïcha Moussa"
+                            value="{{ old('name') }}"
+                            placeholder="Ex. Dr. Halima Issa"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
@@ -220,104 +247,127 @@
                         <input
                             type="text"
                             id="member-role"
-                            name="poste"
+                            name="role"
                             required
-                            placeholder="Ex. Juriste, Coordinatrice..."
+                            value="{{ old('role') }}"
+                            placeholder="Ex. Droit de la famille"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
 
                     <div>
                         <label for="member-department" class="block text-sm font-medium text-slate-700">
-                            Département
+                            Groupe
                             <span class="text-rose-600" aria-hidden="true">*</span>
                             <span class="sr-only">(obligatoire)</span>
                         </label>
                         <select
                             id="member-department"
-                            name="departement"
+                            name="department"
                             required
+                            aria-describedby="member-department-hint"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option value="">Sélectionner un département</option>
-                            <option>Direction</option>
-                            <option>Coordination</option>
-                            <option>Conseil juridique</option>
-                            <option>Formation</option>
-                            <option>Communication</option>
-                            <option>Événements</option>
-                            <option>Administration</option>
-                            <option>Partenariats</option>
+                            @foreach ($departments as $key => $label)
+                                <option value="{{ $key }}" @selected(old('department', 'enseignants') === $key)>{{ $label }}</option>
+                            @endforeach
                         </select>
+                        <p id="member-department-hint" class="mt-1.5 text-xs text-slate-500">
+                            Détermine la section de la page Équipe où le membre apparaît.
+                        </p>
                     </div>
 
                     <div>
-                        <label for="member-bio" class="block text-sm font-medium text-slate-700">
-                            Bio / Description
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                        <label for="member-cohort" class="block text-sm font-medium text-slate-700">Promotion</label>
+                        <input
+                            type="text"
+                            id="member-cohort"
+                            name="cohort"
+                            value="{{ old('cohort') }}"
+                            placeholder="Ex. 2025"
+                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                    </div>
 
-                        {{-- Formatting controls are inert until Module 2 wires an editor. --}}
-                        <div class="mt-1.5 overflow-hidden rounded-lg border border-slate-200">
-                            <div class="flex items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-1.5">
-                                @php
-                                    $tools = [
-                                        ['icon' => 'bold',        'label' => 'Gras'],
-                                        ['icon' => 'italic',      'label' => 'Italique'],
-                                        ['icon' => 'underline',   'label' => 'Souligné'],
-                                        ['icon' => 'list-bullet', 'label' => 'Liste à puces'],
-                                        ['icon' => 'list-number', 'label' => 'Liste numérotée'],
-                                        ['icon' => 'link',        'label' => 'Insérer un lien'],
-                                    ];
-                                @endphp
+                    <div>
+                        <label for="member-bio" class="block text-sm font-medium text-slate-700">Présentation</label>
+                        <textarea
+                            id="member-bio"
+                            name="bio"
+                            rows="3"
+                            placeholder="Quelques lignes sur son rôle au sein de la Clinique..."
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('bio') }}</textarea>
+                    </div>
 
-                                @foreach ($tools as $tool)
-                                    <button
-                                        type="button"
-                                        class="flex h-7 w-7 items-center justify-center rounded text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
-                                    >
-                                        <x-icon :name="$tool['icon']" class="h-4 w-4" />
-                                        <span class="sr-only">{{ $tool['label'] }}</span>
-                                    </button>
-                                @endforeach
-                            </div>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label for="member-email" class="block text-sm font-medium text-slate-700">Adresse e-mail</label>
+                            <input
+                                type="email"
+                                id="member-email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                aria-describedby="member-email-hint"
+                                placeholder="prenom.nom@uam.ne"
+                                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            >
+                            <p id="member-email-hint" class="mt-1.5 text-xs text-slate-500">
+                                Publiée sur la page Équipe. Laissez vide pour ne pas l'afficher.
+                            </p>
+                        </div>
 
-                            <textarea
-                                id="member-bio"
-                                name="bio"
-                                rows="4"
-                                required
-                                placeholder="Décrivez brièvement le membre de l'équipe..."
-                                class="w-full resize-y border-0 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-0"
-                            ></textarea>
+                        <div>
+                            <label for="member-linkedin" class="block text-sm font-medium text-slate-700">Profil LinkedIn</label>
+                            <input
+                                type="url"
+                                id="member-linkedin"
+                                name="linkedin"
+                                value="{{ old('linkedin') }}"
+                                placeholder="https://www.linkedin.com/in/..."
+                                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            >
                         </div>
                     </div>
 
                     <div>
-                        <span class="block text-sm font-medium text-slate-700">
-                            Photo
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </span>
+                        <span class="block text-sm font-medium text-slate-700">Photo</span>
 
                         <label
                             for="member-photo"
                             class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
                         >
                             <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
-                            <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
+                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une photo</span>
                             <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
 
                             <input
                                 type="file"
                                 id="member-photo"
                                 name="photo"
-                                accept="image/jpeg,image/png"
+                                accept="image/jpeg,image/png,image/webp"
                                 class="sr-only"
                             >
                         </label>
+                        <p class="mt-1.5 text-xs text-slate-500">
+                            Facultative : sans photo, les initiales sont affichées.
+                        </p>
+                    </div>
+
+                    <div>
+                        <label for="member-position" class="block text-sm font-medium text-slate-700">Ordre dans le groupe</label>
+                        <input
+                            type="number"
+                            id="member-position"
+                            name="position"
+                            min="0"
+                            value="{{ old('position') }}"
+                            aria-describedby="member-position-hint"
+                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                        <p id="member-position-hint" class="mt-1.5 text-xs text-slate-500">
+                            Laissez vide pour ajouter à la fin du groupe.
+                        </p>
                     </div>
 
                     <div>
@@ -328,23 +378,26 @@
                         </label>
                         <select
                             id="member-status"
-                            name="statut"
+                            name="status"
                             required
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option>Publié</option>
-                            <option>En attente</option>
-                            <option>Inactif</option>
+                            @php
+                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                            @endphp
+                            @foreach ($options as $value => $label)
+                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="pt-1">
-                        <x-admin.toggle name="afficher" label="Afficher sur la page publique" :checked="true" />
+                        <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) old('is_visible', true)" />
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
                         <button
-                            type="button"
+                            type="reset"
                             class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
                         >
                             Annuler

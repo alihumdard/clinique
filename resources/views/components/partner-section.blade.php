@@ -10,6 +10,23 @@
 
 <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
     @foreach ($partners as $partner)
-        <x-logo-placeholder size="lg" :name="$partner['name']" :subtitle="$partner['subtitle'] ?? null" :icon="$partner['icon'] ?? null" :logo="$partner['logo'] ?? null" />
+        {{-- A stored partner is a model; the static pages still pass an array. --}}
+        @if (is_array($partner))
+            <x-logo-placeholder
+                size="lg"
+                :name="$partner['name']"
+                :subtitle="$partner['subtitle'] ?? null"
+                :icon="$partner['icon'] ?? null"
+                :logo="$partner['logo'] ?? null"
+            />
+        @else
+            <x-logo-placeholder
+                size="lg"
+                :name="$partner->name"
+                :subtitle="$partner->description"
+                :logo-url="$partner->logo ? $partner->logoUrl() : null"
+                :href="$partner->website"
+            />
+        @endif
     @endforeach
 </div>

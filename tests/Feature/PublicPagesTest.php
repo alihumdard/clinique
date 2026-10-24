@@ -27,6 +27,36 @@ class PublicPagesTest extends TestCase
             'published_at' => now()->subDay(),
         ]);
 
+        $institutions = \App\Models\Category::create([
+            'type' => 'partner',
+            'name' => 'Institutions nationales',
+            'slug' => 'institutions-nationales',
+            'tone' => 'blue',
+        ]);
+
+        \App\Models\Partner::create([
+            'name' => 'Ministère de la Justice',
+            'slug' => 'ministere-de-la-justice',
+            'description' => 'Niger',
+            'website' => 'https://www.justice.ne',
+            'category_id' => $institutions->id,
+            'status' => \App\Models\Partner::STATUS_PUBLISHED,
+            'is_visible' => true,
+            'position' => 1,
+        ]);
+
+        \App\Models\TeamMember::create([
+            'name' => 'Pr. Ibrahim Moussa',
+            'slug' => 'pr-ibrahim-moussa',
+            'role' => 'Directeur de la Clinique Juridique',
+            'bio' => 'Enseignant-chercheur en droit public.',
+            'department' => 'direction',
+            'email' => 'ibrahim.moussa@uam.ne',
+            'status' => \App\Models\TeamMember::STATUS_PUBLISHED,
+            'is_visible' => true,
+            'position' => 1,
+        ]);
+
         $caravanes = \App\Models\Category::create([
             'type' => 'activity',
             'name' => 'Caravanes juridiques',

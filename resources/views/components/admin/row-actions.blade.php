@@ -13,6 +13,9 @@
     'duplicate' => true,
     'galleryHref' => null,
     'deleteAction' => null,
+    // For list types that are shown or hidden rather than scheduled.
+    'toggleAction' => null,
+    'isVisible' => true,
 ])
 
 @php
@@ -39,6 +42,16 @@
             <x-icon name="image" class="h-4 w-4" />
             <span class="sr-only">Galerie photos{{ $label ? ' : '.$label : '' }}</span>
         </a>
+    @endif
+
+    @if($toggleAction)
+        <form method="POST" action="{{ $toggleAction }}" class="contents">
+            @csrf
+            <button type="submit" class="{{ $base }} {{ $isVisible ? 'text-emerald-600 hover:bg-emerald-50' : 'text-slate-400 hover:bg-slate-100' }}">
+                <x-icon :name="$isVisible ? 'eye' : 'eye-off'" class="h-4 w-4" />
+                <span class="sr-only">{{ $isVisible ? 'Masquer' : 'Afficher' }}{{ $label ? ' : '.$label : '' }}</span>
+            </button>
+        </form>
     @endif
 
     @if($duplicate)
