@@ -8,6 +8,7 @@
     // ready URL, which is what a stored cover gives. One or the other.
     'cover' => null,
     'coverUrl' => null,
+    'storedPath' => null,
     'title',
     'excerpt' => null,
     'date' => null,
@@ -17,7 +18,16 @@
 ])
 
 <article class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white sm:flex-row">
-    @if($coverUrl)
+    @if($storedPath !== null)
+        <x-stored-image
+            :path="$storedPath"
+            :alt="'Couverture : '.$title"
+            fallback="placeholders/report-cover-2023"
+            width="400" height="520"
+            sizes="(min-width: 640px) 160px, 100vw"
+            class="aspect-[10/13] w-full shrink-0 object-cover sm:aspect-auto sm:h-auto sm:w-40"
+        />
+    @elseif($coverUrl)
         <img
             src="{{ $coverUrl }}"
             alt="Couverture : {{ $title }}"

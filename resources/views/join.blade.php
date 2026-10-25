@@ -70,7 +70,7 @@
                 <div class="mt-5 space-y-5">
                     @forelse ($calls as $call)
                         <x-call-row
-                            :image-url="$call->imageUrl($call->image, 'placeholders/join-call-stage')"
+                            :stored-path="$call->image"
                             :type="$call->category?->name"
                             type-color="primary"
                             :title="$call->title"

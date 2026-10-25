@@ -24,7 +24,7 @@
             <div class="lg:col-span-2">
 
                 <x-video-player
-                    :poster-url="$video->coverUrl()"
+                    :stored-path="$video->cover"
                     :video-id="$video->provider_id"
                     :provider="$video->provider"
                     :duration="$video->durationLabel()"
@@ -118,7 +118,7 @@
                         <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
                             @foreach ($more as $other)
                                 <x-video-card
-                                    :image-url="$other->coverUrl()"
+                                    :stored-path="$other->cover"
                                     :duration="$other->durationLabel()"
                                     :title="$other->title"
                                     :date="$other->published_at?->translatedFormat('j F Y')"

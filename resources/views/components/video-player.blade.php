@@ -15,6 +15,7 @@
     // gives. One or the other.
     'poster' => null,
     'posterUrl' => null,
+    'storedPath' => null,
     'title',
     'videoId' => null,
     'duration' => null,
@@ -37,7 +38,17 @@
     data-video-embed="{{ $embed }}"
     data-video-title="{{ $title }}"
 >
-    @if($posterUrl)
+    @if($storedPath !== null)
+        <x-stored-image
+            :path="$storedPath"
+            :alt="$title"
+            fallback="placeholders/video-featured"
+            width="1280" height="720"
+            sizes="(min-width: 1024px) 60vw, 100vw"
+            :eager="true"
+            class="h-full w-full object-cover"
+        />
+    @elseif($posterUrl)
         <img src="{{ $posterUrl }}" alt="{{ $title }}" width="1280" height="720" class="h-full w-full object-cover">
     @else
         <x-picture

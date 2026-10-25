@@ -102,7 +102,7 @@
         <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($activities as $activity)
                 <x-activity-card
-                    :image-url="$activity->coverUrl()"
+                    :stored-path="$activity->image"
                     :category="$activity->category?->name"
                     category-color="primary"
                     :date="$activity->held_on?->translatedFormat('j F Y')"

@@ -8,6 +8,7 @@
     // gives. One or the other.
     'image' => null,
     'imageUrl' => null,
+    'storedPath' => null,
     'title',
     'category' => null,
     'categoryColor' => 'primary',
@@ -19,7 +20,15 @@
 
 <article class="flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
     <a href="{{ $href }}" class="group relative block">
-        @if($imageUrl)
+        @if($storedPath !== null)
+            <x-stored-image
+                :path="$storedPath"
+                :alt="$title"
+                fallback="placeholders/video-featured"
+                width="640" height="360"
+                class="aspect-video w-full object-cover"
+            />
+        @elseif($imageUrl)
             <img src="{{ $imageUrl }}" alt="{{ $title }}" width="640" height="360" loading="lazy" class="aspect-video w-full object-cover">
         @else
             <x-picture

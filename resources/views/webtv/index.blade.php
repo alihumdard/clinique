@@ -47,7 +47,7 @@
 
                     <div class="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-[3fr_2fr] lg:items-stretch">
                         <x-video-player
-                            :poster-url="$featured->coverUrl()"
+                            :stored-path="$featured->cover"
                             :video-id="$featured->provider_id"
                             :provider="$featured->provider"
                             :duration="$featured->durationLabel()"
@@ -103,7 +103,7 @@
                     <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                         @forelse ($videos as $video)
                             <x-video-card
-                                :image-url="$video->coverUrl()"
+                                :stored-path="$video->cover"
                                 :category="$video->category?->name"
                                 category-color="primary"
                                 :duration="$video->durationLabel()"

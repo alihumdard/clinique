@@ -8,6 +8,7 @@
     // ready URL, which is what a stored image gives. One or the other.
     'image' => null,
     'imageUrl' => null,
+    'storedPath' => null,
     'category' => null,
     'categoryColor' => 'primary',
     'date',
@@ -19,7 +20,15 @@
 
 <article class="flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
     <div class="relative">
-        @if($imageUrl)
+        @if($storedPath !== null)
+            <x-stored-image
+                :path="$storedPath"
+                :alt="$title"
+                fallback="placeholders/news-caravan"
+                width="700" height="420"
+                class="aspect-[5/3] w-full object-cover"
+            />
+        @elseif($imageUrl)
             <img src="{{ $imageUrl }}" alt="{{ $title }}" width="700" height="420" loading="lazy" class="aspect-[5/3] w-full object-cover">
         @else
             <x-picture

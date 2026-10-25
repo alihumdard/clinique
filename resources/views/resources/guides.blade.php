@@ -83,7 +83,7 @@
                 <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
                     @forelse ($guides as $guide)
                         <x-guide-card
-                            :image-url="$guide->coverUrl()"
+                            :stored-path="$guide->cover"
                             :category="$guide->category?->name"
                             category-color="primary"
                             :title="$guide->title"

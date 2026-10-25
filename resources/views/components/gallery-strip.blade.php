@@ -15,7 +15,7 @@
 @php
     // One shape for the loop, whichever way the strip was given its photos.
     $tiles = $photos
-        ? $photos->map(fn ($photo) => ['url' => $photo->url(), 'alt' => $photo->alt()])
+        ? $photos->map(fn ($photo) => ['storedPath' => $photo->path, 'alt' => $photo->alt()])
         : collect($items)->map(fn (array $item) => ['path' => $item['path'], 'alt' => $item['alt'] ?? '']);
 @endphp
 
@@ -28,14 +28,15 @@
                 <div class="overflow-hidden rounded-lg">
             @endif
 
-                @if($item['url'] ?? null)
-                    <img
-                        src="{{ $item['url'] }}"
-                        alt="{{ $item['alt'] }}"
+                @if($item['storedPath'] ?? null)
+                    <x-stored-image
+                        :path="$item['storedPath']"
+                        :alt="$item['alt']"
+                        fallback="placeholders/news-caravan"
                         width="400" height="300"
-                        loading="lazy"
+                        sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 256px"
                         class="aspect-[4/3] w-full object-cover transition-transform duration-300 {{ $href ? 'group-hover:scale-105' : '' }}"
-                    >
+                    />
                 @else
                     <x-picture
                         :path="$item['path']"

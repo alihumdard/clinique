@@ -49,7 +49,7 @@
 
                         <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
                             @foreach ($album['photos'] as $photo)
-                                <x-photo-tile :url="$photo->url()" :alt="$photo->alt()" />
+                                <x-photo-tile :stored-path="$photo->path" :alt="$photo->alt()" />
                             @endforeach
                         </div>
                     </section>

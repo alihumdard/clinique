@@ -8,6 +8,7 @@
     // ready URL, which is what a stored cover gives. One or the other.
     'image' => null,
     'imageUrl' => null,
+    'storedPath' => null,
     'category' => null,
     'categoryColor' => 'primary',
     'title',
@@ -20,7 +21,15 @@
 
 <article class="flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
     <div class="relative">
-        @if($imageUrl)
+        @if($storedPath !== null)
+            <x-stored-image
+                :path="$storedPath"
+                :alt="$title"
+                fallback="placeholders/guide-practical"
+                width="600" height="400"
+                class="aspect-[3/2] w-full object-cover"
+            />
+        @elseif($imageUrl)
             <img src="{{ $imageUrl }}" alt="{{ $title }}" width="600" height="400" loading="lazy" class="aspect-[3/2] w-full object-cover">
         @else
             <x-picture

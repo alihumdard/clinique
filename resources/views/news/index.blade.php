@@ -49,7 +49,7 @@
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     @forelse ($articles as $article)
                         <x-news-card
-                            :image-url="$article->imageUrl()"
+                            :stored-path="$article->image"
                             :category="$article->category?->name"
                             :category-color="$article->category?->tone ?? 'primary'"
                             :date="$article->published_at?->translatedFormat('j F Y')"

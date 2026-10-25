@@ -4,6 +4,7 @@
     // card shows the member's initials rather than a broken image.
     'image' => null,
     'imageUrl' => null,
+    'storedPath' => null,
     'name',
     'role',
     'bio' => null,

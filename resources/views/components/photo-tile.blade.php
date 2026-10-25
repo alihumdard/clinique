@@ -10,6 +10,7 @@
     // URL, which is what a stored photo gives. One or the other.
     'path' => null,
     'url' => null,
+    'storedPath' => null,
     'alt' => '',
     'href' => null,
 ])
@@ -18,7 +19,16 @@
     href="{{ $href ?? $url ?? asset('images/' . $path . '.jpg') }}"
     class="group relative block overflow-hidden rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
 >
-    @if($url)
+    @if($storedPath !== null)
+        <x-stored-image
+            :path="$storedPath"
+            :alt="$alt"
+            fallback="placeholders/news-caravan"
+            width="600" height="400"
+            sizes="(min-width: 640px) 33vw, 50vw"
+            class="aspect-[3/2] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+    @elseif($url)
         <img
             src="{{ $url }}"
             alt="{{ $alt }}"

@@ -40,7 +40,7 @@
                     <div class="mt-5 space-y-5">
                         @forelse ($reports as $report)
                             <x-report-row
-                                :cover-url="$report->coverUrl()"
+                                :stored-path="$report->cover"
                                 :title="$report->title"
                                 :excerpt="$report->description"
                                 :date="$report->published_at?->translatedFormat('F Y')"
