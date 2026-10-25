@@ -133,13 +133,14 @@
                             @foreach ($more as $item)
                                 <li>
                                     <a href="{{ route('resources.guides.show', $item) }}" class="group flex items-start gap-3">
-                                        <img
-                                            src="{{ $item->coverUrl() }}"
+                                        <x-stored-image
+                                            :path="$item->cover"
                                             alt=""
+                                            fallback="placeholders/guide-practical"
                                             width="80" height="80"
-                                            loading="lazy"
+                                            sizes="48px"
                                             class="h-12 w-12 shrink-0 rounded-md object-cover"
-                                        >
+                                        />
                                         <span class="min-w-0">
                                             <span class="block text-sm font-medium leading-snug text-slate-800 group-hover:text-primary-600">{{ $item->title }}</span>
                                             @if($item->category)

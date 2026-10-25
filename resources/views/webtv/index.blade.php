@@ -150,13 +150,14 @@
                             @continue($category->videos_count === 0)
                             <li>
                                 <a href="{{ route('webtv.index', ['categorie' => $category->slug]) }}" class="group flex items-center gap-3">
-                                    <img
-                                        src="{{ $category->coverUrl() }}"
+                                    <x-stored-image
+                                        :path="$category->cover"
                                         alt=""
+                                        fallback="placeholders/video-featured"
                                         width="80" height="80"
-                                        loading="lazy"
+                                        sizes="48px"
                                         class="h-12 w-12 shrink-0 rounded-md object-cover"
-                                    >
+                                    />
                                     <span class="min-w-0 flex-1">
                                         <span class="block truncate text-sm font-semibold text-slate-900 group-hover:text-primary-600">{{ $category->name }}</span>
                                         <span class="block text-xs text-slate-500">

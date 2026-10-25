@@ -68,13 +68,14 @@
                         @foreach ($index as $row)
                             <li>
                                 <a href="{{ route('gallery', ['album' => $row['category']->slug]) }}" class="group flex items-center gap-3">
-                                    <img
-                                        src="{{ $row['cover'] }}"
+                                    <x-stored-image
+                                        :path="$row['category']->cover ?? null"
                                         alt=""
+                                        fallback="placeholders/news-caravan"
                                         width="80" height="80"
-                                        loading="lazy"
+                                        sizes="48px"
                                         class="h-12 w-12 shrink-0 rounded-md object-cover"
-                                    >
+                                    />
                                     <span class="min-w-0 flex-1">
                                         <span class="block truncate text-sm font-semibold text-slate-900 group-hover:text-primary-600">{{ $row['category']->name }}</span>
                                         <span class="block text-xs text-slate-500">{{ $row['total'] }} {{ $row['total'] === 1 ? 'photo' : 'photos' }}</span>

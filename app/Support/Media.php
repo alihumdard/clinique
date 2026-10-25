@@ -33,7 +33,7 @@ class Media
     }
 
     /** The widths scripts/make-image-variants.php writes beside an original. */
-    public const VARIANTS = [400, 800];
+    public const VARIANTS = [200, 400, 800];
 
     /**
      * A srcset over the stored widths of an image, or null where only one

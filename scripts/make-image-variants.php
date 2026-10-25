@@ -22,11 +22,11 @@ $force = in_array('--force', $argv, true);
 $root = dirname(__DIR__).'/public/images/placeholders';
 
 /*
- * 400 covers a thumbnail or a gallery tile, 800 a card or a half-width
- * figure. The 1600 original stays as the largest step, so a hero is
- * unaffected.
+ * 200 covers a 48px sidebar thumbnail at twice the density, 400 a gallery
+ * tile, 800 a card or a half-width figure. The 1600 original stays as the
+ * largest step, so a hero is unaffected.
  */
-$widths = [400, 800];
+$widths = [200, 400, 800];
 
 $quality = ['jpg' => 72, 'jpeg' => 72, 'webp' => 74];
 

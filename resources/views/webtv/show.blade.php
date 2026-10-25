@@ -146,13 +146,14 @@
                                         class="group flex items-start gap-3 rounded-md p-2 {{ $isCurrent ? 'bg-primary-50' : 'hover:bg-slate-50' }}"
                                     >
                                         <span class="relative shrink-0">
-                                            <img
-                                                src="{{ $item->coverUrl() }}"
+                                            <x-stored-image
+                                                :path="$item->cover"
                                                 alt=""
+                                                fallback="placeholders/video-featured"
                                                 width="160" height="90"
-                                                loading="lazy"
+                                                sizes="80px"
                                                 class="h-12 w-20 rounded object-cover"
-                                            >
+                                            />
                                             @if($item->durationLabel())
                                                 <span class="absolute bottom-0.5 right-0.5 rounded bg-slate-900/80 px-1 text-[10px] font-medium text-white">
                                                     {{ $item->durationLabel() }}
