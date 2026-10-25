@@ -64,6 +64,24 @@ class SiteSettings
         'seo.image' => 'images/brand/logo.png',
     ];
 
+    /**
+     * The logo for the header, which shows it at 48px.
+     *
+     * The bundled 96px copy exists because the main file is also the
+     * favicon and the Open Graph image and needs the resolution for those;
+     * at 57 Ko on every page it was the heaviest thing the site served
+     * twice over. An uploaded logo has no small copy, so it is used as it
+     * is — the Clinic's own file, at whatever size they chose.
+     */
+    public static function headerLogoUrl(): string
+    {
+        if (filled(self::values()['site.logo'] ?? null)) {
+            return self::imageUrl('site.logo');
+        }
+
+        return asset('images/brand/logo-96.png');
+    }
+
     /** A URL for one of the image settings, uploaded or bundled. */
     public static function imageUrl(string $key): string
     {
