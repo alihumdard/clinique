@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $article->title . ' - ' . config('app.name'))
-@section('meta_description', str(strip_tags($article->excerpt ?: $article->body))->limit(150))
+@section('meta_description', str(strip_tags($article->excerpt ?: $article->body ?: ''))->limit(150))
 
 @section('content')
 
