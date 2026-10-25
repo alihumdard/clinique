@@ -216,6 +216,71 @@ class PublicPagesTest extends TestCase
             ->assertDontSee("Conférence sur l'accès au droit", escape: false);
     }
 
+    /**
+     * The article page rendered one hard-coded article: the hero image, the
+     * title, the lead, the body and its "Objectifs / Les temps forts /
+     * Conclusion" sections all came from a design mock-up, so whichever
+     * article a visitor opened, the page showed the same conference.
+     */
+    public function test_the_article_page_renders_the_article_it_was_asked_for(): void
+    {
+        $caravanes = \App\Models\Category::create([
+            'type' => 'article',
+            'name' => 'Caravanes juridiques',
+            'slug' => 'caravanes-juridiques',
+            'tone' => 'amber',
+        ]);
+
+        \App\Models\Article::create([
+            'title' => 'Caravane juridique à Dosso',
+            'slug' => 'caravane-juridique-a-dosso',
+            'excerpt' => 'Trois jours de permanences gratuites.',
+            'body' => "Les équipes ont tenu trois permanences.\n\nUn bilan sera publié.",
+            'category_id' => $caravanes->id,
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->subDays(2),
+        ]);
+
+        $response = $this->get('/actualites/caravane-juridique-a-dosso')->assertOk();
+
+        $response->assertSee('Caravane juridique à Dosso', escape: false);
+        $response->assertSee('Trois jours de permanences gratuites.', escape: false);
+        $response->assertSee('Les équipes ont tenu trois permanences.', escape: false);
+        $response->assertSee('Un bilan sera publié.', escape: false);
+
+        // The mock-up's article and its invented sections, which no column
+        // holds and which were printed on every article page.
+        $response->assertDontSee('personnes vulnérables', escape: false);
+        $response->assertDontSee('Les temps forts', escape: false);
+        $response->assertDontSee('Documents liés', escape: false);
+    }
+
+    /** Articles of the same rubrique are offered at the foot of the page. */
+    public function test_the_article_page_lists_related_articles(): void
+    {
+        $formations = \App\Models\Category::create([
+            'type' => 'article',
+            'name' => 'Formations',
+            'slug' => 'formations',
+            'tone' => 'purple',
+        ]);
+
+        foreach (['Atelier sur la médiation', 'Session sur le droit du travail'] as $i => $title) {
+            \App\Models\Article::create([
+                'title' => $title,
+                'slug' => \Illuminate\Support\Str::slug($title),
+                'category_id' => $formations->id,
+                'status' => \App\Models\Article::STATUS_PUBLISHED,
+                'published_at' => now()->subDays($i + 1),
+            ]);
+        }
+
+        $this->get('/actualites/atelier-sur-la-mediation')
+            ->assertOk()
+            ->assertSee('Sur le même thème', escape: false)
+            ->assertSee('Session sur le droit du travail', escape: false);
+    }
+
     /** The same sidebar is on the article page, and had the same figures. */
     public function test_the_article_page_rubriques_come_from_the_database(): void
     {

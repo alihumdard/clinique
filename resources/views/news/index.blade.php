@@ -92,14 +92,11 @@
                         // The icon pairs with the rubrique by slug; one the
                         // Clinic adds later falls back to the folder icon.
                         $icons = [
-                            'actualites' => 'document',
                             'evenements' => 'calendar',
-                            'formation' => 'graduation-cap',
-                            'ressources' => 'folder',
-                            'web-tv' => 'play-circle',
-                            'appels-a-candidatures' => 'user-plus',
-                            'rapports' => 'chart-bar',
-                            'institution' => 'building',
+                            'formations' => 'graduation-cap',
+                            'caravanes-juridiques' => 'map-pin',
+                            'communiques' => 'megaphone',
+                            'publications' => 'document',
                         ];
                     @endphp
 
