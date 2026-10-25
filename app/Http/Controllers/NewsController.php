@@ -30,7 +30,13 @@ class NewsController extends Controller
 
         return view('news.index', [
             'articles' => $articles,
-            'categories' => Category::ofType('article')->get(),
+            // withCount, or the sidebar runs one query per category. Only
+            // the public articles count: a draft must not swell a figure
+            // the visitor can check against the list beside it.
+            'categories' => Category::ofType('article')
+                ->withCount(['articles' => fn ($q) => $q->public()])
+                ->get(),
+            'total' => Article::public()->count(),
             'archives' => Article::archiveYears(),
             'recent' => Article::public()->latest('published_at')->take(4)->get(),
             'filters' => $request->only(['categorie', 'annee', 'q']),
@@ -47,6 +53,17 @@ class NewsController extends Controller
 
         return view('news.show', [
             'article' => $article->load(['category', 'author']),
+            // The sidebar carries the same rubrique list and recent
+            // articles as the index, so it reads the same figures.
+            'categories' => Category::ofType('article')
+                ->withCount(['articles' => fn ($q) => $q->public()])
+                ->get(),
+            'total' => Article::public()->count(),
+            'recent' => Article::public()
+                ->whereKeyNot($article->id)
+                ->latest('published_at')
+                ->take(5)
+                ->get(),
             'related' => Article::public()
                 ->where('id', '!=', $article->id)
                 ->when($article->category_id, fn ($q) => $q->where('category_id', $article->category_id))

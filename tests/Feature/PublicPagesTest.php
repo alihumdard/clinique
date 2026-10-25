@@ -179,6 +179,52 @@ class PublicPagesTest extends TestCase
         $this->assertSame($video->views + 1, $video->fresh()->views);
     }
 
+    /**
+     * The actualités sidebar and its filter pills shipped with hand-written
+     * rubriques and counts — "Communiqués 4", "Publications 5" — which were
+     * neither in the database nor clickable. The page looked finished and
+     * was reporting figures nobody could check.
+     */
+    public function test_the_news_rubriques_come_from_the_database(): void
+    {
+        $events = \App\Models\Category::create([
+            'type' => 'article',
+            'name' => 'Événements',
+            'slug' => 'evenements',
+            'tone' => 'blue',
+        ]);
+
+        \App\Models\Article::create([
+            'title' => 'Un événement',
+            'slug' => 'un-evenement',
+            'category_id' => $events->id,
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+        ]);
+
+        $response = $this->get('/actualites')->assertOk();
+
+        $response->assertSee('Événements', escape: false);
+        // The names that were hard-coded and exist nowhere.
+        $response->assertDontSee('Communiqués', escape: false);
+        $response->assertDontSee('Publications', escape: false);
+
+        // And the rubrique filters, which did nothing at all.
+        $this->get('/actualites?categorie=evenements')
+            ->assertOk()
+            ->assertSee('Un événement', escape: false)
+            ->assertDontSee("Conférence sur l'accès au droit", escape: false);
+    }
+
+    /** The same sidebar is on the article page, and had the same figures. */
+    public function test_the_article_page_rubriques_come_from_the_database(): void
+    {
+        $this->get('/actualites/conference-sur-l-acces-au-droit')
+            ->assertOk()
+            ->assertDontSee('Communiqués', escape: false)
+            ->assertDontSee('Publications', escape: false);
+    }
+
     public function test_a_draft_activity_is_not_on_the_public_site(): void
     {
         \App\Models\Activity::create([

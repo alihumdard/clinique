@@ -1,7 +1,21 @@
-@props(['image', 'title', 'date', 'href' => null])
+{{--
+    `image` is a bundled placeholder path; `storedPath` is the raw column,
+    which lets the width variants be used. One or the other.
+--}}
+@props(['image' => null, 'storedPath' => null, 'title', 'date', 'href' => null])
 
 <a href="{{ $href ?? url()->current() }}" class="flex items-stretch gap-3 group">
-    <x-picture :path="$image" :alt="$title" width="160" height="160" class="h-16 w-16 shrink-0 rounded-md object-cover" />
+    @if($storedPath !== null)
+        <x-stored-image
+            :path="$storedPath"
+            :alt="$title"
+            width="160" height="160"
+            sizes="64px"
+            class="h-16 w-16 shrink-0 rounded-md object-cover"
+        />
+    @else
+        <x-picture :path="$image" :alt="$title" width="160" height="160" sizes="64px" class="h-16 w-16 shrink-0 rounded-md object-cover" />
+    @endif
     <div class="min-w-0 flex flex-1 flex-col justify-center">
         <p class="text-sm font-medium leading-snug text-slate-800 group-hover:text-primary-600">{{ $title }}</p>
         <p class="mt-1 flex items-center gap-1 text-xs text-slate-400">

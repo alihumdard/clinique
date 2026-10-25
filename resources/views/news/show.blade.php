@@ -121,42 +121,55 @@
             <aside class="space-y-6">
                 <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
                     <div class="space-y-4">
-                        <x-mini-article-row
-                            image="placeholders/news-1"
-                            title="Conférence sur l'accès au droit des personnes vulnérables"
-                            date="12 octobre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-caravan"
-                            title="Caravane juridique à Tillabéri"
-                            date="28 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-guide"
-                            title="Nouveau guide pratique : droits de la famille"
-                            date="15 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-formation"
-                            title="Formation des étudiants sur la médiation"
-                            date="5 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-candidatures"
-                            title="Ouverture des candidatures pour la nouvelle promotion"
-                            date="20 août 2024"
-                        />
+                        @forelse ($recent as $item)
+                            <x-mini-article-row
+                                :stored-path="$item->image"
+                                :title="$item->title"
+                                :date="$item->published_at?->translatedFormat('j F Y')"
+                                :href="route('news.show', $item)"
+                            />
+                        @empty
+                            <p class="text-sm text-slate-500">Aucune autre actualité pour le moment.</p>
+                        @endforelse
                     </div>
                 </x-sidebar-card>
 
                 <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
+                    @php
+                        $icons = [
+                            'actualites' => 'document',
+                            'evenements' => 'calendar',
+                            'formation' => 'graduation-cap',
+                            'ressources' => 'folder',
+                            'web-tv' => 'play-circle',
+                            'appels-a-candidatures' => 'user-plus',
+                            'rapports' => 'chart-bar',
+                            'institution' => 'building',
+                        ];
+                    @endphp
+
                     <nav class="space-y-1">
-                        <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
-                        <x-category-list-item icon="calendar" color="amber" count="6">Événements</x-category-list-item>
-                        <x-category-list-item icon="graduation-cap" color="amber" count="5">Formations</x-category-list-item>
-                        <x-category-list-item icon="map-pin" color="amber" count="4">Caravanes juridiques</x-category-list-item>
-                        <x-category-list-item icon="megaphone" color="amber" count="4">Communiqués</x-category-list-item>
-                        <x-category-list-item icon="document" color="amber" count="5">Publications</x-category-list-item>
+                        <x-category-list-item
+                            :href="route('news.index')"
+                            icon="folder"
+                            color="amber"
+                            :count="$total"
+                        >
+                            Toutes les actualités
+                        </x-category-list-item>
+
+                        @foreach ($categories as $category)
+                            @continue($category->articles_count === 0)
+                            <x-category-list-item
+                                :href="route('news.index', ['categorie' => $category->slug])"
+                                :active="$article->category_id === $category->id"
+                                :icon="$icons[$category->slug] ?? 'folder'"
+                                color="amber"
+                                :count="$category->articles_count"
+                            >
+                                {{ $category->name }}
+                            </x-category-list-item>
+                        @endforeach
                     </nav>
                 </x-sidebar-card>
             </aside>

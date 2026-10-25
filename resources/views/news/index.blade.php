@@ -20,19 +20,37 @@
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-8">
             {{-- ============ FILTER BAR ============ --}}
             <div class="scrollbar-hide flex min-w-0 gap-1.5 overflow-x-auto">
-                <x-filter-pill :active="true">Toutes les actualités</x-filter-pill>
-                <x-filter-pill>Événements</x-filter-pill>
-                <x-filter-pill>Formations</x-filter-pill>
-                <x-filter-pill>Caravanes juridiques</x-filter-pill>
-                <x-filter-pill>Communiqués</x-filter-pill>
-                <x-filter-pill>Publications</x-filter-pill>
+                <x-filter-pill
+                    :href="route('news.index')"
+                    :active="! ($filters['categorie'] ?? null)"
+                >
+                    Toutes les actualités
+                </x-filter-pill>
+
+                @foreach ($categories as $category)
+                    @continue($category->articles_count === 0)
+                    <x-filter-pill
+                        :href="route('news.index', ['categorie' => $category->slug])"
+                        :active="($filters['categorie'] ?? null) === $category->slug"
+                    >
+                        {{ $category->name }}
+                    </x-filter-pill>
+                @endforeach
             </div>
 
-            <form role="search" class="relative self-start">
+            <form role="search" method="GET" action="{{ route('news.index') }}" class="relative self-start">
+                {{-- The active rubrique rides along, so searching inside a
+                     category does not silently drop it. --}}
+                @if($filters['categorie'] ?? null)
+                    <input type="hidden" name="categorie" value="{{ $filters['categorie'] }}">
+                @endif
+
                 <label for="news-search" class="sr-only">Rechercher une actualité</label>
                 <input
                     type="search"
                     id="news-search"
+                    name="q"
+                    value="{{ $filters['q'] ?? '' }}"
                     placeholder="Rechercher une actualité..."
                     class="w-full rounded-md border border-slate-200 py-2.5 pl-4 pr-10 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
@@ -70,13 +88,44 @@
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6">
                 <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
+                    @php
+                        // The icon pairs with the rubrique by slug; one the
+                        // Clinic adds later falls back to the folder icon.
+                        $icons = [
+                            'actualites' => 'document',
+                            'evenements' => 'calendar',
+                            'formation' => 'graduation-cap',
+                            'ressources' => 'folder',
+                            'web-tv' => 'play-circle',
+                            'appels-a-candidatures' => 'user-plus',
+                            'rapports' => 'chart-bar',
+                            'institution' => 'building',
+                        ];
+                    @endphp
+
                     <nav class="space-y-1">
-                        <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
-                        <x-category-list-item icon="calendar" color="amber" count="6">Événements</x-category-list-item>
-                        <x-category-list-item icon="graduation-cap" color="amber" count="5">Formations</x-category-list-item>
-                        <x-category-list-item icon="map-pin" color="amber" count="4">Caravanes juridiques</x-category-list-item>
-                        <x-category-list-item icon="megaphone" color="amber" count="4">Communiqués</x-category-list-item>
-                        <x-category-list-item icon="document" color="amber" count="5">Publications</x-category-list-item>
+                        <x-category-list-item
+                            :href="route('news.index')"
+                            :active="! ($filters['categorie'] ?? null)"
+                            icon="folder"
+                            color="amber"
+                            :count="$total"
+                        >
+                            Toutes les actualités
+                        </x-category-list-item>
+
+                        @foreach ($categories as $category)
+                            @continue($category->articles_count === 0)
+                            <x-category-list-item
+                                :href="route('news.index', ['categorie' => $category->slug])"
+                                :active="($filters['categorie'] ?? null) === $category->slug"
+                                :icon="$icons[$category->slug] ?? 'folder'"
+                                color="amber"
+                                :count="$category->articles_count"
+                            >
+                                {{ $category->name }}
+                            </x-category-list-item>
+                        @endforeach
                     </nav>
                 </x-sidebar-card>
 
@@ -105,31 +154,16 @@
 
                 <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
                     <div class="space-y-5">
-                        <x-mini-article-row
-                            image="placeholders/news-1"
-                            title="Conférence sur l'accès au droit des personnes vulnérables"
-                            date="12 octobre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-caravan"
-                            title="Caravane juridique à Tillabéri"
-                            date="28 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-guide"
-                            title="Nouveau guide pratique : droits de la famille"
-                            date="15 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-formation"
-                            title="Formation des étudiants sur la médiation"
-                            date="5 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-candidatures"
-                            title="Ouverture des candidatures pour la nouvelle promotion"
-                            date="20 août 2024"
-                        />
+                        @forelse ($recent as $item)
+                            <x-mini-article-row
+                                :stored-path="$item->image"
+                                :title="$item->title"
+                                :date="$item->published_at?->translatedFormat('j F Y')"
+                                :href="route('news.show', $item)"
+                            />
+                        @empty
+                            <p class="text-sm text-slate-500">Aucune actualité pour le moment.</p>
+                        @endforelse
                     </div>
                 </x-sidebar-card>
 
