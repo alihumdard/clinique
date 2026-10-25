@@ -34,7 +34,10 @@ echo "==> Image variants"
 php scripts/make-image-variants.php
 
 echo "==> Front-end build"
-npm ci --omit=dev --silent || npm install --silent
+# Not --omit=dev: Vite and Tailwind are devDependencies and the build
+# needs them. public/build is gitignored, so the bundle is produced here
+# rather than committed.
+npm ci --silent || npm install --silent
 npm run build
 
 echo "==> Caches"
