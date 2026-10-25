@@ -3,12 +3,17 @@
     dimensions explicites), and a srcset so a card does not download a
     hero.
 
-    Pass `path` without an extension. The build ships three widths of every
-    placeholder — 400, 800 and the 1600 original — and scripts/
-    make-image-variants.php writes the two narrow ones. `sizes` tells the
-    browser how wide the image will actually be, which is the only way it
-    can pick correctly before layout; the default assumes a card in a
-    three-up grid, which is what most uses here are.
+    Pass `path` without an extension. The width variants beside each
+    placeholder are written by scripts/make-image-variants.php, and which
+    of them exist is Media::srcset's business — this component and
+    x-stored-image share that one implementation, because they had the same
+    bug independently: both assumed every step existed, and an image
+    narrower than a step has no file for it.
+
+    `sizes` tells the browser how wide the image will actually be, which is
+    the only way it can choose before layout. The default assumes a card in
+    a three-up grid, which is what most uses here are; a hero passes
+    hero: true and gets the viewport.
 --}}
 @props([
     'path',
@@ -17,34 +22,19 @@
     'height',
     'eager' => false,
     'sizes' => '(min-width: 1280px) 400px, (min-width: 640px) 50vw, 100vw',
-    // A hero spans the viewport, so its widest step is the one that counts.
     'hero' => false,
 ])
 
 @php
     $base = 'images/'.$path;
-
-    // The variants exist only for the bundled placeholders; anything else
-    // falls back to the single file it has always had.
-    $hasVariants = file_exists(public_path($base.'-800.webp'));
-
-    $sizesAttribute = $hero
-        ? '100vw'
-        : $sizes;
-
-    $webp = $hasVariants
-        ? asset($base.'-400.webp').' 400w, '.asset($base.'-800.webp').' 800w, '.asset($base.'.webp').' 1600w'
-        : null;
-
-    $jpeg = $hasVariants
-        ? asset($base.'-400.jpg').' 400w, '.asset($base.'-800.jpg').' 800w, '.asset($base.'.jpg').' 1600w'
-        : null;
+    $srcset = \App\Support\Media::srcset($path);
+    $sizesAttribute = $hero ? '100vw' : $sizes;
 @endphp
 
 <picture>
-    @if($webp)
-        <source srcset="{{ $webp }}" sizes="{{ $sizesAttribute }}" type="image/webp">
-        <source srcset="{{ $jpeg }}" sizes="{{ $sizesAttribute }}" type="image/jpeg">
+    @if($srcset)
+        <source srcset="{{ $srcset['webp'] }}" sizes="{{ $sizesAttribute }}" type="image/webp">
+        <source srcset="{{ $srcset['jpeg'] }}" sizes="{{ $sizesAttribute }}" type="image/jpeg">
     @else
         <source srcset="{{ asset($base.'.webp') }}" type="image/webp">
     @endif

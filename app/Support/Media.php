@@ -46,6 +46,17 @@ class Media
      *
      * @return array{webp: string, jpeg: string}|null
      */
+    /**
+     * Memo for the filesystem answers, keyed by path.
+     *
+     * The same image appears several times on a page — a thumbnail in a
+     * sidebar and a card in the grid — and each render would otherwise
+     * repeat three stat calls and a header read.
+     *
+     * @var array<string, array{webp: string, jpeg: string}|null>
+     */
+    private static array $memo = [];
+
     public static function srcset(?string $path): ?array
     {
         if (blank($path) || ! self::isPlaceholder($path)) {
@@ -54,20 +65,36 @@ class Media
             return null;
         }
 
-        if (! file_exists(public_path("images/{$path}-800.webp"))) {
-            return null;
+        if (array_key_exists($path, self::$memo)) {
+            return self::$memo[$path];
         }
 
-        $steps = [...self::VARIANTS, null];
+        /*
+         * Only the steps that exist. The generator skips a width the source
+         * is already narrower than, so an image 700px wide has a 200 and a
+         * 400 and no 800 — and assuming all three were there meant falling
+         * back to the full-size original for every such image, which was
+         * most of the gallery.
+         */
+        $available = array_values(array_filter(
+            self::VARIANTS,
+            fn (int $width) => file_exists(public_path("images/{$path}-{$width}.webp"))
+        ));
+
+        if ($available === []) {
+            return self::$memo[$path] = null;
+        }
+
+        $steps = [...$available, null];
 
         $set = fn (string $extension) => implode(', ', array_map(
             fn (?int $width) => $width === null
-                ? asset("images/{$path}.{$extension}").' 1600w'
+                ? asset("images/{$path}.{$extension}").' '.self::intrinsicWidth($path).'w'
                 : asset("images/{$path}-{$width}.{$extension}")." {$width}w",
             $steps
         ));
 
-        return [
+        return self::$memo[$path] = [
             'webp' => $set('webp'),
             'jpeg' => $set('jpg'),
         ];
@@ -87,6 +114,26 @@ class Media
         }
 
         return number_format($bytes / 1048576, 1, ',', ' ').' Mo';
+    }
+
+    /**
+     * The original's own width, for the last srcset step.
+     *
+     * Hardcoding 1600 described the heroes and lied about everything else:
+     * a 700px source would have been advertised as 1600w and chosen for
+     * slots it cannot fill.
+     */
+    private static function intrinsicWidth(string $path): int
+    {
+        $file = public_path("images/{$path}.jpg");
+
+        if (! is_file($file)) {
+            return 1600;
+        }
+
+        $size = @getimagesize($file);
+
+        return (int) ($size[0] ?? 1600);
     }
 
     /** A placeholder carries no extension; an upload always does. */
