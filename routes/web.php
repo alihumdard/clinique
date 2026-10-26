@@ -127,7 +127,7 @@ Route::get('/newsletter/desinscription/{token}', [NewsletterController::class, '
 |--------------------------------------------------------------------------
 */
 
-Route::get('/pre-saisine', fn () => view('home'))->name('presaisine.index');
+Route::get('/pre-saisine', fn () => view('home', ['domains' => App\Models\LegalDomain::active()->get()]))->name('presaisine.index');
 
 /*
 |--------------------------------------------------------------------------
