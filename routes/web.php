@@ -103,6 +103,8 @@ Route::get('/contact', fn () => view('contact'))->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/recherche', SearchController::class)->name('search');
+Route::post('/recherche/effacer-historique', [SearchController::class, 'clearRecent'])->name('search.clear-recent');
+Route::post('/recherche/oublier', [SearchController::class, 'forgetRecent'])->name('search.forget-recent');
 
 /*
 |--------------------------------------------------------------------------

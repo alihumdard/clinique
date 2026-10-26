@@ -161,52 +161,51 @@
             {{-- ============ CONTEXT SIDEBAR ============ --}}
             <aside class="space-y-6 lg:col-span-4 xl:col-span-1 xl:sticky xl:top-24 xl:self-start">
 
-                <x-sidebar-card icon="clock" title="Recherches récentes">
-                    @php
-                        $recent = ['droit des femmes', 'accès à la justice', 'violences basées sur le genre', 'caravane juridique', 'bourse universitaire'];
-                    @endphp
+                @if(count($recentSearches))
+                    <x-sidebar-card icon="clock" title="Recherches récentes">
+                        <ul class="space-y-1">
+                            @foreach ($recentSearches as $term)
+                                <li class="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-slate-50">
+                                    <x-icon name="search" class="h-4 w-4 shrink-0 text-slate-400" />
+                                    <a href="{{ route('search') }}?q={{ urlencode($term) }}" class="min-w-0 flex-1 truncate text-sm text-slate-600 hover:text-primary-600">
+                                        {{ $term }}
+                                    </a>
+                                    <form method="POST" action="{{ route('search.forget-recent') }}" class="contents">
+                                        @csrf
+                                        <input type="hidden" name="term" value="{{ $term }}">
+                                        <button type="submit" aria-label="Retirer « {{ $term }} » de l'historique" class="shrink-0 text-slate-300 hover:text-rose-500">
+                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                        </button>
+                                    </form>
+                                </li>
+                            @endforeach
+                        </ul>
 
-                    <ul class="space-y-1">
-                        @foreach ($recent as $term)
-                            <li class="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-slate-50">
-                                <x-icon name="search" class="h-4 w-4 shrink-0 text-slate-400" />
-                                <a href="{{ route('search') }}?q={{ urlencode($term) }}" class="min-w-0 flex-1 truncate text-sm text-slate-600 hover:text-primary-600">
-                                    {{ $term }}
-                                </a>
-                                <button type="button" aria-label="Retirer « {{ $term }} » de l'historique" class="shrink-0 text-slate-300 hover:text-rose-500">
-                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                </button>
-                            </li>
-                        @endforeach
-                    </ul>
-
-                    <button type="button" class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
-                        <x-icon name="info" class="h-4 w-4" />
-                        Effacer l'historique
-                    </button>
-                </x-sidebar-card>
+                        <form method="POST" action="{{ route('search.clear-recent') }}" class="mt-3">
+                            @csrf
+                            <button type="submit" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
+                                <x-icon name="info" class="h-4 w-4" />
+                                Effacer l'historique
+                            </button>
+                        </form>
+                    </x-sidebar-card>
+                @endif
 
                 <x-sidebar-card icon="folder" title="Catégories populaires">
-                    @php
-                        $popular = [
-                            ['label' => 'Droits des femmes', 'count' => 8, 'color' => 'bg-primary-50 text-primary-700'],
-                            ['label' => 'Accès à la justice', 'count' => 6, 'color' => 'bg-emerald-50 text-emerald-700'],
-                            ['label' => 'Étudiants', 'count' => 5, 'color' => 'bg-amber-50 text-amber-700'],
-                            ['label' => 'Protection des mineurs', 'count' => 4, 'color' => 'bg-violet-50 text-violet-700'],
-                            ['label' => 'Droit administratif', 'count' => 4, 'color' => 'bg-rose-50 text-rose-700'],
-                        ];
-                    @endphp
+                    @php $popular = $popularCategories; @endphp
 
                     <ul class="space-y-1">
-                        @foreach ($popular as $category)
+                        @forelse ($popular as $category)
                             <li>
-                                <a href="{{ route('search') }}" class="group flex items-center gap-2.5 rounded-md px-2 py-2 hover:bg-slate-50">
+                                <a href="{{ $category['href'] }}" class="group flex items-center gap-2.5 rounded-md px-2 py-2 hover:bg-slate-50">
                                     <x-icon name="folder" class="h-4 w-4 shrink-0 text-slate-400" />
                                     <span class="min-w-0 flex-1 truncate text-sm text-slate-600 group-hover:text-primary-600">{{ $category['label'] }}</span>
                                     <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-medium {{ $category['color'] }}">{{ $category['count'] }}</span>
                                 </a>
                             </li>
-                        @endforeach
+                        @empty
+                            <li class="px-2 py-1.5 text-sm text-slate-500">Aucune catégorie pour le moment.</li>
+                        @endforelse
                     </ul>
                 </x-sidebar-card>
 

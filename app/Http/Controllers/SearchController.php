@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Guide;
 use App\Models\Report;
 use App\Models\Video;
@@ -35,6 +36,34 @@ class SearchController extends Controller
 
     private const PER_PAGE = 10;
 
+    /** Session key for the visitor's own recent search terms (no user accounts on the public site). */
+    private const RECENT_SESSION_KEY = 'search.recent';
+
+    private const RECENT_MAX = 5;
+
+    /** Clears the visitor's own recent-search list and returns to the search page. */
+    public function clearRecent(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $request->session()->forget(self::RECENT_SESSION_KEY);
+
+        return redirect()->route('search');
+    }
+
+    /** Drops one term from the visitor's own recent-search list. */
+    public function forgetRecent(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $term = (string) $request->input('term', '');
+
+        $recent = collect($request->session()->get(self::RECENT_SESSION_KEY, []))
+            ->reject(fn (string $t) => mb_strtolower($t) === mb_strtolower($term))
+            ->values()
+            ->all();
+
+        $request->session()->put(self::RECENT_SESSION_KEY, $recent);
+
+        return redirect()->route('search');
+    }
+
     public function __invoke(Request $request): View
     {
         $term = trim((string) $request->query('q', ''));
@@ -53,6 +82,10 @@ class SearchController extends Controller
             ? $this->search($term, array_keys(self::TYPES))
             : collect();
 
+        if (strlen($term) >= 2) {
+            $this->rememberSearch($request, $term);
+        }
+
         $hits = $types
             ? $all->filter(fn (array $hit) => in_array($hit['key'], $types, true))->values()
             : $all;
@@ -70,6 +103,8 @@ class SearchController extends Controller
                 ->all(),
             'results' => $this->paginate($hits, $request),
             'total' => $hits->count(),
+            'popularCategories' => $this->popularCategories(),
+            'recentSearches' => $request->session()->get(self::RECENT_SESSION_KEY, []),
         ]);
     }
 
@@ -183,6 +218,57 @@ class SearchController extends Controller
         // One ordering across the types, so a recent capsule can outrank an
         // older actualité rather than every actualité coming first.
         return $hits->sortByDesc(fn (array $hit) => $hit['date']?->timestamp ?? 0)->values();
+    }
+
+    /**
+     * Pushes a search term to the front of the visitor's own recent-search
+     * list, held in their session — no user accounts on the public site,
+     * so this is the only "history" there can be, and it never leaves
+     * their browser's session.
+     */
+    private function rememberSearch(Request $request, string $term): void
+    {
+        $recent = $request->session()->get(self::RECENT_SESSION_KEY, []);
+
+        $recent = collect($recent)
+            ->reject(fn (string $t) => mb_strtolower($t) === mb_strtolower($term))
+            ->prepend($term)
+            ->take(self::RECENT_MAX)
+            ->values()
+            ->all();
+
+        $request->session()->put(self::RECENT_SESSION_KEY, $recent);
+    }
+
+    /**
+     * The 5 actualités rubriques with the most published articles, for the
+     * "Catégories populaires" sidebar — a real count rather than the fixed
+     * list the page shipped with.
+     *
+     * @return Collection<int, array<string, mixed>>
+     */
+    private function popularCategories(): Collection
+    {
+        $tones = [
+            'blue' => 'bg-primary-50 text-primary-700',
+            'green' => 'bg-emerald-50 text-emerald-700',
+            'amber' => 'bg-amber-50 text-amber-700',
+            'purple' => 'bg-violet-50 text-violet-700',
+            'red' => 'bg-rose-50 text-rose-700',
+        ];
+
+        return Category::ofType('article')
+            ->withCount(['articles' => fn ($q) => $q->public()])
+            ->having('articles_count', '>', 0)
+            ->orderByDesc('articles_count')
+            ->take(5)
+            ->get()
+            ->map(fn (Category $c) => [
+                'label' => $c->name,
+                'count' => $c->articles_count,
+                'color' => $tones[$c->tone] ?? $tones['blue'],
+                'href' => route('news.index', ['categorie' => $c->slug]),
+            ]);
     }
 
     /** @param  array<int, string>  $columns */
