@@ -35,10 +35,10 @@
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <div class="grid grid-cols-2 divide-x divide-y divide-slate-200">
                     @foreach ([
-                        ['icon' => 'book',      'title' => 'Enseignants encadrants',    'value' => '8+',  'sub' => 'Experts en droit'],
-                        ['icon' => 'users',     'title' => 'Étudiants membres',         'value' => '50+', 'sub' => 'Étudiants engagés'],
-                        ['icon' => 'user-plus', 'title' => 'Professionnels partenaires','value' => '10+', 'sub' => 'Avocats et spécialistes'],
-                        ['icon' => 'document',  'title' => 'Personnel administratif',  'value' => '5+',  'sub' => 'Membres de soutien'],
+                        ['icon' => 'book',      'key' => 'enseignants',   'title' => 'Enseignants encadrants',    'sub' => 'Experts en droit'],
+                        ['icon' => 'users',     'key' => 'etudiants',     'title' => 'Étudiants membres',         'sub' => 'Étudiants engagés'],
+                        ['icon' => 'user-plus', 'key' => 'direction',     'title' => 'Direction',                 'sub' => 'Responsables de la Clinique'],
+                        ['icon' => 'document',  'key' => 'administratif', 'title' => 'Personnel administratif',   'sub' => 'Membres de soutien'],
                     ] as $s)
                     <div class="flex min-w-0 flex-col items-start gap-2.5 p-3.5 sm:p-6 lg:flex-row lg:items-center lg:gap-4">
                         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600 sm:h-14 sm:w-14">
@@ -46,7 +46,7 @@
                         </span>
                         <div class="min-w-0">
                             <p class="truncate text-xs text-slate-500">{{ $s['title'] }}</p>
-                            <p class="text-lg font-bold text-slate-900 sm:text-2xl">{{ $s['value'] }}</p>
+                            <p class="text-lg font-bold text-slate-900 sm:text-2xl">{{ $counts[$s['key']] ?? 0 }}</p>
                             <p class="truncate text-xs text-slate-500">{{ $s['sub'] }}</p>
                         </div>
                     </div>
@@ -57,124 +57,101 @@
     </section>
 
     {{-- ============ DIRECTION ============ --}}
-    <section class="bg-slate-50 py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-eyebrow color="amber">Direction de la Clinique</x-eyebrow>
-            <h2 class="mt-2 text-2xl font-bold text-slate-900">Responsables de la Clinique Juridique</h2>
+    @if(($groups['direction'] ?? collect())->isNotEmpty())
+        <section class="bg-slate-50 py-12 sm:py-16">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <x-eyebrow color="amber">Direction de la Clinique</x-eyebrow>
+                <h2 class="mt-2 text-2xl font-bold text-slate-900">Responsables de la Clinique Juridique</h2>
 
-            <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                <x-profile-card
-                    size="large"
-                    image="team/director-1"
-                    name="Pr. Ibrahim Moussa"
-                    role="Directeur de la Clinique Juridique"
-                    bio="Enseignant-chercheur à la Faculté des Sciences Juridiques et Politiques, spécialiste en droit public et en droits fondamentaux."
-                    email="ibrahim.moussa@uam.ne"
-                    linkedin="#"
-                />
-                <x-profile-card
-                    size="large"
-                    image="team/director-2"
-                    name="Dr. Aïssatou Mahamadou"
-                    role="Directrice adjointe"
-                    bio="Maître de conférences en droit privé, responsable de la coordination pédagogique et des activités de la Clinique."
-                    email="aissatou.mahamadou@uam.ne"
-                    linkedin="#"
-                />
-            </div>
-        </div>
-    </section>
-
-    {{-- ============ ENSEIGNANTS ENCADRANTS (carousel row) ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-        <div class="mb-6 flex items-center justify-between">
-            <div>
-                <x-eyebrow color="amber">Enseignants encadrants</x-eyebrow>
-                <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos enseignants encadrants</h2>
-            </div>
-            <div class="hidden items-center gap-2 sm:flex">
-                <button type="button" data-carousel-prev="teachers" aria-label="Précédent" class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50">
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
-                </button>
-                <button type="button" data-carousel-next="teachers" aria-label="Suivant" class="flex h-9 w-9 items-center justify-center rounded-full bg-primary-600 text-white hover:bg-primary-700">
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                </button>
-            </div>
-        </div>
-
-        <div id="carousel-teachers" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach ([
-                ['image' => 'team/teacher-1', 'name' => 'Pr. Moussa Harouna', 'role' => 'Droit pénal', 'bio' => 'Encadrement des consultations et formations', 'email' => 'moussa.harouna@uam.ne'],
-                ['image' => 'team/teacher-2', 'name' => 'Dr. Halima Issa', 'role' => 'Droit de la famille', 'bio' => 'Suivi des dossiers et sensibilisation', 'email' => 'halima.issa@uam.ne'],
-                ['image' => 'team/teacher-3', 'name' => 'Dr. Ali Kountché', 'role' => 'Droit administratif', 'bio' => 'Appui juridique et veille légale', 'email' => 'ali.kountche@uam.ne'],
-                ['image' => 'team/teacher-4', 'name' => 'Pr. Mariama Souley', 'role' => 'Droits humains', 'bio' => 'Recherche et développement des ressources pédagogiques', 'email' => 'mariama.souley@uam.ne'],
-            ] as $teacher)
-                <x-profile-card
-                    size="horizontal"
-                    :image="$teacher['image']"
-                    :name="$teacher['name']"
-                    :role="$teacher['role']"
-                    :bio="$teacher['bio']"
-                    :email="$teacher['email']"
-                />
-            @endforeach
-        </div>
-    </section>
-
-    {{-- ============ ÉTUDIANTS ============ --}}
-    <section class="bg-slate-50 py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <x-eyebrow color="amber">Nos étudiants</x-eyebrow>
-                    <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
+                <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    @foreach ($groups['direction'] as $member)
+                        <x-profile-card
+                            size="large"
+                            :image-url="$member->hasPhoto() ? $member->photoUrl() : null"
+                            :name="$member->name"
+                            :role="$member->role"
+                            :bio="$member->bio"
+                            :email="$member->email"
+                            :linkedin="$member->linkedin"
+                            :initials="$member->initials()"
+                        />
+                    @endforeach
                 </div>
-                <x-button :href="route('join')" variant="primary" class="self-start rounded-full! sm:self-auto">Voir tous les étudiants</x-button>
             </div>
+        </section>
+    @endif
 
-            <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
-                @foreach ([
-                    ['image' => 'team/student-1', 'name' => 'Amadou Sani', 'role' => 'Étudiant en Master 2', 'bio' => 'Droit public'],
-                    ['image' => 'team/student-2', 'name' => 'Fatouma Idrissa', 'role' => 'Étudiante en Master 2', 'bio' => 'Droit privé'],
-                    ['image' => 'team/student-3', 'name' => 'Moussa Ali', 'role' => 'Étudiant en Licence', 'bio' => 'Droit pénal'],
-                    ['image' => 'team/student-4', 'name' => 'Aïcha Salissou', 'role' => 'Étudiante en Licence', 'bio' => 'Droit de la famille'],
-                    ['image' => 'team/student-5', 'name' => 'Ibrahim Tanko', 'role' => 'Étudiant en Master 1', 'bio' => 'Droit administratif'],
-                    ['image' => 'team/student-6', 'name' => 'Rokiatou Seyni', 'role' => 'Étudiante en Licence', 'bio' => 'Droits humains'],
-                ] as $student)
+    {{-- ============ ENSEIGNANTS ENCADRANTS ============ --}}
+    @if(($groups['enseignants'] ?? collect())->isNotEmpty())
+        <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
+            <x-eyebrow color="amber">Enseignants encadrants</x-eyebrow>
+            <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos enseignants encadrants</h2>
+
+            <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach ($groups['enseignants'] as $member)
                     <x-profile-card
-                        size="compact"
-                        :image="$student['image']"
-                        :name="$student['name']"
-                        :role="$student['role']"
-                        :bio="$student['bio']"
+                        size="horizontal"
+                        :image-url="$member->hasPhoto() ? $member->photoUrl() : null"
+                        :name="$member->name"
+                        :role="$member->role"
+                        :bio="$member->bio"
+                        :email="$member->email"
+                        :initials="$member->initials()"
                     />
                 @endforeach
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
+
+    {{-- ============ ÉTUDIANTS ============ --}}
+    @if(($groups['etudiants'] ?? collect())->isNotEmpty())
+        <section class="bg-slate-50 py-12 sm:py-16">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <x-eyebrow color="amber">Nos étudiants</x-eyebrow>
+                        <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
+                    </div>
+                    <x-button :href="route('join')" variant="primary" class="self-start rounded-full! sm:self-auto">Rejoindre la Clinique</x-button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
+                    @foreach ($groups['etudiants'] as $member)
+                        <x-profile-card
+                            size="compact"
+                            :image-url="$member->hasPhoto() ? $member->photoUrl() : null"
+                            :name="$member->name"
+                            :role="$member->role"
+                            :bio="$member->bio"
+                            :initials="$member->initials()"
+                        />
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     {{-- ============ PERSONNEL ADMINISTRATIF ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-        <x-eyebrow color="amber">Personnel administratif et technique</x-eyebrow>
-        <h2 class="mt-2 text-2xl font-bold text-slate-900">Notre équipe de soutien</h2>
+    @if(($groups['administratif'] ?? collect())->isNotEmpty())
+        <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
+            <x-eyebrow color="amber">Personnel administratif et technique</x-eyebrow>
+            <h2 class="mt-2 text-2xl font-bold text-slate-900">Notre équipe de soutien</h2>
 
-        <div class="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
-            @foreach ([
-                ['image' => 'team/staff-1', 'name' => 'Mme Zarima Abdou', 'role' => 'Secrétaire administrative', 'bio' => 'Gestion du courrier, accueil et coordination', 'email' => 'zarima.abdou@uam.ne'],
-                ['image' => 'team/staff-2', 'name' => 'M. Souleymane Ibrahim', 'role' => 'Chargé de communication', 'bio' => 'Web, réseaux sociaux et événements', 'email' => 'souleymane.ibrahim@uam.ne'],
-                ['image' => 'team/staff-3', 'name' => 'Mme Ramatou Abdoul', 'role' => 'Assistante administrative', 'bio' => 'Appui logistique et suivi des activités', 'email' => 'ramatou.abdoul@uam.ne'],
-            ] as $staff)
-                <x-profile-card
-                    size="horizontal"
-                    :image="$staff['image']"
-                    :name="$staff['name']"
-                    :role="$staff['role']"
-                    :bio="$staff['bio']"
-                    :email="$staff['email']"
-                />
-            @endforeach
-        </div>
-    </section>
+            <div class="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
+                @foreach ($groups['administratif'] as $member)
+                    <x-profile-card
+                        size="horizontal"
+                        :image-url="$member->hasPhoto() ? $member->photoUrl() : null"
+                        :name="$member->name"
+                        :role="$member->role"
+                        :bio="$member->bio"
+                        :email="$member->email"
+                        :initials="$member->initials()"
+                    />
+                @endforeach
+            </div>
+        </section>
+    @endif
 
     {{-- ============ INLINE CTA ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">

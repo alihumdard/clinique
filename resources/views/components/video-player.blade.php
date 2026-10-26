@@ -10,7 +10,12 @@
     to the video on its host channel, so the page stays usable.
 --}}
 @props([
-    'poster',
+    // `poster` is a placeholder path under public/images; `posterUrl` is a
+    // ready URL, which is what a stored cover or a channel thumbnail
+    // gives. One or the other.
+    'poster' => null,
+    'posterUrl' => null,
+    'storedPath' => null,
     'title',
     'videoId' => null,
     'duration' => null,
@@ -33,12 +38,26 @@
     data-video-embed="{{ $embed }}"
     data-video-title="{{ $title }}"
 >
-    <x-picture
-        :path="$poster"
-        :alt="$title"
-        width="1280" height="720"
-        class="h-full w-full object-cover"
-    />
+    @if($storedPath !== null)
+        <x-stored-image
+            :path="$storedPath"
+            :alt="$title"
+            fallback="placeholders/video-featured"
+            width="1280" height="720"
+            sizes="(min-width: 1024px) 60vw, 100vw"
+            :eager="true"
+            class="h-full w-full object-cover"
+        />
+    @elseif($posterUrl)
+        <img src="{{ $posterUrl }}" alt="{{ $title }}" width="1280" height="720" class="h-full w-full object-cover">
+    @else
+        <x-picture
+            :path="$poster"
+            :alt="$title"
+            width="1280" height="720"
+            class="h-full w-full object-cover"
+        />
+    @endif
 
     <a
         href="{{ $watch }}"

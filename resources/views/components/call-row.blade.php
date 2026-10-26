@@ -4,7 +4,11 @@
     Stacks on phones so the thumbnail never crushes the text.
 --}}
 @props([
-    'image',
+    // `image` is a placeholder path under public/images; `imageUrl` is a
+    // ready URL, which is what a stored image gives. One or the other.
+    'image' => null,
+    'imageUrl' => null,
+    'storedPath' => null,
     'type',
     'typeColor' => 'primary',
     'title',
@@ -15,15 +19,36 @@
 ])
 
 <article class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white sm:flex-row sm:items-stretch">
-    <x-picture
-        :path="$image"
-        :alt="$title"
-        width="400" height="300"
-        class="h-44 w-full shrink-0 object-cover sm:h-full sm:w-48"
-    />
+    @if($storedPath !== null)
+        <x-stored-image
+            :path="$storedPath"
+            :alt="$title"
+            fallback="placeholders/join-call-stage"
+            width="400" height="300"
+            sizes="(min-width: 640px) 192px, 100vw"
+            class="h-44 w-full shrink-0 object-cover sm:h-full sm:w-48"
+        />
+    @elseif($imageUrl)
+        <img
+            src="{{ $imageUrl }}"
+            alt="{{ $title }}"
+            width="400" height="300"
+            loading="lazy"
+            class="h-44 w-full shrink-0 object-cover sm:h-full sm:w-48"
+        >
+    @else
+        <x-picture
+            :path="$image"
+            :alt="$title"
+            width="400" height="300"
+            class="h-44 w-full shrink-0 object-cover sm:h-full sm:w-48"
+        />
+    @endif
 
     <div class="flex flex-1 flex-col p-5">
-        <x-category-badge :color="$typeColor" position="inline" class="self-start">{{ $type }}</x-category-badge>
+        @if($type)
+            <x-category-badge :color="$typeColor" position="inline" class="self-start">{{ $type }}</x-category-badge>
+        @endif
 
         <h3 class="mt-2.5 text-base font-bold leading-snug text-slate-900">
             <a href="{{ $href }}" class="hover:text-primary-600">{{ $title }}</a>

@@ -5,6 +5,8 @@
 
 @section('content')
 
+    <x-admin.flash />
+
     <x-admin.page-header
         title="Gestion des actualités"
         lead="Créez, modifiez et gérez toutes les actualités publiées sur votre site."
@@ -19,10 +21,10 @@
     {{-- ============ KPIs ============ --}}
     {{-- Counts are illustrative until Module 2 supplies real queries. --}}
     <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <x-admin.stat-card icon="document" color="blue"  value="24" label="Actualités publiées" trend="+12%" note="ce mois-ci" />
-        <x-admin.stat-card icon="eye"      color="green" value="3"  label="Brouillons"          trend="+50%" note="depuis le mois dernier" />
-        <x-admin.stat-card icon="clock"    color="amber" value="1"  label="Programmée"          note="Prévue cette semaine" />
-        <x-admin.stat-card icon="trash"    color="red"   value="2"  label="À la corbeille"      note="Non publiées" />
+        <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Actualités publiées" />
+        <x-admin.stat-card icon="eye"      color="green" :value="$counts['drafts']"    label="Brouillons" />
+        <x-admin.stat-card icon="clock"    color="amber" :value="$counts['scheduled']" label="Programmées" note="Publication à venir" />
+        <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   label="À la corbeille" />
     </div>
 
     <div class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-4">
@@ -75,20 +77,6 @@
                 </div>
             </div>
 
-            @php
-                $articles = [
-                    ['image' => 'placeholders/news-caravan',     'title' => 'Lancement de la caravane juridique à Zinder', 'category' => 'Événements',           'tone' => 'blue',   'date' => '10 juin 2025', 'time' => '14:32', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/about-legal',      'title' => 'Formation sur les droits des femmes',          'category' => 'Formation',            'tone' => 'purple', 'date' => '8 juin 2025',  'time' => '11:20', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/news-guide',       'title' => 'Nouvelle fiche pratique disponible',           'category' => 'Ressources',           'tone' => 'amber',  'date' => '5 juin 2025',  'time' => '09:15', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/about-team',       'title' => 'Appel à candidatures – Stagiaires 2025',       'category' => 'Appels à candidatures','tone' => 'pink',   'date' => '1 juin 2025',  'time' => '12:10', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/about-hero',       'title' => 'La Clinique FSJP-UAM renforce ses partenariats','category' => 'Institution',         'tone' => 'blue',   'date' => '28 mai 2025',  'time' => '16:45', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/news-partenariat', 'title' => 'Publication du rapport annuel 2024',           'category' => 'Rapports',             'tone' => 'green',  'date' => '25 mai 2025',  'time' => '10:22', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/video-featured',   'title' => 'Nouvelle capsule Web TV : Accès à la justice', 'category' => 'Web TV',               'tone' => 'amber',  'date' => '20 mai 2025',  'time' => '15:30', 'status' => 'Brouillon',  'statusTone' => 'amber'],
-                    ['image' => 'placeholders/news-3',           'title' => 'Clinique juridique présente au forum universitaire', 'category' => 'Événements',     'tone' => 'blue',   'date' => '16 mai 2025',  'time' => '13:18', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/article-highlight-1','title' => 'Guide pratique : droits des étudiants',      'category' => 'Ressources',           'tone' => 'amber',  'date' => '12 mai 2025',  'time' => '09:40', 'status' => 'Publié',     'statusTone' => 'green'],
-                    ['image' => 'placeholders/news-1',           'title' => 'Conférence sur la justice sociale',            'category' => 'Actualités',           'tone' => 'purple', 'date' => '8 mai 2025',   'time' => '11:05', 'status' => 'Programmée', 'statusTone' => 'blue'],
-                ];
-            @endphp
 
             <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
                 <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
@@ -118,61 +106,81 @@
                     </thead>
 
                     <tbody class="divide-y divide-slate-100">
-                        @foreach ($articles as $i => $article)
+                        @forelse ($articles as $article)
                             <tr class="hover:bg-slate-50">
                                 <td class="px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="Sélectionner : {{ $article['title'] }}"
+                                        aria-label="Sélectionner : {{ $article->title }}"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </td>
 
-                                <td class="px-2 py-3 text-sm text-slate-500">{{ $i + 1 }}</td>
+                                <td class="px-2 py-3 text-sm text-slate-500">
+                                    {{ $loop->iteration + ($articles->firstItem() - 1) }}
+                                </td>
 
                                 <td class="px-2 py-3">
-                                    <x-picture
-                                        :path="$article['image']"
+                                    <img
+                                        src="{{ $article->imageUrl() }}"
                                         alt=""
                                         width="96" height="72"
+                                        loading="lazy"
                                         class="h-11 w-14 rounded-md object-cover"
-                                    />
+                                    >
                                 </td>
 
                                 <td class="px-3 py-3">
                                     <span class="block max-w-[16rem] text-sm font-semibold leading-snug text-slate-900">
-                                        {{ $article['title'] }}
+                                        {{ $article->title }}
                                     </span>
                                 </td>
 
                                 <td class="px-3 py-3">
-                                    <x-admin.badge :tone="$article['tone']">{{ $article['category'] }}</x-admin.badge>
+                                    @if($article->category)
+                                        <x-admin.badge :tone="$article->category->tone">{{ $article->category->name }}</x-admin.badge>
+                                    @else
+                                        <span class="text-sm text-slate-400">&mdash;</span>
+                                    @endif
                                 </td>
 
-                                <td class="px-3 py-3 text-sm text-slate-500">Admin</td>
+                                <td class="px-3 py-3 text-sm text-slate-500">
+                                    {{ $article->author?->name ?? 'Admin' }}
+                                </td>
 
                                 <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
-                                    {{ $article['date'] }}<br>
-                                    <span class="text-xs">{{ $article['time'] }}</span>
+                                    @if($article->published_at)
+                                        {{ $article->published_at->translatedFormat('j F Y') }}<br>
+                                        <span class="text-xs">{{ $article->published_at->format('H:i') }}</span>
+                                    @else
+                                        <span class="text-slate-400">&mdash;</span>
+                                    @endif
                                 </td>
 
                                 <td class="px-3 py-3">
-                                    <x-admin.badge :tone="$article['statusTone']">{{ $article['status'] }}</x-admin.badge>
+                                    <x-admin.badge :tone="$article->statusTone()">{{ $article->statusLabel() }}</x-admin.badge>
                                 </td>
 
                                 <td class="px-5 py-3">
-                                    <x-admin.row-actions :label="$article['title']" />
+                                    <x-admin.row-actions
+                                        :label="$article->title"
+                                        :view-href="$article->isPublic() ? route('news.show', $article) : null"
+                                        :delete-action="route('admin.news.destroy', $article)"
+                                    />
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="9" class="px-5 py-12 text-center">
+                                    <p class="text-sm text-slate-500">Aucune actualité ne correspond à cette recherche.</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <x-admin.table-footer
-                :from="1" :to="10" :total="24" unit="actualités"
-                :current="1" :pages="3"
-            />
+            <x-admin.table-footer :paginator="$articles" unit="actualités" />
         </section>
 
         {{-- ============ SIDEBAR ============ --}}
@@ -192,25 +200,37 @@
                 </div>
 
                 @php
-                    $categories = [
-                        ['label' => 'Toutes les catégories', 'count' => 24, 'dot' => 'bg-primary-600'],
-                        ['label' => 'Actualités',            'count' => 6,  'dot' => 'bg-primary-500'],
-                        ['label' => 'Événements',            'count' => 5,  'dot' => 'bg-primary-400'],
-                        ['label' => 'Formation',             'count' => 4,  'dot' => 'bg-violet-500'],
-                        ['label' => 'Ressources',            'count' => 4,  'dot' => 'bg-amber-400'],
-                        ['label' => 'Web TV',                'count' => 2,  'dot' => 'bg-amber-500'],
-                        ['label' => 'Appels à candidatures', 'count' => 2,  'dot' => 'bg-pink-400'],
-                        ['label' => 'Rapports',              'count' => 1,  'dot' => 'bg-emerald-500'],
+                    // Dot colours reuse the badge palette so a category reads
+                    // the same here as it does in the table.
+                    $dots = [
+                        'blue' => 'bg-primary-500', 'green' => 'bg-emerald-500',
+                        'amber' => 'bg-amber-500', 'red' => 'bg-rose-500',
+                        'purple' => 'bg-violet-500', 'pink' => 'bg-pink-500',
+                        'slate' => 'bg-slate-400',
                     ];
                 @endphp
 
                 <ul class="mt-4 space-y-1">
+                    <li>
+                        <a
+                            href="{{ route('admin.news') }}"
+                            @class(['group flex items-center gap-2.5 rounded-md px-2 py-2 hover:bg-slate-50', 'bg-primary-50' => ! ($filters['categorie'] ?? null)])
+                        >
+                            <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-primary-600" aria-hidden="true"></span>
+                            <span class="min-w-0 flex-1 truncate text-sm font-medium text-slate-700">Toutes les catégories</span>
+                            <span class="shrink-0 text-sm font-semibold text-slate-500">{{ $articles->total() }}</span>
+                        </a>
+                    </li>
+
                     @foreach ($categories as $category)
                         <li>
-                            <a href="{{ route('admin.news') }}" class="group flex items-center gap-2.5 rounded-md px-2 py-2 hover:bg-slate-50">
-                                <span class="h-2.5 w-2.5 shrink-0 rounded-full {{ $category['dot'] }}" aria-hidden="true"></span>
-                                <span class="min-w-0 flex-1 truncate text-sm text-slate-600 group-hover:text-primary-600">{{ $category['label'] }}</span>
-                                <span class="shrink-0 text-sm font-semibold text-slate-500">{{ $category['count'] }}</span>
+                            <a
+                                href="{{ route('admin.news', ['categorie' => $category->id]) }}"
+                                @class(['group flex items-center gap-2.5 rounded-md px-2 py-2 hover:bg-slate-50', 'bg-primary-50' => (int) ($filters['categorie'] ?? 0) === $category->id])
+                            >
+                                <span class="h-2.5 w-2.5 shrink-0 rounded-full {{ $dots[$category->tone] ?? $dots['slate'] }}" aria-hidden="true"></span>
+                                <span class="min-w-0 flex-1 truncate text-sm text-slate-600 group-hover:text-primary-600">{{ $category->name }}</span>
+                                <span class="shrink-0 text-sm font-semibold text-slate-500">{{ $category->articles_count ?? $category->articles()->count() }}</span>
                             </a>
                         </li>
                     @endforeach
@@ -229,7 +249,7 @@
                     Publication rapide
                 </h2>
 
-                <form method="POST" action="#" class="mt-4 space-y-4">
+                <form method="POST" action="{{ route('admin.news.store') }}" enctype="multipart/form-data" class="mt-4 space-y-4">
                     @csrf
 
                     <div>
@@ -241,8 +261,9 @@
                         <input
                             type="text"
                             id="quick-title"
-                            name="titre"
+                            name="title"
                             required
+                            value="{{ old('title') }}"
                             placeholder="Saisissez le titre..."
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
@@ -256,17 +277,14 @@
                         </label>
                         <select
                             id="quick-category"
-                            name="categorie"
+                            name="category_id"
                             required
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                             <option value="">Sélectionner une catégorie</option>
-                            <option>Actualités</option>
-                            <option>Événements</option>
-                            <option>Formation</option>
-                            <option>Ressources</option>
-                            <option>Web TV</option>
-                            <option>Rapports</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -291,6 +309,10 @@
                             >
                         </label>
                     </div>
+
+                    {{-- Quick publish goes live straight away; scheduling
+                         belongs to the full editor. --}}
+                    <input type="hidden" name="status" value="published">
 
                     <button
                         type="submit"

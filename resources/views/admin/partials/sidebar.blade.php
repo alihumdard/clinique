@@ -41,8 +41,7 @@
                     'route' => 'admin.pages',
                     'children' => [
                         ['label' => 'Toutes les pages', 'route' => 'admin.pages'],
-                        ['label' => 'Ajouter une page', 'route' => 'admin.pages.create'],
-                        ['label' => 'Catégories',       'route' => 'admin.pages.categories'],
+                        ['label' => 'Ajouter une page', 'route' => 'admin.pages', 'anchor' => 'ajouter-une-page'],
                     ],
                 ],
             ],
@@ -51,12 +50,17 @@
             'label' => 'Terrain',
             'items' => [
                 [
+                    'label' => 'Appels à candidatures',
+                    'icon' => 'user-plus',
+                    'route' => 'admin.calls',
+                ],
+                [
                     'label' => 'Activités & caravanes',
                     'icon' => 'calendar',
                     'route' => 'admin.activities',
                     'children' => [
                         ['label' => 'Toutes les activités', 'route' => 'admin.activities'],
-                        ['label' => 'Ajouter une activité', 'route' => 'admin.activities.create'],
+                        ['label' => 'Ajouter une activité', 'route' => 'admin.activities', 'anchor' => 'ajouter-une-activite'],
                     ],
                 ],
             ],
@@ -71,7 +75,9 @@
         [
             'label' => 'Administration',
             'items' => [
+                ['label' => 'Messages de contact', 'icon' => 'chat',    'route' => 'admin.messages'],
                 ['label' => 'Newsletter',         'icon' => 'mail',     'route' => 'admin.newsletter'],
+                ['label' => 'Référentiels',       'icon' => 'folder',   'route' => 'admin.references'],
                 ['label' => 'Paramètres du site', 'icon' => 'settings', 'route' => 'admin.settings'],
             ],
         ],
@@ -80,6 +86,14 @@
     // Resolves a route name to a URL, falling back to the dashboard while
     // a screen is still being built.
     $linkTo = fn (string $name) => Route::has($name) ? route($name) : route('admin.dashboard');
+
+    /*
+     * A child may point at a section of its parent's screen rather than a
+     * screen of its own — the add form lives beside the listing, so the
+     * link carries an anchor and does not claim the active state.
+     */
+    $childHref = fn (array $child) => $linkTo($child['route'])
+        .(isset($child['anchor']) ? '#'.$child['anchor'] : '');
 @endphp
 
 {{-- Backdrop, shown only while the mobile drawer is open --}}
@@ -190,10 +204,10 @@
                         @if(count($children) && $isOpen)
                             <ul class="mt-1 space-y-0.5 border-l border-white/10 pl-3 ml-5">
                                 @foreach ($children as $child)
-                                    @php $childActive = Route::is($child['route']); @endphp
+                                    @php $childActive = Route::is($child['route']) && ! isset($child['anchor']); @endphp
                                     <li>
                                         <a
-                                            href="{{ $linkTo($child['route']) }}"
+                                            href="{{ $childHref($child) }}"
                                             @if($childActive) aria-current="page" @endif
                                             @class([
                                                 'admin-nav-sublink flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition',

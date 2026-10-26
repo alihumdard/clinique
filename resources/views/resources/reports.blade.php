@@ -37,59 +37,24 @@
                 <div class="mt-10">
                     <x-section-label>Rapports disponibles</x-section-label>
 
-                    @php
-                        /*
-                         * Published reports, newest first. Module 2 replaces
-                         * this with a query; `href` becomes the stored PDF.
-                         */
-                        $reports = [
-                            [
-                                'cover' => 'placeholders/report-cover-2026',
-                                'title' => "Rapport annuel d'activité 2026",
-                                'excerpt' => "Un bilan complet de nos activités, des chiffres clés, des témoignages et des perspectives pour renforcer l'accès au droit.",
-                                'date' => 'Janvier 2027',
-                                'size' => '4,2 Mo',
-                                'views' => '1 250',
-                            ],
-                            [
-                                'cover' => 'placeholders/report-cover-2023',
-                                'title' => "Rapport annuel d'activité 2023",
-                                'excerpt' => "Nos réalisations, nos partenariats et l'impact de nos actions sur les communautés locales au Niger.",
-                                'date' => 'Janvier 2024',
-                                'size' => '3,8 Mo',
-                                'views' => '980',
-                            ],
-                            [
-                                'cover' => 'placeholders/report-cover-2022',
-                                'title' => "Rapport annuel d'activité 2022",
-                                'excerpt' => "Une année d'engagement pour l'accès au droit et la protection des personnes vulnérables.",
-                                'date' => 'Janvier 2023',
-                                'size' => '3,5 Mo',
-                                'views' => '760',
-                            ],
-                            [
-                                'cover' => 'placeholders/report-cover-2021',
-                                'title' => "Rapport annuel d'activité 2021",
-                                'excerpt' => "Retour sur nos principales actions, nos formations et nos caravanes juridiques.",
-                                'date' => 'Janvier 2022',
-                                'size' => '3,1 Mo',
-                                'views' => '620',
-                            ],
-                        ];
-                    @endphp
-
                     <div class="mt-5 space-y-5">
-                        @foreach ($reports as $report)
+                        @forelse ($reports as $report)
                             <x-report-row
-                                :cover="$report['cover']"
-                                :title="$report['title']"
-                                :excerpt="$report['excerpt']"
-                                :date="$report['date']"
-                                :filesize="$report['size']"
-                                :views="$report['views']"
+                                :stored-path="$report->cover"
+                                :title="$report->title"
+                                :excerpt="$report->description"
+                                :date="$report->published_at?->translatedFormat('F Y')"
+                                :filesize="$report->fileSizeForHumans()"
+                                :href="route('documents.report', $report)"
                             />
-                        @endforeach
+                        @empty
+                            <p class="text-sm text-slate-500">
+                                Aucun rapport n'est disponible pour le moment.
+                            </p>
+                        @endforelse
                     </div>
+
+                    <x-pagination :paginator="$reports" />
                 </div>
 
                 {{-- ============ EVOLUTION ============ --}}

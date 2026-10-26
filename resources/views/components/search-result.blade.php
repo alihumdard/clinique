@@ -4,7 +4,10 @@
     `type` selects the pill colour so results are scannable by kind.
 --}}
 @props([
+    // `image` names a bundled file under public/images; `imageUrl` is a
+    // ready URL, which is what stored content gives. One or the other.
     'image' => null,
+    'imageUrl' => null,
     'type',
     'title',
     'excerpt' => null,
@@ -20,19 +23,30 @@
         'Fiche pratique' => 'bg-emerald-50 text-emerald-700',
         'Web TV'         => 'bg-rose-50 text-rose-700',
         'Activité'       => 'bg-violet-50 text-violet-700',
+        'Rapport'        => 'bg-amber-50 text-amber-700',
         'Page'           => 'bg-slate-100 text-slate-700',
     ];
 @endphp
 
 <article class="group flex flex-col gap-4 border-b border-slate-100 py-5 last:border-0 sm:flex-row sm:items-stretch">
-    @if($image)
+    @if($imageUrl || $image)
         <a href="{{ $href }}" class="relative block shrink-0">
-            <x-picture
-                :path="$image"
-                alt=""
-                width="320" height="200"
-                class="h-40 w-full rounded-lg object-cover sm:h-full sm:w-36"
-            />
+            @if($imageUrl)
+                <img
+                    src="{{ $imageUrl }}"
+                    alt=""
+                    width="320" height="200"
+                    loading="lazy"
+                    class="h-40 w-full rounded-lg object-cover sm:h-full sm:w-36"
+                >
+            @else
+                <x-picture
+                    :path="$image"
+                    alt=""
+                    width="320" height="200"
+                    class="h-40 w-full rounded-lg object-cover sm:h-full sm:w-36"
+                />
+            @endif
 
             @if($video)
                 {{-- Marks the hit as a capsule without loading any player --}}

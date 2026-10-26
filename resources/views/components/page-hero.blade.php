@@ -3,7 +3,10 @@
     breadcrumb, title, subtitle. Used by About, Services, News, etc.
 --}}
 @props([
-    'image',
+    // `image` is a placeholder path under public/images; `imageUrl` is a
+    // ready URL, which is what a stored image gives. One or the other.
+    'image' => null,
+    'imageUrl' => null,
     'title',
     'subtitle' => null,
     'breadcrumb' => [],
@@ -15,13 +18,24 @@
 
 <section class="relative overflow-hidden">
     <div class="absolute inset-0">
-        <x-picture
-            :path="$image"
-            alt=""
-            width="2170" height="725"
-            :eager="true"
-            class="h-full w-full object-cover {{ $imagePosition }}"
-        />
+        @if($imageUrl)
+            <img
+                src="{{ $imageUrl }}"
+                alt=""
+                width="2170" height="725"
+                fetchpriority="high"
+                class="h-full w-full object-cover {{ $imagePosition }}"
+            >
+        @else
+            <x-picture
+                :path="$image"
+                alt=""
+                width="1600" height="535"
+                :eager="true"
+                :hero="true"
+                class="h-full w-full object-cover {{ $imagePosition }}"
+            />
+        @endif
         <div class="absolute inset-0 bg-navy-950/60 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
     </div>
 

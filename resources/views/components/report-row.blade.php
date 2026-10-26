@@ -4,7 +4,11 @@
     Stacks vertically on phones so the cover never squeezes the text.
 --}}
 @props([
-    'cover',
+    // `cover` is a placeholder path under public/images; `coverUrl` is a
+    // ready URL, which is what a stored cover gives. One or the other.
+    'cover' => null,
+    'coverUrl' => null,
+    'storedPath' => null,
     'title',
     'excerpt' => null,
     'date' => null,
@@ -14,12 +18,31 @@
 ])
 
 <article class="flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white sm:flex-row">
-    <x-picture
-        :path="$cover"
-        :alt="'Couverture : ' . $title"
-        width="400" height="520"
-        class="aspect-[10/13] w-full shrink-0 object-cover sm:aspect-auto sm:h-auto sm:w-40"
-    />
+    @if($storedPath !== null)
+        <x-stored-image
+            :path="$storedPath"
+            :alt="'Couverture : '.$title"
+            fallback="placeholders/report-cover-2023"
+            width="400" height="520"
+            sizes="(min-width: 640px) 160px, 100vw"
+            class="aspect-[10/13] w-full shrink-0 object-cover sm:aspect-auto sm:h-auto sm:w-40"
+        />
+    @elseif($coverUrl)
+        <img
+            src="{{ $coverUrl }}"
+            alt="Couverture : {{ $title }}"
+            width="400" height="520"
+            loading="lazy"
+            class="aspect-[10/13] w-full shrink-0 object-cover sm:aspect-auto sm:h-auto sm:w-40"
+        >
+    @else
+        <x-picture
+            :path="$cover"
+            :alt="'Couverture : ' . $title"
+            width="400" height="520"
+            class="aspect-[10/13] w-full shrink-0 object-cover sm:aspect-auto sm:h-auto sm:w-40"
+        />
+    @endif
 
     <div class="flex flex-1 flex-col p-5">
         <h3 class="text-lg font-bold leading-snug text-slate-900">

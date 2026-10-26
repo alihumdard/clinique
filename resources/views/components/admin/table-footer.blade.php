@@ -3,6 +3,9 @@
     and pagination with first/last jumps.
 --}}
 @props([
+    // Pass a paginator and the numbers come from it. The loose props stay
+    // for the screens still showing example rows.
+    'paginator' => null,
     'from' => 1,
     'to' => 10,
     'total' => 0,
@@ -12,6 +15,22 @@
 ])
 
 @php
+    if ($paginator) {
+        $total = $paginator->total();
+        $from = $paginator->firstItem() ?? 0;
+        $to = $paginator->lastItem() ?? 0;
+        $current = $paginator->currentPage();
+        $pages = $paginator->lastPage();
+    }
+
+    /*
+     * The paginator builds its own links, which keeps the active filters
+     * (?statut=, ?categorie=, ?q=) that a hand-built ?page= would drop.
+     */
+    $link = fn (int $page) => $paginator
+        ? $paginator->url($page)
+        : url()->current() . '?page=' . $page;
+
     $arrow = 'flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500 transition-colors hover:bg-slate-50';
 @endphp
 
@@ -35,17 +54,17 @@
         </div>
 
         <nav aria-label="Pagination" class="flex items-center gap-1.5">
-            <a href="{{ url()->current() }}?page=1" aria-label="Première page" class="{{ $arrow }}">
+            <a href="{{ $link(1) }}" aria-label="Première page" class="{{ $arrow }}">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" /></svg>
             </a>
 
-            <a href="{{ url()->current() }}?page={{ max(1, $current - 1) }}" aria-label="Page précédente" class="{{ $arrow }}">
+            <a href="{{ $link(max(1, $current - 1)) }}" aria-label="Page précédente" class="{{ $arrow }}">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
             </a>
 
             @for ($i = 1; $i <= $pages; $i++)
                 <a
-                    href="{{ url()->current() }}?page={{ $i }}"
+                    href="{{ $link($i) }}"
                     @if($i === $current) aria-current="page" @endif
                     class="flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium {{ $i === $current ? 'bg-primary-600 text-white' : 'text-slate-600 hover:bg-slate-50' }}"
                 >
@@ -53,11 +72,11 @@
                 </a>
             @endfor
 
-            <a href="{{ url()->current() }}?page={{ min($pages, $current + 1) }}" aria-label="Page suivante" class="{{ $arrow }}">
+            <a href="{{ $link(min($pages, $current + 1)) }}" aria-label="Page suivante" class="{{ $arrow }}">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
             </a>
 
-            <a href="{{ url()->current() }}?page={{ $pages }}" aria-label="Dernière page" class="{{ $arrow }}">
+            <a href="{{ $link($pages) }}" aria-label="Dernière page" class="{{ $arrow }}">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 4.5l7.5 7.5-7.5 7.5m6-15l7.5 7.5-7.5 7.5" /></svg>
             </a>
         </nav>

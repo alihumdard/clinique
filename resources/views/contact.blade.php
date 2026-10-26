@@ -104,19 +104,34 @@
 
             {{-- Message form --}}
             <div class="rounded-xl border border-slate-200 p-6 lg:col-span-3">
-                <x-section-label>Envoyez-nous un message</x-section-label>
+                <x-section-label id="envoyez-nous-un-message">Envoyez-nous un message</x-section-label>
+
+                @if(session('contact'))
+                    <p role="status" class="mt-6 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+                        <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                        {{ session('contact') }}
+                    </p>
+                @endif
+
+                @if($errors->any())
+                    <p role="alert" class="mt-6 flex items-start gap-3 rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
+                        <x-icon name="help-circle" class="mt-0.5 h-5 w-5 shrink-0 text-rose-600" />
+                        Votre message n'a pas pu être envoyé. Merci de corriger les champs signalés ci-dessous.
+                    </p>
+                @endif
 
                 {{--
-                    Presentation only: Module 2 adds the POST route, server-side
-                    validation, anti-spam and mail delivery. Client-side `required`
-                    attributes are a convenience, never the security boundary.
+                    The `required` attributes are a convenience for the person
+                    filling the form in, never the security boundary: every
+                    rule is re-applied in ContactRequest, which also requires
+                    the consent box and refuses a filled honeypot.
                 --}}
-                <form class="mt-6 space-y-5" method="post" action="#" novalidate>
+                <form class="mt-6 space-y-5" method="post" action="{{ route('contact.store') }}" novalidate>
                     @csrf
 
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                         <x-form-field
-                            name="nom"
+                            name="name"
                             label="Nom complet"
                             placeholder="Votre nom complet"
                             :required="true"
@@ -145,7 +160,7 @@
                         @endphp
 
                         <x-form-field
-                            name="sujet"
+                            name="subject"
                             type="select"
                             label="Sujet"
                             placeholder="Sélectionnez un sujet"
@@ -154,7 +169,7 @@
                         />
 
                         <x-form-field
-                            name="telephone"
+                            name="phone"
                             type="tel"
                             label="Téléphone"
                             placeholder="+227 ..."
@@ -176,19 +191,35 @@
                     <div class="flex items-start gap-2.5">
                         <input
                             type="checkbox"
-                            id="field-consentement"
-                            name="consentement"
+                            id="field-consent"
+                            name="consent"
+                            value="1"
                             required
+                            @checked(old('consent'))
+                            @error('consent') aria-invalid="true" aria-describedby="field-consent-error" @enderror
                             class="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                         >
-                        <label for="field-consentement" class="text-sm leading-snug text-slate-600">
-                            J'accepte que mes informations soient utilisées pour traiter ma demande.
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                        <div class="min-w-0">
+                            <label for="field-consent" class="text-sm leading-snug text-slate-600">
+                                J'accepte que mes informations soient utilisées pour traiter ma demande.
+                                <span class="text-rose-600" aria-hidden="true">*</span>
+                                <span class="sr-only">(obligatoire)</span>
+                            </label>
+
+                            @error('consent')
+                                <p id="field-consent-error" role="alert" class="mt-1 text-sm text-rose-700">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
 
-                    <x-button variant="primary" :arrow="false" class="w-full justify-center">
+                    {{-- A field nobody sees and a script usually fills in;
+                         the server refuses the request if it arrives filled. --}}
+                    <div class="hidden" aria-hidden="true">
+                        <label for="field-website">Site web</label>
+                        <input type="text" id="field-website" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <x-button variant="primary" type="submit" :arrow="false" class="w-full justify-center">
                         <x-icon name="paper-plane" class="h-4 w-4" />
                         Envoyer le message
                     </x-button>

@@ -9,12 +9,17 @@
 ])
 
 @php
+    // The keys are the tones a category carries, which the admin badge
+    // paints too: one tone has to mean one colour on both sides, or a
+    // rubrique the editor coloured pink comes out blue to the visitor.
     $colors = [
         'primary' => 'bg-primary-600',
+        'blue'    => 'bg-primary-600',
         'amber'   => 'bg-amber-500',
         'green'   => 'bg-emerald-600',
         'purple'  => 'bg-violet-600',
         'red'     => 'bg-rose-600',
+        'pink'    => 'bg-pink-600',
         'slate'   => 'bg-slate-700',
     ];
 

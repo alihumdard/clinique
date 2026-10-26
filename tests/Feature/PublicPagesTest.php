@@ -10,6 +10,389 @@ use Tests\TestCase;
  */
 class PublicPagesTest extends TestCase
 {
+    use \Illuminate\Foundation\Testing\RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // The actualités and Web TV pages read from the database; without a
+        // row the listing is empty and the detail route has nothing to
+        // resolve.
+        \App\Models\Article::create([
+            'title' => "Conférence sur l'accès au droit",
+            'slug' => 'conference-sur-l-acces-au-droit',
+            'excerpt' => 'Un aperçu de la conférence.',
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+        ]);
+
+        $institutions = \App\Models\Category::create([
+            'type' => 'partner',
+            'name' => 'Institutions nationales',
+            'slug' => 'institutions-nationales',
+            'tone' => 'blue',
+        ]);
+
+        \App\Models\Partner::create([
+            'name' => 'Ministère de la Justice',
+            'slug' => 'ministere-de-la-justice',
+            'description' => 'Niger',
+            'website' => 'https://www.justice.ne',
+            'category_id' => $institutions->id,
+            'status' => \App\Models\Partner::STATUS_PUBLISHED,
+            'is_visible' => true,
+            'position' => 1,
+        ]);
+
+        \App\Models\TeamMember::create([
+            'name' => 'Pr. Ibrahim Moussa',
+            'slug' => 'pr-ibrahim-moussa',
+            'role' => 'Directeur de la Clinique Juridique',
+            'bio' => 'Enseignant-chercheur en droit public.',
+            'department' => 'direction',
+            'email' => 'ibrahim.moussa@uam.ne',
+            'status' => \App\Models\TeamMember::STATUS_PUBLISHED,
+            'is_visible' => true,
+            'position' => 1,
+        ]);
+
+        $caravanes = \App\Models\Category::create([
+            'type' => 'activity',
+            'name' => 'Caravanes juridiques',
+            'slug' => 'caravanes-juridiques',
+            'tone' => 'purple',
+        ]);
+
+        $activity = \App\Models\Activity::create([
+            'title' => 'Caravane juridique à Tillabéri',
+            'slug' => 'caravane-juridique-a-tillaberi',
+            'excerpt' => "Une journée de conseil juridique.",
+            'location' => 'Tillabéri',
+            'held_on' => now()->subMonth(),
+            'category_id' => $caravanes->id,
+            'status' => \App\Models\Activity::STATUS_PUBLISHED,
+            'published_at' => now()->subMonth(),
+        ]);
+
+        $activity->photos()->create([
+            'path' => 'placeholders/news-caravan',
+            'caption' => 'Caravane juridique en plein air',
+            'position' => 1,
+        ]);
+
+        \App\Models\Guide::create([
+            'title' => 'Droits de la famille',
+            'slug' => 'droits-de-la-famille',
+            'description' => 'Une fiche sur les droits de la famille.',
+            'body' => 'Contenu de la fiche.',
+            'file_path' => 'documents/fiches-pratiques/droits-de-la-famille.pdf',
+            'file_name' => 'droits-de-la-famille.pdf',
+            'file_size' => 2200000,
+            'status' => \App\Models\Guide::STATUS_PUBLISHED,
+            'published_at' => now()->subDays(3),
+        ]);
+
+        \App\Models\Report::create([
+            'title' => "Rapport annuel d'activité 2024",
+            'slug' => 'rapport-annuel-d-activite-2024',
+            'year' => 2024,
+            'description' => "Le bilan de l'année.",
+            'file_path' => 'documents/rapports-annuels/rapport-2024.pdf',
+            'file_name' => 'rapport-2024.pdf',
+            'file_size' => 4200000,
+            'status' => \App\Models\Report::STATUS_PUBLISHED,
+            'published_at' => now()->subMonth(),
+        ]);
+
+        \App\Models\Video::create([
+            'title' => 'Caravane juridique à Tillabéri',
+            'slug' => 'caravane-juridique-tillaberi',
+            'summary' => 'Une capsule de terrain.',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+            'provider' => 'youtube',
+            'provider_id' => 'dQw4w9WgXcQ',
+            'duration' => '12:35',
+            'status' => \App\Models\Video::STATUS_PUBLISHED,
+            'published_at' => now()->subDays(2),
+        ]);
+    }
+
+    public function test_the_news_index_renders(): void
+    {
+        $this->get('/actualites')
+            ->assertOk()
+            ->assertSee('Actualit', escape: false);
+    }
+
+    public function test_a_published_article_renders(): void
+    {
+        $this->get('/actualites/conference-sur-l-acces-au-droit')
+            ->assertOk()
+            ->assertSee('Conférence', escape: false);
+    }
+
+    public function test_a_draft_article_is_not_public(): void
+    {
+        \App\Models\Article::create([
+            'title' => 'Brouillon',
+            'slug' => 'brouillon',
+            'status' => \App\Models\Article::STATUS_DRAFT,
+        ]);
+
+        $this->get('/actualites/brouillon')->assertNotFound();
+    }
+
+    /** Published, but dated ahead: not yet visible to anyone. */
+    public function test_a_scheduled_article_is_not_public(): void
+    {
+        \App\Models\Article::create([
+            'title' => 'À paraître',
+            'slug' => 'a-paraitre',
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->addWeek(),
+        ]);
+
+        $this->get('/actualites/a-paraitre')->assertNotFound();
+    }
+
+    public function test_a_draft_capsule_is_not_public(): void
+    {
+        \App\Models\Video::create([
+            'title' => 'Capsule en brouillon',
+            'slug' => 'capsule-en-brouillon',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+            'provider' => 'youtube',
+            'provider_id' => 'dQw4w9WgXcQ',
+            'status' => \App\Models\Video::STATUS_DRAFT,
+        ]);
+
+        $this->get('/web-tv/capsule-en-brouillon')->assertNotFound();
+    }
+
+    public function test_watching_a_capsule_counts_a_view(): void
+    {
+        $video = \App\Models\Video::firstWhere('slug', 'caravane-juridique-tillaberi');
+
+        $this->get('/web-tv/caravane-juridique-tillaberi')->assertOk();
+
+        $this->assertSame($video->views + 1, $video->fresh()->views);
+    }
+
+    /**
+     * The actualités sidebar and its filter pills shipped with hand-written
+     * rubriques and counts — "Communiqués 4", "Publications 5" — which were
+     * neither in the database nor clickable. The page looked finished and
+     * was reporting figures nobody could check.
+     */
+    public function test_the_news_rubriques_come_from_the_database(): void
+    {
+        $events = \App\Models\Category::create([
+            'type' => 'article',
+            'name' => 'Événements',
+            'slug' => 'evenements',
+            'tone' => 'blue',
+        ]);
+
+        \App\Models\Article::create([
+            'title' => 'Un événement',
+            'slug' => 'un-evenement',
+            'category_id' => $events->id,
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+        ]);
+
+        $response = $this->get('/actualites')->assertOk();
+
+        $response->assertSee('Événements', escape: false);
+        // The names that were hard-coded and exist nowhere.
+        $response->assertDontSee('Communiqués', escape: false);
+        $response->assertDontSee('Publications', escape: false);
+
+        // And the rubrique filters, which did nothing at all.
+        $this->get('/actualites?categorie=evenements')
+            ->assertOk()
+            ->assertSee('Un événement', escape: false)
+            ->assertDontSee("Conférence sur l'accès au droit", escape: false);
+    }
+
+    /**
+     * The article page rendered one hard-coded article: the hero image, the
+     * title, the lead, the body and its "Objectifs / Les temps forts /
+     * Conclusion" sections all came from a design mock-up, so whichever
+     * article a visitor opened, the page showed the same conference.
+     */
+    public function test_the_article_page_renders_the_article_it_was_asked_for(): void
+    {
+        $caravanes = \App\Models\Category::create([
+            'type' => 'article',
+            'name' => 'Caravanes juridiques',
+            'slug' => 'caravanes-juridiques',
+            'tone' => 'amber',
+        ]);
+
+        \App\Models\Article::create([
+            'title' => 'Caravane juridique à Dosso',
+            'slug' => 'caravane-juridique-a-dosso',
+            'excerpt' => 'Trois jours de permanences gratuites.',
+            'body' => "Les équipes ont tenu trois permanences.\n\nUn bilan sera publié.",
+            'category_id' => $caravanes->id,
+            'status' => \App\Models\Article::STATUS_PUBLISHED,
+            'published_at' => now()->subDays(2),
+        ]);
+
+        $response = $this->get('/actualites/caravane-juridique-a-dosso')->assertOk();
+
+        $response->assertSee('Caravane juridique à Dosso', escape: false);
+        $response->assertSee('Trois jours de permanences gratuites.', escape: false);
+        $response->assertSee('Les équipes ont tenu trois permanences.', escape: false);
+        $response->assertSee('Un bilan sera publié.', escape: false);
+
+        // The mock-up's article and its invented sections, which no column
+        // holds and which were printed on every article page.
+        $response->assertDontSee('personnes vulnérables', escape: false);
+        $response->assertDontSee('Les temps forts', escape: false);
+        $response->assertDontSee('Documents liés', escape: false);
+    }
+
+    /** Articles of the same rubrique are offered at the foot of the page. */
+    public function test_the_article_page_lists_related_articles(): void
+    {
+        $formations = \App\Models\Category::create([
+            'type' => 'article',
+            'name' => 'Formations',
+            'slug' => 'formations',
+            'tone' => 'purple',
+        ]);
+
+        foreach (['Atelier sur la médiation', 'Session sur le droit du travail'] as $i => $title) {
+            \App\Models\Article::create([
+                'title' => $title,
+                'slug' => \Illuminate\Support\Str::slug($title),
+                'category_id' => $formations->id,
+                'status' => \App\Models\Article::STATUS_PUBLISHED,
+                'published_at' => now()->subDays($i + 1),
+            ]);
+        }
+
+        $this->get('/actualites/atelier-sur-la-mediation')
+            ->assertOk()
+            ->assertSee('Sur le même thème', escape: false)
+            ->assertSee('Session sur le droit du travail', escape: false);
+    }
+
+    /** The same sidebar is on the article page, and had the same figures. */
+    public function test_the_article_page_rubriques_come_from_the_database(): void
+    {
+        $this->get('/actualites/conference-sur-l-acces-au-droit')
+            ->assertOk()
+            ->assertDontSee('Communiqués', escape: false)
+            ->assertDontSee('Publications', escape: false);
+    }
+
+    public function test_a_draft_activity_is_not_on_the_public_site(): void
+    {
+        \App\Models\Activity::create([
+            'title' => 'Atelier interne de préparation',
+            'slug' => 'atelier-interne',
+            'status' => \App\Models\Activity::STATUS_DRAFT,
+        ]);
+
+        $this->get('/activites')
+            ->assertOk()
+            ->assertDontSee('Atelier interne', escape: false);
+    }
+
+    /**
+     * A draft activity's photos must not reach the gallery either: the
+     * gallery reads photos through their activity, not on their own.
+     */
+    public function test_photos_of_a_draft_activity_are_not_in_the_gallery(): void
+    {
+        $draft = \App\Models\Activity::create([
+            'title' => 'Atelier interne',
+            'slug' => 'atelier-interne',
+            'status' => \App\Models\Activity::STATUS_DRAFT,
+            'category_id' => \App\Models\Category::create([
+                'type' => 'activity',
+                'name' => 'Ateliers',
+                'slug' => 'ateliers',
+                'tone' => 'green',
+            ])->id,
+        ]);
+
+        $draft->photos()->create([
+            'path' => 'placeholders/gallery-conference',
+            'caption' => 'Photo interne confidentielle',
+            'position' => 1,
+        ]);
+
+        $this->get('/galerie')
+            ->assertOk()
+            ->assertDontSee('Photo interne confidentielle', escape: false)
+            ->assertDontSee('Ateliers', escape: false);
+    }
+
+    public function test_the_gallery_groups_photos_by_album(): void
+    {
+        $this->get('/galerie')
+            ->assertOk()
+            ->assertSee('Caravanes juridiques', escape: false)
+            ->assertSee('Caravane juridique en plein air', escape: false);
+    }
+
+    public function test_the_activities_list_can_be_filtered_by_type(): void
+    {
+        $formations = \App\Models\Category::create([
+            'type' => 'activity',
+            'name' => 'Formations',
+            'slug' => 'formations-activite',
+            'tone' => 'blue',
+        ]);
+
+        \App\Models\Activity::create([
+            'title' => 'Formation sur la médiation',
+            'slug' => 'formation-sur-la-mediation',
+            'category_id' => $formations->id,
+            'held_on' => now()->subWeek(),
+            'status' => \App\Models\Activity::STATUS_PUBLISHED,
+            'published_at' => now()->subWeek(),
+        ]);
+
+        $this->get('/activites?categorie=formations-activite')
+            ->assertOk()
+            ->assertSee('Formation sur la médiation', escape: false)
+            ->assertDontSee('Caravane juridique à Tillabéri', escape: false);
+    }
+
+    public function test_the_web_tv_list_can_be_filtered_by_rubrique(): void
+    {
+        $rubrique = \App\Models\Category::create([
+            'type' => 'video',
+            'name' => 'Formations',
+            'slug' => 'formations',
+            'tone' => 'green',
+        ]);
+
+        \App\Models\Video::create([
+            'title' => 'Session de formation sur la médiation',
+            'slug' => 'session-de-formation-sur-la-mediation',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+            'provider' => 'youtube',
+            'provider_id' => 'dQw4w9WgXcQ',
+            'category_id' => $rubrique->id,
+            'status' => \App\Models\Video::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+        ]);
+
+        $this->get('/web-tv?categorie=formations')
+            ->assertOk()
+            ->assertSee('Session de formation', escape: false)
+            // Inside a rubrique nothing is featured, so a capsule from
+            // another rubrique must not appear at all.
+            ->assertDontSee('Caravane juridique à Tillabéri', escape: false);
+    }
+
     /**
      * Every public route from the Phase 2 page inventory.
      *
@@ -26,8 +409,6 @@ class PublicPagesTest extends TestCase
             'processus' => ['/services/processus-de-consultation', 'consultation'],
             'conditions' => ['/services/conditions-acces-gratuite', 'gratuit'],
             'tarifs' => ['/services/tarifs-administratifs', 'Tarifs'],
-            'actualites' => ['/actualites', 'Actualit'],
-            'actualite detail' => ['/actualites/conference-acces-droit-personnes-vulnerables', 'rence'],
             'activites' => ['/activites', 'caravanes'],
             'galerie' => ['/galerie', 'Galerie'],
             'fiches pratiques' => ['/ressources/fiches-pratiques', 'Fiches pratiques'],
@@ -35,6 +416,7 @@ class PublicPagesTest extends TestCase
             'rapports' => ['/ressources/rapports-annuels', 'Rapports annuels'],
             'web tv' => ['/web-tv', 'Web TV'],
             'web tv detail' => ['/web-tv/caravane-juridique-tillaberi', 'Caravane'],
+            // seeded in setUp, so these two exercise the real queries
             'rejoindre' => ['/rejoindre', 'candidatures'],
             'contact' => ['/contact', 'Contactez-nous'],
             'mentions legales' => ['/mentions-legales', 'Mentions'],

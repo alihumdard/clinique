@@ -12,6 +12,17 @@ return Application::configure(basePath: dirname(__DIR__))
             // Admin area: shared web middleware plus the idle-session guard.
             Route::middleware(['web', \App\Http\Middleware\AdminSessionTimeout::class])
                 ->group(__DIR__.'/../routes/admin.php');
+
+            /*
+             * CMS pages, registered last on purpose.
+             *
+             * This route matches any single segment, so it has to come
+             * after every other route in the application — including the
+             * admin group, which routes/web.php is loaded before. Declaring
+             * it at the end of web.php was not enough: it swallowed /admin.
+             */
+            Route::middleware('web')->get('/{page}', [\App\Http\Controllers\PageController::class, 'show'])
+                ->name('pages.show');
         },
         commands: __DIR__.'/../routes/console.php',
         health: '/up',

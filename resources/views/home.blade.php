@@ -176,35 +176,29 @@
         </p>
 
         @php
-            $domains = [
-                ['icon' => 'users',          'title' => 'Droit de la famille',   'plain' => 'Mariage, divorce, filiation, garde des enfants',       'color' => 'blue'],
-                ['icon' => 'map-pin',        'title' => 'Droit foncier',         'plain' => 'Terrains, titres de propriété, litiges de voisinage',  'color' => 'amber'],
-                ['icon' => 'handshake',      'title' => 'Droit du travail',      'plain' => 'Contrats, licenciement, salaires impayés',             'color' => 'green'],
-                ['icon' => 'gavel',          'title' => 'Droit pénal',           'plain' => 'Plaintes, garde à vue, droits de la défense',          'color' => 'red'],
-                ['icon' => 'building',       'title' => 'Droit administratif',   'plain' => "Démarches et recours face à l'administration",         'color' => 'purple'],
-                ['icon' => 'document',       'title' => "Droit de l'état civil", 'plain' => 'Actes de naissance, de mariage, de décès',             'color' => 'blue'],
-                ['icon' => 'heart',          'title' => 'Droits humains',        'plain' => 'Femmes, enfants, personnes en situation de handicap',  'color' => 'red'],
-                ['icon' => 'folder',         'title' => 'Successions',           'plain' => 'Héritage, partage des biens, droits des héritiers',    'color' => 'amber'],
-            ];
-
+            // The swatch map stays here: Tailwind only generates classes it
+            // can see as literal strings, so these cannot be built from a
+            // colour name at runtime.
             $domainSwatches = [
                 'blue'   => 'bg-primary-50 text-primary-600',
                 'green'  => 'bg-emerald-50 text-emerald-600',
                 'amber'  => 'bg-amber-50 text-amber-600',
                 'red'    => 'bg-rose-50 text-rose-600',
                 'purple' => 'bg-violet-50 text-violet-600',
+                'pink'   => 'bg-pink-50 text-pink-600',
+                'slate'  => 'bg-slate-100 text-slate-600',
             ];
         @endphp
 
         <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($domains as $domain)
                 <li class="rounded-xl border border-slate-200 bg-white p-5 transition hover:shadow-md">
-                    <span class="flex h-11 w-11 items-center justify-center rounded-full {{ $domainSwatches[$domain['color']] }}">
-                        <x-icon :name="$domain['icon']" class="h-5 w-5" />
+                    <span class="flex h-11 w-11 items-center justify-center rounded-full {{ $domainSwatches[$domain->tone] ?? $domainSwatches['blue'] }}">
+                        <x-icon :name="$domain->icon ?? 'scale'" class="h-5 w-5" />
                     </span>
-                    <h3 class="mt-4 text-base font-semibold text-slate-900">{{ $domain['title'] }}</h3>
+                    <h3 class="mt-4 text-base font-semibold text-slate-900">{{ $domain->name }}</h3>
                     {{-- The plain-language line is the point of this card. --}}
-                    <p class="mt-1.5 text-sm leading-relaxed text-slate-600">{{ $domain['plain'] }}</p>
+                    <p class="mt-1.5 text-sm leading-relaxed text-slate-600">{{ $domain->plain_language }}</p>
                 </li>
             @endforeach
         </ul>

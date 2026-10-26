@@ -5,11 +5,13 @@
 
 @section('content')
 
+    <x-admin.flash />
+
     <x-admin.page-header
         title="Gestion des fiches pratiques"
         lead="Ajoutez, modifiez et organisez les guides pratiques juridiques (PDF)."
         action-label="Ajouter un guide pratique"
-        :action-href="route('admin.guides')"
+        action-href="#ajouter-une-fiche"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Fiches pratiques'],
@@ -21,19 +23,20 @@
         <div class="space-y-5 xl:col-span-3">
 
             {{-- ============ KPIs ============ --}}
-            {{-- Counts are illustrative until Module 2 supplies real queries. --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="document" color="blue"  value="28"    label="Fiches publiées"  trend="+27%" note="cette année" />
-                <x-admin.stat-card icon="download" color="green" value="1 845" label="Téléchargements"  trend="+35%" note="par rapport au mois dernier" />
-                <x-admin.stat-card icon="folder"   color="amber" value="6"     label="Catégories"       note="organisées" />
-                <x-admin.stat-card icon="clock"    color="red"   value="3"     label="En brouillon"     note="non publiées" />
+                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Fiches publiées" />
+                <x-admin.stat-card icon="download" color="green" :value="number_format($counts['downloads'], 0, ',', ' ')" label="Téléchargements" />
+                <x-admin.stat-card icon="folder"   color="amber" :value="$categories->count()" label="Domaines" note="organisés" />
+                <x-admin.stat-card icon="clock"    color="red"   :value="$counts['drafts']"    label="En brouillon" note="non publiées" />
             </div>
 
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                <div class="space-y-3 p-5">
-                    <form role="search" class="relative w-full lg:max-w-xs">
+                {{-- One GET form: search, domaine and statut submit together,
+                     so a filtered list is a URL that can be shared. --}}
+                <form method="GET" action="{{ route('admin.guides') }}" class="space-y-3 p-5">
+                    <div role="search" class="relative w-full lg:max-w-xs">
                         <label for="guides-search" class="sr-only">Rechercher une fiche pratique</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
@@ -42,55 +45,62 @@
                             type="search"
                             id="guides-search"
                             name="q"
+                            value="{{ $filters['q'] ?? '' }}"
                             placeholder="Rechercher une fiche..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                    </form>
+                    </div>
 
                     @php
-                        $selects = [
-                            ['id' => 'guides-category', 'label' => 'Filtrer par catégorie', 'options' => ['Toutes les catégories', 'Droits des femmes', 'Protection & sécurité', 'Accès à la justice', 'Étudiants', 'Droit foncier', 'Enfance & jeunesse', 'Droit administratif', 'Résolution des conflits', 'Inclusion', 'Égalité']],
-                            ['id' => 'guides-status',   'label' => 'Filtrer par statut',    'options' => ['Tous les statuts', 'Publié', 'Brouillon', 'Archivé']],
-                            ['id' => 'guides-sort',     'label' => 'Trier les résultats',   'options' => ['Trier par date', 'Plus téléchargées', 'Ordre alphabétique', 'Catégorie']],
+                        $statuses = [
+                            '' => 'Tous les statuts',
+                            'published' => 'Publiées',
+                            'draft' => 'Brouillons',
+                            'archived' => 'Archivées',
+                            'corbeille' => 'Corbeille',
                         ];
                     @endphp
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                        @foreach ($selects as $select)
-                            <div class="min-w-0 sm:shrink-0">
-                                <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
-                                <select
-                                    id="{{ $select['id'] }}"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
-                                >
-                                    @foreach ($select['options'] as $option)
-                                        <option>{{ $option }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endforeach
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="guides-domain" class="sr-only">Filtrer par domaine</label>
+                            <select
+                                id="guides-domain"
+                                name="categorie"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                <option value="">Tous les domaines</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" @selected((int) ($filters['categorie'] ?? 0) === $category->id)>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                        <button type="button" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="guides-status" class="sr-only">Filtrer par statut</label>
+                            <select
+                                id="guides-status"
+                                name="statut"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                @foreach ($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(($filters['statut'] ?? '') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:w-auto">
                             <x-icon name="filter" class="h-4 w-4" />
                             Filtrer
                         </button>
-                    </div>
-                </div>
 
-                @php
-                    $guides = [
-                        ['cover' => 'placeholders/news-guide',          'title' => 'Droits des femmes en milieu universitaire', 'category' => 'Droits des femmes',       'tone' => 'pink',   'size' => '1.2 MB', 'downloads' => '425', 'date' => '15 juin 2025',  'time' => '14:32', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-3',              'title' => 'Procédure de plainte en cas de harcèlement','category' => 'Protection & sécurité',   'tone' => 'purple', 'size' => '0.8 MB', 'downloads' => '312', 'date' => '8 juin 2025',   'time' => '11:20', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/about-legal',         'title' => 'Accès à la justice pour tous',              'category' => 'Accès à la justice',      'tone' => 'blue',   'size' => '1.5 MB', 'downloads' => '689', 'date' => '28 mai 2025',   'time' => '16:45', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/about-team',          'title' => 'Guide sur les droits des étudiants',        'category' => 'Étudiants',               'tone' => 'amber',  'size' => '1.1 MB', 'downloads' => '502', 'date' => '20 mai 2025',   'time' => '09:15', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-1',              'title' => 'Aide juridique en cas de litige foncier',   'category' => 'Droit foncier',           'tone' => 'green',  'size' => '2.3 MB', 'downloads' => '298', 'date' => '12 avril 2025', 'time' => '13:18', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-candidatures',   'title' => 'Protection des mineurs',                    'category' => 'Enfance & jeunesse',      'tone' => 'green',  'size' => '1.0 MB', 'downloads' => '361', 'date' => '5 avril 2025',  'time' => '10:22', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/article-highlight-1', 'title' => 'Guide sur les procédures administratives',  'category' => 'Droit administratif',     'tone' => 'blue',   'size' => '1.8 MB', 'downloads' => '428', 'date' => '25 mars 2025',  'time' => '15:40', 'status' => 'Brouillon', 'statusTone' => 'amber'],
-                        ['cover' => 'placeholders/news-partenariat',    'title' => 'Médiation communautaire',                   'category' => 'Résolution des conflits', 'tone' => 'purple', 'size' => '1.4 MB', 'downloads' => '276', 'date' => '18 mars 2025',  'time' => '11:05', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/news-2',              'title' => 'Droits des personnes en situation de handicap', 'category' => 'Inclusion',           'tone' => 'blue',   'size' => '1.6 MB', 'downloads' => '319', 'date' => '10 mars 2025',  'time' => '09:40', 'status' => 'Publié',    'statusTone' => 'green'],
-                        ['cover' => 'placeholders/article-highlight-2', 'title' => 'Lutte contre les discriminations',          'category' => 'Égalité',                 'tone' => 'red',    'size' => '0.9 MB', 'downloads' => '404', 'date' => '2 mars 2025',   'time' => '14:25', 'status' => 'Publié',    'statusTone' => 'green'],
-                    ];
-                @endphp
+                        @if (array_filter($filters))
+                            <a href="{{ route('admin.guides') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                                Réinitialiser
+                            </a>
+                        @endif
+                    </div>
+                </form>
 
                 <p class="flex items-center gap-1.5 px-5 pt-1 text-xs text-slate-500 lg:hidden">
                     <x-icon name="arrow-right" class="h-3.5 w-3.5 shrink-0" />
@@ -111,7 +121,7 @@
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Aperçu</th>
                                 <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de la fiche pratique</th>
-                                <th scope="col" class="px-3 py-3">Catégorie</th>
+                                <th scope="col" class="px-3 py-3">Domaine</th>
                                 <th scope="col" class="px-3 py-3">Format</th>
                                 <th scope="col" class="px-3 py-3">Téléchargements</th>
                                 <th scope="col" class="px-3 py-3">Date d'ajout</th>
@@ -121,35 +131,42 @@
                         </thead>
 
                         <tbody class="divide-y divide-slate-100">
-                            @foreach ($guides as $i => $guide)
+                            @forelse ($guides as $guide)
                                 <tr class="hover:bg-slate-50">
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $guide['title'] }}"
+                                            aria-label="Sélectionner : {{ $guide->title }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
 
-                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $i + 1 }}</td>
+                                    <td class="px-2 py-3 text-sm text-slate-500">
+                                        {{ $loop->iteration + ($guides->firstItem() - 1) }}
+                                    </td>
 
                                     <td class="px-2 py-3">
-                                        <x-picture
-                                            :path="$guide['cover']"
+                                        <img
+                                            src="{{ $guide->coverUrl() }}"
                                             alt=""
                                             width="80" height="100"
+                                            loading="lazy"
                                             class="h-12 w-10 rounded border border-slate-200 object-cover"
-                                        />
+                                        >
                                     </td>
 
                                     <td class="px-3 py-3">
                                         <span class="block max-w-[13rem] text-sm font-semibold leading-snug text-slate-900">
-                                            {{ $guide['title'] }}
+                                            {{ $guide->title }}
                                         </span>
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$guide['tone']">{{ $guide['category'] }}</x-admin.badge>
+                                        @if($guide->category)
+                                            <x-admin.badge :tone="$guide->category->tone">{{ $guide->category->name }}</x-admin.badge>
+                                        @else
+                                            <span class="text-sm text-slate-400">&mdash;</span>
+                                        @endif
                                     </td>
 
                                     <td class="whitespace-nowrap px-3 py-3">
@@ -157,7 +174,7 @@
                                             <x-icon name="document" class="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />
                                             <span class="leading-tight">
                                                 <span class="block text-sm text-slate-700">PDF</span>
-                                                <span class="block text-xs text-slate-400">{{ $guide['size'] }}</span>
+                                                <span class="block text-xs text-slate-400">{{ $guide->fileSizeForHumans() }}</span>
                                             </span>
                                         </span>
                                     </td>
@@ -165,52 +182,63 @@
                                     <td class="px-3 py-3">
                                         <span class="inline-flex items-center gap-1.5 text-sm text-slate-600">
                                             <x-icon name="download" class="h-4 w-4 shrink-0 text-slate-400" />
-                                            {{ $guide['downloads'] }}
+                                            {{ number_format($guide->downloads, 0, ',', ' ') }}
                                             <span class="sr-only">téléchargements</span>
                                         </span>
                                     </td>
 
                                     <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
-                                        {{ $guide['date'] }}<br>
-                                        <span class="text-xs">{{ $guide['time'] }}</span>
+                                        @if($guide->published_at)
+                                            {{ $guide->published_at->translatedFormat('j F Y') }}<br>
+                                            <span class="text-xs">{{ $guide->published_at->format('H:i') }}</span>
+                                        @else
+                                            <span class="text-slate-400">&mdash;</span>
+                                        @endif
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$guide['statusTone']">{{ $guide['status'] }}</x-admin.badge>
+                                        <x-admin.badge :tone="$guide->statusTone()">{{ $guide->statusLabel() }}</x-admin.badge>
                                     </td>
 
                                     <td class="px-5 py-3">
-                                        <x-admin.row-actions :label="$guide['title']" />
+                                        <x-admin.row-actions
+                                            :label="$guide->title"
+                                            :view-href="$guide->isPublic() ? route('resources.guides.show', $guide) : null"
+                                            :delete-action="route('admin.guides.destroy', $guide)"
+                                        />
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="10" class="px-5 py-12 text-center">
+                                        <p class="text-sm text-slate-500">Aucune fiche pratique ne correspond à cette recherche.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <x-admin.table-footer
-                    :from="1" :to="10" :total="28" unit="fiches pratiques"
-                    :current="1" :pages="3"
-                />
+                <x-admin.table-footer :paginator="$guides" unit="fiches pratiques" />
             </section>
         </div>
 
         {{-- ============ ADD GUIDE ============ --}}
-        {{--
-            Presentation only: Module 2 adds the POST route and server-side
-            validation. PDFs in particular must be validated by content, not
-            by extension, and stored outside the public web root with
-            downloads served through an authorised controller.
-        --}}
         <aside>
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section id="ajouter-une-fiche" class="rounded-xl border border-slate-200 bg-white p-5">
 
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="document" class="h-5 w-5 text-primary-600" />
                     Ajouter un guide pratique
                 </h2>
 
-                <form method="POST" action="#" class="mt-5 space-y-4">
+                {{--
+                    The accept and size hints below are conveniences, never
+                    the security boundary: GuideRequest re-checks every field,
+                    MediaStorage re-reads the PDF's own bytes, and the file
+                    lands on a private disk outside the web root.
+                --}}
+                <form method="POST" action="{{ route('admin.guides.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
                     @csrf
 
                     <div>
@@ -222,80 +250,52 @@
                         <input
                             type="text"
                             id="guide-title"
-                            name="titre"
+                            name="title"
                             required
+                            value="{{ old('title') }}"
                             placeholder="Ex. Accès à la justice pour tous"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
 
                     <div>
-                        <label for="guide-category" class="block text-sm font-medium text-slate-700">
-                            Catégorie
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                        <label for="guide-category" class="block text-sm font-medium text-slate-700">Domaine du droit</label>
                         <select
                             id="guide-category"
-                            name="categorie"
-                            required
+                            name="category_id"
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option value="">Sélectionner une catégorie</option>
-                            <option>Droits des femmes</option>
-                            <option>Protection &amp; sécurité</option>
-                            <option>Accès à la justice</option>
-                            <option>Étudiants</option>
-                            <option>Droit foncier</option>
-                            <option>Enfance &amp; jeunesse</option>
-                            <option>Droit administratif</option>
-                            <option>Résolution des conflits</option>
-                            <option>Inclusion</option>
-                            <option>Égalité</option>
+                            <option value="">Sélectionner un domaine</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div>
-                        <label for="guide-description" class="block text-sm font-medium text-slate-700">
-                            Description
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                        <label for="guide-description" class="block text-sm font-medium text-slate-700">Description</label>
+                        <textarea
+                            id="guide-description"
+                            name="description"
+                            rows="3"
+                            placeholder="Décrivez brièvement le contenu de la fiche..."
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('description') }}</textarea>
+                    </div>
 
-                        {{-- Formatting controls are inert until Module 2 wires an editor. --}}
-                        <div class="mt-1.5 overflow-hidden rounded-lg border border-slate-200">
-                            <div class="flex items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-1.5">
-                                @php
-                                    $tools = [
-                                        ['icon' => 'bold',        'label' => 'Gras'],
-                                        ['icon' => 'italic',      'label' => 'Italique'],
-                                        ['icon' => 'underline',   'label' => 'Souligné'],
-                                        ['icon' => 'list-bullet', 'label' => 'Liste à puces'],
-                                        ['icon' => 'list-number', 'label' => 'Liste numérotée'],
-                                        ['icon' => 'link',        'label' => 'Insérer un lien'],
-                                    ];
-                                @endphp
-
-                                @foreach ($tools as $tool)
-                                    <button
-                                        type="button"
-                                        class="flex h-7 w-7 items-center justify-center rounded text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
-                                    >
-                                        <x-icon :name="$tool['icon']" class="h-4 w-4" />
-                                        <span class="sr-only">{{ $tool['label'] }}</span>
-                                    </button>
-                                @endforeach
-                            </div>
-
-                            <textarea
-                                id="guide-description"
-                                name="description"
-                                rows="4"
-                                required
-                                placeholder="Décrivez brièvement le contenu de la fiche..."
-                                class="w-full resize-y border-0 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-0"
-                            ></textarea>
-                        </div>
+                    <div>
+                        <label for="guide-body" class="block text-sm font-medium text-slate-700">Contenu de la page</label>
+                        <textarea
+                            id="guide-body"
+                            name="body"
+                            rows="5"
+                            aria-describedby="guide-body-hint"
+                            placeholder="Le texte affiché sur la page de la fiche..."
+                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >{{ old('body') }}</textarea>
+                        <p id="guide-body-hint" class="mt-1.5 text-xs text-slate-500">
+                            Les sauts de ligne sont conservés tels quels.
+                        </p>
                     </div>
 
                     <div>
@@ -317,7 +317,7 @@
                             <input
                                 type="file"
                                 id="guide-pdf"
-                                name="fichier"
+                                name="document"
                                 accept="application/pdf"
                                 required
                                 class="sr-only"
@@ -339,8 +339,8 @@
                             <input
                                 type="file"
                                 id="guide-cover"
-                                name="couverture"
-                                accept="image/jpeg,image/png"
+                                name="cover"
+                                accept="image/jpeg,image/png,image/webp"
                                 class="sr-only"
                             >
                         </label>
@@ -354,19 +354,22 @@
                         </label>
                         <select
                             id="guide-status"
-                            name="statut"
+                            name="status"
                             required
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
-                            <option>Publié</option>
-                            <option>Brouillon</option>
-                            <option>Archivé</option>
+                            @php
+                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                            @endphp
+                            @foreach ($options as $value => $label)
+                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
                         <button
-                            type="button"
+                            type="reset"
                             class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
                         >
                             Annuler

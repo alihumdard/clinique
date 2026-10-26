@@ -20,19 +20,37 @@
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr] lg:gap-8">
             {{-- ============ FILTER BAR ============ --}}
             <div class="scrollbar-hide flex min-w-0 gap-1.5 overflow-x-auto">
-                <x-filter-pill :active="true">Toutes les actualités</x-filter-pill>
-                <x-filter-pill>Événements</x-filter-pill>
-                <x-filter-pill>Formations</x-filter-pill>
-                <x-filter-pill>Caravanes juridiques</x-filter-pill>
-                <x-filter-pill>Communiqués</x-filter-pill>
-                <x-filter-pill>Publications</x-filter-pill>
+                <x-filter-pill
+                    :href="route('news.index')"
+                    :active="! ($filters['categorie'] ?? null)"
+                >
+                    Toutes les actualités
+                </x-filter-pill>
+
+                @foreach ($categories as $category)
+                    @continue($category->articles_count === 0)
+                    <x-filter-pill
+                        :href="route('news.index', ['categorie' => $category->slug])"
+                        :active="($filters['categorie'] ?? null) === $category->slug"
+                    >
+                        {{ $category->name }}
+                    </x-filter-pill>
+                @endforeach
             </div>
 
-            <form role="search" class="relative self-start">
+            <form role="search" method="GET" action="{{ route('news.index') }}" class="relative self-start">
+                {{-- The active rubrique rides along, so searching inside a
+                     category does not silently drop it. --}}
+                @if($filters['categorie'] ?? null)
+                    <input type="hidden" name="categorie" value="{{ $filters['categorie'] }}">
+                @endif
+
                 <label for="news-search" class="sr-only">Rechercher une actualité</label>
                 <input
                     type="search"
                     id="news-search"
+                    name="q"
+                    value="{{ $filters['q'] ?? '' }}"
                     placeholder="Rechercher une actualité..."
                     class="w-full rounded-md border border-slate-200 py-2.5 pl-4 pr-10 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
@@ -47,100 +65,102 @@
             {{-- ============ NEWS GRID ============ --}}
             <div class="min-w-0">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <x-news-card
-                        image="placeholders/news-1"
-                        category="Événement"
-                        category-color="primary"
-                        date="12 octobre 2024"
-                        title="Conférence sur l'accès au droit des personnes vulnérables"
-                        excerpt="La Clinique Juridique FSJP-UAM a organisé une conférence-débat sur l'accès au droit des personnes en situation de vulnérabilité, avec la participation d'experts et d'étudiants."
-                        :href="route('news.show')"
-                    />
-                    <x-news-card
-                        image="placeholders/news-caravan"
-                        category="Caravane juridique"
-                        category-color="amber"
-                        date="28 septembre 2024"
-                        title="Caravane juridique à Tillabéri : une forte mobilisation"
-                        excerpt="La Clinique Juridique FSJP-UAM a mené une caravane d'information juridique dans la région de Tillabéri pour sensibiliser les populations sur leurs droits."
-                    />
-                    <x-news-card
-                        image="placeholders/news-guide"
-                        category="Publication"
-                        category-color="green"
-                        date="15 septembre 2024"
-                        title="Nouveau guide pratique : droits de la famille"
-                        excerpt="La Clinique Juridique FSJP-UAM publie un guide pratique pour mieux comprendre les droits de la famille au Niger, destiné au grand public."
-                    />
-                    <x-news-card
-                        image="placeholders/news-formation"
-                        category="Formation"
-                        category-color="purple"
-                        date="5 septembre 2024"
-                        title="Formation des étudiants sur la médiation"
-                        excerpt="Une session de formation a été organisée pour les étudiants de la FSJP-UAM sur les techniques de médiation et de résolution des conflits."
-                    />
-                    <x-news-card
-                        image="placeholders/news-candidatures"
-                        category="Communiqué"
-                        category-color="red"
-                        date="20 août 2024"
-                        title="Ouverture des candidatures pour la nouvelle promotion"
-                        excerpt="La Clinique Juridique FSJP-UAM lance un appel à candidatures pour intégrer sa nouvelle promotion d'étudiants encadrés."
-                    />
-                    <x-news-card
-                        image="placeholders/news-partenariat"
-                        category="Actualité"
-                        category-color="primary"
-                        date="10 août 2024"
-                        title="Signature d'un partenariat avec une ONG"
-                        excerpt="Une convention de partenariat a été signée avec une ONG locale pour renforcer l'accès au droit dans les communautés rurales."
-                    />
+                    @forelse ($articles as $article)
+                        <x-news-card
+                            :stored-path="$article->image"
+                            :category="$article->category?->name"
+                            :category-color="$article->category?->tone ?? 'primary'"
+                            :date="$article->published_at?->translatedFormat('j F Y')"
+                            :title="$article->title"
+                            :excerpt="$article->excerpt"
+                            :href="route('news.show', $article)"
+                        />
+                    @empty
+                        <p class="sm:col-span-2 rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
+                            Aucune actualité ne correspond à votre recherche.
+                        </p>
+                    @endforelse
                 </div>
 
-                <x-pagination :current="1" :total="5" class="!mt-6" />
+                <x-pagination :paginator="$articles" class="!mt-6" />
             </div>
 
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6">
                 <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
+                    @php
+                        // The icon pairs with the rubrique by slug; one the
+                        // Clinic adds later falls back to the folder icon.
+                        $icons = [
+                            'evenements' => 'calendar',
+                            'formations' => 'graduation-cap',
+                            'caravanes-juridiques' => 'map-pin',
+                            'communiques' => 'megaphone',
+                            'publications' => 'document',
+                        ];
+                    @endphp
+
                     <nav class="space-y-1">
-                        <x-category-list-item :active="true" icon="folder" color="amber" count="24">Toutes les actualités</x-category-list-item>
-                        <x-category-list-item icon="calendar" color="amber" count="6">Événements</x-category-list-item>
-                        <x-category-list-item icon="graduation-cap" color="amber" count="5">Formations</x-category-list-item>
-                        <x-category-list-item icon="map-pin" color="amber" count="4">Caravanes juridiques</x-category-list-item>
-                        <x-category-list-item icon="megaphone" color="amber" count="4">Communiqués</x-category-list-item>
-                        <x-category-list-item icon="document" color="amber" count="5">Publications</x-category-list-item>
+                        <x-category-list-item
+                            :href="route('news.index')"
+                            :active="! ($filters['categorie'] ?? null)"
+                            icon="folder"
+                            color="amber"
+                            :count="$total"
+                        >
+                            Toutes les actualités
+                        </x-category-list-item>
+
+                        @foreach ($categories as $category)
+                            @continue($category->articles_count === 0)
+                            <x-category-list-item
+                                :href="route('news.index', ['categorie' => $category->slug])"
+                                :active="($filters['categorie'] ?? null) === $category->slug"
+                                :icon="$icons[$category->slug] ?? 'folder'"
+                                color="amber"
+                                :count="$category->articles_count"
+                            >
+                                {{ $category->name }}
+                            </x-category-list-item>
+                        @endforeach
+                    </nav>
+                </x-sidebar-card>
+
+                {{--
+                    Archives par année — required by the Phase 2 plan:
+                    "actualités avec catégories et archives par année".
+                    Module 2 replaces the array with a grouped query.
+                --}}
+                <x-sidebar-card icon="calendar" title="Archives" color="amber" :tint="true">
+                    <nav class="space-y-1">
+                        @forelse ($archives as $archive)
+                            <x-category-list-item
+                                icon="calendar"
+                                color="amber"
+                                :count="$archive->total"
+                                :active="(int) ($filters['annee'] ?? 0) === (int) $archive->year"
+                                :href="route('news.index', ['annee' => $archive->year])"
+                            >
+                                {{ $archive->year }}
+                            </x-category-list-item>
+                        @empty
+                            <p class="px-3 py-2 text-sm text-slate-500">Aucune archive pour le moment.</p>
+                        @endforelse
                     </nav>
                 </x-sidebar-card>
 
                 <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
                     <div class="space-y-5">
-                        <x-mini-article-row
-                            image="placeholders/news-1"
-                            title="Conférence sur l'accès au droit des personnes vulnérables"
-                            date="12 octobre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-caravan"
-                            title="Caravane juridique à Tillabéri"
-                            date="28 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-guide"
-                            title="Nouveau guide pratique : droits de la famille"
-                            date="15 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-formation"
-                            title="Formation des étudiants sur la médiation"
-                            date="5 septembre 2024"
-                        />
-                        <x-mini-article-row
-                            image="placeholders/news-candidatures"
-                            title="Ouverture des candidatures pour la nouvelle promotion"
-                            date="20 août 2024"
-                        />
+                        @forelse ($recent as $item)
+                            <x-mini-article-row
+                                :stored-path="$item->image"
+                                :title="$item->title"
+                                :date="$item->published_at?->translatedFormat('j F Y')"
+                                :href="route('news.show', $item)"
+                            />
+                        @empty
+                            <p class="text-sm text-slate-500">Aucune actualité pour le moment.</p>
+                        @endforelse
                     </div>
                 </x-sidebar-card>
 
@@ -153,16 +173,40 @@
                     <p class="mt-1 text-sm leading-relaxed text-slate-600">
                         Abonnez-vous à notre newsletter pour recevoir nos dernières actualités et événements.
                     </p>
-                    <form class="mt-4 space-y-2.5">
-                        <label for="newsletter-email" class="sr-only">Votre adresse e-mail</label>
-                        <input
-                            type="email"
-                            id="newsletter-email"
-                            placeholder="Votre adresse e-mail"
-                            class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                        <x-button variant="primary" class="w-full justify-center">S'abonner</x-button>
-                    </form>
+                    @if(session('newsletter'))
+                        <p role="status" class="mt-4 rounded-md bg-emerald-50 p-3 text-sm text-emerald-800">
+                            {{ session('newsletter') }}
+                        </p>
+                    @else
+                        <form method="POST" action="{{ route('newsletter.store') }}" class="mt-4 space-y-2.5">
+                            @csrf
+
+                            <label for="newsletter-email" class="sr-only">Votre adresse e-mail</label>
+                            <input
+                                type="email"
+                                id="newsletter-email"
+                                name="email"
+                                required
+                                value="{{ old('email') }}"
+                                placeholder="Votre adresse e-mail"
+                                @error('email') aria-invalid="true" aria-describedby="newsletter-error" @enderror
+                                class="w-full rounded-md border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            >
+
+                            {{-- A field nobody sees and a script usually fills in;
+                                 the server refuses the request if it arrives filled. --}}
+                            <div class="hidden" aria-hidden="true">
+                                <label for="newsletter-website">Site web</label>
+                                <input type="text" id="newsletter-website" name="website" tabindex="-1" autocomplete="off">
+                            </div>
+
+                            @error('email')
+                                <p id="newsletter-error" role="alert" class="text-sm text-rose-700">{{ $message }}</p>
+                            @enderror
+
+                            <x-button variant="primary" type="submit" class="w-full justify-center">S'abonner</x-button>
+                        </form>
+                    @endif
                 </div>
             </aside>
         </div>

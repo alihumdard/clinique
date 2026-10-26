@@ -29,12 +29,17 @@
 /* Base: 16px body text (accessibility requirement, AA contrast handled via palette above) */
 html {
     font-size: 16px;
-    overflow-x: hidden;
+    /* clip, not hidden: hidden on both html and body turns body into a
+       scroll container that never scrolls, and every position:sticky
+       element — the public header, the admin topbar, the page sidebars —
+       then sticks to it instead of the viewport, i.e. not at all. clip
+       stops the sideways overflow without creating a scroll container. */
+    overflow-x: clip;
 }
 
 body {
     @apply font-sans text-gray-800 antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /*

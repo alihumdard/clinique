@@ -23,19 +23,32 @@
         {{-- ============ FILTERS + SEARCH ============ --}}
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0">
-                <x-filter-pill :active="true">Tous les appels (5)</x-filter-pill>
-                <x-filter-pill>Stagiaires (2)</x-filter-pill>
-                <x-filter-pill>Volontaires (1)</x-filter-pill>
-                <x-filter-pill>Consultants (1)</x-filter-pill>
-                <x-filter-pill>Partenaires (1)</x-filter-pill>
+                <x-filter-pill :href="route('join')" :active="! $current">
+                    Tous les appels ({{ $total }})
+                </x-filter-pill>
+
+                @foreach ($categories as $category)
+                    @continue($category->calls_count === 0)
+                    <x-filter-pill
+                        :href="route('join', ['type' => $category->slug])"
+                        :active="$current?->id === $category->id"
+                    >
+                        {{ $category->name }} ({{ $category->calls_count }})
+                    </x-filter-pill>
+                @endforeach
             </div>
 
-            <form role="search" class="relative shrink-0 lg:w-72">
+            <form role="search" method="GET" action="{{ route('join') }}" class="relative shrink-0 lg:w-72">
+                @if($current)
+                    <input type="hidden" name="type" value="{{ $current->slug }}">
+                @endif
+
                 <label for="calls-search" class="sr-only">Rechercher un appel à candidatures</label>
                 <input
                     type="search"
                     id="calls-search"
                     name="q"
+                    value="{{ $filters['q'] ?? '' }}"
                     placeholder="Rechercher un appel..."
                     class="w-full rounded-md border border-slate-200 py-2.5 pl-4 pr-10 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
@@ -50,76 +63,35 @@
             {{-- ============ MAIN ============ --}}
             <div class="lg:col-span-2">
 
-                <x-section-label>Appels à candidatures en cours (5)</x-section-label>
-
-                @php
-                    /*
-                     * Open calls. Module 2 replaces this with a query filtered
-                     * on the closing date so expired calls drop off the list.
-                     */
-                    $calls = [
-                        [
-                            'image' => 'placeholders/join-call-stage',
-                            'type' => 'Stage académique',
-                            'color' => 'primary',
-                            'title' => 'Stage pour étudiants en droit',
-                            'excerpt' => "La Clinique Juridique FSJP-UAM lance un appel à candidatures pour le recrutement de stagiaires étudiants en droit pour l'année 2024-2025.",
-                            'published' => '15 septembre 2024',
-                            'deadline' => '15 octobre 2024',
-                        ],
-                        [
-                            'image' => 'placeholders/news-caravan',
-                            'type' => 'Volontariat',
-                            'color' => 'green',
-                            'title' => 'Volontaires pour les caravanes juridiques',
-                            'excerpt' => "Rejoignez notre équipe de volontaires pour l'organisation des caravanes juridiques dans les régions du Niger.",
-                            'published' => '10 septembre 2024',
-                            'deadline' => '30 septembre 2024',
-                        ],
-                        [
-                            'image' => 'placeholders/join-call-consultance',
-                            'type' => 'Consultance',
-                            'color' => 'purple',
-                            'title' => 'Consultant(e) en communication',
-                            'excerpt' => "La Clinique Juridique FSJP-UAM recherche un(e) consultant(e) pour l'élaboration d'une stratégie de communication et de visibilité.",
-                            'published' => '5 septembre 2024',
-                            'deadline' => '25 septembre 2024',
-                        ],
-                        [
-                            'image' => 'placeholders/news-formation',
-                            'type' => 'Appel à partenariat',
-                            'color' => 'amber',
-                            'title' => 'Partenaires pour les formations juridiques',
-                            'excerpt' => "Appel à manifestation d'intérêt pour les partenaires techniques et financiers souhaitant soutenir nos activités de formation.",
-                            'published' => '1er septembre 2024',
-                            'deadline' => '30 octobre 2024',
-                        ],
-                        [
-                            'image' => 'placeholders/join-call-recherche',
-                            'type' => 'Recherche',
-                            'color' => 'primary',
-                            'title' => 'Assistant(e) de recherche',
-                            'excerpt' => "Nous recrutons un(e) assistant(e) de recherche pour appuyer nos études et publications sur l'accès au droit et la justice.",
-                            'published' => '20 août 2024',
-                            'deadline' => '20 septembre 2024',
-                        ],
-                    ];
-                @endphp
+                <x-section-label>
+                    {{ $current ? $current->name : 'Appels à candidatures en cours' }} ({{ $calls->total() }})
+                </x-section-label>
 
                 <div class="mt-5 space-y-5">
-                    @foreach ($calls as $call)
+                    @forelse ($calls as $call)
                         <x-call-row
-                            :image="$call['image']"
-                            :type="$call['type']"
-                            :type-color="$call['color']"
-                            :title="$call['title']"
-                            :excerpt="$call['excerpt']"
-                            :published="$call['published']"
-                            :deadline="$call['deadline']"
-                            :href="route('join')"
+                            :stored-path="$call->image"
+                            :type="$call->category?->name"
+                            type-color="primary"
+                            :title="$call->title"
+                            :excerpt="$call->excerpt"
+                            :published="$call->published_at?->translatedFormat('j F Y')"
+                            :deadline="$call->closes_on?->translatedFormat('j F Y')"
+                            :href="route('join', ['type' => $call->category?->slug])"
                         />
-                    @endforeach
+                    @empty
+                        <p class="text-sm text-slate-500">
+                            @if (array_filter($filters))
+                                Aucun appel ne correspond à cette recherche.
+                            @else
+                                Aucun appel à candidatures n'est ouvert pour le moment.
+                                Abonnez-vous à la newsletter pour être informé(e) des prochains.
+                            @endif
+                        </p>
+                    @endforelse
                 </div>
+
+                <x-pagination :paginator="$calls" />
 
                 {{-- ============ PROFILES SOUGHT ============ --}}
                 <div class="mt-12">
