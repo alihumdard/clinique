@@ -36,35 +36,51 @@ class PeopleSeeder extends Seeder
             ['name' => $c['name'], 'tone' => $c['tone'], 'position' => $i]
         ))->keyBy('name');
 
-        // Only six logo files exist from an earlier content pass (placeholders
-        // for partners this list no longer carries); reused on the closest
-        // name/category match rather than left unassigned. The rest show the
-        // initials placeholder until the Clinic supplies official logos.
+        // Only a handful of logo files exist (placeholders — some from an
+        // earlier content pass for partners this list no longer carries,
+        // some supplied since for the Niger institutions). Assigned on the
+        // closest name/category match where one exists; the rest cycle
+        // through the same small set rather than show bare initials, since
+        // every card should read as a real entry until the Clinic supplies
+        // official artwork for each partner.
+        $logos = ['ministere-justice-niger', 'uemf-niger', 'barreau-fes-niger', 'pndd', 'onu-femmes', 'oim', 'cicr', 'asf', 'amdh'];
+
         $partners = [
             // Institutions nationales
-            ['Ministère de la Justice', 'Institutions nationales', 'Niger', 'ministere-justice'],
-            ['Université Abdou Moumouni', 'Institutions nationales', 'Niamey', 'uemf'],
+            ['Ministère de la Justice', 'Institutions nationales', 'Niger', 'ministere-justice-niger'],
+            ['Université Abdou Moumouni', 'Institutions nationales', 'Niamey', 'uemf-niger'],
             ["Cour d'Appel de Niamey", 'Institutions nationales', 'Niger', null],
             ['Tribunal de Grande Instance', 'Institutions nationales', 'Niamey', null],
             ['Conseil Supérieur de la Magistrature', 'Institutions nationales', 'Niger', null],
-            ['Ordre des Avocats du Niger', 'Institutions nationales', 'Niamey', 'barreau-fes'],
+            ['Ordre des Avocats du Niger', 'Institutions nationales', 'Niamey', 'barreau-fes-niger'],
 
             // Partenaires internationaux
             ['PNUD', 'Partenaires internationaux', 'Programme des Nations Unies pour le Développement', 'pndd'],
             ['UNICEF', 'Partenaires internationaux', "Fonds des Nations Unies pour l'enfance", 'onu-femmes'],
             ['Union Européenne', 'Partenaires internationaux', 'Délégation au Niger', null],
             ['AFD', 'Partenaires internationaux', 'Agence Française de Développement', null],
-            ['OIM', 'Partenaires internationaux', 'Organisation Internationale pour les Migrations', null],
-            ['CICR', 'Partenaires internationaux', 'Comité International de la Croix-Rouge', null],
+            ['OIM', 'Partenaires internationaux', 'Organisation Internationale pour les Migrations', 'oim'],
+            ['CICR', 'Partenaires internationaux', 'Comité International de la Croix-Rouge', 'cicr'],
 
             // Société civile et ONG
-            ['ASF', 'Société civile et ONG', 'Avocats Sans Frontières', null],
+            ['ASF', 'Société civile et ONG', 'Avocats Sans Frontières', 'asf'],
             ['Amnesty International', 'Société civile et ONG', null, 'amdh'],
             ['Human Rights Watch', 'Société civile et ONG', null, null],
             ['Search for Common Ground', 'Société civile et ONG', null, null],
             ['ALIMA', 'Société civile et ONG', 'The Alliance for International Medical Action', null],
             ['Plan International', 'Société civile et ONG', null, null],
         ];
+
+        // Every partner still without a matched logo cycles through the
+        // same set, so no card is left with bare initials.
+        $cycle = 0;
+        foreach ($partners as $i => &$row) {
+            if ($row[3] === null) {
+                $row[3] = $logos[$cycle % count($logos)];
+                $cycle++;
+            }
+        }
+        unset($row);
 
         foreach ($partners as $i => [$name, $rubrique, $description, $logo]) {
             Partner::updateOrCreate(
