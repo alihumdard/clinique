@@ -60,10 +60,10 @@
             </form>
         </div>
 
-        <div class="mt-6 grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[2fr_1fr]">
+        <div class="mt-6 grid grid-cols-1 items-start gap-8 lg:grid-cols-[2fr_1fr]">
 
             {{-- ============ NEWS GRID ============ --}}
-            <div class="flex min-w-0 flex-col">
+            <div class="min-w-0">
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     @forelse ($articles as $article)
                         <x-news-card
@@ -82,7 +82,7 @@
                     @endforelse
                 </div>
 
-                <x-pagination :paginator="$articles" class="!mt-6 !mb-0 mt-auto" />
+                <x-pagination :paginator="$articles" class="!mt-6" />
             </div>
 
             {{-- ============ SIDEBAR ============ --}}
