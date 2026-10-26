@@ -53,7 +53,7 @@
 
     {{-- ============ NOTRE ENGAGEMENT (photo banner) ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
-        <div class="relative min-h-[320px] overflow-hidden rounded-xl">
+        <div class="relative min-h-[200px] overflow-hidden rounded-xl">
             <x-picture
                 path="placeholders/services-engagement"
                 alt="Avocat en consultation avec un client"
@@ -62,7 +62,7 @@
             />
             <div class="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-900/50 to-navy-900/10 lg:bg-gradient-to-r"></div>
 
-            <div class="relative flex h-full flex-col justify-end gap-6 px-6 py-10 sm:px-10 sm:py-14 lg:flex-row lg:items-end lg:justify-between">
+            <div class="relative flex h-full flex-col gap-6 px-6 py-8 sm:px-10 sm:py-10 lg:flex-row lg:items-end lg:justify-between">
                 <div class="max-w-lg">
                     <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
                         <span aria-hidden="true">&mdash;</span> Notre engagement
@@ -75,7 +75,7 @@
                     </p>
                 </div>
 
-                <x-button :href="route('presaisine.index')" variant="primary" class="shrink-0 self-start !bg-white !text-primary-700 hover:!bg-slate-100">
+                <x-button :href="route('presaisine.index')" variant="primary" class="shrink-0 self-start lg:self-end !bg-white !text-primary-700 hover:!bg-slate-100">
                     Faire une pré-saisine
                 </x-button>
             </div>
