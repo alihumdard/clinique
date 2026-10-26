@@ -82,6 +82,22 @@ class PeopleSeeder extends Seeder
         }
         unset($row);
 
+        // A second pass nudges any card (matched or cycled) that landed on
+        // the same logo as its immediate predecessor — two neighbouring
+        // cards repeating the same placeholder reads as a mistake even
+        // though each is individually a reasonable match.
+        for ($i = 1; $i < count($partners); $i++) {
+            if ($partners[$i][3] === $partners[$i - 1][3]) {
+                foreach ($logos as $alt) {
+                    $clashesNext = isset($partners[$i + 1]) && $partners[$i + 1][3] === $alt;
+                    if ($alt !== $partners[$i][3] && ! $clashesNext) {
+                        $partners[$i][3] = $alt;
+                        break;
+                    }
+                }
+            }
+        }
+
         foreach ($partners as $i => [$name, $rubrique, $description, $logo]) {
             Partner::updateOrCreate(
                 ['slug' => Str::slug($name)],
