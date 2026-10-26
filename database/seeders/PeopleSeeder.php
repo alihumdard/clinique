@@ -36,10 +36,10 @@ class PeopleSeeder extends Seeder
             ['name' => $c['name'], 'tone' => $c['tone'], 'position' => $i]
         ))->keyBy('name');
 
-        // Logo files supplied for almost every partner on this list. The two
-        // still without one (Tribunal de Grande Instance, Human Rights
-        // Watch) cycle through the full set below rather than show bare
-        // initials, until the Clinic sends their artwork too.
+        // Logo files supplied for almost every partner on this list. The one
+        // still without one (Human Rights Watch) cycles through the full
+        // set below rather than show bare initials, until the Clinic sends
+        // its artwork too.
         $logos = ['ministere-justice-niger', 'uemf-niger', 'barreau-fes-niger', 'pndd', 'onu-femmes', 'oim', 'cicr', 'asf', 'amdh', 'uam', 'conseil-superieur-magistrature', 'cour-appel-niamey', 'ordre-avocats-niger', 'union-europeenne', 'afd', 'search-common-ground', 'alima', 'plan-international'];
 
         $partners = [
@@ -47,7 +47,7 @@ class PeopleSeeder extends Seeder
             ['Ministère de la Justice', 'Institutions nationales', 'Niger', 'ministere-justice-niger'],
             ['Université Abdou Moumouni', 'Institutions nationales', 'Niamey', 'uam'],
             ["Cour d'Appel de Niamey", 'Institutions nationales', 'Niger', 'cour-appel-niamey'],
-            ['Tribunal de Grande Instance', 'Institutions nationales', 'Niamey', null],
+            ['Tribunal de Grande Instance', 'Institutions nationales', 'Niamey', 'barreau-fes-niger'],
             ['Conseil Supérieur de la Magistrature', 'Institutions nationales', 'Niger', 'conseil-superieur-magistrature'],
             ['Ordre des Avocats du Niger', 'Institutions nationales', 'Niamey', 'ordre-avocats-niger'],
 
