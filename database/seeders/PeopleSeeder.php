@@ -92,31 +92,31 @@ class PeopleSeeder extends Seeder
 
     private function team(): void
     {
-        // name, role, department, bio, email, photo placeholder
+        // name, role, department, bio, email, photo
         $members = [
-            ['Pr. Ibrahim Moussa', 'Directeur de la Clinique Juridique', 'direction', "Enseignant-chercheur à la Faculté des Sciences Juridiques et Politiques, spécialiste en droit public et en droits fondamentaux.", 'ibrahim.moussa@uam.ne'],
-            ['Dr. Aïssatou Mahamadou', 'Directrice adjointe', 'direction', "Maître de conférences en droit privé, responsable de la coordination pédagogique et des activités de la Clinique.", 'aissatou.mahamadou@uam.ne'],
+            ['Pr. Ibrahim Moussa', 'Directeur de la Clinique Juridique', 'direction', "Enseignant-chercheur à la Faculté des Sciences Juridiques et Politiques, spécialiste en droit public et en droits fondamentaux.", 'ibrahim.moussa@uam.ne', 'team/director-1'],
+            ['Dr. Aïssatou Mahamadou', 'Directrice adjointe', 'direction', "Maître de conférences en droit privé, responsable de la coordination pédagogique et des activités de la Clinique.", 'aissatou.mahamadou@uam.ne', 'team/director-2'],
 
-            ['Pr. Moussa Harouna', 'Droit pénal', 'enseignants', 'Encadrement des consultations et formations', 'moussa.harouna@uam.ne'],
-            ['Dr. Halima Issa', 'Droit de la famille', 'enseignants', 'Suivi des dossiers et sensibilisation', 'halima.issa@uam.ne'],
-            ['Dr. Ali Kountché', 'Droit administratif', 'enseignants', 'Appui juridique et veille légale', 'ali.kountche@uam.ne'],
-            ['Pr. Mariama Souley', 'Droits humains', 'enseignants', 'Recherche et développement des ressources pédagogiques', 'mariama.souley@uam.ne'],
+            ['Pr. Moussa Harouna', 'Droit pénal', 'enseignants', 'Encadrement des consultations et formations', 'moussa.harouna@uam.ne', 'team/teacher-1'],
+            ['Dr. Halima Issa', 'Droit de la famille', 'enseignants', 'Suivi des dossiers et sensibilisation', 'halima.issa@uam.ne', 'team/teacher-2'],
+            ['Dr. Ali Kountché', 'Droit administratif', 'enseignants', 'Appui juridique et veille légale', 'ali.kountche@uam.ne', 'team/teacher-3'],
+            ['Pr. Mariama Souley', 'Droits humains', 'enseignants', 'Recherche et développement des ressources pédagogiques', 'mariama.souley@uam.ne', 'team/teacher-4'],
 
-            ['Amadou Sani', 'Étudiant en Master 2', 'etudiants', 'Droit public', null],
-            ['Fatouma Idrissa', 'Étudiante en Master 2', 'etudiants', 'Droit privé', null],
-            ['Moussa Ali', 'Étudiant en Licence', 'etudiants', 'Droit pénal', null],
-            ['Aïcha Salissou', 'Étudiante en Licence', 'etudiants', 'Droit de la famille', null],
-            ['Ibrahim Tanko', 'Étudiant en Master 1', 'etudiants', 'Droit administratif', null],
-            ['Rokiatou Seyni', 'Étudiante en Licence', 'etudiants', 'Droits humains', null],
+            ['Amadou Sani', 'Étudiant en Master 2', 'etudiants', 'Droit public', null, 'team/student-1'],
+            ['Fatouma Idrissa', 'Étudiante en Master 2', 'etudiants', 'Droit privé', null, 'team/student-2'],
+            ['Moussa Ali', 'Étudiant en Licence', 'etudiants', 'Droit pénal', null, 'team/student-3'],
+            ['Aïcha Salissou', 'Étudiante en Licence', 'etudiants', 'Droit de la famille', null, 'team/student-4'],
+            ['Ibrahim Tanko', 'Étudiant en Master 1', 'etudiants', 'Droit administratif', null, 'team/student-5'],
+            ['Rokiatou Seyni', 'Étudiante en Licence', 'etudiants', 'Droits humains', null, 'team/student-6'],
 
-            ['Mme Zarima Abdou', 'Secrétaire administrative', 'administratif', 'Gestion du courrier, accueil et coordination', 'zarima.abdou@uam.ne'],
-            ['M. Souleymane Ibrahim', 'Chargé de communication', 'administratif', 'Web, réseaux sociaux et événements', 'souleymane.ibrahim@uam.ne'],
-            ['Mme Ramatou Abdoul', 'Assistante administrative', 'administratif', 'Appui logistique et suivi des activités', 'ramatou.abdoul@uam.ne'],
+            ['Mme Zarima Abdou', 'Secrétaire administrative', 'administratif', 'Gestion du courrier, accueil et coordination', 'zarima.abdou@uam.ne', 'team/staff-1'],
+            ['M. Souleymane Ibrahim', 'Chargé de communication', 'administratif', 'Web, réseaux sociaux et événements', 'souleymane.ibrahim@uam.ne', 'team/staff-2'],
+            ['Mme Ramatou Abdoul', 'Assistante administrative', 'administratif', 'Appui logistique et suivi des activités', 'ramatou.abdoul@uam.ne', 'team/staff-3'],
         ];
 
         $positions = [];
 
-        foreach ($members as [$name, $role, $department, $bio, $email]) {
+        foreach ($members as [$name, $role, $department, $bio, $email, $photo]) {
             $positions[$department] = ($positions[$department] ?? 0) + 1;
 
             TeamMember::updateOrCreate(
@@ -128,6 +128,7 @@ class PeopleSeeder extends Seeder
                     'department' => $department,
                     'cohort' => $department === 'etudiants' ? '2025' : null,
                     'email' => $email,
+                    'photo' => $photo,
                     'status' => 'published',
                     'is_visible' => true,
                     'position' => $positions[$department],
