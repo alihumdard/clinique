@@ -67,10 +67,10 @@ class ActivitySeeder extends Seeder
                 ],
             ],
             [
-                'Sensibilisation sur les droits des femmes', 'Sensibilisations', 'placeholders/about-legal',
+                'Sensibilisation sur les droits des femmes', 'Sensibilisations', 'placeholders/gallery-scales-gavel-desk',
                 'Niamey', '2025-06-08', 'published',
                 [
-                    ['placeholders/about-legal', 'Atelier sur les droits des femmes'],
+                    ['placeholders/gallery-scales-gavel-desk', 'Atelier sur les droits des femmes'],
                 ],
             ],
             [
@@ -83,10 +83,10 @@ class ActivitySeeder extends Seeder
                 ],
             ],
             [
-                'Formation des étudiants en droit', 'Formations', 'placeholders/about-team',
+                'Formation des étudiants en droit', 'Formations', 'placeholders/gallery-students-faculty',
                 'UAM Niamey', '2025-05-28', 'published',
                 [
-                    ['placeholders/about-team', "Encadrement des étudiants de la Clinique"],
+                    ['placeholders/gallery-students-faculty', "Encadrement des étudiants de la Clinique"],
                 ],
             ],
             [
