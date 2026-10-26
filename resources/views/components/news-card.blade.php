@@ -20,12 +20,12 @@
                 :path="$storedPath"
                 alt=""
                 width="700" height="300"
-                class="aspect-[7/3] w-full object-cover"
+                class="aspect-video w-full object-cover"
             />
         @elseif($imageUrl)
-            <img src="{{ $imageUrl }}" alt="" width="700" height="300" loading="lazy" class="aspect-[7/3] w-full object-cover">
+            <img src="{{ $imageUrl }}" alt="" width="700" height="300" loading="lazy" class="aspect-video w-full object-cover">
         @else
-            <x-picture :path="$image" :alt="$title" width="700" height="300" class="aspect-[7/3] w-full object-cover" />
+            <x-picture :path="$image" :alt="$title" width="700" height="300" class="aspect-video w-full object-cover" />
         @endif
         <x-category-badge :color="$categoryColor">{{ $category }}</x-category-badge>
     </div>
