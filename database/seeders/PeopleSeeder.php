@@ -36,38 +36,43 @@ class PeopleSeeder extends Seeder
             ['name' => $c['name'], 'tone' => $c['tone'], 'position' => $i]
         ))->keyBy('name');
 
+        // Only six logo files exist from an earlier content pass (placeholders
+        // for partners this list no longer carries); reused on the closest
+        // name/category match rather than left unassigned. The rest show the
+        // initials placeholder until the Clinic supplies official logos.
         $partners = [
             // Institutions nationales
-            ['Ministère de la Justice', 'Institutions nationales', 'Niger'],
-            ['Université Abdou Moumouni', 'Institutions nationales', 'Niamey'],
-            ["Cour d'Appel de Niamey", 'Institutions nationales', 'Niger'],
-            ['Tribunal de Grande Instance', 'Institutions nationales', 'Niamey'],
-            ['Conseil Supérieur de la Magistrature', 'Institutions nationales', 'Niger'],
-            ['Ordre des Avocats du Niger', 'Institutions nationales', 'Niamey'],
+            ['Ministère de la Justice', 'Institutions nationales', 'Niger', 'ministere-justice'],
+            ['Université Abdou Moumouni', 'Institutions nationales', 'Niamey', 'uemf'],
+            ["Cour d'Appel de Niamey", 'Institutions nationales', 'Niger', null],
+            ['Tribunal de Grande Instance', 'Institutions nationales', 'Niamey', null],
+            ['Conseil Supérieur de la Magistrature', 'Institutions nationales', 'Niger', null],
+            ['Ordre des Avocats du Niger', 'Institutions nationales', 'Niamey', 'barreau-fes'],
 
             // Partenaires internationaux
-            ['PNUD', 'Partenaires internationaux', 'Programme des Nations Unies pour le Développement'],
-            ['UNICEF', 'Partenaires internationaux', "Fonds des Nations Unies pour l'enfance"],
-            ['Union Européenne', 'Partenaires internationaux', 'Délégation au Niger'],
-            ['AFD', 'Partenaires internationaux', 'Agence Française de Développement'],
-            ['OIM', 'Partenaires internationaux', 'Organisation Internationale pour les Migrations'],
-            ['CICR', 'Partenaires internationaux', 'Comité International de la Croix-Rouge'],
+            ['PNUD', 'Partenaires internationaux', 'Programme des Nations Unies pour le Développement', 'pndd'],
+            ['UNICEF', 'Partenaires internationaux', "Fonds des Nations Unies pour l'enfance", 'onu-femmes'],
+            ['Union Européenne', 'Partenaires internationaux', 'Délégation au Niger', null],
+            ['AFD', 'Partenaires internationaux', 'Agence Française de Développement', null],
+            ['OIM', 'Partenaires internationaux', 'Organisation Internationale pour les Migrations', null],
+            ['CICR', 'Partenaires internationaux', 'Comité International de la Croix-Rouge', null],
 
             // Société civile et ONG
-            ['ASF', 'Société civile et ONG', 'Avocats Sans Frontières'],
-            ['Amnesty International', 'Société civile et ONG', null],
-            ['Human Rights Watch', 'Société civile et ONG', null],
-            ['Search for Common Ground', 'Société civile et ONG', null],
-            ['ALIMA', 'Société civile et ONG', 'The Alliance for International Medical Action'],
-            ['Plan International', 'Société civile et ONG', null],
+            ['ASF', 'Société civile et ONG', 'Avocats Sans Frontières', null],
+            ['Amnesty International', 'Société civile et ONG', null, 'amdh'],
+            ['Human Rights Watch', 'Société civile et ONG', null, null],
+            ['Search for Common Ground', 'Société civile et ONG', null, null],
+            ['ALIMA', 'Société civile et ONG', 'The Alliance for International Medical Action', null],
+            ['Plan International', 'Société civile et ONG', null, null],
         ];
 
-        foreach ($partners as $i => [$name, $rubrique, $description]) {
+        foreach ($partners as $i => [$name, $rubrique, $description, $logo]) {
             Partner::updateOrCreate(
                 ['slug' => Str::slug($name)],
                 [
                     'name' => $name,
                     'description' => $description,
+                    'logo' => $logo,
                     'category_id' => $rubriques[$rubrique]->id,
                     'status' => 'published',
                     'is_visible' => true,

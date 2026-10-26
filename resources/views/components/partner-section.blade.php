@@ -24,7 +24,7 @@
                 size="lg"
                 :name="$partner->name"
                 :subtitle="$partner->description"
-                :logo-url="$partner->logo ? $partner->logoUrl() : null"
+                :logo="$partner->logo"
                 :href="$partner->website"
             />
         @endif

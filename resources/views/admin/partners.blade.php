@@ -149,7 +149,7 @@
                                         <span class="flex h-11 w-14 items-center justify-center rounded-md border border-slate-200 bg-white px-1">
                                             @if($partner->logo)
                                                 <img
-                                                    src="{{ $partner->logoUrl() }}"
+                                                    src="{{ asset('images/partners/'.$partner->logo.'.png') }}"
                                                     alt=""
                                                     loading="lazy"
                                                     class="max-h-9 max-w-full object-contain"
