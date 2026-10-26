@@ -98,7 +98,7 @@
                 </p>
 
                 <div class="mt-4 flex flex-wrap items-center gap-5">
-                    <x-inline-icon-label icon="ear" label="Écoute" />
+                    <x-inline-icon-label icon="headset" label="Écoute" />
                     <x-inline-icon-label icon="chat" label="Conseil" />
                     <x-inline-icon-label icon="heart" label="Accompagnement" />
                 </div>
