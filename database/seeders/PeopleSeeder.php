@@ -36,29 +36,26 @@ class PeopleSeeder extends Seeder
             ['name' => $c['name'], 'tone' => $c['tone'], 'position' => $i]
         ))->keyBy('name');
 
-        // Only a handful of logo files exist (placeholders — some from an
-        // earlier content pass for partners this list no longer carries,
-        // some supplied since for the Niger institutions). Assigned on the
-        // closest name/category match where one exists; the rest cycle
-        // through the same small set rather than show bare initials, since
-        // every card should read as a real entry until the Clinic supplies
-        // official artwork for each partner.
-        $logos = ['ministere-justice-niger', 'uemf-niger', 'barreau-fes-niger', 'pndd', 'onu-femmes', 'oim', 'cicr', 'asf', 'amdh'];
+        // Logo files supplied for almost every partner on this list. The two
+        // still without one (Tribunal de Grande Instance, Human Rights
+        // Watch) cycle through the full set below rather than show bare
+        // initials, until the Clinic sends their artwork too.
+        $logos = ['ministere-justice-niger', 'uemf-niger', 'barreau-fes-niger', 'pndd', 'onu-femmes', 'oim', 'cicr', 'asf', 'amdh', 'uam', 'conseil-superieur-magistrature', 'cour-appel-niamey', 'ordre-avocats-niger', 'union-europeenne', 'afd', 'search-common-ground', 'alima', 'plan-international'];
 
         $partners = [
             // Institutions nationales
             ['Ministère de la Justice', 'Institutions nationales', 'Niger', 'ministere-justice-niger'],
-            ['Université Abdou Moumouni', 'Institutions nationales', 'Niamey', 'uemf-niger'],
-            ["Cour d'Appel de Niamey", 'Institutions nationales', 'Niger', null],
+            ['Université Abdou Moumouni', 'Institutions nationales', 'Niamey', 'uam'],
+            ["Cour d'Appel de Niamey", 'Institutions nationales', 'Niger', 'cour-appel-niamey'],
             ['Tribunal de Grande Instance', 'Institutions nationales', 'Niamey', null],
-            ['Conseil Supérieur de la Magistrature', 'Institutions nationales', 'Niger', null],
-            ['Ordre des Avocats du Niger', 'Institutions nationales', 'Niamey', 'barreau-fes-niger'],
+            ['Conseil Supérieur de la Magistrature', 'Institutions nationales', 'Niger', 'conseil-superieur-magistrature'],
+            ['Ordre des Avocats du Niger', 'Institutions nationales', 'Niamey', 'ordre-avocats-niger'],
 
             // Partenaires internationaux
             ['PNUD', 'Partenaires internationaux', 'Programme des Nations Unies pour le Développement', 'pndd'],
             ['UNICEF', 'Partenaires internationaux', "Fonds des Nations Unies pour l'enfance", 'onu-femmes'],
-            ['Union Européenne', 'Partenaires internationaux', 'Délégation au Niger', null],
-            ['AFD', 'Partenaires internationaux', 'Agence Française de Développement', null],
+            ['Union Européenne', 'Partenaires internationaux', 'Délégation au Niger', 'union-europeenne'],
+            ['AFD', 'Partenaires internationaux', 'Agence Française de Développement', 'afd'],
             ['OIM', 'Partenaires internationaux', 'Organisation Internationale pour les Migrations', 'oim'],
             ['CICR', 'Partenaires internationaux', 'Comité International de la Croix-Rouge', 'cicr'],
 
@@ -66,9 +63,9 @@ class PeopleSeeder extends Seeder
             ['ASF', 'Société civile et ONG', 'Avocats Sans Frontières', 'asf'],
             ['Amnesty International', 'Société civile et ONG', null, 'amdh'],
             ['Human Rights Watch', 'Société civile et ONG', null, null],
-            ['Search for Common Ground', 'Société civile et ONG', null, null],
-            ['ALIMA', 'Société civile et ONG', 'The Alliance for International Medical Action', null],
-            ['Plan International', 'Société civile et ONG', null, null],
+            ['Search for Common Ground', 'Société civile et ONG', null, 'search-common-ground'],
+            ['ALIMA', 'Société civile et ONG', 'The Alliance for International Medical Action', 'alima'],
+            ['Plan International', 'Société civile et ONG', null, 'plan-international'],
         ];
 
         // Every partner still without a matched logo cycles through the
