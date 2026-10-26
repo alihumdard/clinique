@@ -49,7 +49,7 @@ class ContentSeeder extends Seeder
             [
                 'title' => 'Formation sur les droits des femmes',
                 'category' => 'Formations',
-                'image' => 'placeholders/about-legal',
+                'image' => 'placeholders/news-formation',
                 'published_at' => '2025-06-08 11:20',
                 'status' => 'published',
                 'excerpt' => "Une session de formation a réuni les étudiants de la Clinique autour des droits des femmes en matière de mariage, de succession et de protection contre les violences.",
@@ -67,7 +67,7 @@ class ContentSeeder extends Seeder
             [
                 'title' => 'Appel à candidatures – Stagiaires 2025',
                 'category' => 'Communiqués',
-                'image' => 'placeholders/about-team',
+                'image' => 'placeholders/gallery-caravan-meeting',
                 'published_at' => '2025-06-01 12:10',
                 'status' => 'published',
                 'excerpt' => "La Clinique Juridique FSJP-UAM recrute sa nouvelle promotion d'étudiants encadrés. Les candidatures sont ouvertes aux étudiants de la Faculté des Sciences Juridiques et Politiques.",
