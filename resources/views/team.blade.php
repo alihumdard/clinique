@@ -32,8 +32,8 @@
                 </p>
             </div>
 
-            <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                <div class="grid grid-cols-2 divide-x divide-y divide-slate-200">
+            <div class="overflow-hidden rounded-xl border border-primary-100 bg-primary-50/60">
+                <div class="grid grid-cols-2 divide-x divide-y divide-primary-100">
                     @foreach ([
                         ['icon' => 'book',      'key' => 'enseignants',   'title' => 'Enseignants encadrants',    'sub' => 'Experts en droit'],
                         ['icon' => 'users',     'key' => 'etudiants',     'title' => 'Étudiants membres',         'sub' => 'Étudiants engagés'],
@@ -41,7 +41,7 @@
                         ['icon' => 'document',  'key' => 'administratif', 'title' => 'Personnel administratif',   'sub' => 'Membres de soutien'],
                     ] as $s)
                     <div class="flex min-w-0 flex-col items-start gap-2.5 p-3.5 sm:p-6 lg:flex-row lg:items-center lg:gap-4">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600 sm:h-14 sm:w-14">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-primary-600 sm:h-14 sm:w-14">
                             <x-icon :name="$s['icon']" class="h-5 w-5 sm:h-7 sm:w-7" />
                         </span>
                         <div class="min-w-0">
