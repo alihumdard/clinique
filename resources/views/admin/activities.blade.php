@@ -15,7 +15,6 @@
             ['label' => 'Activités & caravanes'],
         ]"
     />
-
     <div class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-4">
 
         <div class="space-y-5 xl:col-span-3">
