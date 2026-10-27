@@ -11,7 +11,14 @@
 --}}
 @props(['id', 'title', 'action'])
 
-<dialog id="{{ $id }}" class="w-full max-w-lg rounded-xl p-0 backdrop:bg-slate-900/50">
+{{--
+    Tailwind's preflight zeroes out every element's margin, which is what
+    centers a native <dialog> (the UA stylesheet centers it via
+    `margin: auto` on a fixed-position box) — so that margin is restored
+    explicitly here, along with the fixed positioning it depends on, rather
+    than relying on the browser default the reset already removed.
+--}}
+<dialog id="{{ $id }}" class="fixed inset-0 m-auto w-full max-w-lg rounded-xl p-0 backdrop:bg-slate-900/50">
     <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="flex max-h-[85vh] flex-col">
         @csrf
         @method('PUT')
