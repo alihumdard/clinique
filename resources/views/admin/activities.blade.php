@@ -8,7 +8,7 @@
     <x-admin.flash />
 
     <x-admin.page-header
-        title="Gestion des activités &amp; galerie"
+        title="Gestion des activités & galerie"
         lead="Gérez les activités, caravanes juridiques et leur galerie photos."
         action-label="Ajouter une activité"
         action-dialog="create-activity"

@@ -54,10 +54,6 @@
                     'label' => 'Activités & caravanes',
                     'icon' => 'calendar',
                     'route' => 'admin.activities',
-                    'children' => [
-                        ['label' => 'Toutes les activités', 'route' => 'admin.activities'],
-                        ['label' => 'Ajouter une activité', 'route' => 'admin.activities', 'dialog' => 'create-activity'],
-                    ],
                 ],
             ],
         ],
