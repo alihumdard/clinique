@@ -70,8 +70,17 @@
     @if($toggleAction)
         <form method="POST" action="{{ $toggleAction }}" class="contents">
             @csrf
+            {{--
+                A pill-and-dot switch rather than an eye icon: "Aperçu"
+                already uses an eye, and the two actions do different
+                things (preview the public page vs. show/hide this row on
+                it) — a second eye made them look like the same control.
+            --}}
             <button type="submit" class="{{ $base }} {{ $isVisible ? 'text-emerald-600 hover:bg-emerald-50' : 'text-slate-400 hover:bg-slate-100' }}">
-                <x-icon :name="$isVisible ? 'eye' : 'eye-off'" class="h-4 w-4" />
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="2" y="7" width="20" height="10" rx="5" stroke="currentColor" stroke-width="1.75" fill="{{ $isVisible ? 'currentColor' : 'none' }}" fill-opacity="0.15" />
+                    <circle cx="{{ $isVisible ? '16' : '8' }}" cy="12" r="3.25" fill="currentColor" />
+                </svg>
                 <span class="sr-only">{{ $isVisible ? 'Masquer' : 'Afficher' }}{{ $label ? ' : '.$label : '' }}</span>
             </button>
         </form>
