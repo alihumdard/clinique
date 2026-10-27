@@ -19,15 +19,28 @@
     explicitly here, along with the fixed positioning it depends on, rather
     than relying on the browser default the reset already removed.
 
-    max-h/overflow-hidden on the <dialog> itself: a native <dialog> is
-    scrollable by default, so without a cap it grows to fit the form and
-    scrolls as a whole, while the inner div below also scrolls — two
-    scrollbars, and a gap of empty dialog below a shorter form. Capping the
-    dialog and hiding its own overflow leaves exactly one scroller, the
-    inner div, sized to what's actually between the header and footer.
+    h-[85vh], not max-h: a flex column's children only shrink via
+    flex-1/min-h-0 when the column has a real height to divide up —
+    max-height alone leaves an auto-height box at its content size, so the
+    scrollable div in the middle had nothing to shrink against and grew
+    past the dialog instead of scrolling, cutting a long form (Partners')
+    off with no scrollbar. A short form now leaves blank space below its
+    footer instead of shrink-wrapping — the trade-off that makes a tall
+    form's content reachable. overflow-hidden on the dialog itself: a
+    native <dialog> scrolls on its own too, so without it both the dialog
+    and the inner div would scroll — two scrollbars for one form.
 --}}
-<dialog id="{{ $id }}" class="fixed inset-0 m-auto max-h-[85vh] w-full max-w-lg overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50">
-    <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="flex max-h-[85vh] flex-col">
+<dialog id="{{ $id }}" class="fixed inset-0 m-auto h-[85vh] w-full max-w-lg overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50">
+    {{--
+        grid-rows-[auto,1fr,auto], not flex: in this browser, a <dialog>'s
+        flex children don't resolve flex-basis/flex-grow against the
+        dialog's own h-[85vh] the way a plain block element's children
+        would — the middle div kept sizing to its content and overflowing
+        the dialog regardless of flex-1/min-h-0. A grid with an explicit
+        1fr row does get properly constrained, and auto/1fr/auto is
+        exactly the header/scrollable-body/footer shape this needs.
+    --}}
+    <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="grid h-full grid-rows-[auto_1fr_auto]">
         @csrf
         @if(strtoupper($method) !== 'POST')
             @method($method)
@@ -41,7 +54,7 @@
             </button>
         </div>
 
-        <div class="space-y-4 overflow-y-auto px-5 py-5">
+        <div class="min-h-0 space-y-4 overflow-y-auto px-5 py-5">
             {{ $slot }}
         </div>
 

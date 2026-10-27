@@ -214,75 +214,6 @@
                                         />
                                     </td>
                                 </tr>
-
-                                <x-admin.edit-modal id="edit-partner-{{ $partner->id }}" title="Modifier le partenaire" :action="route('admin.partners.update', $partner)">
-                                    <div>
-                                        <label for="edit-partner-{{ $partner->id }}-name" class="block text-sm font-medium text-slate-700">
-                                            Nom du partenaire
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="text" id="edit-partner-{{ $partner->id }}-name" name="name" required value="{{ $partner->name }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-partner-{{ $partner->id }}-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
-                                        <select id="edit-partner-{{ $partner->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                            <option value="">Sélectionner une catégorie</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @selected($partner->category_id === $category->id)>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-partner-{{ $partner->id }}-description" class="block text-sm font-medium text-slate-700">Description</label>
-                                        <textarea id="edit-partner-{{ $partner->id }}-description" name="description" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $partner->description }}</textarea>
-                                    </div>
-
-                                    <div>
-                                        {{-- Partner logos are stored on disk under public/images/partners and
-                                             referenced on this screen by a bare filename, not through
-                                             MediaStorage like articles or reports. The edit form keeps that
-                                             same convention: an uploaded file still goes through
-                                             PartnerController's storeImage call, same as the quick-create form. --}}
-                                        <span class="block text-sm font-medium text-slate-700">Logo</span>
-                                        <div class="mt-1.5 flex items-center gap-3">
-                                            <span class="flex h-14 w-20 shrink-0 items-center justify-center rounded-md border border-slate-200 bg-white px-1">
-                                                @if($partner->logo)
-                                                    <img src="{{ asset('images/partners/'.$partner->logo.'.png') }}" alt="" class="max-h-11 max-w-full object-contain">
-                                                @else
-                                                    <span class="text-[10px] font-bold text-slate-500">{{ mb_strtoupper(mb_substr($partner->name, 0, 4)) }}</span>
-                                                @endif
-                                            </span>
-                                            <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-partner-{{ $partner->id }}-website" class="block text-sm font-medium text-slate-700">Site web</label>
-                                        <input type="url" id="edit-partner-{{ $partner->id }}-website" name="website" value="{{ $partner->website }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label for="edit-partner-{{ $partner->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                                            <select id="edit-partner-{{ $partner->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                                <option value="draft" @selected($partner->status === 'draft')>Brouillon</option>
-                                                <option value="published" @selected($partner->status === 'published')>Publié</option>
-                                                <option value="archived" @selected($partner->status === 'archived')>Archivé</option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label for="edit-partner-{{ $partner->id }}-position" class="block text-sm font-medium text-slate-700">Ordre</label>
-                                            <input type="number" id="edit-partner-{{ $partner->id }}-position" name="position" min="0" value="{{ $partner->position }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-                                    </div>
-
-                                    <div class="pt-1">
-                                        <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) $partner->is_visible" />
-                                    </div>
-                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="8" class="px-5 py-12 text-center">
@@ -299,6 +230,87 @@
         </div>
 
     </div>
+
+    {{--
+        Every row's "Modifier" dialog, rendered here rather than inside the
+        table above: a <dialog> is not valid content for <tbody> between
+        <tr> elements, and a browser that encounters one there foster-
+        parents it out — which was silently corrupting the <form> markup
+        of every dialog on the page (content spilling out as siblings of
+        an empty <form>, breaking its height/scroll layout) without ever
+        raising a console error, since this is valid-by-recovery HTML, not
+        a parse error.
+    --}}
+    @foreach ($partners as $partner)
+        <x-admin.edit-modal id="edit-partner-{{ $partner->id }}" title="Modifier le partenaire" :action="route('admin.partners.update', $partner)">
+            <div>
+                <label for="edit-partner-{{ $partner->id }}-name" class="block text-sm font-medium text-slate-700">
+                    Nom du partenaire
+                    <span class="text-rose-600" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="edit-partner-{{ $partner->id }}-name" name="name" required value="{{ $partner->name }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-partner-{{ $partner->id }}-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
+                <select id="edit-partner-{{ $partner->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    <option value="">Sélectionner une catégorie</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected($partner->category_id === $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="edit-partner-{{ $partner->id }}-description" class="block text-sm font-medium text-slate-700">Description</label>
+                <textarea id="edit-partner-{{ $partner->id }}-description" name="description" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $partner->description }}</textarea>
+            </div>
+
+            <div>
+                {{-- Partner logos are stored on disk under public/images/partners and
+                     referenced on this screen by a bare filename, not through
+                     MediaStorage like articles or reports. The edit form keeps that
+                     same convention: an uploaded file still goes through
+                     PartnerController's storeImage call, same as the quick-create form. --}}
+                <span class="block text-sm font-medium text-slate-700">Logo</span>
+                <div class="mt-1.5 flex items-center gap-3">
+                    <span class="flex h-14 w-20 shrink-0 items-center justify-center rounded-md border border-slate-200 bg-white px-1">
+                        @if($partner->logo)
+                            <img src="{{ asset('images/partners/'.$partner->logo.'.png') }}" alt="" class="max-h-11 max-w-full object-contain">
+                        @else
+                            <span class="text-[10px] font-bold text-slate-500">{{ mb_strtoupper(mb_substr($partner->name, 0, 4)) }}</span>
+                        @endif
+                    </span>
+                    <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                </div>
+            </div>
+
+            <div>
+                <label for="edit-partner-{{ $partner->id }}-website" class="block text-sm font-medium text-slate-700">Site web</label>
+                <input type="url" id="edit-partner-{{ $partner->id }}-website" name="website" value="{{ $partner->website }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label for="edit-partner-{{ $partner->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                    <select id="edit-partner-{{ $partner->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                        <option value="draft" @selected($partner->status === 'draft')>Brouillon</option>
+                        <option value="published" @selected($partner->status === 'published')>Publié</option>
+                        <option value="archived" @selected($partner->status === 'archived')>Archivé</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit-partner-{{ $partner->id }}-position" class="block text-sm font-medium text-slate-700">Ordre</label>
+                    <input type="number" id="edit-partner-{{ $partner->id }}-position" name="position" min="0" value="{{ $partner->position }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+            </div>
+
+            <div class="pt-1">
+                <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) $partner->is_visible" />
+            </div>
+        </x-admin.edit-modal>
+    @endforeach
 
     {{--
         "Ajouter un partenaire" in the page header opens this dialog rather
