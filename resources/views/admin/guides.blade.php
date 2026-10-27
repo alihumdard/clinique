@@ -123,7 +123,6 @@
                                 <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de la fiche pratique</th>
                                 <th scope="col" class="px-3 py-3">Domaine</th>
                                 <th scope="col" class="px-3 py-3">Format</th>
-                                <th scope="col" class="px-3 py-3">Téléchargements</th>
                                 <th scope="col" class="px-3 py-3">Date d'ajout</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
                                 <th scope="col" class="px-5 py-3 text-right">Actions</th>
@@ -176,14 +175,6 @@
                                                 <span class="block text-sm text-slate-700">PDF</span>
                                                 <span class="block text-xs text-slate-400">{{ $guide->fileSizeForHumans() }}</span>
                                             </span>
-                                        </span>
-                                    </td>
-
-                                    <td class="px-3 py-3">
-                                        <span class="inline-flex items-center gap-1.5 text-sm text-slate-600">
-                                            <x-icon name="download" class="h-4 w-4 shrink-0 text-slate-400" />
-                                            {{ number_format($guide->downloads, 0, ',', ' ') }}
-                                            <span class="sr-only">téléchargements</span>
                                         </span>
                                     </td>
 
