@@ -191,7 +191,7 @@ class SearchController extends Controller
                         'excerpt' => $a->excerpt,
                         'imageUrl' => $a->coverUrl(),
                         'date' => $a->held_on,
-                        'href' => route('activities.index', ['categorie' => $a->category?->slug]),
+                        'href' => route('activities.show', $a),
                     ])
             );
         }
