@@ -111,6 +111,29 @@
                         <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
                         {{ session('contact') }}
                     </p>
+
+                    <div
+                        id="contact-success-modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="contact-success-title"
+                        class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+                    >
+                        <div class="w-full max-w-sm rounded-xl bg-white p-6 text-center shadow-xl">
+                            <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
+                                <x-icon name="check-circle" class="h-7 w-7 text-emerald-600" />
+                            </span>
+                            <h2 id="contact-success-title" class="mt-4 text-base font-bold text-slate-900">Message envoyé</h2>
+                            <p class="mt-1.5 text-sm text-slate-600">{{ session('contact') }}</p>
+                            <button
+                                type="button"
+                                onclick="document.getElementById('contact-success-modal').remove()"
+                                class="mt-5 w-full rounded-md bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700"
+                            >
+                                Fermer
+                            </button>
+                        </div>
+                    </div>
                 @endif
 
                 @if($errors->any())
