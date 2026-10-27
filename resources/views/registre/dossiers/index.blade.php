@@ -13,12 +13,21 @@
             </p>
         </div>
 
-        <a
-            href="{{ route('registre.dossiers.export', request()->query()) }}"
-            class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-        >
-            Exporter (CSV)
-        </a>
+        <div class="flex flex-wrap items-center gap-2">
+            <a
+                href="{{ route('registre.dossiers.export', request()->query()) }}"
+                class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            >
+                Exporter (CSV)
+            </a>
+
+            <a
+                href="{{ route('registre.dossiers.create') }}"
+                class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+            >
+                Nouveau dossier
+            </a>
+        </div>
     </div>
 
     {{-- ============ RECHERCHE ET FILTRES ============ --}}

@@ -91,6 +91,27 @@ class Dossier extends Model
         return $this->analysis_validated_at !== null;
     }
 
+    public function analysisAwaitsValidation(): bool
+    {
+        return $this->analysis_submitted_at !== null && ! $this->isValidated();
+    }
+
+    /**
+     * The gate the plan requires: "empêcher le passage au statut
+     * « analyse retournée au demandeur » tant que la validation du
+     * superviseur n'est pas terminée".
+     *
+     * Asked here rather than enforced at the one place a status changes,
+     * because that place is the transition engine the Clinic's approved
+     * list and transitions are still awaited for. Whatever moves a
+     * dossier to that status will have to ask this first, and the screens
+     * already do.
+     */
+    public function returnableToApplicant(): bool
+    {
+        return $this->isValidated();
+    }
+
     /** A deadline passed with nothing marked done. */
     public function scopeOverdue(Builder $query): Builder
     {

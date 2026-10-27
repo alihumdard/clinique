@@ -159,6 +159,69 @@
                 </form>
             </div>
 
+            {{-- ============ ANALYSE ============ --}}
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <h2 class="text-sm font-bold text-slate-900">Analyse</h2>
+
+                    @if($dossier->isValidated())
+                        <span class="rounded bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+                            Validée le {{ $dossier->analysis_validated_at->translatedFormat('j M Y') }}
+                            @if($dossier->validator) par {{ $dossier->validator->name }} @endif
+                        </span>
+                    @elseif($dossier->analysisAwaitsValidation())
+                        <span class="rounded bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">
+                            En attente de validation
+                        </span>
+                    @endif
+                </div>
+
+                @if($dossier->isValidated())
+                    <p class="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ $dossier->analysis }}</p>
+                @else
+                    <form method="POST" action="{{ route('registre.analysis.save', $dossier) }}" class="mt-3 space-y-3">
+                        @csrf
+                        <label for="analysis" class="sr-only">Analyse</label>
+                        <textarea
+                            id="analysis"
+                            name="analysis"
+                            rows="8"
+                            placeholder="Analyse juridique de la situation, réponse aux questions posées, suites proposées…"
+                            class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                        >{{ old('analysis', $dossier->analysis) }}</textarea>
+
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                                Enregistrer et soumettre
+                            </button>
+                        </div>
+                    </form>
+
+                    @if($dossier->analysisAwaitsValidation())
+                        <form method="POST" action="{{ route('registre.analysis.validate', $dossier) }}" class="mt-3 border-t border-slate-100 pt-3">
+                            @csrf
+                            <button type="submit" class="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100">
+                                Valider l'analyse (encadrant)
+                            </button>
+                        </form>
+                    @endif
+                @endif
+
+                {{--
+                    The gate the plan requires: the return to the applicant
+                    waits on the supervisor. The status that marks it is one
+                    of the thirteen the Clinic has yet to name, so what is
+                    shown here is the condition, not the transition.
+                --}}
+                <p class="mt-4 border-t border-slate-100 pt-3 text-xs leading-relaxed {{ $dossier->returnableToApplicant() ? 'text-emerald-700' : 'text-slate-500' }}">
+                    @if($dossier->returnableToApplicant())
+                        L'analyse est validée : le retour au demandeur est possible.
+                    @else
+                        Le retour au demandeur reste bloqué tant que l'encadrant n'a pas validé l'analyse.
+                    @endif
+                </p>
+            </div>
+
             {{-- ============ DOCUMENTS ============ --}}
             <div class="rounded-xl border border-slate-200 bg-white p-5">
                 <h2 class="text-sm font-bold text-slate-900">Documents</h2>
@@ -184,6 +247,28 @@
                 @empty
                     <p class="mt-3 text-sm text-slate-500">Aucun document.</p>
                 @endforelse
+
+                <form method="POST" action="{{ route('registre.documents.store', $dossier) }}" enctype="multipart/form-data" class="mt-4 flex flex-wrap items-end gap-2 border-t border-slate-100 pt-4">
+                    @csrf
+                    <div>
+                        <label for="kind" class="block text-xs font-semibold text-slate-600">Type</label>
+                        <select id="kind" name="kind" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                            <option value="mandat_signe">Mandat signé</option>
+                            <option value="analyse">Analyse</option>
+                            <option value="piece_jointe">Pièce jointe</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="min-w-48 flex-1">
+                        <label for="file" class="block text-xs font-semibold text-slate-600">Fichier (PDF, JPG, PNG — 5 Mo)</label>
+                        <input type="file" id="file" name="file" required accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200">
+                    </div>
+
+                    <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                        Ajouter
+                    </button>
+                </form>
             </div>
         </div>
 

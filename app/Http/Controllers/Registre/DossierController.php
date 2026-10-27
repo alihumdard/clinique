@@ -9,6 +9,7 @@ use App\Models\Registre\DossierDocument;
 use App\Models\Registre\DossierStatus;
 use App\Models\Registre\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -44,6 +45,27 @@ class DossierController extends Controller
                 'total' => Dossier::count(),
             ],
         ]);
+    }
+
+    /** 44. Créer un dossier, pour une personne reçue sur place. */
+    public function create(): View
+    {
+        return view('registre.dossiers.create', [
+            'domains' => \App\Models\LegalDomain::active()->get(),
+        ]);
+    }
+
+    public function store(\App\Http\Requests\Registre\DossierRequest $request, \App\Services\Registre\DossierOpener $opener): \Illuminate\Http\RedirectResponse
+    {
+        try {
+            $dossier = $opener->open($request->validated(), Auth::guard('registre')->user());
+        } catch (\RuntimeException $e) {
+            return back()->withInput()->withErrors(['ouverture' => $e->getMessage()]);
+        }
+
+        return redirect()
+            ->route('registre.dossiers.show', $dossier)
+            ->with('registre_message', "Dossier {$dossier->reference} ouvert.");
     }
 
     public function show(Dossier $dossier): View

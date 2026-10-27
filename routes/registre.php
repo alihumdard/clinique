@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Registre\AnalysisController;
 use App\Http\Controllers\Registre\AssignmentController;
 use App\Http\Controllers\Registre\AuditLogController;
 use App\Http\Controllers\Registre\AuthController;
 use App\Http\Controllers\Registre\DeadlineController;
+use App\Http\Controllers\Registre\DocumentController;
 use App\Http\Controllers\Registre\DossierController;
 use App\Http\Controllers\Registre\DashboardController;
 use App\Http\Controllers\Registre\SubmissionController;
@@ -54,6 +56,10 @@ Route::prefix('registre')->name('registre.')->group(function () {
         */
         Route::get('/dossiers', [DossierController::class, 'index'])->name('dossiers');
         Route::get('/dossiers/export', [DossierController::class, 'export'])->name('dossiers.export');
+        // Walk-in: declared before {dossier} so "nouveau" is not read as
+        // a reference.
+        Route::get('/dossiers/nouveau', [DossierController::class, 'create'])->name('dossiers.create');
+        Route::post('/dossiers', [DossierController::class, 'store'])->name('dossiers.store');
         Route::get('/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
         Route::get('/dossiers/{dossier}/document/{document}', [DossierController::class, 'document'])->name('dossiers.document');
 
@@ -62,6 +68,11 @@ Route::prefix('registre')->name('registre.')->group(function () {
 
         Route::post('/dossiers/{dossier}/echeances', [DeadlineController::class, 'store'])->name('deadlines.store');
         Route::post('/dossiers/{dossier}/echeances/{deadline}/faite', [DeadlineController::class, 'complete'])->name('deadlines.complete');
+
+        Route::post('/dossiers/{dossier}/documents', [DocumentController::class, 'store'])->name('documents.store');
+
+        Route::post('/dossiers/{dossier}/analyse', [AnalysisController::class, 'save'])->name('analysis.save');
+        Route::post('/dossiers/{dossier}/analyse/valider', [AnalysisController::class, 'validateAnalysis'])->name('analysis.validate');
 
         // Read-only, by design: nothing edits or deletes a line.
         Route::get('/journal', [AuditLogController::class, 'index'])->name('journal');
