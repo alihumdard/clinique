@@ -39,10 +39,6 @@
                     'label' => 'Pages',
                     'icon' => 'folder',
                     'route' => 'admin.pages',
-                    'children' => [
-                        ['label' => 'Toutes les pages', 'route' => 'admin.pages'],
-                        ['label' => 'Ajouter une page', 'route' => 'admin.pages', 'dialog' => 'create-page'],
-                    ],
                 ],
             ],
         ],
