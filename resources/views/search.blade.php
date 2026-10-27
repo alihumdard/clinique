@@ -49,12 +49,19 @@
         <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-4 xl:grid-cols-5">
 
             {{-- ============ FILTERS ============ --}}
+            {{-- Nothing to filter before a search has actually run: showing
+                 every type at "0" here read as broken data, not an empty
+                 state, so the panel waits for a real query. --}}
             <aside class="lg:sticky lg:top-24 lg:self-start">
-                <div class="rounded-xl border border-slate-200 p-5">
+                <div class="rounded-xl border border-slate-200 p-5 {{ $query === '' || $tooShort ? 'opacity-50 pointer-events-none' : '' }}">
                     <h2 class="flex items-center gap-2 text-base font-bold text-slate-900">
                         <x-icon name="folder" class="h-5 w-5 text-primary-600" />
                         Filtrer les résultats
                     </h2>
+
+                    @if($query === '' || $tooShort)
+                        <p class="mt-3 text-xs text-slate-500">Les filtres apparaissent une fois une recherche lancée.</p>
+                    @endif
 
                     <form method="get" action="{{ route('search') }}" class="mt-5 space-y-6">
                         <input type="hidden" name="q" value="{{ $query }}">
