@@ -18,8 +18,15 @@
     `margin: auto` on a fixed-position box) — so that margin is restored
     explicitly here, along with the fixed positioning it depends on, rather
     than relying on the browser default the reset already removed.
+
+    max-h/overflow-hidden on the <dialog> itself: a native <dialog> is
+    scrollable by default, so without a cap it grows to fit the form and
+    scrolls as a whole, while the inner div below also scrolls — two
+    scrollbars, and a gap of empty dialog below a shorter form. Capping the
+    dialog and hiding its own overflow leaves exactly one scroller, the
+    inner div, sized to what's actually between the header and footer.
 --}}
-<dialog id="{{ $id }}" class="fixed inset-0 m-auto w-full max-w-lg rounded-xl p-0 backdrop:bg-slate-900/50">
+<dialog id="{{ $id }}" class="fixed inset-0 m-auto max-h-[85vh] w-full max-w-lg overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50">
     <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="flex max-h-[85vh] flex-col">
         @csrf
         @if(strtoupper($method) !== 'POST')
