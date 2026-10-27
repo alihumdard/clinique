@@ -99,6 +99,28 @@ trait ManagesContent
     }
 
     /**
+     * A copy of a row as a draft: every column except the primary key,
+     * the slug (regenerated so it doesn't collide with the original) and
+     * the publication date (a copy is not yet published, whatever the
+     * original's status was).
+     *
+     * @param  class-string<Model>  $model
+     */
+    protected function duplicateAsDraft(Model $source, string $model, string $titleColumn = 'title', string $fallbackSlug = 'element'): Model
+    {
+        $data = $source->getAttributes();
+
+        unset($data['id'], $data['created_at'], $data['updated_at'], $data['deleted_at']);
+
+        $data[$titleColumn] = ($data[$titleColumn] ?? '') . ' (copie)';
+        $data['status'] = 'draft';
+        $data['published_at'] = null;
+        $data['slug'] = $this->uniqueSlug($model, null, $data[$titleColumn], null, $fallbackSlug);
+
+        return $model::create($data);
+    }
+
+    /**
      * A slug no other row holds, trashed rows included — a restored row
      * must not collide with one published in the meantime.
      *

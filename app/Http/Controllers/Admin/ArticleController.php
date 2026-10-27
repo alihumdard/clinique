@@ -81,6 +81,16 @@ class ArticleController extends Controller
             ->with('status', "L'actualité « {$article->title} » a été mise à jour.");
     }
 
+    /** A copy as a draft, ready to adapt rather than written from scratch. */
+    public function duplicate(Article $article): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($article, Article::class, 'title', 'actualite');
+
+        return redirect()
+            ->route('admin.news')
+            ->with('status', "« {$article->title} » a été dupliquée en brouillon.");
+    }
+
     /** Moves the article to the corbeille; the file stays until it is purged. */
     public function destroy(Article $article): RedirectResponse
     {

@@ -9,8 +9,14 @@
 @props([
     'label' => '',
     'editHref' => null,
+    // The id of an admin.edit-modal component on the same page — takes
+    // priority over editHref, since every list screen now edits via a
+    // dialog rather than a separate page.
+    'editDialog' => null,
     'viewHref' => null,
-    'duplicate' => true,
+    // A route to POST to for a real duplicate (a draft copy); null hides
+    // the button entirely rather than showing a control that does nothing.
+    'duplicateAction' => null,
     'galleryHref' => null,
     'deleteAction' => null,
     // For list types that are shown or hidden rather than scheduled.
@@ -27,10 +33,17 @@
 
 <div {{ $attributes->merge(['class' => 'flex items-center justify-end gap-1']) }}>
 
-    <a href="{{ $editHref ?? '#' }}" class="{{ $base }} text-primary-600 hover:bg-primary-50">
-        <x-icon name="pencil" class="h-4 w-4" />
-        <span class="sr-only">Modifier{{ $label ? ' : '.$label : '' }}</span>
-    </a>
+    @if($editDialog)
+        <button type="button" data-open-dialog="{{ $editDialog }}" class="{{ $base }} text-primary-600 hover:bg-primary-50">
+            <x-icon name="pencil" class="h-4 w-4" />
+            <span class="sr-only">Modifier{{ $label ? ' : '.$label : '' }}</span>
+        </button>
+    @else
+        <a href="{{ $editHref ?? '#' }}" class="{{ $base }} text-primary-600 hover:bg-primary-50">
+            <x-icon name="pencil" class="h-4 w-4" />
+            <span class="sr-only">Modifier{{ $label ? ' : '.$label : '' }}</span>
+        </a>
+    @endif
 
     <a href="{{ $viewHref ?? '#' }}" class="{{ $base }} text-slate-500 hover:bg-slate-100">
         <x-icon name="eye" class="h-4 w-4" />
@@ -54,11 +67,14 @@
         </form>
     @endif
 
-    @if($duplicate)
-        <button type="button" class="{{ $base }} text-slate-500 hover:bg-slate-100">
-            <x-icon name="copy" class="h-4 w-4" />
-            <span class="sr-only">Dupliquer{{ $label ? ' : '.$label : '' }}</span>
-        </button>
+    @if($duplicateAction)
+        <form method="POST" action="{{ $duplicateAction }}" class="contents">
+            @csrf
+            <button type="submit" class="{{ $base }} text-slate-500 hover:bg-slate-100">
+                <x-icon name="copy" class="h-4 w-4" />
+                <span class="sr-only">Dupliquer{{ $label ? ' : '.$label : '' }}</span>
+            </button>
+        </form>
     @endif
 
     <form method="POST" action="{{ $deleteAction ?? '#' }}" class="contents">

@@ -64,6 +64,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/actualites', [ArticleController::class, 'index'])->name('news');
         Route::post('/actualites', [ArticleController::class, 'store'])->name('news.store');
         Route::put('/actualites/{article:id}', [ArticleController::class, 'update'])->name('news.update');
+        Route::post('/actualites/{article:id}/dupliquer', [ArticleController::class, 'duplicate'])->name('news.duplicate');
         Route::delete('/actualites/{article:id}', [ArticleController::class, 'destroy'])->name('news.destroy');
         Route::post('/actualites/{id}/restaurer', [ArticleController::class, 'restore'])->name('news.restore');
         Route::delete('/actualites/{id}/definitif', [ArticleController::class, 'forceDestroy'])->name('news.force-destroy');

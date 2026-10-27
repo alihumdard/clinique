@@ -35,6 +35,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // <dialog>-based modals that stay open for the page's lifetime (e.g. the
+    // admin "Modifier" edit modals, one per row): opened by a trigger naming
+    // the dialog's id, closed by any [data-dialog-close] inside it or by the
+    // dialog's own backdrop click.
+    document.querySelectorAll('[data-open-dialog]').forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById(trigger.dataset.openDialog)?.showModal();
+        });
+    });
+
+    document.querySelectorAll('dialog').forEach((dialog) => {
+        dialog.querySelectorAll('[data-dialog-close]').forEach((button) => {
+            button.addEventListener('click', () => dialog.close());
+        });
+
+        // Click on the backdrop (the dialog element itself receives the
+        // click only outside its content box) closes it too.
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) dialog.close();
+        });
+    });
+
     // Mobile/tablet nav sub-menu (e.g. "La Clinique" > À propos / Équipe):
     // collapsed by default, expands on tap of its toggle button.
     document.querySelectorAll('[data-mobile-dropdown]').forEach((dropdown) => {
