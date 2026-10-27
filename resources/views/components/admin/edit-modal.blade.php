@@ -30,7 +30,7 @@
     native <dialog> scrolls on its own too, so without it both the dialog
     and the inner div would scroll — two scrollbars for one form.
 --}}
-<dialog id="{{ $id }}" class="fixed inset-0 m-auto h-[85vh] w-full max-w-lg overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50">
+<dialog id="{{ $id }}" class="fixed inset-x-4 inset-y-0 m-auto h-[85vh] w-auto max-w-lg overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50">
     {{--
         grid-rows-[auto,1fr,auto], not flex: in this browser, a <dialog>'s
         flex children don't resolve flex-basis/flex-grow against the
