@@ -41,7 +41,7 @@
                     'route' => 'admin.pages',
                     'children' => [
                         ['label' => 'Toutes les pages', 'route' => 'admin.pages'],
-                        ['label' => 'Ajouter une page', 'route' => 'admin.pages', 'anchor' => 'ajouter-une-page'],
+                        ['label' => 'Ajouter une page', 'route' => 'admin.pages', 'dialog' => 'create-page'],
                     ],
                 ],
             ],
@@ -60,7 +60,7 @@
                     'route' => 'admin.activities',
                     'children' => [
                         ['label' => 'Toutes les activités', 'route' => 'admin.activities'],
-                        ['label' => 'Ajouter une activité', 'route' => 'admin.activities', 'anchor' => 'ajouter-une-activite'],
+                        ['label' => 'Ajouter une activité', 'route' => 'admin.activities', 'dialog' => 'create-activity'],
                     ],
                 ],
             ],
@@ -88,12 +88,13 @@
     $linkTo = fn (string $name) => Route::has($name) ? route($name) : route('admin.dashboard');
 
     /*
-     * A child may point at a section of its parent's screen rather than a
-     * screen of its own — the add form lives beside the listing, so the
-     * link carries an anchor and does not claim the active state.
+     * A child may open its parent screen's "Ajouter" dialog rather than
+     * linking to a screen of its own — the dialog isn't a page, so the
+     * link navigates with ?ouvrir=<dialog-id> (read by app.js on load)
+     * instead of an anchor, and does not claim the active state.
      */
     $childHref = fn (array $child) => $linkTo($child['route'])
-        .(isset($child['anchor']) ? '#'.$child['anchor'] : '');
+        .(isset($child['dialog']) ? '?ouvrir='.$child['dialog'] : '');
 @endphp
 
 {{-- Backdrop, shown only while the mobile drawer is open --}}
@@ -204,7 +205,7 @@
                         @if(count($children) && $isOpen)
                             <ul class="mt-1 space-y-0.5 border-l border-white/10 pl-3 ml-5">
                                 @foreach ($children as $child)
-                                    @php $childActive = Route::is($child['route']) && ! isset($child['anchor']); @endphp
+                                    @php $childActive = Route::is($child['route']) && ! isset($child['dialog']); @endphp
                                     <li>
                                         <a
                                             href="{{ $childHref($child) }}"

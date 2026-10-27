@@ -46,6 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // A link to a create dialog from outside its own page (the sidebar's
+    // "Ajouter..." sub-item) navigates here with ?ouvrir=<dialog-id> rather
+    // than an anchor, since the dialog isn't a scroll target any more —
+    // open it once the page has loaded.
+    const openParam = new URLSearchParams(window.location.search).get('ouvrir');
+    if (openParam) {
+        document.getElementById(openParam)?.showModal();
+    }
+
     document.querySelectorAll('dialog').forEach((dialog) => {
         dialog.querySelectorAll('[data-dialog-close]').forEach((button) => {
             button.addEventListener('click', () => dialog.close());
