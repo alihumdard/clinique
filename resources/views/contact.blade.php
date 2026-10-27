@@ -127,7 +127,7 @@
                             <p class="mt-1.5 text-sm text-slate-600">{{ session('contact') }}</p>
                             <button
                                 type="button"
-                                onclick="document.getElementById('contact-success-modal').remove()"
+                                data-close-modal="contact-success-modal"
                                 class="mt-5 w-full rounded-md bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700"
                             >
                                 Fermer

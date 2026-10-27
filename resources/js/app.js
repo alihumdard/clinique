@@ -27,6 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
+    // Dismiss buttons for CSP-safe modals (e.g. the contact form's success
+    // dialog) — an inline onclick is blocked by the script-src CSP.
+    document.querySelectorAll('[data-close-modal]').forEach((button) => {
+        button.addEventListener('click', () => {
+            document.getElementById(button.dataset.closeModal)?.remove();
+        });
+    });
+
     // Mobile/tablet nav sub-menu (e.g. "La Clinique" > À propos / Équipe):
     // collapsed by default, expands on tap of its toggle button.
     document.querySelectorAll('[data-mobile-dropdown]').forEach((dropdown) => {
