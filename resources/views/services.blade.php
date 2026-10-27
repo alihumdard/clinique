@@ -38,6 +38,7 @@
                     :icon="$domain->icon ?? 'scale'"
                     :title="$domain->name"
                     :color="$cardColours[$domain->tone] ?? 'primary'"
+                    :href="route('presaisine.index')"
                 >
                     {{ $domain->plain_language }}
                 </x-service-card>
@@ -45,7 +46,7 @@
 
             {{-- Always last: the Clinic orients anyone whose situation is
                  not on the list, which is the point of saying so here. --}}
-            <x-service-card icon="users" title="Autres domaines" color="teal">
+            <x-service-card icon="users" title="Autres domaines" color="teal" :href="route('presaisine.index')">
                 Orientation vers des services spécialisés selon la nature de votre situation.
             </x-service-card>
         </div>
