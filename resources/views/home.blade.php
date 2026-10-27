@@ -387,7 +387,7 @@
                         Nos dernières vidéos
                     </h2>
 
-                    <a href="{{ url('/videos') }}"
+                    <a href="{{ route('webtv.index') }}"
                        class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
                         Voir toutes les vidéos
                         <x-icon name="arrow-right" class="h-5 w-5" />
@@ -397,7 +397,7 @@
                 <div class="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
 
                     {{-- FEATURED VIDEO --}}
-                    <a href="{{ url('/videos') }}"
+                    <a href="{{ route('webtv.index') }}"
                        aria-label="Voir la présentation de la Clinique Juridique"
                        class="group relative block min-h-[180px] min-w-0 overflow-hidden rounded-lg bg-slate-200 shadow-sm sm:min-h-0">
 
@@ -450,7 +450,7 @@
                                 'img' => 'news-3'
                             ],
                         ] as $video)
-                            <a href="{{ url('/videos') }}"
+                            <a href="{{ route('webtv.index') }}"
                                class="group flex flex-1 min-w-0 items-center gap-2 py-2 px-1"
                                aria-label="Voir la vidéo : {{ $video['title'] }}">
 
