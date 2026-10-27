@@ -47,6 +47,8 @@
                 $tabs = [
                     ['Tableau de bord', 'registre.dashboard'],
                     ['Demandes en ligne', 'registre.submissions'],
+                    ['Dossiers', 'registre.dossiers'],
+                    ['Journal', 'registre.journal'],
                 ];
             @endphp
 

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Registre\AssignmentController;
+use App\Http\Controllers\Registre\AuditLogController;
 use App\Http\Controllers\Registre\AuthController;
+use App\Http\Controllers\Registre\DeadlineController;
+use App\Http\Controllers\Registre\DossierController;
 use App\Http\Controllers\Registre\DashboardController;
 use App\Http\Controllers\Registre\SubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -43,5 +47,23 @@ Route::prefix('registre')->name('registre.')->group(function () {
         Route::post('/demandes/{submission}/accepter', [SubmissionController::class, 'accept'])->name('submissions.accept');
         Route::post('/demandes/{submission}/refuser', [SubmissionController::class, 'refuse'])->name('submissions.refuse');
         Route::get('/demandes/{submission}/piece/{attachment}', [SubmissionController::class, 'attachment'])->name('submissions.attachment');
+
+        /*
+        | Dossiers. The export is declared before the {dossier} route so
+        | "export" is not read as a reference.
+        */
+        Route::get('/dossiers', [DossierController::class, 'index'])->name('dossiers');
+        Route::get('/dossiers/export', [DossierController::class, 'export'])->name('dossiers.export');
+        Route::get('/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
+        Route::get('/dossiers/{dossier}/document/{document}', [DossierController::class, 'document'])->name('dossiers.document');
+
+        Route::post('/dossiers/{dossier}/affectations', [AssignmentController::class, 'store'])->name('assignments.store');
+        Route::post('/dossiers/{dossier}/affectations/{assignment}/terminer', [AssignmentController::class, 'end'])->name('assignments.end');
+
+        Route::post('/dossiers/{dossier}/echeances', [DeadlineController::class, 'store'])->name('deadlines.store');
+        Route::post('/dossiers/{dossier}/echeances/{deadline}/faite', [DeadlineController::class, 'complete'])->name('deadlines.complete');
+
+        // Read-only, by design: nothing edits or deletes a line.
+        Route::get('/journal', [AuditLogController::class, 'index'])->name('journal');
     });
 });
