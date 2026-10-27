@@ -130,6 +130,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/fiches-pratiques', [GuideController::class, 'store'])->name('guides.store');
         Route::put('/fiches-pratiques/{guide:id}', [GuideController::class, 'update'])->name('guides.update');
         Route::post('/fiches-pratiques/{guide:id}/dupliquer', [GuideController::class, 'duplicate'])->name('guides.duplicate');
+        Route::get('/fiches-pratiques/{guide:id}/telecharger', [GuideController::class, 'download'])->name('guides.download');
         Route::delete('/fiches-pratiques/{guide:id}', [GuideController::class, 'destroy'])->name('guides.destroy');
         Route::post('/fiches-pratiques/{id}/restaurer', [GuideController::class, 'restore'])->name('guides.restore');
         Route::delete('/fiches-pratiques/{id}/definitif', [GuideController::class, 'forceDestroy'])->name('guides.force-destroy');
@@ -138,6 +139,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/rapports-annuels', [ReportController::class, 'store'])->name('reports.store');
         Route::put('/rapports-annuels/{report:id}', [ReportController::class, 'update'])->name('reports.update');
         Route::post('/rapports-annuels/{report:id}/dupliquer', [ReportController::class, 'duplicate'])->name('reports.duplicate');
+        Route::get('/rapports-annuels/{report:id}/telecharger', [ReportController::class, 'download'])->name('reports.download');
         Route::delete('/rapports-annuels/{report:id}', [ReportController::class, 'destroy'])->name('reports.destroy');
         Route::post('/rapports-annuels/{id}/restaurer', [ReportController::class, 'restore'])->name('reports.restore');
         Route::delete('/rapports-annuels/{id}/definitif', [ReportController::class, 'forceDestroy'])->name('reports.force-destroy');

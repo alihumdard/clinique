@@ -14,6 +14,9 @@
     // dialog rather than a separate page.
     'editDialog' => null,
     'viewHref' => null,
+    // A route that streams the row's own file (a guide's PDF, a report's
+    // PDF) straight from the list, without going through the public page.
+    'downloadHref' => null,
     // A route to POST to for a real duplicate (a draft copy); null hides
     // the button entirely rather than showing a control that does nothing.
     'duplicateAction' => null,
@@ -49,6 +52,13 @@
         <x-icon name="eye" class="h-4 w-4" />
         <span class="sr-only">Aperçu{{ $label ? ' : '.$label : '' }}</span>
     </a>
+
+    @if($downloadHref)
+        <a href="{{ $downloadHref }}" class="{{ $base }} text-slate-500 hover:bg-slate-100">
+            <x-icon name="download" class="h-4 w-4" />
+            <span class="sr-only">Télécharger{{ $label ? ' : '.$label : '' }}</span>
+        </a>
+    @endif
 
     @if($galleryHref)
         <a href="{{ $galleryHref }}" class="{{ $base }} text-slate-500 hover:bg-slate-100">

@@ -205,6 +205,7 @@
                                             :label="$guide->title"
                                             edit-dialog="edit-guide-{{ $guide->id }}"
                                             :view-href="$guide->isPublic() ? route('resources.guides.show', $guide) : null"
+                                            :download-href="$guide->file_path ? route('admin.guides.download', $guide) : null"
                                             :duplicate-action="route('admin.guides.duplicate', $guide)"
                                             :delete-action="route('admin.guides.destroy', $guide)"
                                         />

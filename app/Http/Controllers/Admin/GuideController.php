@@ -10,7 +10,9 @@ use App\Models\Guide;
 use App\Services\MediaStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class GuideController extends Controller
 {
@@ -94,6 +96,29 @@ class GuideController extends Controller
         return redirect()
             ->route('admin.guides')
             ->with('status', "La fiche pratique « {$guide->title} » a été mise à jour.");
+    }
+
+    /**
+     * The admin's own download, straight from the list — unlike the public
+     * route, this one does not require the fiche to be published, so a
+     * draft's PDF can still be checked before it goes live, and it does
+     * not count toward the public download figure.
+     */
+    public function download(Guide $guide): StreamedResponse
+    {
+        abort_if(blank($guide->file_path), 404);
+
+        $disk = Storage::disk('local');
+
+        abort_unless(str_starts_with($guide->file_path, 'documents/'), 404);
+        abort_if(str_contains($guide->file_path, '..'), 404);
+        abort_unless($disk->exists($guide->file_path), 404);
+
+        return $disk->download($guide->file_path, $guide->file_name ?: basename($guide->file_path), [
+            'Content-Type' => 'application/pdf',
+            'Content-Security-Policy' => "default-src 'none'; object-src 'none'",
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
     /** A copy as a draft, ready to adapt rather than written from scratch. */

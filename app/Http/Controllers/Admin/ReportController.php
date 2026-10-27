@@ -9,7 +9,9 @@ use App\Models\Report;
 use App\Services\MediaStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
 {
@@ -95,6 +97,28 @@ class ReportController extends Controller
         return redirect()
             ->route('admin.reports')
             ->with('status', "Le rapport « {$report->title} » a été mis à jour.");
+    }
+
+    /**
+     * The admin's own download, straight from the list — unlike the public
+     * route, this one does not require the report to be published, and it
+     * does not count toward the public download figure.
+     */
+    public function download(Report $report): StreamedResponse
+    {
+        abort_if(blank($report->file_path), 404);
+
+        $disk = Storage::disk('local');
+
+        abort_unless(str_starts_with($report->file_path, 'documents/'), 404);
+        abort_if(str_contains($report->file_path, '..'), 404);
+        abort_unless($disk->exists($report->file_path), 404);
+
+        return $disk->download($report->file_path, $report->file_name ?: basename($report->file_path), [
+            'Content-Type' => 'application/pdf',
+            'Content-Security-Policy' => "default-src 'none'; object-src 'none'",
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
     /** A copy as a draft, ready to adapt rather than written from scratch. */

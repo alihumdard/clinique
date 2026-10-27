@@ -198,7 +198,7 @@
                                         <x-admin.row-actions
                                             :label="$report->title"
                                             edit-dialog="edit-report-{{ $report->id }}"
-                                            :view-href="$report->isPublic() ? route('documents.report', $report) : null"
+                                            :download-href="$report->file_path ? route('admin.reports.download', $report) : null"
                                             :duplicate-action="route('admin.reports.duplicate', $report)"
                                             :delete-action="route('admin.reports.destroy', $report)"
                                         />
