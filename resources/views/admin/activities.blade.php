@@ -202,11 +202,16 @@
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <span class="inline-flex items-center gap-1.5 text-sm text-slate-600">
+                                        <button
+                                            type="button"
+                                            data-open-dialog="edit-activity-{{ $activity->id }}"
+                                            data-scroll-to="edit-activity-{{ $activity->id }}-gallery-section"
+                                            class="inline-flex items-center gap-1.5 text-sm text-slate-600 hover:text-primary-600"
+                                        >
                                             <x-icon name="image" class="h-4 w-4 shrink-0 text-slate-400" />
                                             {{ $activity->photos_count }}
-                                            <span class="sr-only">photos dans la galerie</span>
-                                        </span>
+                                            <span class="sr-only">photos dans la galerie &mdash; ouvrir pour les gérer</span>
+                                        </button>
                                     </td>
 
                                     <td class="px-5 py-3">
@@ -285,7 +290,7 @@
                                         </div>
                                     </div>
 
-                                    <div>
+                                    <div id="edit-activity-{{ $activity->id }}-gallery-section">
                                         <div class="flex items-center justify-between gap-3">
                                             <span class="flex items-center gap-2 text-sm font-semibold text-slate-900">
                                                 <x-icon name="image" class="h-5 w-5 text-primary-600" />

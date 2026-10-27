@@ -42,7 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-open-dialog]').forEach((trigger) => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
-            document.getElementById(trigger.dataset.openDialog)?.showModal();
+            const dialog = document.getElementById(trigger.dataset.openDialog);
+            dialog?.showModal();
+
+            // A trigger naming a section inside the dialog (e.g. the
+            // "Galerie" count in an activity's row) opens straight to that
+            // section rather than the top of a long form.
+            if (trigger.dataset.scrollTo) {
+                document.getElementById(trigger.dataset.scrollTo)
+                    ?.scrollIntoView({ block: 'start' });
+            }
         });
     });
 
