@@ -54,15 +54,4 @@ class HomeController extends Controller
                 ->get(),
         ]);
     }
-
-    /**
-     * Reserved by Module 1 so the header and the CTAs resolve instead of
-     * pointing at '#'. Module 3 replaces it with the orientation filter
-     * and the request form; until then it answers with the home page
-     * rather than a dead link.
-     */
-    public function presaisine(): View
-    {
-        return $this->index();
-    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PresaisineController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ResourceController;
@@ -134,12 +135,23 @@ Route::get('/newsletter/desinscription/{token}', [NewsletterController::class, '
 
 /*
 |--------------------------------------------------------------------------
-| Pre-saisine (Module 3 implements the flow; route reserved so the
-| header and homepage CTAs resolve rather than pointing at '#')
+| Pre-saisine (module 3)
 |--------------------------------------------------------------------------
+|
+| Four steps, in the order the plan sets them: orientation, form, review
+| before sending, confirmation with a reference number. Each step checks
+| that the previous one was taken, so the form cannot be reached without
+| passing the orientation filter.
+|
 */
 
-Route::get('/pre-saisine', [HomeController::class, 'presaisine'])->name('presaisine.index');
+Route::get('/pre-saisine', [PresaisineController::class, 'index'])->name('presaisine.index');
+Route::post('/pre-saisine', [PresaisineController::class, 'orient'])->name('presaisine.orient');
+Route::get('/pre-saisine/formulaire', [PresaisineController::class, 'form'])->name('presaisine.form');
+Route::post('/pre-saisine/formulaire', [PresaisineController::class, 'store'])->name('presaisine.form.store');
+Route::get('/pre-saisine/verification', [PresaisineController::class, 'review'])->name('presaisine.review');
+Route::post('/pre-saisine/envoi', [PresaisineController::class, 'submit'])->name('presaisine.submit');
+Route::get('/pre-saisine/confirmation', [PresaisineController::class, 'confirmation'])->name('presaisine.confirmation');
 
 /*
 |--------------------------------------------------------------------------
