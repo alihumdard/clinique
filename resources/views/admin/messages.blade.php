@@ -122,61 +122,71 @@
             <div class="divide-y divide-slate-100 border-t border-slate-100">
                 @forelse ($messages as $message)
                     <article class="p-5">
-                        <div class="flex flex-wrap items-start justify-between gap-3">
-                            <div class="min-w-0">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <h2 class="text-sm font-bold text-slate-900">{{ $message->name }}</h2>
+                        {{-- flex-nowrap + a horizontal scroller on narrow
+                             screens, rather than flex-wrap: wrapping pushed
+                             "Marquer résolu"/"Supprimer" onto their own row
+                             below the name, which read as if they belonged
+                             to the message body rather than this header. A
+                             name/subject/badges block this long doesn't fit
+                             a phone either way, so it scrolls sideways
+                             instead of breaking the header's shape. --}}
+                        <div class="-mx-5 overflow-x-auto px-5 pb-1 sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0">
+                            <div class="flex min-w-max flex-nowrap items-start justify-between gap-3 sm:min-w-0 sm:flex-wrap">
+                                <div class="min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <h2 class="text-sm font-bold text-slate-900">{{ $message->name }}</h2>
 
-                                    <x-admin.badge tone="blue">
-                                        {{ $subjects[$message->subject] ?? $message->subject }}
-                                    </x-admin.badge>
+                                        <x-admin.badge tone="blue">
+                                            {{ $subjects[$message->subject] ?? $message->subject }}
+                                        </x-admin.badge>
 
-                                    @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
-                                        <x-admin.badge tone="amber">Nouveau</x-admin.badge>
-                                    @else
-                                        <x-admin.badge tone="green">Résolu</x-admin.badge>
-                                    @endif
-                                </div>
+                                        @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
+                                            <x-admin.badge tone="amber">Nouveau</x-admin.badge>
+                                        @else
+                                            <x-admin.badge tone="green">Résolu</x-admin.badge>
+                                        @endif
+                                    </div>
 
-                                <div class="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
-                                    <a href="mailto:{{ $message->email }}" class="inline-flex items-center gap-1.5 text-primary-600 hover:text-primary-700">
-                                        <x-icon name="mail" class="h-3.5 w-3.5 shrink-0" />
-                                        {{ $message->email }}
-                                    </a>
-
-                                    @if($message->phone)
-                                        <a href="tel:{{ $message->phone }}" class="inline-flex items-center gap-1.5">
-                                            <x-icon name="phone" class="h-3.5 w-3.5 shrink-0" />
-                                            {{ $message->phone }}
+                                    <div class="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+                                        <a href="mailto:{{ $message->email }}" class="inline-flex items-center gap-1.5 text-primary-600 hover:text-primary-700">
+                                            <x-icon name="mail" class="h-3.5 w-3.5 shrink-0" />
+                                            {{ $message->email }}
                                         </a>
+
+                                        @if($message->phone)
+                                            <a href="tel:{{ $message->phone }}" class="inline-flex items-center gap-1.5">
+                                                <x-icon name="phone" class="h-3.5 w-3.5 shrink-0" />
+                                                {{ $message->phone }}
+                                            </a>
+                                        @endif
+
+                                        <span class="inline-flex items-center gap-1.5">
+                                            <x-icon name="calendar" class="h-3.5 w-3.5 shrink-0" />
+                                            {{ $message->created_at->translatedFormat('j F Y à H:i') }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="flex shrink-0 items-center gap-1">
+                                    @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
+                                        <form method="POST" action="{{ route('admin.messages.handle', $message) }}" class="contents">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-100">
+                                                <x-icon name="check-circle" class="h-4 w-4" />
+                                                Marquer résolu
+                                            </button>
+                                        </form>
                                     @endif
 
-                                    <span class="inline-flex items-center gap-1.5">
-                                        <x-icon name="calendar" class="h-3.5 w-3.5 shrink-0" />
-                                        {{ $message->created_at->translatedFormat('j F Y à H:i') }}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="flex shrink-0 items-center gap-1">
-                                @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
-                                    <form method="POST" action="{{ route('admin.messages.handle', $message) }}" class="contents">
+                                    <form method="POST" action="{{ route('admin.messages.destroy', $message) }}" class="contents">
                                         @csrf
-                                        <button type="submit" class="inline-flex items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-100">
-                                            <x-icon name="check-circle" class="h-4 w-4" />
-                                            Marquer résolu
+                                        @method('DELETE')
+                                        <button type="submit" class="relative flex h-8 w-8 items-center justify-center rounded-md text-rose-600 transition-colors hover:bg-rose-50">
+                                            <x-icon name="trash" class="h-4 w-4" />
+                                            <span class="sr-only">Supprimer définitivement le message de {{ $message->name }}</span>
                                         </button>
                                     </form>
-                                @endif
-
-                                <form method="POST" action="{{ route('admin.messages.destroy', $message) }}" class="contents">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="relative flex h-8 w-8 items-center justify-center rounded-md text-rose-600 transition-colors hover:bg-rose-50">
-                                        <x-icon name="trash" class="h-4 w-4" />
-                                        <span class="sr-only">Supprimer définitivement le message de {{ $message->name }}</span>
-                                    </button>
-                                </form>
+                                </div>
                             </div>
                         </div>
 
