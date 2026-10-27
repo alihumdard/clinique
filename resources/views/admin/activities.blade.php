@@ -218,7 +218,7 @@
                                         <x-admin.row-actions
                                             :label="$activity->title"
                                             edit-dialog="edit-activity-{{ $activity->id }}"
-                                            :view-href="$activity->isPublic() ? route('activities.index', ['categorie' => $activity->category?->slug]) : null"
+                                            :view-href="$activity->isPublic() ? route('activities.show', $activity) : null"
                                             :duplicate-action="route('admin.activities.duplicate', $activity)"
                                             :delete-action="route('admin.activities.destroy', $activity)"
                                         />
