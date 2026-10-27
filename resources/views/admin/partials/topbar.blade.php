@@ -54,7 +54,9 @@
                 </span>
                 <div class="hidden leading-tight sm:block">
                     <p class="max-w-30 truncate text-sm font-semibold text-slate-900">{{ auth()->user()?->name ?? 'Administrateur' }}</p>
-                    <p class="text-xs text-slate-400">Super Admin</p>
+                    {{-- The account's real role: "Super Admin" was printed
+                         for everyone, including an éditeur de contenu. --}}
+                    <p class="text-xs text-slate-400">{{ auth()->user()?->roleLabel() }}</p>
                 </div>
             </div>
         </div>

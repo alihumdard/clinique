@@ -66,6 +66,9 @@
         ],
         [
             'label' => 'Administration',
+            // Administrator-only, like the routes behind them: an éditeur
+            // de contenu would only reach a 403 by following these.
+            'admin' => true,
             'items' => [
                 ['label' => 'Messages de contact', 'icon' => 'chat',    'route' => 'admin.messages'],
                 ['label' => 'Newsletter',         'icon' => 'mail',     'route' => 'admin.newsletter'],
@@ -137,6 +140,8 @@
     <div class="relative min-h-0 flex-1">
         <nav class="admin-sidebar-scroll h-full overflow-y-auto overscroll-contain px-3 py-4">
         @foreach ($navGroups as $group)
+            @continue(($group['admin'] ?? false) && ! auth()->user()?->isAdmin())
+
             @if($group['label'])
                 <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-300">
                     {{ $group['label'] }}

@@ -22,7 +22,25 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
+
+    /** Writes, publishes and withdraws content. */
+    public const ROLE_EDITOR = 'editor';
+
+    /** The above, plus the site settings, the référentiels, the personal
+     *  data left by the public, and permanent deletion. */
+    public const ROLE_ADMIN = 'admin';
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function roleLabel(): string
+    {
+        return $this->isAdmin() ? 'Administrateur' : 'Éditeur';
+    }
 
     /**
      * The attributes that should be hidden for serialization.

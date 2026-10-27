@@ -31,6 +31,12 @@ return Application::configure(basePath: dirname(__DIR__))
         // Security headers on every HTML response (Module 4 checklist).
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
 
+        // Screens an éditeur de contenu may not open: settings,
+        // référentiels, the public's personal data, permanent deletion.
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\EnsureAdministrator::class,
+        ]);
+
         // Public site is served over HTTPS in production; force it there
         // so mixed-content and protocol-downgrade cannot occur.
         $middleware->trustProxies(at: '*');
