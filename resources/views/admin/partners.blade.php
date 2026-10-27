@@ -140,7 +140,7 @@
                                     </td>
 
                                     <td class="px-2 py-3 text-sm text-slate-500">
-                                        {{ $partner->position }}
+                                        {{ $loop->iteration + ($partners->firstItem() - 1) }}
                                     </td>
 
                                     <td class="px-2 py-3">

@@ -141,7 +141,7 @@
                                         >
                                     </td>
 
-                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $member->position }}</td>
+                                    <td class="px-2 py-3 text-sm text-slate-500">{{ $loop->iteration + ($members->firstItem() - 1) }}</td>
 
                                     <td class="px-2 py-3">
                                         @if($member->hasPhoto())
