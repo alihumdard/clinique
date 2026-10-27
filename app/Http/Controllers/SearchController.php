@@ -259,7 +259,11 @@ class SearchController extends Controller
 
         return Category::ofType('article')
             ->withCount(['articles' => fn ($q) => $q->public()])
-            ->having('articles_count', '>', 0)
+            // whereHas, not having: withCount is a select subquery, not an
+            // aggregate, and SQLite refuses a HAVING clause on a query with
+            // no GROUP BY. MySQL accepts it, so the page worked on the
+            // server while every search test failed with a 500.
+            ->whereHas('articles', fn ($q) => $q->public())
             ->orderByDesc('articles_count')
             ->take(5)
             ->get()
