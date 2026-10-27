@@ -17,9 +17,9 @@
             ['label' => 'Activités & caravanes'],
         ]"
     />
-    <div class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-4">
+    <div class="mt-6 space-y-5">
 
-        <div class="space-y-5 xl:col-span-3">
+        <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
