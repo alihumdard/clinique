@@ -28,7 +28,7 @@
         @method('PUT')
 
         {{-- ============ SETTINGS CARDS ============ --}}
-        <div class="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3">
+        <div class="mt-5 grid grid-cols-1 items-start gap-5 lg:grid-cols-2 xl:grid-cols-3">
 
             {{-- General information --}}
             <section class="rounded-xl border border-slate-200 bg-white p-5">
