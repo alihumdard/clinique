@@ -11,7 +11,7 @@
         title="Gestion des actualités"
         lead="Créez, modifiez et gérez toutes les actualités publiées sur votre site."
         action-label="Ajouter une actualité"
-        :action-href="route('admin.news')"
+        action-href="#ajouter-une-actualite"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Actualités'],
@@ -329,7 +329,7 @@
                 accept/size hints below are conveniences, never the
                 security boundary — the server must re-check both.
             --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section id="ajouter-une-actualite" class="rounded-xl border border-slate-200 bg-white p-5">
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="document" class="h-5 w-5 text-primary-600" />
                     Publication rapide
