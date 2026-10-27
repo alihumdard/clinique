@@ -97,6 +97,16 @@ class ReportController extends Controller
             ->with('status', "Le rapport « {$report->title} » a été mis à jour.");
     }
 
+    /** A copy as a draft, ready to adapt rather than written from scratch. */
+    public function duplicate(Report $report): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($report, Report::class, 'title', 'rapport');
+
+        return redirect()
+            ->route('admin.reports')
+            ->with('status', "« {$report->title} » a été dupliqué en brouillon.");
+    }
+
     public function destroy(Report $report): RedirectResponse
     {
         $report->delete();

@@ -89,6 +89,20 @@ class ActivityController extends Controller
             ->with('status', $this->savedMessage($activity, $added, 'mise à jour'));
     }
 
+    /**
+     * A duplicated activity starts with an empty gallery: getAttributes()
+     * on the source only ever returns the activities table's own columns,
+     * never the related photos rows, so the copy cannot inherit them.
+     */
+    public function duplicate(Activity $activity): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($activity, Activity::class, 'title', 'activite');
+
+        return redirect()
+            ->route('admin.activities')
+            ->with('status', "« {$activity->title} » a été dupliquée en brouillon.");
+    }
+
     /** Moves the activity to the corbeille; its photos stay with it. */
     public function destroy(Activity $activity): RedirectResponse
     {

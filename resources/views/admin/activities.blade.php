@@ -212,11 +212,79 @@
                                     <td class="px-5 py-3">
                                         <x-admin.row-actions
                                             :label="$activity->title"
+                                            edit-dialog="edit-activity-{{ $activity->id }}"
                                             :view-href="$activity->isPublic() ? route('activities.index', ['categorie' => $activity->category?->slug]) : null"
+                                            :duplicate-action="route('admin.activities.duplicate', $activity)"
                                             :delete-action="route('admin.activities.destroy', $activity)"
                                         />
                                     </td>
                                 </tr>
+
+                                <x-admin.edit-modal id="edit-activity-{{ $activity->id }}" title="Modifier l'activité" :action="route('admin.activities.update', $activity)">
+                                    <div>
+                                        <label for="edit-activity-{{ $activity->id }}-title" class="block text-sm font-medium text-slate-700">
+                                            Titre
+                                            <span class="text-rose-600" aria-hidden="true">*</span>
+                                        </label>
+                                        <input type="text" id="edit-activity-{{ $activity->id }}-title" name="title" required value="{{ $activity->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                    </div>
+
+                                    <div>
+                                        <label for="edit-activity-{{ $activity->id }}-category" class="block text-sm font-medium text-slate-700">Type d'activité</label>
+                                        <select id="edit-activity-{{ $activity->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                            <option value="">Sélectionner un type</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}" @selected($activity->category_id === $category->id)>{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                        <div>
+                                            <label for="edit-activity-{{ $activity->id }}-location" class="block text-sm font-medium text-slate-700">Lieu</label>
+                                            <input type="text" id="edit-activity-{{ $activity->id }}-location" name="location" value="{{ $activity->location }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                        </div>
+
+                                        <div>
+                                            <label for="edit-activity-{{ $activity->id }}-held-on" class="block text-sm font-medium text-slate-700">Date de l'activité</label>
+                                            <input type="date" id="edit-activity-{{ $activity->id }}-held-on" name="held_on" value="{{ $activity->held_on?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="edit-activity-{{ $activity->id }}-excerpt" class="block text-sm font-medium text-slate-700">Description</label>
+                                        <textarea id="edit-activity-{{ $activity->id }}-excerpt" name="excerpt" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $activity->excerpt }}</textarea>
+                                    </div>
+
+                                    <div>
+                                        <label for="edit-activity-{{ $activity->id }}-body" class="block text-sm font-medium text-slate-700">Contenu</label>
+                                        <textarea id="edit-activity-{{ $activity->id }}-body" name="body" rows="6" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $activity->body }}</textarea>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="edit-activity-{{ $activity->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                                            <select id="edit-activity-{{ $activity->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                                <option value="draft" @selected($activity->status === 'draft')>Brouillon</option>
+                                                <option value="published" @selected($activity->status === 'published')>Publié</option>
+                                                <option value="archived" @selected($activity->status === 'archived')>Archivé</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label for="edit-activity-{{ $activity->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                                            <input type="date" id="edit-activity-{{ $activity->id }}-published-at" name="published_at" value="{{ $activity->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <span class="block text-sm font-medium text-slate-700">Image principale</span>
+                                        <div class="mt-1.5 flex items-center gap-3">
+                                            <img src="{{ $activity->coverUrl() }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
+                                            <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                                        </div>
+                                    </div>
+                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">

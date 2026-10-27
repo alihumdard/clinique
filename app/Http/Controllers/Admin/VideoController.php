@@ -76,6 +76,16 @@ class VideoController extends Controller
             ->with('status', "La vidéo « {$video->title} » a été mise à jour.");
     }
 
+    /** A copy as a draft, ready to adapt rather than written from scratch. */
+    public function duplicate(Video $video): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($video, Video::class, 'title', 'video');
+
+        return redirect()
+            ->route('admin.webtv')
+            ->with('status', "« {$video->title} » a été dupliquée en brouillon.");
+    }
+
     /** Moves the capsule to the corbeille; the cover stays until it is purged. */
     public function destroy(Video $video): RedirectResponse
     {

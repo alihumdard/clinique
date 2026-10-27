@@ -114,7 +114,14 @@ trait ManagesContent
 
         $data[$titleColumn] = ($data[$titleColumn] ?? '') . ' (copie)';
         $data['status'] = 'draft';
-        $data['published_at'] = null;
+
+        // A list type (partners, team members) has no published_at column
+        // at all: only clear it when the source row already carried one,
+        // so create() is never handed a key no column answers to.
+        if (array_key_exists('published_at', $data)) {
+            $data['published_at'] = null;
+        }
+
         $data['slug'] = $this->uniqueSlug($model, null, $data[$titleColumn], null, $fallbackSlug);
 
         return $model::create($data);

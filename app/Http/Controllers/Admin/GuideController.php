@@ -96,6 +96,16 @@ class GuideController extends Controller
             ->with('status', "La fiche pratique « {$guide->title} » a été mise à jour.");
     }
 
+    /** A copy as a draft, ready to adapt rather than written from scratch. */
+    public function duplicate(Guide $guide): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($guide, Guide::class, 'title', 'fiche');
+
+        return redirect()
+            ->route('admin.guides')
+            ->with('status', "« {$guide->title} » a été dupliquée en brouillon.");
+    }
+
     /** Moves the fiche to the corbeille; both files stay until it is purged. */
     public function destroy(Guide $guide): RedirectResponse
     {

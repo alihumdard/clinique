@@ -86,6 +86,16 @@ class CallController extends Controller
             ->with('status', "L'appel « {$call->title} » a été mis à jour.");
     }
 
+    /** A copy as a draft, ready to adapt rather than written from scratch. */
+    public function duplicate(Call $call): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($call, Call::class, 'title', 'appel');
+
+        return redirect()
+            ->route('admin.calls')
+            ->with('status', "« {$call->title} » a été dupliqué en brouillon.");
+    }
+
     public function destroy(Call $call): RedirectResponse
     {
         $call->delete();

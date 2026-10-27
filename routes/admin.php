@@ -53,6 +53,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/pages', [PageController::class, 'index'])->name('pages');
         Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
         Route::put('/pages/{page:id}', [PageController::class, 'update'])->name('pages.update');
+        Route::post('/pages/{page:id}/dupliquer', [PageController::class, 'duplicate'])->name('pages.duplicate');
         Route::delete('/pages/{page:id}', [PageController::class, 'destroy'])->name('pages.destroy');
         Route::post('/pages/{id}/restaurer', [PageController::class, 'restore'])->name('pages.restore');
         Route::delete('/pages/{id}/definitif', [PageController::class, 'forceDestroy'])->name('pages.force-destroy');
@@ -75,6 +76,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/web-tv', [VideoController::class, 'index'])->name('webtv');
         Route::post('/web-tv', [VideoController::class, 'store'])->name('webtv.store');
         Route::put('/web-tv/{video:id}', [VideoController::class, 'update'])->name('webtv.update');
+        Route::post('/web-tv/{video:id}/dupliquer', [VideoController::class, 'duplicate'])->name('webtv.duplicate');
         Route::delete('/web-tv/{video:id}', [VideoController::class, 'destroy'])->name('webtv.destroy');
         Route::post('/web-tv/{id}/restaurer', [VideoController::class, 'restore'])->name('webtv.restore');
         Route::delete('/web-tv/{id}/definitif', [VideoController::class, 'forceDestroy'])->name('webtv.force-destroy');
@@ -88,6 +90,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/partenaires', [PartnerController::class, 'index'])->name('partners');
         Route::post('/partenaires', [PartnerController::class, 'store'])->name('partners.store');
         Route::put('/partenaires/{partner:id}', [PartnerController::class, 'update'])->name('partners.update');
+        Route::post('/partenaires/{partner:id}/dupliquer', [PartnerController::class, 'duplicate'])->name('partners.duplicate');
         Route::delete('/partenaires/{partner:id}', [PartnerController::class, 'destroy'])->name('partners.destroy');
         Route::post('/partenaires/{partner:id}/visibilite', [PartnerController::class, 'toggle'])->name('partners.toggle');
         Route::post('/partenaires/{id}/restaurer', [PartnerController::class, 'restore'])->name('partners.restore');
@@ -96,6 +99,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/equipe', [TeamController::class, 'index'])->name('team');
         Route::post('/equipe', [TeamController::class, 'store'])->name('team.store');
         Route::put('/equipe/{member:id}', [TeamController::class, 'update'])->name('team.update');
+        Route::post('/equipe/{member:id}/dupliquer', [TeamController::class, 'duplicate'])->name('team.duplicate');
         Route::delete('/equipe/{member:id}', [TeamController::class, 'destroy'])->name('team.destroy');
         Route::post('/equipe/{member:id}/visibilite', [TeamController::class, 'toggle'])->name('team.toggle');
         Route::post('/equipe/{id}/restaurer', [TeamController::class, 'restore'])->name('team.restore');
@@ -110,6 +114,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/activites', [ActivityController::class, 'index'])->name('activities');
         Route::post('/activites', [ActivityController::class, 'store'])->name('activities.store');
         Route::put('/activites/{activity:id}', [ActivityController::class, 'update'])->name('activities.update');
+        Route::post('/activites/{activity:id}/dupliquer', [ActivityController::class, 'duplicate'])->name('activities.duplicate');
         Route::delete('/activites/{activity:id}', [ActivityController::class, 'destroy'])->name('activities.destroy');
         Route::post('/activites/{id}/restaurer', [ActivityController::class, 'restore'])->name('activities.restore');
         Route::delete('/activites/{id}/definitif', [ActivityController::class, 'forceDestroy'])->name('activities.force-destroy');
@@ -124,6 +129,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/fiches-pratiques', [GuideController::class, 'index'])->name('guides');
         Route::post('/fiches-pratiques', [GuideController::class, 'store'])->name('guides.store');
         Route::put('/fiches-pratiques/{guide:id}', [GuideController::class, 'update'])->name('guides.update');
+        Route::post('/fiches-pratiques/{guide:id}/dupliquer', [GuideController::class, 'duplicate'])->name('guides.duplicate');
         Route::delete('/fiches-pratiques/{guide:id}', [GuideController::class, 'destroy'])->name('guides.destroy');
         Route::post('/fiches-pratiques/{id}/restaurer', [GuideController::class, 'restore'])->name('guides.restore');
         Route::delete('/fiches-pratiques/{id}/definitif', [GuideController::class, 'forceDestroy'])->name('guides.force-destroy');
@@ -131,6 +137,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/rapports-annuels', [ReportController::class, 'index'])->name('reports');
         Route::post('/rapports-annuels', [ReportController::class, 'store'])->name('reports.store');
         Route::put('/rapports-annuels/{report:id}', [ReportController::class, 'update'])->name('reports.update');
+        Route::post('/rapports-annuels/{report:id}/dupliquer', [ReportController::class, 'duplicate'])->name('reports.duplicate');
         Route::delete('/rapports-annuels/{report:id}', [ReportController::class, 'destroy'])->name('reports.destroy');
         Route::post('/rapports-annuels/{id}/restaurer', [ReportController::class, 'restore'])->name('reports.restore');
         Route::delete('/rapports-annuels/{id}/definitif', [ReportController::class, 'forceDestroy'])->name('reports.force-destroy');
@@ -150,6 +157,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/appels', [CallController::class, 'index'])->name('calls');
         Route::post('/appels', [CallController::class, 'store'])->name('calls.store');
         Route::put('/appels/{call:id}', [CallController::class, 'update'])->name('calls.update');
+        Route::post('/appels/{call:id}/dupliquer', [CallController::class, 'duplicate'])->name('calls.duplicate');
         Route::delete('/appels/{call:id}', [CallController::class, 'destroy'])->name('calls.destroy');
         Route::post('/appels/{id}/restaurer', [CallController::class, 'restore'])->name('calls.restore');
         Route::delete('/appels/{id}/definitif', [CallController::class, 'forceDestroy'])->name('calls.force-destroy');

@@ -89,6 +89,25 @@ class PageController extends Controller
             ->with('status', "La page « {$page->title} » a été mise à jour.");
     }
 
+    /**
+     * A copy as a draft, ready to adapt rather than written from scratch.
+     *
+     * Refused for a system page (abort_if below) even though none ever
+     * reaches this controller via the view today — a safety net in case
+     * that ever changes, since a system page is a designed template, not
+     * CMS content.
+     */
+    public function duplicate(Page $page): RedirectResponse
+    {
+        abort_if($page->is_system, 403);
+
+        $copy = $this->duplicateAsDraft($page, Page::class, 'title', 'page');
+
+        return redirect()
+            ->route('admin.pages')
+            ->with('status', "« {$page->title} » a été dupliquée en brouillon.");
+    }
+
     public function destroy(Page $page): RedirectResponse
     {
         $page->delete();

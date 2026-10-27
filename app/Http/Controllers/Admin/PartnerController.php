@@ -75,6 +75,16 @@ class PartnerController extends Controller
             ->with('status', "Le partenaire « {$partner->name} » a été mis à jour.");
     }
 
+    /** A copy as a draft, ready to adapt rather than written from scratch. */
+    public function duplicate(Partner $partner): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($partner, Partner::class, 'name', 'partenaire');
+
+        return redirect()
+            ->route('admin.partners')
+            ->with('status', "« {$partner->name} » a été dupliqué en brouillon.");
+    }
+
     public function destroy(Partner $partner): RedirectResponse
     {
         $partner->delete();

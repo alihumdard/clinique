@@ -197,11 +197,74 @@
                                     <td class="px-5 py-3">
                                         <x-admin.row-actions
                                             :label="$report->title"
+                                            edit-dialog="edit-report-{{ $report->id }}"
                                             :view-href="$report->isPublic() ? route('documents.report', $report) : null"
+                                            :duplicate-action="route('admin.reports.duplicate', $report)"
                                             :delete-action="route('admin.reports.destroy', $report)"
                                         />
                                     </td>
                                 </tr>
+
+                                <x-admin.edit-modal id="edit-report-{{ $report->id }}" title="Modifier le rapport" :action="route('admin.reports.update', $report)">
+                                    <div>
+                                        <label for="edit-report-{{ $report->id }}-title" class="block text-sm font-medium text-slate-700">
+                                            Titre
+                                            <span class="text-rose-600" aria-hidden="true">*</span>
+                                        </label>
+                                        <input type="text" id="edit-report-{{ $report->id }}-title" name="title" required value="{{ $report->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                    </div>
+
+                                    <div>
+                                        <label for="edit-report-{{ $report->id }}-year" class="block text-sm font-medium text-slate-700">
+                                            Année
+                                            <span class="text-rose-600" aria-hidden="true">*</span>
+                                        </label>
+                                        <select id="edit-report-{{ $report->id }}-year" name="year" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                            @for ($year = (int) date('Y') + 1; $year >= 2019; $year--)
+                                                <option value="{{ $year }}" @selected($report->year === $year)>{{ $year }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="edit-report-{{ $report->id }}-description" class="block text-sm font-medium text-slate-700">Description</label>
+                                        <textarea id="edit-report-{{ $report->id }}-description" name="description" rows="4" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $report->description }}</textarea>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="edit-report-{{ $report->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                                            <select id="edit-report-{{ $report->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                                <option value="draft" @selected($report->status === 'draft')>Brouillon</option>
+                                                <option value="published" @selected($report->status === 'published')>Publié</option>
+                                                <option value="archived" @selected($report->status === 'archived')>Archivé</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label for="edit-report-{{ $report->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                                            <input type="date" id="edit-report-{{ $report->id }}-published-at" name="published_at" value="{{ $report->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
+                                        <div class="mt-1.5 flex items-center gap-3">
+                                            <img src="{{ $report->coverUrl() }}" alt="" class="h-14 w-11 shrink-0 rounded-md border border-slate-200 object-cover">
+                                            <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <span class="block text-sm font-medium text-slate-700">Fichier PDF</span>
+                                        <div class="mt-1.5 flex items-center gap-1.5 text-xs text-slate-500">
+                                            <x-icon name="document" class="h-4 w-4 shrink-0 text-rose-500" />
+                                            {{ $report->file_name }} ({{ $report->fileSizeForHumans() }})
+                                        </div>
+                                        <input type="file" name="document" accept="application/pdf" class="mt-1.5 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                                        <p class="mt-1 text-xs text-slate-400">Laissez vide pour conserver le fichier actuel.</p>
+                                    </div>
+                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">

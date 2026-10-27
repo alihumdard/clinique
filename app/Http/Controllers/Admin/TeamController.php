@@ -82,6 +82,15 @@ class TeamController extends Controller
             ->with('status', "La fiche de {$member->name} a été mise à jour.");
     }
 
+    public function duplicate(TeamMember $member): RedirectResponse
+    {
+        $copy = $this->duplicateAsDraft($member, TeamMember::class, 'name', 'membre');
+
+        return redirect()
+            ->route('admin.team')
+            ->with('status', "{$member->name} a été dupliqué(e) en brouillon.");
+    }
+
     public function destroy(TeamMember $member): RedirectResponse
     {
         $member->delete();
