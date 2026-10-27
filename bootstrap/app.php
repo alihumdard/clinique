@@ -14,6 +14,15 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(__DIR__.'/../routes/admin.php');
 
             /*
+             * Registre numérique (module 3). Its own guard and its own
+             * idle timeout, and like the admin group it is registered
+             * before the CMS catch-all below so /registre is not
+             * swallowed by it.
+             */
+            Route::middleware(['web', \App\Http\Middleware\RegistreSessionTimeout::class])
+                ->group(__DIR__.'/../routes/registre.php');
+
+            /*
              * CMS pages, registered last on purpose.
              *
              * This route matches any single segment, so it has to come
@@ -41,13 +50,20 @@ return Application::configure(basePath: dirname(__DIR__))
         // so mixed-content and protocol-downgrade cannot occur.
         $middleware->trustProxies(at: '*');
 
-        // Unauthenticated visitors to /admin are sent to the admin sign-in,
-        // not to a generic 'login' route that this application has no need for.
-        $middleware->redirectGuestsTo(fn () => route('admin.login'));
+        /*
+         * Two signed-in areas, so the redirect depends on which one was
+         * asked for: a visitor turned away from the Registre must land on
+         * the Registre's sign-in, not on the website's — the two have
+         * different accounts, and sending someone to the wrong one reads
+         * as "your password is wrong".
+         */
+        $middleware->redirectGuestsTo(fn ($request) => $request->is('registre', 'registre/*')
+            ? route('registre.login')
+            : route('admin.login'));
 
-        // An already-signed-in admin hitting the sign-in page goes to the
-        // dashboard, not to the public home page.
-        $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
+        $middleware->redirectUsersTo(fn ($request) => $request->is('registre', 'registre/*')
+            ? route('registre.dashboard')
+            : route('admin.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

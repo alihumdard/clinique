@@ -26,6 +26,11 @@
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="DB_URL" value=""/>
+        <!-- The Registre keeps its own database in the tests too, so a
+             test cannot accidentally prove separation against one. -->
+        <env name="REGISTRE_DB_DRIVER" value="sqlite"/>
+        <env name="REGISTRE_DB_DATABASE" value=":memory:"/>
+        <env name="REGISTRE_DB_URL" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

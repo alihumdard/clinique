@@ -31,12 +31,14 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->name('admin.')->group(function () {
 
     // Guest-only: an authenticated admin hitting /admin/login goes to the dashboard.
-    Route::middleware('guest')->group(function () {
+    // The guard is named: the Registre runs on its own, and 'auth' alone
+    // would accept whichever guard happened to be the default.
+    Route::middleware('guest:web')->group(function () {
         Route::get('/login', [AuthController::class, 'show'])->name('login');
         Route::post('/login', [AuthController::class, 'store'])->name('login.attempt');
     });
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware('auth:web')->group(function () {
         Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 
         Route::get('/', DashboardController::class)->name('dashboard');

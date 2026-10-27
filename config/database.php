@@ -44,6 +44,39 @@ return [
             'transaction_mode' => 'DEFERRED',
         ],
 
+        /*
+        | The Registre numérique. Module 3 keeps confidential case data out
+        | of the public site's database entirely — a separate connection,
+        | a separate database, and on the server a separate account with
+        | no rights on the other. Nothing in app/Models (outside
+        | App\Models\Registre) may read from it.
+        |
+        | The driver follows the public one by default so a local SQLite
+        | setup stays a SQLite setup, but every value can be overridden on
+        | its own, which is what production will do.
+        */
+        'registre' => [
+            'driver' => env('REGISTRE_DB_DRIVER', env('DB_CONNECTION', 'sqlite')),
+            'url' => env('REGISTRE_DB_URL'),
+            'database' => env('REGISTRE_DB_DATABASE', database_path('registre.sqlite')),
+            'host' => env('REGISTRE_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('REGISTRE_DB_PORT', env('DB_PORT', '3306')),
+            'username' => env('REGISTRE_DB_USERNAME', 'forge'),
+            'password' => env('REGISTRE_DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'busy_timeout' => null,
+            'journal_mode' => null,
+            'synchronous' => null,
+            'transaction_mode' => 'DEFERRED',
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),

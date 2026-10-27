@@ -42,6 +42,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        /*
+        | The Registre numérique signs in on its own guard, against its own
+        | table in its own database. Being signed in to the public CMS
+        | grants nothing here, and the reverse is just as true: the two
+        | areas share a browser session but not an identity.
+        */
+        'registre' => [
+            'driver' => 'session',
+            'provider' => 'registre_users',
+        ],
     ],
 
     /*
@@ -65,6 +76,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
+        ],
+
+        'registre_users' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Registre\User::class,
         ],
 
         // 'users' => [
