@@ -21,7 +21,12 @@ class NewsController extends Controller
             ->when($request->query('q'), function ($q, $term) {
                 $q->where(function ($inner) use ($term) {
                     $inner->where('title', 'like', "%{$term}%")
-                        ->orWhere('excerpt', 'like', "%{$term}%");
+                        ->orWhere('excerpt', 'like', "%{$term}%")
+                        // The rubrique name is visible right above this
+                        // search box, so a term matching it (e.g. typing
+                        // "Publications" while on that tab) should also
+                        // match, not come back empty.
+                        ->orWhereHas('category', fn ($c) => $c->where('name', 'like', "%{$term}%"));
                 });
             })
             ->latest('published_at')
