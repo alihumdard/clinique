@@ -40,6 +40,15 @@ return Application::configure(basePath: dirname(__DIR__))
         // Security headers on every HTML response (Module 4 checklist).
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
 
+        /*
+         * googtrans is written by the browser, for Google's translate
+         * widget, so it arrives in the clear. Decrypting it would fail
+         * and the chosen language would be read as "none" on every
+         * request — the switch would set the cookie and nothing would
+         * happen. It holds a language pair and nothing else.
+         */
+        $middleware->encryptCookies(except: ['googtrans']);
+
         // Screens an éditeur de contenu may not open: settings,
         // référentiels, the public's personal data, permanent deletion.
         $middleware->alias([

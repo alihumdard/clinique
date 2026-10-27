@@ -40,8 +40,13 @@
             ];
         @endphp
 
+        {{--
+            translate="no" on what the visitor typed: translating a page
+            sends its text to Google, and this is their own account of
+            their situation. The labels around it stay translatable.
+        --}}
         <div class="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white">
-            <dl class="divide-y divide-slate-100">
+            <dl class="notranslate divide-y divide-slate-100" translate="no">
                 @foreach ($lines as $label => $value)
                     @continue(blank($value))
                     <div class="flex flex-col gap-1 px-5 py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
@@ -55,7 +60,7 @@
         @if(filled($draft['narrative'] ?? null))
             <div class="mt-6 space-y-2">
                 <h2 class="text-sm font-bold text-slate-900">Exposé de la situation</h2>
-                <p class="whitespace-pre-line rounded-xl border border-slate-200 bg-white p-5 text-sm leading-relaxed text-slate-700">{{ $draft['narrative'] }}</p>
+                <p class="notranslate whitespace-pre-line rounded-xl border border-slate-200 bg-white p-5 text-sm leading-relaxed text-slate-700" translate="no">{{ $draft['narrative'] }}</p>
             </div>
         @endif
 
@@ -64,7 +69,7 @@
         @if(count($questions))
             <div class="mt-6 space-y-2">
                 <h2 class="text-sm font-bold text-slate-900">Vos questions</h2>
-                <ol class="list-inside list-decimal space-y-1.5 rounded-xl border border-slate-200 bg-white p-5 text-sm leading-relaxed text-slate-700">
+                <ol class="notranslate list-inside list-decimal space-y-1.5 rounded-xl border border-slate-200 bg-white p-5 text-sm leading-relaxed text-slate-700" translate="no">
                     @foreach ($questions as $question)
                         <li>{{ $question }}</li>
                     @endforeach
@@ -75,7 +80,7 @@
         @if(count($files))
             <div class="mt-6 space-y-2">
                 <h2 class="text-sm font-bold text-slate-900">Pièces jointes</h2>
-                <ul class="space-y-2 rounded-xl border border-slate-200 bg-white p-5">
+                <ul class="notranslate space-y-2 rounded-xl border border-slate-200 bg-white p-5" translate="no">
                     @foreach ($files as $file)
                         <li class="flex items-center gap-2 text-sm text-slate-700">
                             <x-icon name="document" class="h-4 w-4 shrink-0 text-slate-400" />
