@@ -40,7 +40,9 @@ Route::get('/services', function () {
 })->name('services');
 
 Route::get('/services/processus-de-consultation', function () {
-    return view('services.process');
+    return view('services.process', [
+        'documents' => App\Models\Guide::public()->latest('published_at')->take(3)->get(),
+    ]);
 })->name('services.process');
 
 Route::get('/services/conditions-acces-gratuite', function () {

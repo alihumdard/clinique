@@ -39,12 +39,10 @@
             </div>
 
             <form role="search" method="GET" action="{{ route('news.index') }}" class="relative self-start">
-                {{-- The active rubrique rides along, so searching inside a
-                     category does not silently drop it. --}}
-                @if($filters['categorie'] ?? null)
-                    <input type="hidden" name="categorie" value="{{ $filters['categorie'] }}">
-                @endif
-
+                {{-- No hidden "categorie" here on purpose: the search box is
+                     a sitewide search, so typing a term and submitting must
+                     search every rubrique, not silently stay scoped to
+                     whichever tab happened to be active. --}}
                 <label for="news-search" class="sr-only">Rechercher une actualité</label>
                 <input
                     type="search"

@@ -117,19 +117,17 @@
             <x-action-note-card icon="download" title="Documents utiles">
                 <p>Téléchargez nos guides et fiches pratiques pour mieux comprendre vos droits et nos services.</p>
                 <ul class="mt-4 space-y-2.5">
-                    @foreach ([
-                        'Guide de la consultation juridique',
-                        'Vos droits en matière de justice',
-                        'Fiche pratique : droits de la famille',
-                    ] as $doc)
+                    @forelse ($documents as $doc)
                         <li>
-                            <a href="{{ route('services.eligibility') }}" class="flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700">
+                            <a href="{{ route('documents.guide', $doc) }}" class="flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700">
                                 <x-icon name="document" class="h-4 w-4 shrink-0" />
-                                {{ $doc }}
+                                {{ $doc->title }}
                                 <span class="text-xs font-normal text-slate-400">(PDF)</span>
                             </a>
                         </li>
-                    @endforeach
+                    @empty
+                        <li class="text-sm text-slate-500">Aucun document disponible pour le moment.</li>
+                    @endforelse
                 </ul>
             </x-action-note-card>
         </div>
