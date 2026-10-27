@@ -60,7 +60,7 @@
             </p>
 
             <div class="mt-8 flex flex-wrap items-center gap-3">
-                <x-button href="#presaisine" variant="primary" class="!px-6 !py-3.5 !text-base">
+                <x-button :href="route('presaisine.index')" variant="primary" class="!px-6 !py-3.5 !text-base">
                     <x-icon name="user-plus" class="h-5 w-5" />
                     Faire une pré-saisine
                 </x-button>
