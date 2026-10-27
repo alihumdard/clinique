@@ -109,7 +109,7 @@
                     :location="$activity->location"
                     :title="$activity->title"
                     :excerpt="$activity->excerpt"
-                    :href="route('activities.index', ['categorie' => $activity->category?->slug])"
+                    :href="route('activities.show', $activity)"
                 />
             @empty
                 <p class="text-sm text-slate-500 sm:col-span-2 lg:col-span-3">

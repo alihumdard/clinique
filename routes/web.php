@@ -83,6 +83,7 @@ Route::get('/ressources/rapports-annuels/{report}/telecharger', [DocumentControl
 */
 
 Route::get('/activites', [ActivityController::class, 'index'])->name('activities.index');
+Route::get('/activites/{activity}', [ActivityController::class, 'show'])->name('activities.show');
 Route::get('/galerie', [ActivityController::class, 'gallery'])->name('gallery');
 
 /*

@@ -38,6 +38,26 @@ class ActivityController extends Controller
         ]);
     }
 
+    public function show(Activity $activity): View
+    {
+        abort_unless($activity->isPublic(), 404);
+
+        return view('activities.show', [
+            'activity' => $activity->load(['category', 'photos']),
+            'recent' => Activity::public()
+                ->whereKeyNot($activity->id)
+                ->orderByDesc('held_on')
+                ->take(4)
+                ->get(),
+            'related' => Activity::public()
+                ->where('id', '!=', $activity->id)
+                ->when($activity->category_id, fn ($q) => $q->where('category_id', $activity->category_id))
+                ->orderByDesc('held_on')
+                ->take(3)
+                ->get(),
+        ]);
+    }
+
     /**
      * The gallery, grouped into albums by the activity's own rubrique —
      * which is what the design calls an album.
