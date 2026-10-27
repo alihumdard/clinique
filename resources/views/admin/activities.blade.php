@@ -444,13 +444,13 @@
         </div>
 
         <div>
-            <label for="activity-status" class="block text-sm font-medium text-slate-700">
+            <label for="create-activity-status" class="block text-sm font-medium text-slate-700">
                 Statut
                 <span class="text-rose-600" aria-hidden="true">*</span>
                 <span class="sr-only">(obligatoire)</span>
             </label>
             <select
-                id="activity-status"
+                id="create-activity-status"
                 name="status"
                 required
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
