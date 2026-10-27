@@ -26,14 +26,18 @@ trait ManagesContent
      *                             so a crafted ?categorie= cannot reach a
      *                             column that does not exist.
      */
-    protected function applyFilters(Builder $query, Request $request, array $searchColumns, bool $hasCategory = true): Builder
+    protected function applyFilters(Builder $query, Request $request, array $searchColumns, bool $hasCategory = true, string $dateColumn = 'created_at'): Builder
     {
         $status = $request->query('statut');
+        $period = $request->query('periode');
 
         return $query
             ->when($status === 'corbeille', fn ($q) => $q->onlyTrashed())
             ->when($status && $status !== 'corbeille', fn ($q) => $q->where('status', $status))
             ->when($hasCategory && $request->query('categorie'), fn ($q) => $q->where('category_id', $request->query('categorie')))
+            ->when($period === 'mois', fn ($q) => $q->where($dateColumn, '>=', now()->startOfMonth()))
+            ->when($period === 'trimestre', fn ($q) => $q->where($dateColumn, '>=', now()->subMonths(3)))
+            ->when($period === 'annee', fn ($q) => $q->where($dateColumn, '>=', now()->startOfYear()))
             ->when($request->query('q'), function ($q, $term) use ($searchColumns) {
                 $q->where(function ($inner) use ($searchColumns, $term) {
                     foreach ($searchColumns as $i => $column) {

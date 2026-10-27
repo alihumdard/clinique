@@ -36,7 +36,7 @@ class ArticleController extends Controller
             // withCount, or the sidebar runs one query per category.
             'categories' => Category::ofType('article')->withCount('articles')->get(),
             'counts' => $this->publicationCounts(Article::class),
-            'filters' => $request->only(['statut', 'categorie', 'q']),
+            'filters' => $request->only(['statut', 'categorie', 'q', 'periode']),
         ]);
     }
 

@@ -33,48 +33,78 @@
         <section class="rounded-xl border border-slate-200 bg-white xl:col-span-3">
 
             <div class="space-y-3 p-5">
-                <form role="search" class="relative w-full lg:max-w-xs">
-                    <label for="news-search" class="sr-only">Rechercher une actualité</label>
-                    <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                        <x-icon name="search" class="h-4 w-4" />
-                    </span>
-                    <input
-                        type="search"
-                        id="news-search"
-                        name="q"
-                        placeholder="Rechercher une actualité..."
-                        class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                    >
-                </form>
+                <form method="GET" action="{{ route('admin.news') }}" class="space-y-3">
+                    <div class="relative w-full lg:max-w-xs">
+                        <label for="news-search" class="sr-only">Rechercher une actualité</label>
+                        <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                            <x-icon name="search" class="h-4 w-4" />
+                        </span>
+                        <input
+                            type="search"
+                            id="news-search"
+                            name="q"
+                            value="{{ $filters['q'] ?? '' }}"
+                            placeholder="Rechercher une actualité..."
+                            class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                    </div>
 
-                @php
-                    $selects = [
-                        ['id' => 'filter-category', 'label' => 'Filtrer par catégorie', 'options' => ['Toutes les catégories', 'Actualités', 'Événements', 'Formation', 'Ressources', 'Web TV', 'Rapports']],
-                        ['id' => 'filter-status',   'label' => 'Filtrer par statut',    'options' => ['Tous les statuts', 'Publié', 'Brouillon', 'Programmée', 'Corbeille']],
-                        ['id' => 'filter-date',     'label' => 'Filtrer par date',      'options' => ['Toutes les dates', 'Ce mois-ci', 'Ce trimestre', 'Cette année']],
-                    ];
-                @endphp
-
-                <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                    @foreach ($selects as $select)
+                    <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
                         <div class="min-w-0 sm:shrink-0">
-                            <label for="{{ $select['id'] }}" class="sr-only">{{ $select['label'] }}</label>
+                            <label for="filter-category" class="sr-only">Filtrer par catégorie</label>
                             <select
-                                id="{{ $select['id'] }}"
+                                id="filter-category"
+                                name="categorie"
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
                             >
-                                @foreach ($select['options'] as $option)
-                                    <option>{{ $option }}</option>
+                                <option value="">Toutes les catégories</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" @selected((string) ($filters['categorie'] ?? '') === (string) $category->id)>{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    @endforeach
 
-                    <button type="button" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
-                        <x-icon name="filter" class="h-4 w-4" />
-                        Filtrer
-                    </button>
-                </div>
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="filter-status" class="sr-only">Filtrer par statut</label>
+                            <select
+                                id="filter-status"
+                                name="statut"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                <option value="">Tous les statuts</option>
+                                <option value="published" @selected(($filters['statut'] ?? '') === 'published')>Publié</option>
+                                <option value="draft" @selected(($filters['statut'] ?? '') === 'draft')>Brouillon</option>
+                                <option value="archived" @selected(($filters['statut'] ?? '') === 'archived')>Archivé</option>
+                                <option value="corbeille" @selected(($filters['statut'] ?? '') === 'corbeille')>Corbeille</option>
+                            </select>
+                        </div>
+
+                        <div class="min-w-0 sm:shrink-0">
+                            <label for="filter-date" class="sr-only">Filtrer par date</label>
+                            <select
+                                id="filter-date"
+                                name="periode"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
+                            >
+                                <option value="">Toutes les dates</option>
+                                <option value="mois" @selected(($filters['periode'] ?? '') === 'mois')>Ce mois-ci</option>
+                                <option value="trimestre" @selected(($filters['periode'] ?? '') === 'trimestre')>Ce trimestre</option>
+                                <option value="annee" @selected(($filters['periode'] ?? '') === 'annee')>Cette année</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                            <x-icon name="filter" class="h-4 w-4" />
+                            Filtrer
+                        </button>
+
+                        @if (array_filter($filters))
+                            <a href="{{ route('admin.news') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
+                                Réinitialiser
+                            </a>
+                        @endif
+                    </div>
+                </form>
             </div>
 
 
