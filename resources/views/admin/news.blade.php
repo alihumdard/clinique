@@ -331,33 +331,16 @@
             --}}
             <x-admin.edit-modal id="create-article" title="Ajouter une actualité" :action="route('admin.news.store')" method="POST" submit-label="Publier l'actualité">
                 <div>
-                    <label for="quick-title" class="block text-sm font-medium text-slate-700">
-                        Titre de l'actualité
+                    <label for="create-article-title" class="block text-sm font-medium text-slate-700">
+                        Titre
                         <span class="text-rose-600" aria-hidden="true">*</span>
-                        <span class="sr-only">(obligatoire)</span>
                     </label>
-                    <input
-                        type="text"
-                        id="quick-title"
-                        name="title"
-                        required
-                        placeholder="Saisissez le titre..."
-                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                    >
+                    <input type="text" id="create-article-title" name="title" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
 
                 <div>
-                    <label for="quick-category" class="block text-sm font-medium text-slate-700">
-                        Catégorie
-                        <span class="text-rose-600" aria-hidden="true">*</span>
-                        <span class="sr-only">(obligatoire)</span>
-                    </label>
-                    <select
-                        id="quick-category"
-                        name="category_id"
-                        required
-                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                    >
+                    <label for="create-article-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
+                    <select id="create-article-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="">Sélectionner une catégorie</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -366,30 +349,35 @@
                 </div>
 
                 <div>
-                    <span class="block text-sm font-medium text-slate-700">Image à la une</span>
-
-                    <label
-                        for="quick-image"
-                        class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                    >
-                        <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
-                        <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
-                        <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                        <input
-                            type="file"
-                            id="quick-image"
-                            name="image"
-                            accept="image/jpeg,image/png"
-                            class="sr-only"
-                        >
-                    </label>
+                    <label for="create-article-excerpt" class="block text-sm font-medium text-slate-700">Chapô</label>
+                    <textarea id="create-article-excerpt" name="excerpt" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
                 </div>
 
-                {{-- Quick publish goes live straight away; scheduling
-                     belongs to the full editor. --}}
-                <input type="hidden" name="status" value="published">
+                <div>
+                    <label for="create-article-body" class="block text-sm font-medium text-slate-700">Contenu</label>
+                    <textarea id="create-article-body" name="body" rows="6" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="create-article-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                        <select id="create-article-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                            <option value="draft">Brouillon</option>
+                            <option value="published" selected>Publié</option>
+                            <option value="archived">Archivé</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="create-article-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                        <input type="date" id="create-article-published-at" name="published_at" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="create-article-image" class="block text-sm font-medium text-slate-700">Image à la une</label>
+                    <input type="file" id="create-article-image" name="image" accept="image/jpeg,image/png" class="mt-1.5 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                </div>
             </x-admin.edit-modal>
         </aside>
     </div>
