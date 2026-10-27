@@ -1,25 +1,25 @@
 @php
     $navItems = [
-        ['label' => 'Accueil', 'route' => 'home'],
-        ['label' => 'La Clinique', 'route' => 'about', 'children' => [
-            ['label' => 'À propos de la Clinique', 'route' => 'about'],
-            ['label' => 'Notre équipe', 'route' => 'about.team'],
-            ['label' => 'Nos partenaires', 'route' => 'partners'],
+        ['label' => __('Accueil'), 'route' => 'home'],
+        ['label' => __('La Clinique'), 'route' => 'about', 'children' => [
+            ['label' => __('À propos de la Clinique'), 'route' => 'about'],
+            ['label' => __('Notre équipe'), 'route' => 'about.team'],
+            ['label' => __('Nos partenaires'), 'route' => 'partners'],
         ]],
-        ['label' => 'Services', 'route' => 'services', 'children' => [
-            ['label' => 'Nos services', 'route' => 'services'],
-            ['label' => 'Processus de consultation', 'route' => 'services.process'],
-            ['label' => "Conditions d'accès et gratuité", 'route' => 'services.eligibility'],
-            ['label' => 'Tarifs administratifs', 'route' => 'services.fees'],
+        ['label' => __('Services'), 'route' => 'services', 'children' => [
+            ['label' => __('Nos services'), 'route' => 'services'],
+            ['label' => __('Processus de consultation'), 'route' => 'services.process'],
+            ['label' => __("Conditions d'accès et gratuité"), 'route' => 'services.eligibility'],
+            ['label' => __('Tarifs administratifs'), 'route' => 'services.fees'],
         ]],
-        ['label' => 'Actualités', 'route' => 'news.index'],
-        ['label' => 'Ressources', 'route' => 'resources.guides', 'children' => [
-            ['label' => 'Fiches pratiques juridiques', 'route' => 'resources.guides'],
-            ['label' => 'Rapports annuels', 'route' => 'resources.reports'],
-            ['label' => 'Galerie photos', 'route' => 'gallery'],
+        ['label' => __('Actualités'), 'route' => 'news.index'],
+        ['label' => __('Ressources'), 'route' => 'resources.guides', 'children' => [
+            ['label' => __('Fiches pratiques juridiques'), 'route' => 'resources.guides'],
+            ['label' => __('Rapports annuels'), 'route' => 'resources.reports'],
+            ['label' => __('Galerie photos'), 'route' => 'gallery'],
         ]],
-        ['label' => 'Web TV', 'route' => 'webtv.index'],
-        ['label' => 'Contact', 'route' => 'contact'],
+        ['label' => __('Web TV'), 'route' => 'webtv.index'],
+        ['label' => __('Contact'), 'route' => 'contact'],
     ];
 @endphp
 
@@ -113,7 +113,7 @@
         </nav>
 
         <div class="hidden items-center lg:flex">
-            <x-button :href="route('presaisine.index')" variant="primary" class="!rounded-full">Pré-saisine</x-button>
+            <x-button :href="route('presaisine.index')" variant="primary" class="!rounded-full">{{ __('Pré-saisine') }}</x-button>
         </div>
 
         <button
@@ -177,6 +177,6 @@
             <x-icon name="search" class="h-4 w-4" />
             Rechercher
         </a>
-        <x-button :href="route('presaisine.index')" variant="primary" class="mt-1 w-full justify-center !rounded-full">Pré-saisine</x-button>
+        <x-button :href="route('presaisine.index')" variant="primary" class="mt-1 w-full justify-center !rounded-full">{{ __('Pré-saisine') }}</x-button>
     </nav>
 </header>

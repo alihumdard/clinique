@@ -155,6 +155,18 @@ Route::get('/pre-saisine/confirmation', [PresaisineController::class, 'confirmat
 
 /*
 |--------------------------------------------------------------------------
+| Langue
+|--------------------------------------------------------------------------
+|
+| The FR / EN switch in the header. It writes a cookie and returns the
+| visitor to the page they were on.
+|
+*/
+
+Route::get('/langue/{locale}', \App\Http\Controllers\LocaleController::class)->name('locale');
+
+/*
+|--------------------------------------------------------------------------
 | Mandatory legal pages
 |--------------------------------------------------------------------------
 */

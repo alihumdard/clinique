@@ -2,16 +2,20 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
  * The FR / EN switch.
  *
- * English is produced by Google Translate, which is a remote script — and
- * the performance plan forbids those. The resolution is that the script
- * is only loaded once a visitor has asked for English: a French visitor
- * loads none, which is what these tests hold the implementation to.
+ * The English comes from the site's own translation file, not from a
+ * third party: Google's widget would have meant loosening the
+ * Content-Security-Policy and sending every page's text — including what
+ * someone typed about their own situation — to Google.
+ *
+ * French is both the default and the fallback, so a string nobody has
+ * translated yet is served in French rather than as a missing key.
  */
 class LanguageSwitcherTest extends TestCase
 {
@@ -21,72 +25,74 @@ class LanguageSwitcherTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('data-language="fr"', escape: false)
-            ->assertSee('data-language="en"', escape: false);
+            ->assertSee('/langue/en', escape: false)
+            ->assertSee('FR', escape: false)
+            ->assertSee('EN', escape: false);
     }
 
-    /** The default page must not reach out to Google at all. */
-    public function test_nothing_is_loaded_from_google_by_default(): void
+    public function test_french_is_served_by_default(): void
     {
         $this->get('/')
             ->assertOk()
-            ->assertDontSee('translate.google.com', escape: false);
+            ->assertSee('Liens rapides', escape: false)
+            ->assertDontSee('Quick links', escape: false);
     }
 
-    public function test_the_script_is_loaded_once_english_is_chosen(): void
+    public function test_choosing_english_translates_the_chrome(): void
     {
-        $this->withUnencryptedCookie('googtrans', '/fr/en')
+        $this->get('/langue/en')->assertRedirect();
+
+        $this->withCookie(SetLocale::COOKIE, 'en')
             ->get('/')
             ->assertOk()
-            ->assertSee('translate.google.com/translate_a/element.js', escape: false);
+            ->assertSee('Quick links', escape: false)
+            ->assertSee('Our team', escape: false);
     }
 
-    public function test_clearing_the_cookie_returns_the_page_to_french(): void
+    public function test_choosing_french_brings_it_back(): void
     {
-        $this->withUnencryptedCookie('googtrans', '')
+        $this->withCookie(SetLocale::COOKIE, 'fr')
             ->get('/')
             ->assertOk()
-            ->assertDontSee('translate.google.com', escape: false);
+            ->assertSee('Liens rapides', escape: false)
+            ->assertDontSee('Quick links', escape: false);
     }
 
-    /** The switch itself must not be translated, or FR/EN become FR/FR. */
-    public function test_the_switch_is_excluded_from_translation(): void
+    public function test_the_switch_returns_to_the_page_it_was_used_on(): void
     {
-        $this->get('/')
+        $this->get('/langue/en', ['referer' => url('/actualites')])
+            ->assertRedirect(url('/actualites'));
+    }
+
+    public function test_an_unknown_language_is_refused(): void
+    {
+        $this->get('/langue/de')->assertNotFound();
+    }
+
+    /** A page nobody has translated yet still reads, in French. */
+    public function test_an_untranslated_string_falls_back_to_french(): void
+    {
+        $this->withCookie(SetLocale::COOKIE, 'en')
+            ->get('/')
             ->assertOk()
-            ->assertSee('notranslate flex items-center gap-1', escape: false);
+            // Translated chrome…
+            ->assertSee('Our services', escape: false)
+            // …around French content that is served as it stands.
+            ->assertSee('Nos domaines', escape: false);
     }
 
     /**
-     * What someone typed about their own situation is not sent to Google:
-     * translating a page sends its text, and this is a legal clinic.
+     * The security checklist asks for a strict policy, and nothing about
+     * this feature loosens it: the English is served from this origin.
      */
-    public function test_what_the_visitor_typed_is_never_translated(): void
+    public function test_nothing_is_loaded_from_a_third_party(): void
     {
-        $this->post('/pre-saisine', [
-            'reponses' => ['urgence' => 'non', 'avocat' => 'non', 'domaine' => 'oui', 'deplacement' => 'oui'],
-        ]);
+        $response = $this->withCookie(SetLocale::COOKIE, 'en')->get('/')->assertOk();
 
-        $this->post('/pre-saisine/formulaire', [
-            'last_name' => 'Abdou',
-            'phone' => '+227 90 11 22 33',
-            'legal_domain' => 'Droit du travail',
-            'subject' => 'Salaires non versés',
-            'narrative' => "Mon employeur ne m'a pas payé depuis trois mois.",
-            'consent' => '1',
-        ]);
-
-        $response = $this->get('/pre-saisine/verification')->assertOk();
-
-        $html = $response->getContent();
-        // Without the apostrophe: Blade escapes it, so the raw sentence
-        // is not what lands in the HTML.
-        $position = mb_strpos($html, 'pas payé depuis trois mois');
-
-        $this->assertNotFalse($position, 'the narrative should be shown back for review');
-
-        // The element carrying it declares translate="no".
-        $block = mb_substr($html, max(0, $position - 400), 400);
-        $this->assertStringContainsString('translate="no"', $block);
+        $response->assertDontSee('translate.google.com', escape: false);
+        $this->assertStringContainsString(
+            "script-src 'self'",
+            (string) $response->headers->get('Content-Security-Policy')
+        );
     }
 }

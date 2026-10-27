@@ -32,35 +32,35 @@
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-white">Liens rapides</h2>
+                <h2 class="text-sm font-semibold text-white">{{ __('Liens rapides') }}</h2>
                 <ul class="mt-4 space-y-3 text-sm text-slate-200">
-                    <li><a href="{{ route('home') }}" class="hover:text-white">Accueil</a></li>
-                    <li><a href="{{ route('about') }}" class="hover:text-white">À propos</a></li>
-                    <li><a href="{{ route('about.team') }}" class="hover:text-white">Notre équipe</a></li>
-                    <li><a href="{{ route('partners') }}" class="hover:text-white">Nos partenaires</a></li>
-                    <li><a href="{{ route('news.index') }}" class="hover:text-white">Actualités</a></li>
-                    <li><a href="{{ route('activities.index') }}" class="hover:text-white">Activités</a></li>
-                    <li><a href="{{ route('webtv.index') }}" class="hover:text-white">Web TV</a></li>
-                    <li><a href="{{ route('contact') }}" class="hover:text-white">Contact</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-white">{{ __('Accueil') }}</a></li>
+                    <li><a href="{{ route('about') }}" class="hover:text-white">{{ __('À propos') }}</a></li>
+                    <li><a href="{{ route('about.team') }}" class="hover:text-white">{{ __('Notre équipe') }}</a></li>
+                    <li><a href="{{ route('partners') }}" class="hover:text-white">{{ __('Nos partenaires') }}</a></li>
+                    <li><a href="{{ route('news.index') }}" class="hover:text-white">{{ __('Actualités') }}</a></li>
+                    <li><a href="{{ route('activities.index') }}" class="hover:text-white">{{ __('Activités') }}</a></li>
+                    <li><a href="{{ route('webtv.index') }}" class="hover:text-white">{{ __('Web TV') }}</a></li>
+                    <li><a href="{{ route('contact') }}" class="hover:text-white">{{ __('Contact') }}</a></li>
                 </ul>
             </div>
 
             <div>
-                <h2 class="text-sm font-semibold text-white">Nos services</h2>
+                <h2 class="text-sm font-semibold text-white">{{ __('Nos services') }}</h2>
                 <ul class="mt-4 space-y-3 text-sm text-slate-200">
-                    <li><a href="{{ route('services') }}" class="hover:text-white">Nos services</a></li>
-                    <li><a href="{{ route('services.process') }}" class="hover:text-white">Processus de consultation</a></li>
-                    <li><a href="{{ route('services.eligibility') }}" class="hover:text-white">Conditions d'accès</a></li>
-                    <li><a href="{{ route('services.fees') }}" class="hover:text-white">Tarifs administratifs</a></li>
-                    <li><a href="{{ route('resources.guides') }}" class="hover:text-white">Fiches pratiques juridiques</a></li>
-                    <li><a href="{{ route('resources.reports') }}" class="hover:text-white">Rapports annuels</a></li>
-                    <li><a href="{{ route('gallery') }}" class="hover:text-white">Galerie photos</a></li>
-                    <li><a href="{{ route('join') }}" class="hover:text-white">Nous rejoindre</a></li>
+                    <li><a href="{{ route('services') }}" class="hover:text-white">{{ __('Nos services') }}</a></li>
+                    <li><a href="{{ route('services.process') }}" class="hover:text-white">{{ __('Processus de consultation') }}</a></li>
+                    <li><a href="{{ route('services.eligibility') }}" class="hover:text-white">{{ __('Conditions d\'accès') }}</a></li>
+                    <li><a href="{{ route('services.fees') }}" class="hover:text-white">{{ __('Tarifs administratifs') }}</a></li>
+                    <li><a href="{{ route('resources.guides') }}" class="hover:text-white">{{ __('Fiches pratiques juridiques') }}</a></li>
+                    <li><a href="{{ route('resources.reports') }}" class="hover:text-white">{{ __('Rapports annuels') }}</a></li>
+                    <li><a href="{{ route('gallery') }}" class="hover:text-white">{{ __('Galerie photos') }}</a></li>
+                    <li><a href="{{ route('join') }}" class="hover:text-white">{{ __('Nous rejoindre') }}</a></li>
                 </ul>
             </div>
 
             <div class="col-span-2 lg:col-span-1">
-                <h2 class="text-sm font-semibold text-white">Contact</h2>
+                <h2 class="text-sm font-semibold text-white">{{ __('Contact') }}</h2>
                 <ul class="mt-4 space-y-3.5 text-sm text-slate-200">
                     <li class="flex items-start gap-3">
                         <x-icon name="map-pin" class="mt-0.5 h-5 w-5 shrink-0 text-white" />

@@ -41,13 +41,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
 
         /*
-         * googtrans is written by the browser, for Google's translate
-         * widget, so it arrives in the clear. Decrypting it would fail
-         * and the chosen language would be read as "none" on every
-         * request — the switch would set the cookie and nothing would
-         * happen. It holds a language pair and nothing else.
+         * The visitor's language. Appended, not prepended: the choice is
+         * in a cookie, and a middleware that runs before the cookies are
+         * decrypted reads an encrypted string and falls back to French on
+         * every request.
          */
-        $middleware->encryptCookies(except: ['googtrans']);
+        $middleware->web(append: [\App\Http\Middleware\SetLocale::class]);
+
 
         // Screens an éditeur de contenu may not open: settings,
         // référentiels, the public's personal data, permanent deletion.

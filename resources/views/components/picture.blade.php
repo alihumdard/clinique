@@ -26,6 +26,14 @@
 ])
 
 @php
+    /*
+     * A blank path asked the browser for /images/.webp — a 404 on every
+     * page that showed a row without a picture. A caller that has nothing
+     * to show gets the placeholder, which is what every other path here
+     * already did.
+     */
+    $path = filled($path) ? $path : 'placeholders/news-1';
+
     $base = 'images/'.$path;
     $srcset = \App\Support\Media::srcset($path);
     $sizesAttribute = $hero ? '100vw' : $sizes;
