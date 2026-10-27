@@ -11,7 +11,7 @@
         title="Gestion de l'équipe"
         lead="Gérez les membres de l'équipe de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un membre"
-        action-href="#ajouter-un-membre"
+        action-dialog="create-member"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Équipe'],
@@ -282,218 +282,180 @@
             </section>
         </div>
 
-        {{-- ============ ADD MEMBER ============ --}}
-        <aside>
-            <section id="ajouter-un-membre" class="rounded-xl border border-slate-200 bg-white p-5">
-
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="user-plus" class="h-5 w-5 text-primary-600" />
-                    Ajouter un membre
-                </h2>
-
-                {{--
-                    This form holds personal data about identifiable people.
-                    The e-mail address is published only where a member's own
-                    entry carries one, a member who leaves is hidden rather
-                    than left on the public page, and a permanent delete
-                    removes the row and the photo together.
-                --}}
-                <form method="POST" action="{{ route('admin.team.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
-                    @csrf
-
-                    <div>
-                        <label for="member-name" class="block text-sm font-medium text-slate-700">
-                            Nom complet
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="member-name"
-                            name="name"
-                            required
-                            value="{{ old('name') }}"
-                            placeholder="Ex. Dr. Halima Issa"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="member-role" class="block text-sm font-medium text-slate-700">
-                            Poste / Fonction
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="member-role"
-                            name="role"
-                            required
-                            value="{{ old('role') }}"
-                            placeholder="Ex. Droit de la famille"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="member-department" class="block text-sm font-medium text-slate-700">
-                            Groupe
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="member-department"
-                            name="department"
-                            required
-                            aria-describedby="member-department-hint"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            @foreach ($departments as $key => $label)
-                                <option value="{{ $key }}" @selected(old('department', 'enseignants') === $key)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                        <p id="member-department-hint" class="mt-1.5 text-xs text-slate-500">
-                            Détermine la section de la page Équipe où le membre apparaît.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="member-cohort" class="block text-sm font-medium text-slate-700">Promotion</label>
-                        <input
-                            type="text"
-                            id="member-cohort"
-                            name="cohort"
-                            value="{{ old('cohort') }}"
-                            placeholder="Ex. 2025"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="member-bio" class="block text-sm font-medium text-slate-700">Présentation</label>
-                        <textarea
-                            id="member-bio"
-                            name="bio"
-                            rows="3"
-                            placeholder="Quelques lignes sur son rôle au sein de la Clinique..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('bio') }}</textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-4">
-                        <div>
-                            <label for="member-email" class="block text-sm font-medium text-slate-700">Adresse e-mail</label>
-                            <input
-                                type="email"
-                                id="member-email"
-                                name="email"
-                                value="{{ old('email') }}"
-                                aria-describedby="member-email-hint"
-                                placeholder="prenom.nom@uam.ne"
-                                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                            <p id="member-email-hint" class="mt-1.5 text-xs text-slate-500">
-                                Publiée sur la page Équipe. Laissez vide pour ne pas l'afficher.
-                            </p>
-                        </div>
-
-                        <div>
-                            <label for="member-linkedin" class="block text-sm font-medium text-slate-700">Profil LinkedIn</label>
-                            <input
-                                type="url"
-                                id="member-linkedin"
-                                name="linkedin"
-                                value="{{ old('linkedin') }}"
-                                placeholder="https://www.linkedin.com/in/..."
-                                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                        </div>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Photo</span>
-
-                        <label
-                            for="member-photo"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une photo</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                            <input
-                                type="file"
-                                id="member-photo"
-                                name="photo"
-                                accept="image/jpeg,image/png,image/webp"
-                                class="sr-only"
-                            >
-                        </label>
-                        <p class="mt-1.5 text-xs text-slate-500">
-                            Facultative : sans photo, les initiales sont affichées.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="member-position" class="block text-sm font-medium text-slate-700">Ordre dans le groupe</label>
-                        <input
-                            type="number"
-                            id="member-position"
-                            name="position"
-                            min="0"
-                            value="{{ old('position') }}"
-                            aria-describedby="member-position-hint"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                        <p id="member-position-hint" class="mt-1.5 text-xs text-slate-500">
-                            Laissez vide pour ajouter à la fin du groupe.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="member-status" class="block text-sm font-medium text-slate-700">
-                            Statut
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="member-status"
-                            name="status"
-                            required
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            @php
-                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
-                            @endphp
-                            @foreach ($options as $value => $label)
-                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="pt-1">
-                        <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) old('is_visible', true)" />
-                    </div>
-
-                    <div class="flex items-center gap-3 pt-2">
-                        <button
-                            type="reset"
-                            class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-                        >
-                            Annuler
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-                        >
-                            <x-icon name="save" class="h-4 w-4" />
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </section>
-        </aside>
     </div>
+
+    {{--
+        "Ajouter un membre" in the page header opens this dialog rather than
+        scrolling to a sidebar form, matching the Actualités pattern.
+    --}}
+    <x-admin.edit-modal id="create-member" title="Ajouter un membre de l'équipe" :action="route('admin.team.store')" method="POST" submit-label="Ajouter le membre">
+        <div>
+            <label for="member-name" class="block text-sm font-medium text-slate-700">
+                Nom complet
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <input
+                type="text"
+                id="member-name"
+                name="name"
+                required
+                placeholder="Ex. Dr. Halima Issa"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
+
+        <div>
+            <label for="member-role" class="block text-sm font-medium text-slate-700">
+                Poste / Fonction
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <input
+                type="text"
+                id="member-role"
+                name="role"
+                required
+                placeholder="Ex. Droit de la famille"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
+
+        <div>
+            <label for="member-department" class="block text-sm font-medium text-slate-700">
+                Groupe
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <select
+                id="member-department"
+                name="department"
+                required
+                aria-describedby="member-department-hint"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                @foreach ($departments as $key => $label)
+                    <option value="{{ $key }}" @selected($key === 'enseignants')>{{ $label }}</option>
+                @endforeach
+            </select>
+            <p id="member-department-hint" class="mt-1.5 text-xs text-slate-500">
+                Détermine la section de la page Équipe où le membre apparaît.
+            </p>
+        </div>
+
+        <div>
+            <label for="member-cohort" class="block text-sm font-medium text-slate-700">Promotion</label>
+            <input
+                type="text"
+                id="member-cohort"
+                name="cohort"
+                placeholder="Ex. 2025"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
+
+        <div>
+            <label for="member-bio" class="block text-sm font-medium text-slate-700">Présentation</label>
+            <textarea
+                id="member-bio"
+                name="bio"
+                rows="3"
+                placeholder="Quelques lignes sur son rôle au sein de la Clinique..."
+                class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div>
+                <label for="member-email" class="block text-sm font-medium text-slate-700">Adresse e-mail</label>
+                <input
+                    type="email"
+                    id="member-email"
+                    name="email"
+                    aria-describedby="member-email-hint"
+                    placeholder="prenom.nom@uam.ne"
+                    class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                >
+                <p id="member-email-hint" class="mt-1.5 text-xs text-slate-500">
+                    Publiée sur la page Équipe. Laissez vide pour ne pas l'afficher.
+                </p>
+            </div>
+
+            <div>
+                <label for="member-linkedin" class="block text-sm font-medium text-slate-700">Profil LinkedIn</label>
+                <input
+                    type="url"
+                    id="member-linkedin"
+                    name="linkedin"
+                    placeholder="https://www.linkedin.com/in/..."
+                    class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                >
+            </div>
+        </div>
+
+        <div>
+            <span class="block text-sm font-medium text-slate-700">Photo</span>
+
+            <label
+                for="member-photo"
+                class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+            >
+                <x-icon name="upload" class="h-7 w-7 text-primary-500" />
+                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une photo</span>
+                <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
+
+                <input
+                    type="file"
+                    id="member-photo"
+                    name="photo"
+                    accept="image/jpeg,image/png,image/webp"
+                    class="sr-only"
+                >
+            </label>
+            <p class="mt-1.5 text-xs text-slate-500">
+                Facultative : sans photo, les initiales sont affichées.
+            </p>
+        </div>
+
+        <div>
+            <label for="member-position" class="block text-sm font-medium text-slate-700">Ordre dans le groupe</label>
+            <input
+                type="number"
+                id="member-position"
+                name="position"
+                min="0"
+                aria-describedby="member-position-hint"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+            <p id="member-position-hint" class="mt-1.5 text-xs text-slate-500">
+                Laissez vide pour ajouter à la fin du groupe.
+            </p>
+        </div>
+
+        <div>
+            <label for="member-status" class="block text-sm font-medium text-slate-700">
+                Statut
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <select
+                id="member-status"
+                name="status"
+                required
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                @php
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                @endphp
+                @foreach ($options as $value => $label)
+                    <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="pt-1">
+            <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="true" />
+        </div>
+    </x-admin.edit-modal>
 
 @endsection

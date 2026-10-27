@@ -11,7 +11,7 @@
         title="Appels à candidatures"
         lead="Stages, volontariat, consultances et partenariats proposés par la Clinique."
         action-label="Ajouter un appel"
-        action-href="#ajouter-un-appel"
+        action-dialog="create-call"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Appels à candidatures'],
@@ -265,147 +265,116 @@
             </section>
         </div>
 
-        {{-- ============ ADD CALL ============ --}}
-        <aside>
-            <section id="ajouter-un-appel" class="rounded-xl border border-slate-200 bg-white p-5">
-
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="user-plus" class="h-5 w-5 text-primary-600" />
-                    Ajouter un appel
-                </h2>
-
-                <form method="POST" action="{{ route('admin.calls.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
-                    @csrf
-
-                    <div>
-                        <label for="call-title" class="block text-sm font-medium text-slate-700">
-                            Titre de l'appel
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="call-title"
-                            name="title"
-                            required
-                            value="{{ old('title') }}"
-                            placeholder="Ex. Stage pour étudiants en droit"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="call-type" class="block text-sm font-medium text-slate-700">Type d'appel</label>
-                        <select
-                            id="call-type"
-                            name="category_id"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            <option value="">Sélectionner un type</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="call-closes" class="block text-sm font-medium text-slate-700">Date de clôture</label>
-                        <input
-                            type="date"
-                            id="call-closes"
-                            name="closes_on"
-                            value="{{ old('closes_on') }}"
-                            aria-describedby="call-closes-hint"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                        <p id="call-closes-hint" class="mt-1.5 text-xs text-slate-500">
-                            Passée cette date, l'appel disparaît du site de lui-même. Laissez vide pour un appel sans échéance.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="call-excerpt" class="block text-sm font-medium text-slate-700">Résumé</label>
-                        <textarea
-                            id="call-excerpt"
-                            name="excerpt"
-                            rows="3"
-                            placeholder="Quelques lignes affichées dans la liste..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('excerpt') }}</textarea>
-                    </div>
-
-                    <div>
-                        <label for="call-body" class="block text-sm font-medium text-slate-700">Détail de l'appel</label>
-                        <textarea
-                            id="call-body"
-                            name="body"
-                            rows="5"
-                            placeholder="Conditions, pièces à fournir, modalités de candidature..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('body') }}</textarea>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Image</span>
-
-                        <label
-                            for="call-image"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-5 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="image" class="h-6 w-6 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                            <input
-                                type="file"
-                                id="call-image"
-                                name="image"
-                                accept="image/jpeg,image/png,image/webp"
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    <div>
-                        <label for="call-status" class="block text-sm font-medium text-slate-700">
-                            Statut
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="call-status"
-                            name="status"
-                            required
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            @php
-                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
-                            @endphp
-                            @foreach ($options as $value => $label)
-                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="flex items-center gap-3 pt-2">
-                        <button
-                            type="reset"
-                            class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-                        >
-                            Annuler
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-                        >
-                            <x-icon name="save" class="h-4 w-4" />
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </section>
-        </aside>
     </div>
+
+    <x-admin.edit-modal id="create-call" title="Ajouter un appel à candidatures" :action="route('admin.calls.store')" method="POST" submit-label="Publier l'appel">
+        <div>
+            <label for="call-title" class="block text-sm font-medium text-slate-700">
+                Titre de l'appel
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <input
+                type="text"
+                id="call-title"
+                name="title"
+                required
+                placeholder="Ex. Stage pour étudiants en droit"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
+
+        <div>
+            <label for="call-type" class="block text-sm font-medium text-slate-700">Type d'appel</label>
+            <select
+                id="call-type"
+                name="category_id"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                <option value="">Sélectionner un type</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label for="call-closes" class="block text-sm font-medium text-slate-700">Date de clôture</label>
+            <input
+                type="date"
+                id="call-closes"
+                name="closes_on"
+                aria-describedby="call-closes-hint"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+            <p id="call-closes-hint" class="mt-1.5 text-xs text-slate-500">
+                Passée cette date, l'appel disparaît du site de lui-même. Laissez vide pour un appel sans échéance.
+            </p>
+        </div>
+
+        <div>
+            <label for="call-excerpt" class="block text-sm font-medium text-slate-700">Résumé</label>
+            <textarea
+                id="call-excerpt"
+                name="excerpt"
+                rows="3"
+                placeholder="Quelques lignes affichées dans la liste..."
+                class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+        </div>
+
+        <div>
+            <label for="call-body" class="block text-sm font-medium text-slate-700">Détail de l'appel</label>
+            <textarea
+                id="call-body"
+                name="body"
+                rows="5"
+                placeholder="Conditions, pièces à fournir, modalités de candidature..."
+                class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+        </div>
+
+        <div>
+            <span class="block text-sm font-medium text-slate-700">Image</span>
+
+            <label
+                for="call-image"
+                class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-5 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+            >
+                <x-icon name="image" class="h-6 w-6 text-primary-500" />
+                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
+                <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
+
+                <input
+                    type="file"
+                    id="call-image"
+                    name="image"
+                    accept="image/jpeg,image/png,image/webp"
+                    class="sr-only"
+                >
+            </label>
+        </div>
+
+        <div>
+            <label for="call-status" class="block text-sm font-medium text-slate-700">
+                Statut
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <select
+                id="call-status"
+                name="status"
+                required
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                @php
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                @endphp
+                @foreach ($options as $value => $label)
+                    <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+    </x-admin.edit-modal>
 
 @endsection

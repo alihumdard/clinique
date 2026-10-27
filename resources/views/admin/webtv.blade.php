@@ -11,7 +11,7 @@
         title="Gestion de la Web TV"
         lead="Ajoutez, modifiez et organisez toutes les capsules vidéo de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter une vidéo"
-        action-href="#ajouter-une-video"
+        action-dialog="create-video"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Web TV'],
@@ -301,176 +301,138 @@
 
         {{-- ============ ADD VIDEO ============ --}}
         <aside>
-            <section id="ajouter-une-video" class="rounded-xl border border-slate-200 bg-white p-5">
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="play-circle" class="h-5 w-5 text-primary-600" />
-                    Ajouter une vidéo
-                </h2>
+            <x-admin.edit-modal id="create-video" title="Ajouter une vidéo" :action="route('admin.webtv.store')" method="POST" submit-label="Publier la vidéo">
+                <div>
+                    <label for="video-title" class="block text-sm font-medium text-slate-700">
+                        Titre de la vidéo
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                        <span class="sr-only">(obligatoire)</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="video-title"
+                        name="title"
+                        required
+                        placeholder="Saisissez le titre..."
+                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    >
+                </div>
 
-                {{--
-                    The accept and size hints below are conveniences, never
-                    the security boundary: VideoRequest re-checks every field
-                    and MediaStorage re-reads the file's own bytes.
-                --}}
-                <form method="POST" action="{{ route('admin.webtv.store') }}" enctype="multipart/form-data" class="mt-4 space-y-4">
-                    @csrf
+                <div>
+                    <label for="video-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
+                    <select
+                        id="video-category"
+                        name="category_id"
+                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    >
+                        <option value="">Sélectionner une rubrique</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-                    <div>
-                        <label for="video-title" class="block text-sm font-medium text-slate-700">
-                            Titre de la vidéo
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                <div>
+                    <label for="video-description" class="block text-sm font-medium text-slate-700">Description</label>
+                    <textarea
+                        id="video-description"
+                        name="summary"
+                        rows="4"
+                        placeholder="Décrivez brièvement la vidéo..."
+                        class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    ></textarea>
+                </div>
+
+                <div>
+                    <label for="video-link" class="block text-sm font-medium text-slate-700">
+                        Lien vidéo
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                        <span class="sr-only">(obligatoire)</span>
+                    </label>
+                    <div class="relative mt-1.5">
+                        <input
+                            type="url"
+                            id="video-link"
+                            name="video_url"
+                            required
+                            aria-describedby="video-link-hint"
+                            placeholder="https://youtu.be/..."
+                            class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-10 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                        <span class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                            <x-icon name="link" class="h-4 w-4" />
+                        </span>
+                    </div>
+                    <p id="video-link-hint" class="mt-1.5 text-xs text-slate-500">
+                        Collez simplement le lien YouTube ou Vimeo : la vidéo reste hébergée sur la chaîne de la Clinique.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
+
+                    <label
+                        for="video-cover"
+                        class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+                    >
+                        <x-icon name="upload" class="h-7 w-7 text-primary-500" />
+                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
+                        <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
+                        <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
+
+                        <input
+                            type="file"
+                            id="video-cover"
+                            name="cover"
+                            accept="image/jpeg,image/png,image/webp"
+                            class="sr-only"
+                        >
+                    </label>
+                    <p class="mt-1.5 text-xs text-slate-500">
+                        Facultatif : sans image, la miniature de la chaîne est utilisée.
+                    </p>
+                </div>
+
+                <div>
+                    <label for="video-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
+                    <div class="relative mt-1.5">
+                        <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                            <x-icon name="clock" class="h-4 w-4" />
+                        </span>
                         <input
                             type="text"
-                            id="video-title"
-                            name="title"
-                            required
-                            value="{{ old('title') }}"
-                            placeholder="Saisissez le titre..."
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            id="video-duration"
+                            name="duration"
+                            inputmode="numeric"
+                            pattern="[0-9]{1,3}:[0-5][0-9]"
+                            placeholder="Ex: 12:35"
+                            class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
+                </div>
 
-                    <div>
-                        <label for="video-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
-                        <select
-                            id="video-category"
-                            name="category_id"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            <option value="">Sélectionner une rubrique</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <div>
+                    <label for="video-transcript" class="block text-sm font-medium text-slate-700">Transcription</label>
+                    <textarea
+                        id="video-transcript"
+                        name="transcript"
+                        rows="4"
+                        placeholder="Collez ici la transcription écrite, lorsqu'elle existe..."
+                        class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    ></textarea>
+                    <p class="mt-1.5 text-xs text-slate-500">
+                        Affichée sous la vidéo, pour l'accessibilité et le référencement.
+                    </p>
+                </div>
 
-                    <div>
-                        <label for="video-description" class="block text-sm font-medium text-slate-700">Description</label>
-                        <textarea
-                            id="video-description"
-                            name="summary"
-                            rows="4"
-                            placeholder="Décrivez brièvement la vidéo..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('summary') }}</textarea>
-                    </div>
+                <div class="pt-1">
+                    <x-admin.toggle name="allow_comments" label="Autoriser les commentaires" :checked="false" />
+                </div>
 
-                    <div>
-                        <label for="video-link" class="block text-sm font-medium text-slate-700">
-                            Lien vidéo
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <div class="relative mt-1.5">
-                            <input
-                                type="url"
-                                id="video-link"
-                                name="video_url"
-                                required
-                                value="{{ old('video_url') }}"
-                                aria-describedby="video-link-hint"
-                                placeholder="https://youtu.be/..."
-                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-10 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                            <span class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                                <x-icon name="link" class="h-4 w-4" />
-                            </span>
-                        </div>
-                        <p id="video-link-hint" class="mt-1.5 text-xs text-slate-500">
-                            Collez simplement le lien YouTube ou Vimeo : la vidéo reste hébergée sur la chaîne de la Clinique.
-                        </p>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
-
-                        <label
-                            for="video-cover"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
-                            <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                            <input
-                                type="file"
-                                id="video-cover"
-                                name="cover"
-                                accept="image/jpeg,image/png,image/webp"
-                                class="sr-only"
-                            >
-                        </label>
-                        <p class="mt-1.5 text-xs text-slate-500">
-                            Facultatif : sans image, la miniature de la chaîne est utilisée.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="video-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
-                        <div class="relative mt-1.5">
-                            <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                                <x-icon name="clock" class="h-4 w-4" />
-                            </span>
-                            <input
-                                type="text"
-                                id="video-duration"
-                                name="duration"
-                                inputmode="numeric"
-                                pattern="[0-9]{1,3}:[0-5][0-9]"
-                                value="{{ old('duration') }}"
-                                placeholder="Ex: 12:35"
-                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="video-transcript" class="block text-sm font-medium text-slate-700">Transcription</label>
-                        <textarea
-                            id="video-transcript"
-                            name="transcript"
-                            rows="4"
-                            placeholder="Collez ici la transcription écrite, lorsqu'elle existe..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('transcript') }}</textarea>
-                        <p class="mt-1.5 text-xs text-slate-500">
-                            Affichée sous la vidéo, pour l'accessibilité et le référencement.
-                        </p>
-                    </div>
-
-                    <div class="pt-1">
-                        <x-admin.toggle name="allow_comments" label="Autoriser les commentaires" :checked="(bool) old('allow_comments')" />
-                    </div>
-
-                    {{-- Two submits, one form: the status is carried by the
-                         button that was pressed, so there is no hidden state
-                         to keep in step with the toggle. --}}
-                    <div class="space-y-2.5 pt-1">
-                        <button
-                            type="submit"
-                            name="status"
-                            value="published"
-                            class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-                        >
-                            <x-icon name="paper-plane" class="h-4 w-4" />
-                            Publier la vidéo
-                        </button>
-
-                        <button
-                            type="submit"
-                            name="status"
-                            value="draft"
-                            class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-                        >
-                            <x-icon name="save" class="h-4 w-4" />
-                            Enregistrer en brouillon
-                        </button>
-                    </div>
-                </form>
-            </section>
+                {{-- Quick publish goes live straight away; scheduling and
+                     saving as a draft belong to the full editor. --}}
+                <input type="hidden" name="status" value="published">
+            </x-admin.edit-modal>
         </aside>
     </div>
 

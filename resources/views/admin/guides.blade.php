@@ -11,7 +11,7 @@
         title="Gestion des fiches pratiques"
         lead="Ajoutez, modifiez et organisez les guides pratiques juridiques (PDF)."
         action-label="Ajouter un guide pratique"
-        action-href="#ajouter-une-fiche"
+        action-dialog="create-guide"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Fiches pratiques'],
@@ -293,166 +293,132 @@
 
         {{-- ============ ADD GUIDE ============ --}}
         <aside>
-            <section id="ajouter-une-fiche" class="rounded-xl border border-slate-200 bg-white p-5">
+            <x-admin.edit-modal id="create-guide" title="Ajouter une fiche pratique" :action="route('admin.guides.store')" method="POST" submit-label="Publier la fiche">
+                <div>
+                    <label for="guide-title" class="block text-sm font-medium text-slate-700">
+                        Titre de la fiche
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                        <span class="sr-only">(obligatoire)</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="guide-title"
+                        name="title"
+                        required
+                        placeholder="Ex. Accès à la justice pour tous"
+                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    >
+                </div>
 
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="document" class="h-5 w-5 text-primary-600" />
-                    Ajouter un guide pratique
-                </h2>
+                <div>
+                    <label for="guide-category" class="block text-sm font-medium text-slate-700">Domaine du droit</label>
+                    <select
+                        id="guide-category"
+                        name="category_id"
+                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    >
+                        <option value="">Sélectionner un domaine</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-                {{--
-                    The accept and size hints below are conveniences, never
-                    the security boundary: GuideRequest re-checks every field,
-                    MediaStorage re-reads the PDF's own bytes, and the file
-                    lands on a private disk outside the web root.
-                --}}
-                <form method="POST" action="{{ route('admin.guides.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
-                    @csrf
+                <div>
+                    <label for="guide-description" class="block text-sm font-medium text-slate-700">Description</label>
+                    <textarea
+                        id="guide-description"
+                        name="description"
+                        rows="3"
+                        placeholder="Décrivez brièvement le contenu de la fiche..."
+                        class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    ></textarea>
+                </div>
 
-                    <div>
-                        <label for="guide-title" class="block text-sm font-medium text-slate-700">
-                            Titre de la fiche
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
+                <div>
+                    <label for="guide-body" class="block text-sm font-medium text-slate-700">Contenu de la page</label>
+                    <textarea
+                        id="guide-body"
+                        name="body"
+                        rows="5"
+                        aria-describedby="guide-body-hint"
+                        placeholder="Le texte affiché sur la page de la fiche..."
+                        class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    ></textarea>
+                    <p id="guide-body-hint" class="mt-1.5 text-xs text-slate-500">
+                        Les sauts de ligne sont conservés tels quels.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="block text-sm font-medium text-slate-700">
+                        Fichier PDF
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                        <span class="sr-only">(obligatoire)</span>
+                    </span>
+
+                    <label
+                        for="guide-pdf"
+                        class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+                    >
+                        <x-icon name="upload" class="h-7 w-7 text-primary-500" />
+                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
+                        <span class="mt-0.5 text-xs text-slate-500">un fichier PDF ici</span>
+                        <span class="mt-1 text-xs text-slate-400">(Taille max : 10MB)</span>
+
                         <input
-                            type="text"
-                            id="guide-title"
-                            name="title"
+                            type="file"
+                            id="guide-pdf"
+                            name="document"
+                            accept="application/pdf"
                             required
-                            value="{{ old('title') }}"
-                            placeholder="Ex. Accès à la justice pour tous"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            class="sr-only"
                         >
-                    </div>
+                    </label>
+                </div>
 
-                    <div>
-                        <label for="guide-category" class="block text-sm font-medium text-slate-700">Domaine du droit</label>
-                        <select
-                            id="guide-category"
-                            name="category_id"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                <div>
+                    <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
+
+                    <label
+                        for="guide-cover"
+                        class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+                    >
+                        <x-icon name="image" class="h-7 w-7 text-primary-500" />
+                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
+                        <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
+
+                        <input
+                            type="file"
+                            id="guide-cover"
+                            name="cover"
+                            accept="image/jpeg,image/png,image/webp"
+                            class="sr-only"
                         >
-                            <option value="">Sélectionner un domaine</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    </label>
+                </div>
 
-                    <div>
-                        <label for="guide-description" class="block text-sm font-medium text-slate-700">Description</label>
-                        <textarea
-                            id="guide-description"
-                            name="description"
-                            rows="3"
-                            placeholder="Décrivez brièvement le contenu de la fiche..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('description') }}</textarea>
-                    </div>
-
-                    <div>
-                        <label for="guide-body" class="block text-sm font-medium text-slate-700">Contenu de la page</label>
-                        <textarea
-                            id="guide-body"
-                            name="body"
-                            rows="5"
-                            aria-describedby="guide-body-hint"
-                            placeholder="Le texte affiché sur la page de la fiche..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('body') }}</textarea>
-                        <p id="guide-body-hint" class="mt-1.5 text-xs text-slate-500">
-                            Les sauts de ligne sont conservés tels quels.
-                        </p>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">
-                            Fichier PDF
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </span>
-
-                        <label
-                            for="guide-pdf"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
-                            <span class="mt-0.5 text-xs text-slate-500">un fichier PDF ici</span>
-                            <span class="mt-1 text-xs text-slate-400">(Taille max : 10MB)</span>
-
-                            <input
-                                type="file"
-                                id="guide-pdf"
-                                name="document"
-                                accept="application/pdf"
-                                required
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
-
-                        <label
-                            for="guide-cover"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="image" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                            <input
-                                type="file"
-                                id="guide-cover"
-                                name="cover"
-                                accept="image/jpeg,image/png,image/webp"
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    <div>
-                        <label for="guide-status" class="block text-sm font-medium text-slate-700">
-                            Statut
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="guide-status"
-                            name="status"
-                            required
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            @php
-                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
-                            @endphp
-                            @foreach ($options as $value => $label)
-                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="flex items-center gap-3 pt-2">
-                        <button
-                            type="reset"
-                            class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-                        >
-                            Annuler
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-                        >
-                            <x-icon name="save" class="h-4 w-4" />
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </section>
+                <div>
+                    <label for="guide-status" class="block text-sm font-medium text-slate-700">
+                        Statut
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                        <span class="sr-only">(obligatoire)</span>
+                    </label>
+                    <select
+                        id="guide-status"
+                        name="status"
+                        required
+                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    >
+                        @php
+                            $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                        @endphp
+                        @foreach ($options as $value => $label)
+                            <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </x-admin.edit-modal>
         </aside>
     </div>
 

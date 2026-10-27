@@ -11,7 +11,7 @@
         title="Gestion des partenaires"
         lead="Gérez les organisations et institutions partenaires de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un partenaire"
-        action-href="#ajouter-un-partenaire"
+        action-dialog="create-partner"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Partenaires'],
@@ -298,169 +298,134 @@
             </section>
         </div>
 
-        {{-- ============ ADD PARTNER ============ --}}
-        <aside>
-            <section id="ajouter-un-partenaire" class="rounded-xl border border-slate-200 bg-white p-5">
-
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="users" class="h-5 w-5 text-primary-600" />
-                    Ajouter un partenaire
-                </h2>
-
-                {{--
-                    The accept and size hints below are conveniences, never
-                    the security boundary: PartnerRequest re-checks every
-                    field and MediaStorage re-reads the file's own bytes.
-                    SVG is refused outright — it is a document that can
-                    carry script, and it would be served from our own origin.
-                --}}
-                <form method="POST" action="{{ route('admin.partners.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
-                    @csrf
-
-                    <div>
-                        <label for="partner-name" class="block text-sm font-medium text-slate-700">
-                            Nom du partenaire
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="partner-name"
-                            name="name"
-                            required
-                            value="{{ old('name') }}"
-                            placeholder="Ex. Union Européenne"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="partner-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
-                        <select
-                            id="partner-category"
-                            name="category_id"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            <option value="">Sélectionner une catégorie</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="partner-description" class="block text-sm font-medium text-slate-700">Description</label>
-                        <textarea
-                            id="partner-description"
-                            name="description"
-                            rows="3"
-                            aria-describedby="partner-description-hint"
-                            placeholder="Ex. Programme des Nations Unies pour le Développement"
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('description') }}</textarea>
-                        <p id="partner-description-hint" class="mt-1.5 text-xs text-slate-500">
-                            Affichée sous le nom lorsqu'aucun logo n'a été importé.
-                        </p>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Logo</span>
-
-                        <label
-                            for="partner-logo"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer le logo</span>
-                            <span class="mt-1 text-xs text-slate-400">(PNG transparent, JPG ou WebP - Max 1MB)</span>
-
-                            <input
-                                type="file"
-                                id="partner-logo"
-                                name="logo"
-                                accept="image/png,image/jpeg,image/webp"
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    <div>
-                        <label for="partner-website" class="block text-sm font-medium text-slate-700">Site web</label>
-                        <div class="relative mt-1.5">
-                            <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                                <x-icon name="link" class="h-4 w-4" />
-                            </span>
-                            <input
-                                type="url"
-                                id="partner-website"
-                                name="website"
-                                value="{{ old('website') }}"
-                                placeholder="https://www.exemple.org"
-                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="partner-position" class="block text-sm font-medium text-slate-700">Ordre d'affichage</label>
-                        <input
-                            type="number"
-                            id="partner-position"
-                            name="position"
-                            min="0"
-                            value="{{ old('position') }}"
-                            aria-describedby="partner-position-hint"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                        <p id="partner-position-hint" class="mt-1.5 text-xs text-slate-500">
-                            Laissez vide pour ajouter à la fin de la liste.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="partner-status" class="block text-sm font-medium text-slate-700">
-                            Statut
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="partner-status"
-                            name="status"
-                            required
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            @php
-                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
-                            @endphp
-                            @foreach ($options as $value => $label)
-                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="pt-1">
-                        <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) old('is_visible', true)" />
-                    </div>
-
-                    <div class="flex items-center gap-3 pt-2">
-                        <button
-                            type="reset"
-                            class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-                        >
-                            Annuler
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-                        >
-                            <x-icon name="save" class="h-4 w-4" />
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </section>
-        </aside>
     </div>
+
+    {{--
+        "Ajouter un partenaire" in the page header opens this dialog rather
+        than scrolling to a sidebar form, matching the Actualités pattern.
+    --}}
+    <x-admin.edit-modal id="create-partner" title="Ajouter un partenaire" :action="route('admin.partners.store')" method="POST" submit-label="Ajouter le partenaire">
+        <div>
+            <label for="partner-name" class="block text-sm font-medium text-slate-700">
+                Nom du partenaire
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <input
+                type="text"
+                id="partner-name"
+                name="name"
+                required
+                placeholder="Ex. Union Européenne"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
+
+        <div>
+            <label for="partner-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
+            <select
+                id="partner-category"
+                name="category_id"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                <option value="">Sélectionner une catégorie</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label for="partner-description" class="block text-sm font-medium text-slate-700">Description</label>
+            <textarea
+                id="partner-description"
+                name="description"
+                rows="3"
+                aria-describedby="partner-description-hint"
+                placeholder="Ex. Programme des Nations Unies pour le Développement"
+                class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+            <p id="partner-description-hint" class="mt-1.5 text-xs text-slate-500">
+                Affichée sous le nom lorsqu'aucun logo n'a été importé.
+            </p>
+        </div>
+
+        <div>
+            <span class="block text-sm font-medium text-slate-700">Logo</span>
+
+            <label
+                for="partner-logo"
+                class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+            >
+                <x-icon name="upload" class="h-7 w-7 text-primary-500" />
+                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer le logo</span>
+                <span class="mt-1 text-xs text-slate-400">(PNG transparent, JPG ou WebP - Max 1MB)</span>
+
+                <input
+                    type="file"
+                    id="partner-logo"
+                    name="logo"
+                    accept="image/png,image/jpeg,image/webp"
+                    class="sr-only"
+                >
+            </label>
+        </div>
+
+        <div>
+            <label for="partner-website" class="block text-sm font-medium text-slate-700">Site web</label>
+            <div class="relative mt-1.5">
+                <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                    <x-icon name="link" class="h-4 w-4" />
+                </span>
+                <input
+                    type="url"
+                    id="partner-website"
+                    name="website"
+                    placeholder="https://www.exemple.org"
+                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                >
+            </div>
+        </div>
+
+        <div>
+            <label for="partner-position" class="block text-sm font-medium text-slate-700">Ordre d'affichage</label>
+            <input
+                type="number"
+                id="partner-position"
+                name="position"
+                min="0"
+                aria-describedby="partner-position-hint"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+            <p id="partner-position-hint" class="mt-1.5 text-xs text-slate-500">
+                Laissez vide pour ajouter à la fin de la liste.
+            </p>
+        </div>
+
+        <div>
+            <label for="partner-status" class="block text-sm font-medium text-slate-700">
+                Statut
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <select
+                id="partner-status"
+                name="status"
+                required
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                @php
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                @endphp
+                @foreach ($options as $value => $label)
+                    <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="pt-1">
+            <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="true" />
+        </div>
+    </x-admin.edit-modal>
 
 @endsection

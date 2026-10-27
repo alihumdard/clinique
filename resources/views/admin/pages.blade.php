@@ -11,7 +11,7 @@
         title="Gestion des pages"
         lead="Créez et modifiez les pages que vous rédigez vous-même."
         action-label="Ajouter une page"
-        action-href="#ajouter-une-page"
+        action-dialog="create-page"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Pages'],
@@ -264,162 +264,130 @@
             </section>
         </div>
 
-        {{-- ============ ADD PAGE ============ --}}
-        <aside>
-            <section id="ajouter-une-page" class="rounded-xl border border-slate-200 bg-white p-5">
-
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="document" class="h-5 w-5 text-primary-600" />
-                    Ajouter une page
-                </h2>
-
-                <form method="POST" action="{{ route('admin.pages.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
-                    @csrf
-
-                    <div>
-                        <label for="page-title" class="block text-sm font-medium text-slate-700">
-                            Titre de la page
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="page-title"
-                            name="title"
-                            required
-                            value="{{ old('title') }}"
-                            placeholder="Ex. Accessibilité"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="page-slug" class="block text-sm font-medium text-slate-700">
-                            Adresse de la page
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <div class="mt-1.5 flex items-center gap-1">
-                            <span class="shrink-0 font-mono text-sm text-slate-400">/</span>
-                            <input
-                                type="text"
-                                id="page-slug"
-                                name="slug"
-                                required
-                                value="{{ old('slug') }}"
-                                aria-describedby="page-slug-hint"
-                                placeholder="accessibilite"
-                                class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2.5 font-mono text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                        </div>
-                        <p id="page-slug-hint" class="mt-1.5 text-xs text-slate-500">
-                            Lettres, chiffres et tirets. Une adresse déjà utilisée par le site est refusée.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="page-body" class="block text-sm font-medium text-slate-700">Contenu</label>
-                        <textarea
-                            id="page-body"
-                            name="body"
-                            rows="10"
-                            aria-describedby="page-body-hint"
-                            placeholder="Le texte de la page..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('body') }}</textarea>
-                        <p id="page-body-hint" class="mt-1.5 text-xs text-slate-500">
-                            Les sauts de ligne sont conservés tels quels.
-                        </p>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Image de bannière</span>
-
-                        <label
-                            for="page-image"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-5 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="image" class="h-6 w-6 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                            <input
-                                type="file"
-                                id="page-image"
-                                name="image"
-                                accept="image/jpeg,image/png,image/webp"
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    <div>
-                        <label for="page-seo-title" class="block text-sm font-medium text-slate-700">Titre SEO</label>
-                        <input
-                            type="text"
-                            id="page-seo-title"
-                            name="seo_title"
-                            maxlength="70"
-                            value="{{ old('seo_title') }}"
-                            aria-describedby="page-seo-hint"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                        <p id="page-seo-hint" class="mt-1.5 text-xs text-slate-500">
-                            Laissez vide pour utiliser le titre de la page.
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="page-seo-description" class="block text-sm font-medium text-slate-700">Description SEO</label>
-                        <textarea
-                            id="page-seo-description"
-                            name="seo_description"
-                            rows="2"
-                            maxlength="300"
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('seo_description') }}</textarea>
-                    </div>
-
-                    <div>
-                        <label for="page-status" class="block text-sm font-medium text-slate-700">
-                            Statut
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="page-status"
-                            name="status"
-                            required
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            @php
-                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
-                            @endphp
-                            @foreach ($options as $value => $label)
-                                <option value="{{ $value }}" @selected(old('status', 'draft') === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="flex items-center gap-3 pt-2">
-                        <button
-                            type="reset"
-                            class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-                        >
-                            Annuler
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-                        >
-                            <x-icon name="save" class="h-4 w-4" />
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </section>
-        </aside>
     </div>
+
+    <x-admin.edit-modal id="create-page" title="Ajouter une page" :action="route('admin.pages.store')" method="POST" submit-label="Publier la page">
+        <div>
+            <label for="page-title" class="block text-sm font-medium text-slate-700">
+                Titre de la page
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <input
+                type="text"
+                id="page-title"
+                name="title"
+                required
+                placeholder="Ex. Accessibilité"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
+
+        <div>
+            <label for="page-slug" class="block text-sm font-medium text-slate-700">
+                Adresse de la page
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <div class="mt-1.5 flex items-center gap-1">
+                <span class="shrink-0 font-mono text-sm text-slate-400">/</span>
+                <input
+                    type="text"
+                    id="page-slug"
+                    name="slug"
+                    required
+                    aria-describedby="page-slug-hint"
+                    placeholder="accessibilite"
+                    class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2.5 font-mono text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                >
+            </div>
+            <p id="page-slug-hint" class="mt-1.5 text-xs text-slate-500">
+                Lettres, chiffres et tirets. Une adresse déjà utilisée par le site est refusée.
+            </p>
+        </div>
+
+        <div>
+            <label for="page-body" class="block text-sm font-medium text-slate-700">Contenu</label>
+            <textarea
+                id="page-body"
+                name="body"
+                rows="10"
+                aria-describedby="page-body-hint"
+                placeholder="Le texte de la page..."
+                class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+            <p id="page-body-hint" class="mt-1.5 text-xs text-slate-500">
+                Les sauts de ligne sont conservés tels quels.
+            </p>
+        </div>
+
+        <div>
+            <span class="block text-sm font-medium text-slate-700">Image de bannière</span>
+
+            <label
+                for="page-image"
+                class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-5 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+            >
+                <x-icon name="image" class="h-6 w-6 text-primary-500" />
+                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
+                <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
+
+                <input
+                    type="file"
+                    id="page-image"
+                    name="image"
+                    accept="image/jpeg,image/png,image/webp"
+                    class="sr-only"
+                >
+            </label>
+        </div>
+
+        <div>
+            <label for="page-seo-title" class="block text-sm font-medium text-slate-700">Titre SEO</label>
+            <input
+                type="text"
+                id="page-seo-title"
+                name="seo_title"
+                maxlength="70"
+                aria-describedby="page-seo-hint"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+            <p id="page-seo-hint" class="mt-1.5 text-xs text-slate-500">
+                Laissez vide pour utiliser le titre de la page.
+            </p>
+        </div>
+
+        <div>
+            <label for="page-seo-description" class="block text-sm font-medium text-slate-700">Description SEO</label>
+            <textarea
+                id="page-seo-description"
+                name="seo_description"
+                rows="2"
+                maxlength="300"
+                class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+        </div>
+
+        <div>
+            <label for="page-status" class="block text-sm font-medium text-slate-700">
+                Statut
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <select
+                id="page-status"
+                name="status"
+                required
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                @php
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                @endphp
+                @foreach ($options as $value => $label)
+                    <option value="{{ $value }}" @selected($value === 'draft')>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+    </x-admin.edit-modal>
 
 @endsection

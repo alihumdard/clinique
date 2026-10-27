@@ -11,7 +11,7 @@
         title="Gestion des activités &amp; galerie"
         lead="Gérez les activités, caravanes juridiques et leur galerie photos."
         action-label="Ajouter une activité"
-        action-href="#ajouter-une-activite"
+        action-dialog="create-activity"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Activités & caravanes'],
@@ -300,192 +300,159 @@
             </section>
         </div>
 
-        {{-- ============ ADD ACTIVITY ============ --}}
-        <aside>
-            <section id="ajouter-une-activite" class="rounded-xl border border-slate-200 bg-white p-5">
-
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="calendar" class="h-5 w-5 text-primary-600" />
-                    Ajouter une activité
-                </h2>
-
-                {{--
-                    The accept and size hints below are conveniences, never
-                    the security boundary: ActivityRequest re-checks every
-                    field and MediaStorage re-reads each file's own bytes.
-                --}}
-                <form method="POST" action="{{ route('admin.activities.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
-                    @csrf
-
-                    <div>
-                        <label for="activity-title" class="block text-sm font-medium text-slate-700">
-                            Titre de l'activité
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="activity-title"
-                            name="title"
-                            required
-                            value="{{ old('title') }}"
-                            placeholder="Ex. Caravane juridique à Zinder"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="activity-type" class="block text-sm font-medium text-slate-700">Type d'activité</label>
-                        <select
-                            id="activity-type"
-                            name="category_id"
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            <option value="">Sélectionner un type</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- Lieu & date: the two fields that separate an activity
-                         from an actualité. --}}
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                            <label for="activity-location" class="block text-sm font-medium text-slate-700">Lieu</label>
-                            <div class="relative mt-1.5">
-                                <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                                    <x-icon name="map-pin" class="h-4 w-4" />
-                                </span>
-                                <input
-                                    type="text"
-                                    id="activity-location"
-                                    name="location"
-                                    value="{{ old('location') }}"
-                                    placeholder="Ex. Zinder"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-3.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                >
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="activity-date" class="block text-sm font-medium text-slate-700">Date de l'activité</label>
-                            <input
-                                type="date"
-                                id="activity-date"
-                                name="held_on"
-                                value="{{ old('held_on') }}"
-                                aria-describedby="activity-date-hint"
-                                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                        </div>
-                    </div>
-
-                    <p id="activity-date-hint" class="-mt-2 text-xs text-slate-500">
-                        Une date à venir classe l'activité dans « À venir » ; une date passée dans « Passées ».
-                    </p>
-
-                    <div>
-                        <label for="activity-description" class="block text-sm font-medium text-slate-700">Description</label>
-                        <textarea
-                            id="activity-description"
-                            name="excerpt"
-                            rows="3"
-                            placeholder="Résumez l'activité en quelques lignes..."
-                            class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >{{ old('excerpt') }}</textarea>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Image principale</span>
-
-                        <label
-                            for="activity-image"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-5 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="image" class="h-6 w-6 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                            <input
-                                type="file"
-                                id="activity-image"
-                                name="image"
-                                accept="image/jpeg,image/png,image/webp"
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    <div>
-                        <div class="flex items-center justify-between gap-3">
-                            <span class="flex items-center gap-2 text-sm font-semibold text-slate-900">
-                                <x-icon name="image" class="h-5 w-5 text-primary-600" />
-                                Galerie photos
-                            </span>
-                            <span class="text-xs text-slate-500">jusqu'à 20 à la fois</span>
-                        </div>
-
-                        <label
-                            for="activity-gallery"
-                            class="mt-2 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour ajouter des photos</span>
-                            <span class="mt-0.5 text-xs text-slate-500">ou glissez vos images ici</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 5MB chacune)</span>
-
-                            <input
-                                type="file"
-                                id="activity-gallery"
-                                name="photos[]"
-                                accept="image/jpeg,image/png,image/webp"
-                                multiple
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    <div>
-                        <label for="activity-status" class="block text-sm font-medium text-slate-700">
-                            Statut
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="activity-status"
-                            name="status"
-                            required
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            @php
-                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
-                            @endphp
-                            @foreach ($options as $value => $label)
-                                <option value="{{ $value }}" @selected(old('status', 'published') === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="flex items-center gap-3 pt-2">
-                        <button
-                            type="reset"
-                            class="flex-1 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50"
-                        >
-                            Annuler
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-                        >
-                            <x-icon name="save" class="h-4 w-4" />
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </section>
-        </aside>
     </div>
+
+    {{--
+        "Ajouter une activité" in the page header opens this dialog rather
+        than scrolling to a sidebar form, matching the Actualités pattern.
+    --}}
+    <x-admin.edit-modal id="create-activity" title="Ajouter une activité" :action="route('admin.activities.store')" method="POST" submit-label="Publier l'activité">
+        <div>
+            <label for="activity-title" class="block text-sm font-medium text-slate-700">
+                Titre de l'activité
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <input
+                type="text"
+                id="activity-title"
+                name="title"
+                required
+                placeholder="Ex. Caravane juridique à Zinder"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
+
+        <div>
+            <label for="activity-type" class="block text-sm font-medium text-slate-700">Type d'activité</label>
+            <select
+                id="activity-type"
+                name="category_id"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                <option value="">Sélectionner un type</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Lieu & date: the two fields that separate an activity
+             from an actualité. --}}
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+                <label for="activity-location" class="block text-sm font-medium text-slate-700">Lieu</label>
+                <div class="relative mt-1.5">
+                    <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                        <x-icon name="map-pin" class="h-4 w-4" />
+                    </span>
+                    <input
+                        type="text"
+                        id="activity-location"
+                        name="location"
+                        placeholder="Ex. Zinder"
+                        class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-3.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <label for="activity-date" class="block text-sm font-medium text-slate-700">Date de l'activité</label>
+                <input
+                    type="date"
+                    id="activity-date"
+                    name="held_on"
+                    aria-describedby="activity-date-hint"
+                    class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                >
+            </div>
+        </div>
+
+        <p id="activity-date-hint" class="-mt-2 text-xs text-slate-500">
+            Une date à venir classe l'activité dans « À venir » ; une date passée dans « Passées ».
+        </p>
+
+        <div>
+            <label for="activity-description" class="block text-sm font-medium text-slate-700">Description</label>
+            <textarea
+                id="activity-description"
+                name="excerpt"
+                rows="3"
+                placeholder="Résumez l'activité en quelques lignes..."
+                class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+        </div>
+
+        <div>
+            <span class="block text-sm font-medium text-slate-700">Image principale</span>
+
+            <label
+                for="activity-image"
+                class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-5 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+            >
+                <x-icon name="image" class="h-6 w-6 text-primary-500" />
+                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour importer une image</span>
+                <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
+
+                <input
+                    type="file"
+                    id="activity-image"
+                    name="image"
+                    accept="image/jpeg,image/png,image/webp"
+                    class="sr-only"
+                >
+            </label>
+        </div>
+
+        <div>
+            <div class="flex items-center justify-between gap-3">
+                <span class="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                    <x-icon name="image" class="h-5 w-5 text-primary-600" />
+                    Galerie photos
+                </span>
+                <span class="text-xs text-slate-500">jusqu'à 20 à la fois</span>
+            </div>
+
+            <label
+                for="activity-gallery"
+                class="mt-2 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+            >
+                <x-icon name="upload" class="h-7 w-7 text-primary-500" />
+                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour ajouter des photos</span>
+                <span class="mt-0.5 text-xs text-slate-500">ou glissez vos images ici</span>
+                <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 5MB chacune)</span>
+
+                <input
+                    type="file"
+                    id="activity-gallery"
+                    name="photos[]"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    class="sr-only"
+                >
+            </label>
+        </div>
+
+        <div>
+            <label for="activity-status" class="block text-sm font-medium text-slate-700">
+                Statut
+                <span class="text-rose-600" aria-hidden="true">*</span>
+                <span class="sr-only">(obligatoire)</span>
+            </label>
+            <select
+                id="activity-status"
+                name="status"
+                required
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+                @php
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                @endphp
+                @foreach ($options as $value => $label)
+                    <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+    </x-admin.edit-modal>
 
 @endsection
