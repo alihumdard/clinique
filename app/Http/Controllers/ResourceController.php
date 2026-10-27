@@ -25,7 +25,11 @@ class ResourceController extends Controller
             ->when($request->query('q'), function ($q, $term) {
                 $q->where(function ($inner) use ($term) {
                     $inner->where('title', 'like', "%{$term}%")
-                        ->orWhere('description', 'like', "%{$term}%");
+                        ->orWhere('description', 'like', "%{$term}%")
+                        // The domain name is visible right above this search
+                        // box, so a term matching it (e.g. "Droit civil")
+                        // should also match, not come back empty.
+                        ->orWhereHas('category', fn ($c) => $c->where('name', 'like', "%{$term}%"));
                 });
             })
             // The three orders the page offers; anything else is the default.

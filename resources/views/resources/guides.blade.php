@@ -106,9 +106,10 @@
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
 
                 <form role="search" method="GET" action="{{ route('resources.guides') }}" class="relative">
-                    @if($current)
-                        <input type="hidden" name="domaine" value="{{ $current->slug }}">
-                    @endif
+                    {{-- No hidden "domaine" here on purpose: this is a
+                         sitewide search box, so typing a term must search
+                         every domain, not silently stay scoped to whichever
+                         tab happened to be active. --}}
                     <label for="guides-search" class="sr-only">Rechercher une fiche pratique</label>
                     <input
                         type="search"
