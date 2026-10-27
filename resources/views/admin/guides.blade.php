@@ -202,72 +202,6 @@
                                         />
                                     </td>
                                 </tr>
-
-                                <x-admin.edit-modal id="edit-guide-{{ $guide->id }}" title="Modifier la fiche pratique" :action="route('admin.guides.update', $guide)">
-                                    <div>
-                                        <label for="edit-guide-{{ $guide->id }}-title" class="block text-sm font-medium text-slate-700">
-                                            Titre de la fiche
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="text" id="edit-guide-{{ $guide->id }}-title" name="title" required value="{{ $guide->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-guide-{{ $guide->id }}-category" class="block text-sm font-medium text-slate-700">Domaine du droit</label>
-                                        <select id="edit-guide-{{ $guide->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                            <option value="">Sélectionner un domaine</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @selected($guide->category_id === $category->id)>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-guide-{{ $guide->id }}-description" class="block text-sm font-medium text-slate-700">Description</label>
-                                        <textarea id="edit-guide-{{ $guide->id }}-description" name="description" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $guide->description }}</textarea>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-guide-{{ $guide->id }}-body" class="block text-sm font-medium text-slate-700">Contenu de la page</label>
-                                        <textarea id="edit-guide-{{ $guide->id }}-body" name="body" rows="5" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $guide->body }}</textarea>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label for="edit-guide-{{ $guide->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                                            <select id="edit-guide-{{ $guide->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                                <option value="draft" @selected($guide->status === 'draft')>Brouillon</option>
-                                                <option value="published" @selected($guide->status === 'published')>Publié</option>
-                                                <option value="archived" @selected($guide->status === 'archived')>Archivé</option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label for="edit-guide-{{ $guide->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
-                                            <input type="date" id="edit-guide-{{ $guide->id }}-published-at" name="published_at" value="{{ $guide->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
-                                        <div class="mt-1.5 flex items-center gap-3">
-                                            <img src="{{ $guide->coverUrl() }}" alt="" class="h-14 w-11 shrink-0 rounded-md border border-slate-200 object-cover">
-                                            <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <span class="block text-sm font-medium text-slate-700">Fichier PDF</span>
-                                        <div class="mt-1.5 flex items-center gap-3">
-                                            <span class="flex items-center gap-1.5 text-sm text-slate-600">
-                                                <x-icon name="document" class="h-4 w-4 shrink-0 text-rose-500" />
-                                                {{ $guide->file_name }}
-                                            </span>
-                                        </div>
-                                        <input type="file" name="document" accept="application/pdf" class="mt-1.5 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                                        <p class="mt-1.5 text-xs text-slate-500">Laissez vide pour conserver le fichier actuel.</p>
-                                    </div>
-                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">
@@ -282,6 +216,83 @@
                 <x-admin.table-footer :paginator="$guides" unit="fiches pratiques" />
             </section>
         </div>
+
+        {{--
+            Every row's "Modifier" dialog is rendered here, outside the
+            table above, instead of right after each row's closing tr tag
+            inside tbody: a dialog element is not valid content between tr
+            elements, and a browser that meets one there foster-parents it
+            out while recovering from the parse, which was silently
+            corrupting the form markup inside every dialog on this page
+            without ever raising a console error.
+        --}}
+        @foreach ($guides as $guide)
+            <x-admin.edit-modal id="edit-guide-{{ $guide->id }}" title="Modifier la fiche pratique" :action="route('admin.guides.update', $guide)">
+                <div>
+                    <label for="edit-guide-{{ $guide->id }}-title" class="block text-sm font-medium text-slate-700">
+                        Titre de la fiche
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                    </label>
+                    <input type="text" id="edit-guide-{{ $guide->id }}-title" name="title" required value="{{ $guide->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+
+                <div>
+                    <label for="edit-guide-{{ $guide->id }}-category" class="block text-sm font-medium text-slate-700">Domaine du droit</label>
+                    <select id="edit-guide-{{ $guide->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                        <option value="">Sélectionner un domaine</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" @selected($guide->category_id === $category->id)>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit-guide-{{ $guide->id }}-description" class="block text-sm font-medium text-slate-700">Description</label>
+                    <textarea id="edit-guide-{{ $guide->id }}-description" name="description" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $guide->description }}</textarea>
+                </div>
+
+                <div>
+                    <label for="edit-guide-{{ $guide->id }}-body" class="block text-sm font-medium text-slate-700">Contenu de la page</label>
+                    <textarea id="edit-guide-{{ $guide->id }}-body" name="body" rows="5" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $guide->body }}</textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="edit-guide-{{ $guide->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                        <select id="edit-guide-{{ $guide->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                            <option value="draft" @selected($guide->status === 'draft')>Brouillon</option>
+                            <option value="published" @selected($guide->status === 'published')>Publié</option>
+                            <option value="archived" @selected($guide->status === 'archived')>Archivé</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="edit-guide-{{ $guide->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                        <input type="date" id="edit-guide-{{ $guide->id }}-published-at" name="published_at" value="{{ $guide->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    </div>
+                </div>
+
+                <div>
+                    <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
+                    <div class="mt-1.5 flex items-center gap-3">
+                        <img src="{{ $guide->coverUrl() }}" alt="" class="h-14 w-11 shrink-0 rounded-md border border-slate-200 object-cover">
+                        <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                    </div>
+                </div>
+
+                <div>
+                    <span class="block text-sm font-medium text-slate-700">Fichier PDF</span>
+                    <div class="mt-1.5 flex items-center gap-3">
+                        <span class="flex items-center gap-1.5 text-sm text-slate-600">
+                            <x-icon name="document" class="h-4 w-4 shrink-0 text-rose-500" />
+                            {{ $guide->file_name }}
+                        </span>
+                    </div>
+                    <input type="file" name="document" accept="application/pdf" class="mt-1.5 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                    <p class="mt-1.5 text-xs text-slate-500">Laissez vide pour conserver le fichier actuel.</p>
+                </div>
+            </x-admin.edit-modal>
+        @endforeach
 
         {{-- The "Ajouter" dialog itself; not visually positioned, so it
              doesn't need a sidebar column to sit in. --}}

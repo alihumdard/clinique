@@ -154,66 +154,6 @@
                                         />
                                     </td>
                                 </tr>
-
-                                <x-admin.edit-modal id="edit-page-{{ $page->id }}" title="Modifier la page" :action="route('admin.pages.update', $page)">
-                                    <div>
-                                        <label for="edit-page-{{ $page->id }}-title" class="block text-sm font-medium text-slate-700">
-                                            Titre
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="text" id="edit-page-{{ $page->id }}-title" name="title" required value="{{ $page->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-page-{{ $page->id }}-slug" class="block text-sm font-medium text-slate-700">
-                                            Adresse de la page
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <div class="mt-1.5 flex items-center gap-1">
-                                            <span class="shrink-0 font-mono text-sm text-slate-400">/</span>
-                                            <input type="text" id="edit-page-{{ $page->id }}-slug" name="slug" required value="{{ $page->slug }}" class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2.5 font-mono text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-page-{{ $page->id }}-body" class="block text-sm font-medium text-slate-700">Contenu</label>
-                                        <textarea id="edit-page-{{ $page->id }}-body" name="body" rows="8" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $page->body }}</textarea>
-                                    </div>
-
-                                    <div>
-                                        <span class="block text-sm font-medium text-slate-700">Image de bannière</span>
-                                        <div class="mt-1.5 flex items-center gap-3">
-                                            <img src="{{ $page->imageUrl() }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
-                                            <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-page-{{ $page->id }}-seo-title" class="block text-sm font-medium text-slate-700">Titre SEO</label>
-                                        <input type="text" id="edit-page-{{ $page->id }}-seo-title" name="seo_title" maxlength="70" value="{{ $page->seo_title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-page-{{ $page->id }}-seo-description" class="block text-sm font-medium text-slate-700">Description SEO</label>
-                                        <textarea id="edit-page-{{ $page->id }}-seo-description" name="seo_description" rows="2" maxlength="300" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $page->seo_description }}</textarea>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label for="edit-page-{{ $page->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                                            <select id="edit-page-{{ $page->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                                <option value="draft" @selected($page->status === 'draft')>Brouillon</option>
-                                                <option value="published" @selected($page->status === 'published')>Publié</option>
-                                                <option value="archived" @selected($page->status === 'archived')>Archivé</option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label for="edit-page-{{ $page->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
-                                            <input type="date" id="edit-page-{{ $page->id }}-published-at" name="published_at" value="{{ $page->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-                                    </div>
-                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="6" class="px-5 py-12 text-center">
@@ -265,6 +205,80 @@
         </div>
 
     </div>
+
+    {{--
+        Every row's "Modifier" dialog, rendered here rather than inside the
+        table above: a dialog element is not valid content for a table body
+        between row elements, and a browser that encounters one there foster-
+        parents it out — which was silently corrupting the form markup of
+        every dialog on the page (content spilling out as siblings of an
+        empty form, breaking its height/scroll layout) without ever raising
+        a console error, since this is valid-by-recovery HTML, not a parse
+        error. This only concerns the database-backed pages below ($pages);
+        the fixed system pages listed above are a read-only reference with
+        no edit dialogs of their own.
+    --}}
+    @foreach ($pages as $page)
+        <x-admin.edit-modal id="edit-page-{{ $page->id }}" title="Modifier la page" :action="route('admin.pages.update', $page)">
+            <div>
+                <label for="edit-page-{{ $page->id }}-title" class="block text-sm font-medium text-slate-700">
+                    Titre
+                    <span class="text-rose-600" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="edit-page-{{ $page->id }}-title" name="title" required value="{{ $page->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-page-{{ $page->id }}-slug" class="block text-sm font-medium text-slate-700">
+                    Adresse de la page
+                    <span class="text-rose-600" aria-hidden="true">*</span>
+                </label>
+                <div class="mt-1.5 flex items-center gap-1">
+                    <span class="shrink-0 font-mono text-sm text-slate-400">/</span>
+                    <input type="text" id="edit-page-{{ $page->id }}-slug" name="slug" required value="{{ $page->slug }}" class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2.5 font-mono text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+            </div>
+
+            <div>
+                <label for="edit-page-{{ $page->id }}-body" class="block text-sm font-medium text-slate-700">Contenu</label>
+                <textarea id="edit-page-{{ $page->id }}-body" name="body" rows="8" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $page->body }}</textarea>
+            </div>
+
+            <div>
+                <span class="block text-sm font-medium text-slate-700">Image de bannière</span>
+                <div class="mt-1.5 flex items-center gap-3">
+                    <img src="{{ $page->imageUrl() }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
+                    <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                </div>
+            </div>
+
+            <div>
+                <label for="edit-page-{{ $page->id }}-seo-title" class="block text-sm font-medium text-slate-700">Titre SEO</label>
+                <input type="text" id="edit-page-{{ $page->id }}-seo-title" name="seo_title" maxlength="70" value="{{ $page->seo_title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-page-{{ $page->id }}-seo-description" class="block text-sm font-medium text-slate-700">Description SEO</label>
+                <textarea id="edit-page-{{ $page->id }}-seo-description" name="seo_description" rows="2" maxlength="300" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $page->seo_description }}</textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label for="edit-page-{{ $page->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                    <select id="edit-page-{{ $page->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                        <option value="draft" @selected($page->status === 'draft')>Brouillon</option>
+                        <option value="published" @selected($page->status === 'published')>Publié</option>
+                        <option value="archived" @selected($page->status === 'archived')>Archivé</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit-page-{{ $page->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                    <input type="date" id="edit-page-{{ $page->id }}-published-at" name="published_at" value="{{ $page->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+            </div>
+        </x-admin.edit-modal>
+    @endforeach
 
     <x-admin.edit-modal id="create-page" title="Ajouter une page" :action="route('admin.pages.store')" method="POST" submit-label="Publier la page">
         <div>

@@ -188,85 +188,6 @@
                                         />
                                     </td>
                                 </tr>
-
-                                <x-admin.edit-modal id="edit-member-{{ $member->id }}" title="Modifier le membre" :action="route('admin.team.update', $member)">
-                                    <div>
-                                        <label for="edit-member-{{ $member->id }}-name" class="block text-sm font-medium text-slate-700">
-                                            Nom complet
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="text" id="edit-member-{{ $member->id }}-name" name="name" required value="{{ $member->name }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-member-{{ $member->id }}-role" class="block text-sm font-medium text-slate-700">
-                                            Poste / Fonction
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="text" id="edit-member-{{ $member->id }}-role" name="role" required value="{{ $member->role }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-member-{{ $member->id }}-department" class="block text-sm font-medium text-slate-700">Groupe</label>
-                                        <select id="edit-member-{{ $member->id }}-department" name="department" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                            @foreach ($departments as $key => $label)
-                                                <option value="{{ $key }}" @selected($member->department === $key)>{{ $label }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-member-{{ $member->id }}-cohort" class="block text-sm font-medium text-slate-700">Promotion</label>
-                                        <input type="text" id="edit-member-{{ $member->id }}-cohort" name="cohort" value="{{ $member->cohort }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-member-{{ $member->id }}-bio" class="block text-sm font-medium text-slate-700">Présentation</label>
-                                        <textarea id="edit-member-{{ $member->id }}-bio" name="bio" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $member->bio }}</textarea>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 gap-4">
-                                        <div>
-                                            <label for="edit-member-{{ $member->id }}-email" class="block text-sm font-medium text-slate-700">Adresse e-mail</label>
-                                            <input type="email" id="edit-member-{{ $member->id }}-email" name="email" value="{{ $member->email }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-
-                                        <div>
-                                            <label for="edit-member-{{ $member->id }}-linkedin" class="block text-sm font-medium text-slate-700">Profil LinkedIn</label>
-                                            <input type="url" id="edit-member-{{ $member->id }}-linkedin" name="linkedin" value="{{ $member->linkedin }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label for="edit-member-{{ $member->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                                            <select id="edit-member-{{ $member->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                                <option value="draft" @selected($member->status === 'draft')>Brouillon</option>
-                                                <option value="published" @selected($member->status === 'published')>Publié</option>
-                                                <option value="archived" @selected($member->status === 'archived')>Archivé</option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label for="edit-member-{{ $member->id }}-position" class="block text-sm font-medium text-slate-700">Ordre dans le groupe</label>
-                                            <input type="number" id="edit-member-{{ $member->id }}-position" name="position" min="0" value="{{ $member->position }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <span class="block text-sm font-medium text-slate-700">Photo</span>
-                                        <div class="mt-1.5 flex items-center gap-3">
-                                            @if($member->hasPhoto())
-                                                <img src="{{ $member->photoUrl() }}" alt="" class="h-14 w-14 shrink-0 rounded-lg object-cover">
-                                            @endif
-                                            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                                        </div>
-                                    </div>
-
-                                    <div class="pt-1">
-                                        <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) $member->is_visible" />
-                                    </div>
-                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="8" class="px-5 py-12 text-center">
@@ -283,6 +204,97 @@
         </div>
 
     </div>
+
+    {{--
+        Every row's "Modifier" dialog, rendered here rather than inside the
+        table above: a dialog element is not valid content for a table body
+        between row elements, and a browser that encounters one there
+        foster-parents it out of the table during parsing - which was
+        silently corrupting the form markup of every dialog on the page
+        (content spilling out as siblings of an empty form, breaking its
+        height/scroll layout) without ever raising a console error, since
+        this is valid-by-recovery HTML, not a parse error.
+    --}}
+    @foreach ($members as $member)
+        <x-admin.edit-modal id="edit-member-{{ $member->id }}" title="Modifier le membre" :action="route('admin.team.update', $member)">
+            <div>
+                <label for="edit-member-{{ $member->id }}-name" class="block text-sm font-medium text-slate-700">
+                    Nom complet
+                    <span class="text-rose-600" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="edit-member-{{ $member->id }}-name" name="name" required value="{{ $member->name }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-member-{{ $member->id }}-role" class="block text-sm font-medium text-slate-700">
+                    Poste / Fonction
+                    <span class="text-rose-600" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="edit-member-{{ $member->id }}-role" name="role" required value="{{ $member->role }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-member-{{ $member->id }}-department" class="block text-sm font-medium text-slate-700">Groupe</label>
+                <select id="edit-member-{{ $member->id }}-department" name="department" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    @foreach ($departments as $key => $label)
+                        <option value="{{ $key }}" @selected($member->department === $key)>{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="edit-member-{{ $member->id }}-cohort" class="block text-sm font-medium text-slate-700">Promotion</label>
+                <input type="text" id="edit-member-{{ $member->id }}-cohort" name="cohort" value="{{ $member->cohort }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-member-{{ $member->id }}-bio" class="block text-sm font-medium text-slate-700">Présentation</label>
+                <textarea id="edit-member-{{ $member->id }}-bio" name="bio" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $member->bio }}</textarea>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label for="edit-member-{{ $member->id }}-email" class="block text-sm font-medium text-slate-700">Adresse e-mail</label>
+                    <input type="email" id="edit-member-{{ $member->id }}-email" name="email" value="{{ $member->email }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+
+                <div>
+                    <label for="edit-member-{{ $member->id }}-linkedin" class="block text-sm font-medium text-slate-700">Profil LinkedIn</label>
+                    <input type="url" id="edit-member-{{ $member->id }}-linkedin" name="linkedin" value="{{ $member->linkedin }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label for="edit-member-{{ $member->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                    <select id="edit-member-{{ $member->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                        <option value="draft" @selected($member->status === 'draft')>Brouillon</option>
+                        <option value="published" @selected($member->status === 'published')>Publié</option>
+                        <option value="archived" @selected($member->status === 'archived')>Archivé</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit-member-{{ $member->id }}-position" class="block text-sm font-medium text-slate-700">Ordre dans le groupe</label>
+                    <input type="number" id="edit-member-{{ $member->id }}-position" name="position" min="0" value="{{ $member->position }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+            </div>
+
+            <div>
+                <span class="block text-sm font-medium text-slate-700">Photo</span>
+                <div class="mt-1.5 flex items-center gap-3">
+                    @if($member->hasPhoto())
+                        <img src="{{ $member->photoUrl() }}" alt="" class="h-14 w-14 shrink-0 rounded-lg object-cover">
+                    @endif
+                    <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                </div>
+            </div>
+
+            <div class="pt-1">
+                <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) $member->is_visible" />
+            </div>
+        </x-admin.edit-modal>
+    @endforeach
 
     {{--
         "Ajouter un membre" in the page header opens this dialog rather than

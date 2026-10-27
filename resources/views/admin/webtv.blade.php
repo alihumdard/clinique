@@ -211,79 +211,6 @@
                                         />
                                     </td>
                                 </tr>
-
-                                <x-admin.edit-modal id="edit-video-{{ $video->id }}" title="Modifier la vidéo" :action="route('admin.webtv.update', $video)">
-                                    <div>
-                                        <label for="edit-video-{{ $video->id }}-title" class="block text-sm font-medium text-slate-700">
-                                            Titre de la vidéo
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="text" id="edit-video-{{ $video->id }}-title" name="title" required value="{{ $video->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-video-{{ $video->id }}-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
-                                        <select id="edit-video-{{ $video->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                            <option value="">Sélectionner une rubrique</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @selected($video->category_id === $category->id)>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-video-{{ $video->id }}-summary" class="block text-sm font-medium text-slate-700">Description</label>
-                                        <textarea id="edit-video-{{ $video->id }}-summary" name="summary" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $video->summary }}</textarea>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-video-{{ $video->id }}-url" class="block text-sm font-medium text-slate-700">
-                                            Lien vidéo
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="url" id="edit-video-{{ $video->id }}-url" name="video_url" required value="{{ $video->video_url }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label for="edit-video-{{ $video->id }}-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
-                                            <input type="text" id="edit-video-{{ $video->id }}-duration" name="duration" value="{{ $video->duration }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-
-                                        <div>
-                                            <label for="edit-video-{{ $video->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                                            <select id="edit-video-{{ $video->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                                <option value="draft" @selected($video->status === 'draft')>Brouillon</option>
-                                                <option value="published" @selected($video->status === 'published')>Publié</option>
-                                                <option value="archived" @selected($video->status === 'archived')>Archivé</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-video-{{ $video->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
-                                        <input type="date" id="edit-video-{{ $video->id }}-published-at" name="published_at" value="{{ $video->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-video-{{ $video->id }}-transcript" class="block text-sm font-medium text-slate-700">Transcription</label>
-                                        <textarea id="edit-video-{{ $video->id }}-transcript" name="transcript" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $video->transcript }}</textarea>
-                                    </div>
-
-                                    <div class="pt-1">
-                                        <x-admin.toggle name="allow_comments" label="Autoriser les commentaires" :checked="(bool) $video->allow_comments" />
-                                    </div>
-
-                                    {{-- Each listing keeps its own thumbnail; the edit modal only ever
-                                         replaces this row's own cover, never a shared/static image. --}}
-                                    <div>
-                                        <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
-                                        <div class="mt-1.5 flex items-center gap-3">
-                                            <img src="{{ $video->coverUrl() }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
-                                            <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                                        </div>
-                                    </div>
-                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">
@@ -298,6 +225,90 @@
                 <x-admin.table-footer :paginator="$videos" unit="vidéos" />
             </section>
         </div>
+
+        {{--
+            Every row's "Modifier" dialog is rendered here, outside the
+            table above, instead of right after each row's closing tr tag
+            inside tbody: a dialog element is not valid content between tr
+            elements, and a browser that meets one there foster-parents it
+            out while recovering from the parse, which was silently
+            corrupting the form markup inside every dialog on this page
+            without ever raising a console error.
+        --}}
+        @foreach ($videos as $video)
+            <x-admin.edit-modal id="edit-video-{{ $video->id }}" title="Modifier la vidéo" :action="route('admin.webtv.update', $video)">
+                <div>
+                    <label for="edit-video-{{ $video->id }}-title" class="block text-sm font-medium text-slate-700">
+                        Titre de la vidéo
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                    </label>
+                    <input type="text" id="edit-video-{{ $video->id }}-title" name="title" required value="{{ $video->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+
+                <div>
+                    <label for="edit-video-{{ $video->id }}-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
+                    <select id="edit-video-{{ $video->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                        <option value="">Sélectionner une rubrique</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" @selected($video->category_id === $category->id)>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit-video-{{ $video->id }}-summary" class="block text-sm font-medium text-slate-700">Description</label>
+                    <textarea id="edit-video-{{ $video->id }}-summary" name="summary" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $video->summary }}</textarea>
+                </div>
+
+                <div>
+                    <label for="edit-video-{{ $video->id }}-url" class="block text-sm font-medium text-slate-700">
+                        Lien vidéo
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                    </label>
+                    <input type="url" id="edit-video-{{ $video->id }}-url" name="video_url" required value="{{ $video->video_url }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="edit-video-{{ $video->id }}-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
+                        <input type="text" id="edit-video-{{ $video->id }}-duration" name="duration" value="{{ $video->duration }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    </div>
+
+                    <div>
+                        <label for="edit-video-{{ $video->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                        <select id="edit-video-{{ $video->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                            <option value="draft" @selected($video->status === 'draft')>Brouillon</option>
+                            <option value="published" @selected($video->status === 'published')>Publié</option>
+                            <option value="archived" @selected($video->status === 'archived')>Archivé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="edit-video-{{ $video->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                    <input type="date" id="edit-video-{{ $video->id }}-published-at" name="published_at" value="{{ $video->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+
+                <div>
+                    <label for="edit-video-{{ $video->id }}-transcript" class="block text-sm font-medium text-slate-700">Transcription</label>
+                    <textarea id="edit-video-{{ $video->id }}-transcript" name="transcript" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $video->transcript }}</textarea>
+                </div>
+
+                <div class="pt-1">
+                    <x-admin.toggle name="allow_comments" label="Autoriser les commentaires" :checked="(bool) $video->allow_comments" />
+                </div>
+
+                {{-- Each listing keeps its own thumbnail; the edit modal only ever
+                     replaces this row's own cover, never a shared/static image. --}}
+                <div>
+                    <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
+                    <div class="mt-1.5 flex items-center gap-3">
+                        <img src="{{ $video->coverUrl() }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
+                        <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                    </div>
+                </div>
+            </x-admin.edit-modal>
+        @endforeach
 
         {{-- The "Ajouter" dialog itself; not visually positioned, so it
              doesn't need a sidebar column to sit in. --}}

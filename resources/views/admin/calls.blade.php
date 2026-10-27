@@ -191,65 +191,6 @@
                                         />
                                     </td>
                                 </tr>
-
-                                <x-admin.edit-modal id="edit-call-{{ $call->id }}" title="Modifier l'appel" :action="route('admin.calls.update', $call)">
-                                    <div>
-                                        <label for="edit-call-{{ $call->id }}-title" class="block text-sm font-medium text-slate-700">
-                                            Titre
-                                            <span class="text-rose-600" aria-hidden="true">*</span>
-                                        </label>
-                                        <input type="text" id="edit-call-{{ $call->id }}-title" name="title" required value="{{ $call->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-call-{{ $call->id }}-category" class="block text-sm font-medium text-slate-700">Type d'appel</label>
-                                        <select id="edit-call-{{ $call->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                            <option value="">Sélectionner un type</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @selected($call->category_id === $category->id)>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-call-{{ $call->id }}-closes" class="block text-sm font-medium text-slate-700">Date de clôture</label>
-                                        <input type="date" id="edit-call-{{ $call->id }}-closes" name="closes_on" value="{{ $call->closes_on?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-call-{{ $call->id }}-excerpt" class="block text-sm font-medium text-slate-700">Résumé</label>
-                                        <textarea id="edit-call-{{ $call->id }}-excerpt" name="excerpt" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $call->excerpt }}</textarea>
-                                    </div>
-
-                                    <div>
-                                        <label for="edit-call-{{ $call->id }}-body" class="block text-sm font-medium text-slate-700">Détail de l'appel</label>
-                                        <textarea id="edit-call-{{ $call->id }}-body" name="body" rows="6" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $call->body }}</textarea>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label for="edit-call-{{ $call->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                                            <select id="edit-call-{{ $call->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                                <option value="draft" @selected($call->status === 'draft')>Brouillon</option>
-                                                <option value="published" @selected($call->status === 'published')>Publié</option>
-                                                <option value="archived" @selected($call->status === 'archived')>Archivé</option>
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label for="edit-call-{{ $call->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
-                                            <input type="date" id="edit-call-{{ $call->id }}-published-at" name="published_at" value="{{ $call->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <span class="block text-sm font-medium text-slate-700">Image</span>
-                                        <div class="mt-1.5 flex items-center gap-3">
-                                            <img src="{{ $call->imageUrl($call->image, 'placeholders/join-call-stage') }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
-                                            <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                                        </div>
-                                    </div>
-                                </x-admin.edit-modal>
                             @empty
                                 <tr>
                                     <td colspan="7" class="px-5 py-12 text-center">
@@ -266,6 +207,77 @@
         </div>
 
     </div>
+
+    {{--
+        Every row's "Modifier" dialog, rendered here rather than inside the
+        table above: a dialog element is not valid content for a table body
+        between row elements, and a browser that encounters one there foster-
+        parents it out — which was silently corrupting the form markup of
+        every dialog on the page (content spilling out as siblings of an
+        empty form, breaking its height/scroll layout) without ever raising
+        a console error, since this is valid-by-recovery HTML, not a parse
+        error.
+    --}}
+    @foreach ($calls as $call)
+        <x-admin.edit-modal id="edit-call-{{ $call->id }}" title="Modifier l'appel" :action="route('admin.calls.update', $call)">
+            <div>
+                <label for="edit-call-{{ $call->id }}-title" class="block text-sm font-medium text-slate-700">
+                    Titre
+                    <span class="text-rose-600" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="edit-call-{{ $call->id }}-title" name="title" required value="{{ $call->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-call-{{ $call->id }}-category" class="block text-sm font-medium text-slate-700">Type d'appel</label>
+                <select id="edit-call-{{ $call->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    <option value="">Sélectionner un type</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected($call->category_id === $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="edit-call-{{ $call->id }}-closes" class="block text-sm font-medium text-slate-700">Date de clôture</label>
+                <input type="date" id="edit-call-{{ $call->id }}-closes" name="closes_on" value="{{ $call->closes_on?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            </div>
+
+            <div>
+                <label for="edit-call-{{ $call->id }}-excerpt" class="block text-sm font-medium text-slate-700">Résumé</label>
+                <textarea id="edit-call-{{ $call->id }}-excerpt" name="excerpt" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $call->excerpt }}</textarea>
+            </div>
+
+            <div>
+                <label for="edit-call-{{ $call->id }}-body" class="block text-sm font-medium text-slate-700">Détail de l'appel</label>
+                <textarea id="edit-call-{{ $call->id }}-body" name="body" rows="6" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $call->body }}</textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label for="edit-call-{{ $call->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                    <select id="edit-call-{{ $call->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                        <option value="draft" @selected($call->status === 'draft')>Brouillon</option>
+                        <option value="published" @selected($call->status === 'published')>Publié</option>
+                        <option value="archived" @selected($call->status === 'archived')>Archivé</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="edit-call-{{ $call->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                    <input type="date" id="edit-call-{{ $call->id }}-published-at" name="published_at" value="{{ $call->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                </div>
+            </div>
+
+            <div>
+                <span class="block text-sm font-medium text-slate-700">Image</span>
+                <div class="mt-1.5 flex items-center gap-3">
+                    <img src="{{ $call->imageUrl($call->image, 'placeholders/join-call-stage') }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
+                    <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
+                </div>
+            </div>
+        </x-admin.edit-modal>
+    @endforeach
 
     <x-admin.edit-modal id="create-call" title="Ajouter un appel à candidatures" :action="route('admin.calls.store')" method="POST" submit-label="Publier l'appel">
         <div>
