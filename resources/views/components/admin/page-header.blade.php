@@ -4,6 +4,10 @@
     'breadcrumb' => [],
     'actionLabel' => null,
     'actionHref' => null,
+    // The id of an admin.edit-modal (or similarly-opened dialog element) to
+    // open instead of navigating — takes priority over actionHref, the
+    // same actionDialog/actionHref split row-actions uses for "Modifier".
+    'actionDialog' => null,
 ])
 
 <div {{ $attributes->merge(['class' => 'flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between']) }}>
@@ -34,7 +38,16 @@
     </div>
 
     <div class="flex shrink-0 flex-col items-start gap-3 sm:items-end">
-        @if($actionLabel)
+        @if($actionLabel && $actionDialog)
+            <button
+                type="button"
+                data-open-dialog="{{ $actionDialog }}"
+                class="inline-flex items-center gap-2 rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700 active:scale-[.98]"
+            >
+                <x-icon name="plus" class="h-4.5 w-4.5" />
+                {{ $actionLabel }}
+            </button>
+        @elseif($actionLabel)
             <a
                 href="{{ $actionHref ?? '#' }}"
                 class="inline-flex items-center gap-2 rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700 active:scale-[.98]"

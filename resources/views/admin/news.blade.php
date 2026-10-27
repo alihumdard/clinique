@@ -11,7 +11,7 @@
         title="Gestion des actualités"
         lead="Créez, modifiez et gérez toutes les actualités publiées sur votre site."
         action-label="Ajouter une actualité"
-        action-href="#ajouter-une-actualite"
+        action-dialog="create-article"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Actualités'],
@@ -324,91 +324,73 @@
             </section>
 
             {{--
-                Quick publish. Presentation only: Module 2 adds the POST
-                route, server-side validation and upload handling. The
-                accept/size hints below are conveniences, never the
-                security boundary — the server must re-check both.
+                "Ajouter une actualité" in the page header opens this dialog
+                rather than scrolling to a sidebar form — one fewer thing on
+                a list page that is already busy, and consistent with how
+                "Modifier" opens for an existing row.
             --}}
-            <section id="ajouter-une-actualite" class="rounded-xl border border-slate-200 bg-white p-5">
-                <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
-                    <x-icon name="document" class="h-5 w-5 text-primary-600" />
-                    Publication rapide
-                </h2>
-
-                <form method="POST" action="{{ route('admin.news.store') }}" enctype="multipart/form-data" class="mt-4 space-y-4">
-                    @csrf
-
-                    <div>
-                        <label for="quick-title" class="block text-sm font-medium text-slate-700">
-                            Titre de l'actualité
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="quick-title"
-                            name="title"
-                            required
-                            value="{{ old('title') }}"
-                            placeholder="Saisissez le titre..."
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                    </div>
-
-                    <div>
-                        <label for="quick-category" class="block text-sm font-medium text-slate-700">
-                            Catégorie
-                            <span class="text-rose-600" aria-hidden="true">*</span>
-                            <span class="sr-only">(obligatoire)</span>
-                        </label>
-                        <select
-                            id="quick-category"
-                            name="category_id"
-                            required
-                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        >
-                            <option value="">Sélectionner une catégorie</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <span class="block text-sm font-medium text-slate-700">Image à la une</span>
-
-                        <label
-                            for="quick-image"
-                            class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
-                        >
-                            <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
-                            <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
-                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
-
-                            <input
-                                type="file"
-                                id="quick-image"
-                                name="image"
-                                accept="image/jpeg,image/png"
-                                class="sr-only"
-                            >
-                        </label>
-                    </div>
-
-                    {{-- Quick publish goes live straight away; scheduling
-                         belongs to the full editor. --}}
-                    <input type="hidden" name="status" value="published">
-
-                    <button
-                        type="submit"
-                        class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+            <x-admin.edit-modal id="create-article" title="Ajouter une actualité" :action="route('admin.news.store')" method="POST" submit-label="Publier l'actualité">
+                <div>
+                    <label for="quick-title" class="block text-sm font-medium text-slate-700">
+                        Titre de l'actualité
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                        <span class="sr-only">(obligatoire)</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="quick-title"
+                        name="title"
+                        required
+                        placeholder="Saisissez le titre..."
+                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     >
-                        <x-icon name="paper-plane" class="h-4 w-4" />
-                        Publier l'actualité
-                    </button>
-                </form>
-            </section>
+                </div>
+
+                <div>
+                    <label for="quick-category" class="block text-sm font-medium text-slate-700">
+                        Catégorie
+                        <span class="text-rose-600" aria-hidden="true">*</span>
+                        <span class="sr-only">(obligatoire)</span>
+                    </label>
+                    <select
+                        id="quick-category"
+                        name="category_id"
+                        required
+                        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    >
+                        <option value="">Sélectionner une catégorie</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <span class="block text-sm font-medium text-slate-700">Image à la une</span>
+
+                    <label
+                        for="quick-image"
+                        class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+                    >
+                        <x-icon name="upload" class="h-7 w-7 text-primary-500" />
+                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
+                        <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
+                        <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
+
+                        <input
+                            type="file"
+                            id="quick-image"
+                            name="image"
+                            accept="image/jpeg,image/png"
+                            class="sr-only"
+                        >
+                    </label>
+                </div>
+
+                {{-- Quick publish goes live straight away; scheduling
+                     belongs to the full editor. --}}
+                <input type="hidden" name="status" value="published">
+            </x-admin.edit-modal>
         </aside>
     </div>
 

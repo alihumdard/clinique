@@ -1,15 +1,16 @@
 {{--
-    A per-row "Modifier" dialog. Each row on an admin list renders its own
-    instance (id="edit-{id}"), pre-filled with that row's own values, and
-    posts straight to the resource's existing `update` route — the same
-    route every controller already exposes but which no view was calling.
+    A dialog-based form — either a per-row "Modifier" (pre-filled, PUT to
+    the existing update route) or a page-header "Ajouter" create dialog
+    (empty, POST to the existing store route). Same shell either way, only
+    the method and whether the slot's fields start blank differ.
 
-    Opened via a [data-open-dialog] trigger (row-actions' pencil icon);
-    closed via [data-dialog-close] or a backdrop click, both wired in
-    app.js. <dialog> rather than a hand-rolled overlay: native focus trap,
-    native Escape-to-close, and no extra markup for the backdrop.
+    Opened via a [data-open-dialog] trigger (row-actions' pencil icon, or
+    the page-header's action button); closed via [data-dialog-close] or a
+    backdrop click, both wired in app.js. <dialog> rather than a
+    hand-rolled overlay: native focus trap, native Escape-to-close, and no
+    extra markup for the backdrop.
 --}}
-@props(['id', 'title', 'action'])
+@props(['id', 'title', 'action', 'method' => 'PUT', 'submitLabel' => 'Enregistrer'])
 
 {{--
     Tailwind's preflight zeroes out every element's margin, which is what
@@ -21,7 +22,9 @@
 <dialog id="{{ $id }}" class="fixed inset-0 m-auto w-full max-w-lg rounded-xl p-0 backdrop:bg-slate-900/50">
     <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="flex max-h-[85vh] flex-col">
         @csrf
-        @method('PUT')
+        @if(strtoupper($method) !== 'POST')
+            @method($method)
+        @endif
 
         <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
             <h2 class="text-base font-bold text-slate-900">{{ $title }}</h2>
@@ -41,7 +44,7 @@
             </button>
             <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                 <x-icon name="save" class="h-4 w-4" />
-                Enregistrer
+                {{ $submitLabel }}
             </button>
         </div>
     </form>
