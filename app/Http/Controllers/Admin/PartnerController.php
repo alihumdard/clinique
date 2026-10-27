@@ -27,9 +27,11 @@ class PartnerController extends Controller
             $request,
             ['name', 'description']
         )
-            // The Clinic's own order first, then alphabetical within it.
-            ->orderBy('position')
-            ->orderBy('name')
+            // Newest partner first in this list: position is the public
+            // page's display order, not an admin browsing order, so a row
+            // just created would otherwise land wherever its (usually
+            // default) position happens to sort it.
+            ->latest('created_at')
             ->paginate(12)
             ->withQueryString();
 

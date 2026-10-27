@@ -28,8 +28,11 @@ class TeamController extends Controller
             hasCategory: false
         )
             ->when($request->query('groupe'), fn ($q, $group) => $q->where('department', $group))
-            ->orderBy('position')
-            ->orderBy('name')
+            // Newest member first in this list: position is the public
+            // team page's display order, not an admin browsing order, so
+            // a row just created would otherwise land wherever its
+            // (usually default) position happens to sort it.
+            ->latest('created_at')
             ->paginate(12)
             ->withQueryString();
 
