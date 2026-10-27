@@ -1,9 +1,9 @@
 # Clinique Juridique FSJP-UAM
-## Plateforme numérique — Livraison de la phase 2
+## Plateforme numérique — Livraison du module 2
 
 **Adresse de consultation :** http://40.160.97.168:8080
-**Date de mise en ligne :** 22 octobre 2026
-**Statut :** version de démonstration, ouverte à la relecture
+**Date de cette version :** 28 octobre 2026
+**Statut :** module 2 terminé, ouvert à la relecture
 
 ---
 
@@ -17,13 +17,14 @@ domaine. C'est sans conséquence pour une relecture, mais le domaine et le
 certificat seront nécessaires avant toute mise en service réelle.
 
 **Les contenus sont fictifs.** Noms, dates, chiffres, photographies et
-documents sont des exemples destinés à juger la mise en page. Les contenus
-réels de la Clinique seront intégrés en phase 4.
+documents sont des exemples destinés à juger la mise en page et le
+fonctionnement. Les contenus réels de la Clinique seront intégrés dès qu'ils
+nous seront transmis.
 
-**Les formulaires n'enregistrent rien encore.** Le formulaire de contact, les
-écrans d'administration, les filtres et la recherche s'affichent et répondent,
-mais aucune donnée n'est enregistrée : la partie serveur du module 2 reste à
-développer.
+**Les contenus sont désormais modifiables.** Contrairement à la version
+précédente, les écrans d'administration enregistrent réellement : ce qui est
+ajouté, modifié, publié ou mis à la corbeille depuis l'administration apparaît
+immédiatement sur le site public.
 
 ---
 
@@ -52,8 +53,9 @@ développer.
 | Page | Adresse |
 | --- | --- |
 | Actualités | http://40.160.97.168:8080/actualites |
-| Détail d'une actualité | http://40.160.97.168:8080/actualites/conference-acces-droit-personnes-vulnerables |
+| Détail d'une actualité | http://40.160.97.168:8080/actualites/lancement-de-la-caravane-juridique-a-zinder |
 | Activités et caravanes juridiques | http://40.160.97.168:8080/activites |
+| Détail d'une activité | http://40.160.97.168:8080/activites/caravane-juridique-a-dosso |
 | Galerie photos | http://40.160.97.168:8080/galerie |
 
 ### Ressources
@@ -61,7 +63,7 @@ développer.
 | Page | Adresse |
 | --- | --- |
 | Fiches pratiques juridiques | http://40.160.97.168:8080/ressources/fiches-pratiques |
-| Détail d'une fiche pratique | http://40.160.97.168:8080/ressources/fiches-pratiques/droits-de-la-famille |
+| Détail d'une fiche pratique | http://40.160.97.168:8080/ressources/fiches-pratiques/guide-pratique-droits-de-la-famille |
 | Rapports annuels d'activité | http://40.160.97.168:8080/ressources/rapports-annuels |
 
 ### Web TV
@@ -69,7 +71,7 @@ développer.
 | Page | Adresse |
 | --- | --- |
 | Web TV | http://40.160.97.168:8080/web-tv |
-| Détail d'une capsule | http://40.160.97.168:8080/web-tv/caravane-juridique-tillaberi |
+| Détail d'une capsule | http://40.160.97.168:8080/web-tv/lancement-des-activites-de-la-clinique-juridique-fsjp-uam |
 
 ### Engagement et contact
 
@@ -90,22 +92,31 @@ développer.
 
 ---
 
-## 3. Espace d'administration — 12 écrans
+## 3. Espace d'administration — 15 écrans
 
 L'accès est protégé : toute adresse sous `/admin` renvoie vers la page de
 connexion tant que la session n'est pas ouverte.
 
-### Identifiants de démonstration
+### Accès de démonstration
 
-```
-Adresse    http://40.160.97.168:8080/admin/login
-E-mail     admin@clinique-fsjp.ne
-Mot de passe   lgeZXO76xBUk2FV4GAqT!Aa9
-```
+L'adresse de connexion est http://40.160.97.168:8080/admin/login. Les
+identifiants de relecture sont transmis séparément : ils ne figurent pas dans
+ce document, qui est conservé avec le code source.
 
-Ce compte est fictif et réservé à la relecture. Les comptes réels seront créés
-en phase 4, avec un mot de passe d'au moins douze caractères renouvelé à la
-première connexion.
+Ces comptes sont fictifs et réservés à la relecture. Les comptes réels seront
+créés avant la mise en service, avec un mot de passe d'au moins douze
+caractères renouvelé à la première connexion.
+
+### Deux profils
+
+| Profil | Ce qu'il peut faire |
+| --- | --- |
+| **Éditeur de contenu** | Rédiger, modifier, publier, dépublier et mettre à la corbeille tous les contenus du site. |
+| **Administrateur** | Tout ce qui précède, plus les paramètres du site, les référentiels, les messages de contact, la newsletter et la suppression définitive. |
+
+Un compte « éditeur » peut être fourni sur demande pour comparer les deux
+vues : la barre latérale d'un éditeur ne propose pas le groupe
+« Administration », et une adresse saisie à la main y répond « Accès refusé ».
 
 ### Écrans
 
@@ -118,76 +129,109 @@ première connexion.
 | Gestion des fiches pratiques | http://40.160.97.168:8080/admin/fiches-pratiques |
 | Gestion des rapports annuels | http://40.160.97.168:8080/admin/rapports-annuels |
 | Gestion des pages | http://40.160.97.168:8080/admin/pages |
-| Ajouter une page | http://40.160.97.168:8080/admin/pages/nouvelle |
-| Catégories de pages | http://40.160.97.168:8080/admin/pages/categories |
 | Activités et galerie | http://40.160.97.168:8080/admin/activites |
-| Ajouter une activité | http://40.160.97.168:8080/admin/activites/nouvelle |
+| Appels à candidatures | http://40.160.97.168:8080/admin/appels |
 | Gestion de l'équipe | http://40.160.97.168:8080/admin/equipe |
 | Gestion des partenaires | http://40.160.97.168:8080/admin/partenaires |
+| Messages de contact | http://40.160.97.168:8080/admin/messages |
 | Gestion de la newsletter | http://40.160.97.168:8080/admin/newsletter |
+| Référentiels | http://40.160.97.168:8080/admin/referentiels |
 | Paramètres du site | http://40.160.97.168:8080/admin/parametres |
 
----
-
-## 4. Ce qui fonctionne, et ce qui reste à développer
-
-### Fonctionne
-
-- Les 24 pages publiques et les 12 écrans d'administration s'affichent.
-- La navigation, le fil d'Ariane et l'affichage mobile.
-- La connexion à l'administration, avec limitation des tentatives et
-  déconnexion automatique après trente minutes d'inactivité.
-- Les lecteurs vidéo ne se chargent qu'au clic : rien n'est demandé à la
-  plateforme vidéo tant que le visiteur n'a pas appuyé sur lecture.
-- Les onglets, les accordéons et les graphiques du tableau de bord
-  fonctionnent sans JavaScript actif.
-
-### Reste à développer — module 2
-
-Les écrans d'administration sont dessinés ; la partie serveur ne l'est pas
-encore. Concrètement, la Clinique ne peut pas encore ajouter, modifier ou
-supprimer un contenu : les tableaux affichent des exemples inscrits dans les
-pages, et les formulaires n'enregistrent rien.
-
-Restent à produire : le schéma de base de données, les modèles, les
-contrôleurs, les opérations de création et de modification, la gestion des
-fichiers téléversés, et le branchement des pages publiques sur ces données.
-
-### Reste à développer — module 3
-
-La pré-saisine (filtre d'orientation, formulaire, récapitulatif, confirmation)
-et le registre numérique des dossiers, qui constitue une application distincte
-sur son propre sous-domaine, avec sa propre base de données et ses propres
-comptes.
+Trois de ces écrans ne figuraient pas dans l'inventaire des douze : les
+**messages de contact** (sans quoi les messages déposés par le public seraient
+enregistrés sans que personne puisse les lire ni les supprimer), les **appels à
+candidatures** (dont la page publique « Rejoindre la Clinique » tire son
+contenu) et les **référentiels**, qui réunissent la grille tarifaire, les
+domaines juridiques et les rubriques dans lesquels les autres écrans puisent.
 
 ---
 
-## 5. Points en attente de décision
+## 4. Ce que la Clinique peut faire elle-même
 
-| Point | Détail |
+- Ajouter, modifier, publier, programmer, dépublier et archiver : actualités,
+  capsules Web TV, fiches pratiques, rapports annuels, activités et leurs
+  galeries, appels à candidatures, membres de l'équipe, partenaires et pages.
+- Téléverser des images et des documents PDF. Les PDF sont stockés hors de la
+  racine web : on n'y accède que par le site, qui vérifie d'abord que le
+  document est publié et compte chaque téléchargement.
+- Récupérer un contenu supprimé par erreur : chaque section a sa corbeille.
+- Lire, marquer comme traités et supprimer les messages du formulaire de
+  contact ; consulter et exporter les abonnés à la newsletter.
+- Modifier depuis « Paramètres du site » : adresse, téléphone, courriel,
+  horaires, réseaux sociaux, logo, et le bandeau d'annonce affiché en haut de
+  chaque page (fermeture exceptionnelle, changement d'horaires).
+- Tenir à jour la grille tarifaire, les domaines juridiques et les rubriques.
+
+Un contenu passe par quatre états : **brouillon**, **publié**, **programmé**
+(daté dans le futur, publié tout seul le moment venu) et **archivé**. Seul un
+contenu publié et daté est visible du public, quelle que soit l'adresse
+employée.
+
+---
+
+## 5. Ce qui reste à faire, et par qui
+
+### À transmettre par la Clinique
+
+| Élément | Pourquoi |
 | --- | --- |
-| Données marocaines dans les maquettes | La maquette de la page d'accueil porte « Université Al Akhawayn, Ifrane, Maroc », un numéro en +212 et des partenaires marocains. Les données du Niger ont été retenues ; les maquettes approuvées méritent une correction. |
-| Hébergeur des mentions légales | La maquette indique OVHcloud, le plan prévoit l'infrastructure de l'Université. La mention porte « à confirmer » en attendant la réponse du service informatique. |
-| Pages Cookies, Accessibilité, Crédits | Présentes dans la barre latérale des maquettes juridiques, absentes de l'inventaire des 24 pages. À construire ou à retirer. |
-| Éditeur de texte enrichi | Les barres de mise en forme sont affichées mais inactives. Une bibliothèque d'édition pèse entre 45 et 200 Ko, ce qui s'oppose au budget de performance ; un champ en texte simple reste possible. |
-| Treize états des dossiers | Leurs libellés exacts conditionnent le démarrage du module 3. Le plan demande explicitement de ne pas les inventer. |
-| Matrice des droits | Les droits précis des quatre profils du registre, également nécessaires au module 3. |
+| Textes, photographies et logos définitifs | Les contenus affichés sont des exemples. |
+| Coordonnées de l'équipe et des partenaires | Pour remplacer les fiches d'exemple. |
+| Rapports, fiches pratiques et liens des capsules | Les fichiers actuels sont fictifs. |
+| **Chiffres clés** (personnes accompagnées, étudiants, activités) | Les nombres affichés sur l'accueil et « À propos » sont des exemples et doivent être validés avant publication. |
+| Identifiants d'envoi de courriel (SMTP) | Les messages du formulaire de contact sont enregistrés et lisibles dans l'administration, mais aucune notification n'est envoyée tant qu'un expéditeur n'est pas configuré. |
+| **Les treize états des dossiers** et la **matrice des droits** | Ils conditionnent le démarrage du module 3. Le plan demande explicitement de ne pas les inventer. |
+
+### À confirmer par le service informatique de l'UAM
+
+| Élément | Pourquoi |
+| --- | --- |
+| Nom de domaine et certificat HTTPS | Le site est aujourd'hui servi en HTTP sur une adresse IP. |
+| Hébergeur | Les mentions légales portent « à confirmer » en attendant. |
+| Sous-domaine distinct du registre | Le module 3 est une application séparée, avec sa propre base. |
+| Sauvegardes et restauration | Sauvegardes chiffrées quotidiennes conservées trente jours. |
+
+### Modules suivants
+
+**Module 3 — pré-saisine et registre numérique.** Le parcours public
+d'orientation et de dépôt de demande, puis le registre confidentiel des
+dossiers : application distincte, base de données distincte, comptes distincts.
+Il ne peut commencer sans les treize états et la matrice des droits.
+
+**Module 4 — sécurité, recette, documentation et déploiement.** Gestion des
+comptes utilisateurs, sauvegardes, règles de conservation des données, recette
+complète et mise en production avec le service informatique de l'UAM.
 
 ---
 
 ## 6. Performance et sécurité
 
-| Exigence du plan | Mesure |
+| Exigence du plan | Mesure sur cette version |
 | --- | --- |
-| Page d'accueil sous 500 Ko | 118 Ko |
-| Page intérieure sous 400 Ko | 40 à 135 Ko |
+| Page d'accueil sous 500 Ko | Respectée |
+| Page intérieure sous 400 Ko | Respectée |
 | Aucun script distant | Aucun : ni jQuery, ni police d'icônes, ni bibliothèque de graphiques |
+| Feuille de style et script du site | 90 Ko et 10 Ko, compressés à 17 Ko et 3 Ko |
 | Lecteur vidéo au clic | Confirmé : aucune requête vers la plateforme vidéo avant le clic |
+| Images | Format WebP avec repli JPEG, et plusieurs largeurs : un téléphone ne télécharge pas l'image prévue pour un écran de bureau |
 | Accessibilité AA | Contraste, navigation au clavier, textes de remplacement |
 
 Côté sécurité : en-têtes de sécurité sur chaque réponse, limitation des
-tentatives de connexion, déconnexion après inactivité, déconnexion par requête
-POST uniquement, et administration exclue de l'indexation.
+tentatives de connexion, déconnexion automatique après trente minutes
+d'inactivité, déconnexion par requête POST uniquement, administration exclue de
+l'indexation, documents confidentiels hors de la racine web, et séparation des
+droits entre éditeur et administrateur.
 
 Le chiffrement HTTPS n'est pas actif sur cette version de démonstration, faute
 de nom de domaine. Il sera nécessaire avant la mise en service.
+
+---
+
+## 7. Points de maquette à trancher
+
+| Point | Détail |
+| --- | --- |
+| Données marocaines dans les maquettes | Les maquettes portent « Université Al Akhawayn, Ifrane, Maroc », un numéro en +212 et des partenaires marocains. Le site livré utilise les données du Niger ; les maquettes approuvées méritent une correction. |
+| Pages Cookies, Accessibilité, Crédits | Présentes dans la barre latérale des maquettes juridiques, absentes de l'inventaire des 24 pages. À construire ou à retirer. |
+| Éditeur de texte enrichi | La saisie se fait aujourd'hui en texte simple, les sauts de ligne étant conservés. Une bibliothèque d'édition pèse entre 45 et 200 Ko, ce qui s'oppose au budget de performance : à arbitrer. |
