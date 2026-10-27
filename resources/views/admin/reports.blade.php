@@ -189,6 +189,15 @@
                                         <x-admin.row-actions
                                             :label="$report->title"
                                             edit-dialog="edit-report-{{ $report->id }}"
+                                            {{--
+                                                A report has no detail page of
+                                                its own — only the shared
+                                                public listing it downloads
+                                                from — so Aperçu opens that
+                                                rather than a per-row page
+                                                that doesn't exist.
+                                            --}}
+                                            :view-href="$report->isPublic() ? route('resources.reports') : null"
                                             :download-href="$report->file_path ? route('admin.reports.download', $report) : null"
                                             :duplicate-action="route('admin.reports.duplicate', $report)"
                                             :delete-action="route('admin.reports.destroy', $report)"
