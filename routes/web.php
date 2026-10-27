@@ -24,7 +24,14 @@ use Illuminate\Support\Facades\Route;
 | Services page, so both read it rather than each listing it.
 */
 Route::get('/', function () {
-    return view('home', ['domains' => App\Models\LegalDomain::active()->get()]);
+    return view('home', [
+        'domains' => App\Models\LegalDomain::active()->get(),
+        'recentArticles' => App\Models\Article::public()
+            ->with('category')
+            ->latest('published_at')
+            ->take(3)
+            ->get(),
+    ]);
 })->name('home');
 
 Route::get('/a-propos', function () {

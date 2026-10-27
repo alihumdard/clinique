@@ -326,32 +326,13 @@
                 </div>
 
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    @foreach ([
-                        [
-                            'date' => '12 oct. 2024',
-                            'title' => "Conférence sur l'accès au droit des personnes vulnérables",
-                            'img' => 'news-1',
-                            'alt' => 'Conférence juridique'
-                        ],
-                        [
-                            'date' => '28 sept. 2024',
-                            'title' => "Caravane juridique à la région d'Ifrane",
-                            'img' => 'news-2',
-                            'alt' => 'Caravane juridique à Ifrane'
-                        ],
-                        [
-                            'date' => '15 sept. 2024',
-                            'title' => 'Lancement du guide pratique des droits familiaux',
-                            'img' => 'news-3',
-                            'alt' => 'Guide pratique des droits familiaux'
-                        ],
-                    ] as $article)
+                    @forelse ($recentArticles as $article)
                         <article class="flex min-w-0 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
 
-                            <a href="{{ url('/actualites') }}" class="block overflow-hidden">
-                                <x-picture
-                                    :path="'placeholders/' . $article['img']"
-                                    :alt="$article['alt']"
+                            <a href="{{ route('news.show', $article) }}" class="block overflow-hidden">
+                                <x-stored-image
+                                    :path="$article->image"
+                                    :alt="$article->title"
                                     width="1536"
                                     height="1024"
                                     class="block aspect-[2/1] w-full object-cover transition duration-300 hover:scale-105"
@@ -360,23 +341,25 @@
 
                             <div class="flex flex-1 flex-col p-2.5">
                                 <p class="text-[10px] font-medium leading-4 text-slate-500">
-                                    {{ $article['date'] }}
+                                    {{ $article->published_at?->translatedFormat('j M. Y') }}
                                 </p>
 
                                 <h3 class="mt-1 text-[11px] font-semibold leading-snug text-slate-900 sm:text-xs">
-                                    {{ $article['title'] }}
+                                    {{ $article->title }}
                                 </h3>
 
                                 <div class="mt-auto flex justify-end pt-2.5">
-                                    <a href="{{ url('/actualites') }}"
-                                       aria-label="Lire la suite : {{ $article['title'] }}"
+                                    <a href="{{ route('news.show', $article) }}"
+                                       aria-label="Lire la suite : {{ $article->title }}"
                                        class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-800 text-white transition hover:bg-blue-700">
                                         <x-icon name="arrow-right" class="h-5 w-5" />
                                     </a>
                                 </div>
                             </div>
                         </article>
-                    @endforeach
+                    @empty
+                        <p class="col-span-full text-sm text-slate-500">Aucune actualité publiée pour le moment.</p>
+                    @endforelse
                 </div>
             </div>
 
