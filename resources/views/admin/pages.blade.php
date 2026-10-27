@@ -388,6 +388,16 @@
                 @endforeach
             </select>
         </div>
+
+        <div>
+            <label for="page-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+            <input
+                type="date"
+                id="page-published-at"
+                name="published_at"
+                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+        </div>
     </x-admin.edit-modal>
 
 @endsection

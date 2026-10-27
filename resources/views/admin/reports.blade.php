@@ -337,6 +337,11 @@
         </div>
 
         <div>
+            <label for="create-report-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+            <input type="date" id="create-report-published-at" name="published_at" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+        </div>
+
+        <div>
             <span class="block text-sm font-medium text-slate-700">
                 Fichier PDF
                 <span class="text-rose-600" aria-hidden="true">*</span>

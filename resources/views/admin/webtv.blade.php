@@ -303,14 +303,14 @@
         <aside>
             <x-admin.edit-modal id="create-video" title="Ajouter une vidéo" :action="route('admin.webtv.store')" method="POST" submit-label="Publier la vidéo">
                 <div>
-                    <label for="video-title" class="block text-sm font-medium text-slate-700">
+                    <label for="create-video-title" class="block text-sm font-medium text-slate-700">
                         Titre de la vidéo
                         <span class="text-rose-600" aria-hidden="true">*</span>
                         <span class="sr-only">(obligatoire)</span>
                     </label>
                     <input
                         type="text"
-                        id="video-title"
+                        id="create-video-title"
                         name="title"
                         required
                         placeholder="Saisissez le titre..."
@@ -319,9 +319,9 @@
                 </div>
 
                 <div>
-                    <label for="video-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
+                    <label for="create-video-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
                     <select
-                        id="video-category"
+                        id="create-video-category"
                         name="category_id"
                         class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     >
@@ -333,9 +333,9 @@
                 </div>
 
                 <div>
-                    <label for="video-description" class="block text-sm font-medium text-slate-700">Description</label>
+                    <label for="create-video-description" class="block text-sm font-medium text-slate-700">Description</label>
                     <textarea
-                        id="video-description"
+                        id="create-video-description"
                         name="summary"
                         rows="4"
                         placeholder="Décrivez brièvement la vidéo..."
@@ -344,7 +344,7 @@
                 </div>
 
                 <div>
-                    <label for="video-link" class="block text-sm font-medium text-slate-700">
+                    <label for="create-video-link" class="block text-sm font-medium text-slate-700">
                         Lien vidéo
                         <span class="text-rose-600" aria-hidden="true">*</span>
                         <span class="sr-only">(obligatoire)</span>
@@ -352,10 +352,10 @@
                     <div class="relative mt-1.5">
                         <input
                             type="url"
-                            id="video-link"
+                            id="create-video-link"
                             name="video_url"
                             required
-                            aria-describedby="video-link-hint"
+                            aria-describedby="create-video-link-hint"
                             placeholder="https://youtu.be/..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-10 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
@@ -363,7 +363,7 @@
                             <x-icon name="link" class="h-4 w-4" />
                         </span>
                     </div>
-                    <p id="video-link-hint" class="mt-1.5 text-xs text-slate-500">
+                    <p id="create-video-link-hint" class="mt-1.5 text-xs text-slate-500">
                         Collez simplement le lien YouTube ou Vimeo : la vidéo reste hébergée sur la chaîne de la Clinique.
                     </p>
                 </div>
@@ -372,7 +372,7 @@
                     <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
 
                     <label
-                        for="video-cover"
+                        for="create-video-cover"
                         class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
                     >
                         <x-icon name="upload" class="h-7 w-7 text-primary-500" />
@@ -382,7 +382,7 @@
 
                         <input
                             type="file"
-                            id="video-cover"
+                            id="create-video-cover"
                             name="cover"
                             accept="image/jpeg,image/png,image/webp"
                             class="sr-only"
@@ -394,14 +394,14 @@
                 </div>
 
                 <div>
-                    <label for="video-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
+                    <label for="create-video-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
                     <div class="relative mt-1.5">
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="clock" class="h-4 w-4" />
                         </span>
                         <input
                             type="text"
-                            id="video-duration"
+                            id="create-video-duration"
                             name="duration"
                             inputmode="numeric"
                             pattern="[0-9]{1,3}:[0-5][0-9]"
@@ -412,9 +412,9 @@
                 </div>
 
                 <div>
-                    <label for="video-transcript" class="block text-sm font-medium text-slate-700">Transcription</label>
+                    <label for="create-video-transcript" class="block text-sm font-medium text-slate-700">Transcription</label>
                     <textarea
-                        id="video-transcript"
+                        id="create-video-transcript"
                         name="transcript"
                         rows="4"
                         placeholder="Collez ici la transcription écrite, lorsqu'elle existe..."
@@ -425,13 +425,25 @@
                     </p>
                 </div>
 
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="create-video-status" class="block text-sm font-medium text-slate-700">Statut</label>
+                        <select id="create-video-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                            <option value="draft">Brouillon</option>
+                            <option value="published" selected>Publié</option>
+                            <option value="archived">Archivé</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="create-video-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
+                        <input type="date" id="create-video-published-at" name="published_at" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    </div>
+                </div>
+
                 <div class="pt-1">
                     <x-admin.toggle name="allow_comments" label="Autoriser les commentaires" :checked="false" />
                 </div>
-
-                {{-- Quick publish goes live straight away; scheduling and
-                     saving as a draft belong to the full editor. --}}
-                <input type="hidden" name="status" value="published">
             </x-admin.edit-modal>
         </aside>
     </div>
