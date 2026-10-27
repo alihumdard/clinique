@@ -1,24 +1,26 @@
-<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+{{--
+    The partner strip shown at the foot of the home page and of À propos.
 
-    @foreach ([
-        ['logo' => 'uemf', 'name' => 'UEMF', 'subtitle' => 'Euromed University of Fes Morocco'],
-        ['logo' => 'ministere-justice', 'name' => 'Ministère de la Justice', 'subtitle' => 'Royaume du Maroc'],
-        ['logo' => 'onu-femmes', 'name' => 'ONU Femmes', 'subtitle' => null],
-        ['logo' => 'amdh', 'name' => 'Association Marocaine des Droits Humains', 'subtitle' => null],
-        ['logo' => 'barreau-fes', 'name' => 'Barreau de Fès', 'subtitle' => null],
-        ['logo' => 'pndd', 'name' => 'PNDD', 'subtitle' => null],
-    ] as $partner)
-        <div class="flex h-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white p-3 transition hover:shadow-md sm:h-40">
-            <img
-                src="{{ asset('images/partners/' . $partner['logo'] . '.png') }}"
-                alt="{{ $partner['name'] }}"
-                class="h-20 w-auto max-w-full object-contain sm:h-24"
-                loading="lazy"
-            >
-            <span class="text-center text-xs font-semibold leading-tight text-slate-600">
-                {{ $partner['name'] }}
-            </span>
-        </div>
-    @endforeach
+    It reads the same rows as the Partenaires page: the list used to be
+    written into this file, which is how six Moroccan institutions ended
+    up on the home page of a Niger clinic. Whoever includes this partial
+    passes $partners.
+--}}
 
-</div>
+@if($partners->isNotEmpty())
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        @foreach ($partners as $partner)
+            <x-logo-placeholder
+                size="lg"
+                :name="$partner->name"
+                :subtitle="$partner->description"
+                :logo="$partner->logo"
+                :href="$partner->website"
+            />
+        @endforeach
+    </div>
+@else
+    <p class="rounded-xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
+        La liste de nos partenaires sera publiée prochainement.
+    </p>
+@endif

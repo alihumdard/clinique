@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\NewsController;
@@ -23,19 +24,20 @@ use Illuminate\Support\Facades\Route;
 | The domain list is CMS-managed and appears on both the home page and the
 | Services page, so both read it rather than each listing it.
 */
-Route::get('/', function () {
-    return view('home', [
-        'domains' => App\Models\LegalDomain::active()->get(),
-        'recentArticles' => App\Models\Article::public()
-            ->with('category')
-            ->latest('published_at')
-            ->take(3)
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+/*
+| The partner strip at the foot of the page is the same list the
+| Partenaires page shows, so it is read rather than listed here.
+*/
+Route::get('/a-propos', function () {
+    return view('about', [
+        'partners' => App\Models\Partner::public()
+            ->orderBy('position')
+            ->orderBy('name')
+            ->take(6)
             ->get(),
     ]);
-})->name('home');
-
-Route::get('/a-propos', function () {
-    return view('about');
 })->name('about');
 
 Route::get('/a-propos/equipe', [TeamController::class, 'index'])->name('about.team');
@@ -137,7 +139,7 @@ Route::get('/newsletter/desinscription/{token}', [NewsletterController::class, '
 |--------------------------------------------------------------------------
 */
 
-Route::get('/pre-saisine', fn () => view('home', ['domains' => App\Models\LegalDomain::active()->get()]))->name('presaisine.index');
+Route::get('/pre-saisine', [HomeController::class, 'presaisine'])->name('presaisine.index');
 
 /*
 |--------------------------------------------------------------------------

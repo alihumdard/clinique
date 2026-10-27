@@ -118,6 +118,62 @@ class PublicPagesTest extends TestCase
         ]);
     }
 
+    /**
+     * The home page carried three written-in blocks: a Web TV strip, an
+     * activities grid and a partner strip. The partner strip listed six
+     * Moroccan institutions on the site of a clinic in Niger, and the
+     * other two linked to their listing page rather than to the item.
+     */
+    public function test_the_home_page_reads_its_blocks_from_the_database(): void
+    {
+        $response = $this->get('/')->assertOk();
+
+        // Partners: the seeded rows, not the written-in Moroccan list.
+        $response->assertSee('Ministère de la Justice', escape: false);
+        $response->assertDontSee('UEMF', escape: false);
+        $response->assertDontSee('Royaume du Maroc', escape: false);
+        $response->assertDontSee('Barreau de Fès', escape: false);
+
+        // Web TV and activities link to the row, not to the listing.
+        $response->assertSee('/web-tv/caravane-juridique-tillaberi', escape: false);
+        $response->assertSee('/activites/caravane-juridique-a-tillaberi', escape: false);
+    }
+
+    /** An unpublished row must not reach the home page either. */
+    public function test_the_home_page_shows_only_published_rows(): void
+    {
+        \App\Models\Video::create([
+            'title' => 'Capsule en préparation',
+            'slug' => 'capsule-en-preparation',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+            'provider' => 'youtube',
+            'provider_id' => 'dQw4w9WgXcQ',
+            'status' => \App\Models\Video::STATUS_DRAFT,
+        ]);
+
+        \App\Models\Activity::create([
+            'title' => 'Atelier interne non publié',
+            'slug' => 'atelier-interne-non-publie',
+            'status' => \App\Models\Activity::STATUS_DRAFT,
+        ]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertDontSee('Capsule en préparation', escape: false)
+            ->assertDontSee('Atelier interne non publié', escape: false);
+    }
+
+    /**
+     * /pre-saisine renders the home view until Module 3 replaces it. It
+     * built its own payload by hand, so when a block was added to the
+     * home page this route started answering 500 — on the button that
+     * sits in the header of every page.
+     */
+    public function test_the_presaisine_route_renders(): void
+    {
+        $this->get('/pre-saisine')->assertOk();
+    }
+
     public function test_the_news_index_renders(): void
     {
         $this->get('/actualites')

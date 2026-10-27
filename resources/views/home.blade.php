@@ -379,70 +379,68 @@
 
                 <div class="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
 
-                    {{-- FEATURED VIDEO --}}
-                    <a href="{{ route('webtv.index') }}"
-                       aria-label="Voir la présentation de la Clinique Juridique"
-                       class="group relative block min-h-[180px] min-w-0 overflow-hidden rounded-lg bg-slate-200 shadow-sm sm:min-h-0">
+                    {{-- FEATURED CAPSULE --}}
+                    @if($featuredVideo)
+                        <a href="{{ route('webtv.show', $featuredVideo) }}"
+                           aria-label="Voir la capsule : {{ $featuredVideo->title }}"
+                           class="group relative block min-h-[180px] min-w-0 overflow-hidden rounded-lg bg-slate-200 shadow-sm sm:min-h-0">
 
-                        <x-picture
-                            path="placeholders/video-featured"
-                            alt="Présentation de la Clinique Juridique"
-                            width="1536"
-                            height="1024"
-                            class="block h-full min-h-[180px] w-full object-cover transition duration-300 group-hover:scale-105 sm:min-h-0"
-                        />
+                            <x-stored-image
+                                :path="$featuredVideo->cover"
+                                alt=""
+                                width="1536"
+                                height="1024"
+                                sizes="(min-width: 1024px) 420px, 100vw"
+                                fallback="placeholders/video-featured"
+                                class="block h-full min-h-[180px] w-full object-cover transition duration-300 group-hover:scale-105 sm:min-h-0"
+                            />
 
-                        <span class="absolute inset-0 flex items-center justify-center">
-                            <svg class="h-14 w-14 text-white drop-shadow-lg transition group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M8 5v14l11-7-11-7z" />
-                            </svg>
-                        </span>
-
-                        <div class="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pb-3 pt-9">
-                            <div>
-                                <p class="text-[11px] font-bold leading-snug text-white">
-                                    La Clinique Juridique FSJP-UAM
-                                </p>
-                                <p class="mt-1 text-[9px] leading-snug text-white/80">
-                                    Présentation de la Clinique et de ses missions
-                                </p>
-                            </div>
-
-                            <span class="shrink-0 rounded bg-black/75 px-1.5 py-0.5 text-[9px] text-white">
-                                09:24
+                            <span class="absolute inset-0 flex items-center justify-center">
+                                <svg class="h-14 w-14 text-white drop-shadow-lg transition group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M8 5v14l11-7-11-7z" />
+                                </svg>
                             </span>
-                        </div>
-                    </a>
 
-                    {{-- SMALL VIDEOS --}}
+                            <div class="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pb-3 pt-9">
+                                <div class="min-w-0">
+                                    <p class="line-clamp-2 text-[11px] font-bold leading-snug text-white">
+                                        {{ $featuredVideo->title }}
+                                    </p>
+                                    @if($featuredVideo->category)
+                                        <p class="mt-1 text-[9px] leading-snug text-white/80">
+                                            {{ $featuredVideo->category->name }}
+                                        </p>
+                                    @endif
+                                </div>
+
+                                @if($featuredVideo->duration)
+                                    <span class="ml-2 shrink-0 rounded bg-black/75 px-1.5 py-0.5 text-[9px] text-white">
+                                        {{ $featuredVideo->duration }}
+                                    </span>
+                                @endif
+                            </div>
+                        </a>
+                    @else
+                        <div class="flex min-h-[180px] items-center justify-center rounded-lg border border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
+                            Aucune capsule publiée pour le moment.
+                        </div>
+                    @endif
+
+                    {{-- SMALL CAPSULES --}}
                     <div class="flex min-w-0 flex-col divide-y divide-slate-100">
-                        @foreach ([
-                            [
-                                'title' => "L'accès à la justice pour tous",
-                                'duration' => '03:12',
-                                'img' => 'news-1'
-                            ],
-                            [
-                                'title' => 'Les droits des femmes',
-                                'duration' => '04:18',
-                                'img' => 'news-2'
-                            ],
-                            [
-                                'title' => 'La médiation juridique',
-                                'duration' => '06:10',
-                                'img' => 'news-3'
-                            ],
-                        ] as $video)
-                            <a href="{{ route('webtv.index') }}"
+                        @forelse ($videos as $video)
+                            <a href="{{ route('webtv.show', $video) }}"
                                class="group flex flex-1 min-w-0 items-center gap-2 py-2 px-1"
-                               aria-label="Voir la vidéo : {{ $video['title'] }}">
+                               aria-label="Voir la capsule : {{ $video->title }}">
 
                                 <div class="relative w-[72px] shrink-0 overflow-hidden rounded-md bg-slate-200">
-                                    <x-picture
-                                        :path="'placeholders/' . $video['img']"
+                                    <x-stored-image
+                                        :path="$video->cover"
                                         alt=""
                                         width="160"
                                         height="100"
+                                        sizes="72px"
+                                        fallback="placeholders/video-featured"
                                         class="block aspect-video w-full object-cover"
                                     />
                                     <span class="absolute inset-0 flex items-center justify-center">
@@ -450,21 +448,27 @@
                                             <path d="M8 5v14l11-7-11-7z" />
                                         </svg>
                                     </span>
-                                    <span class="absolute right-1 top-1 rounded bg-black/80 px-1 py-0.5 text-[9px] leading-tight text-white">
-                                        {{ $video['duration'] }}
-                                    </span>
+                                    @if($video->duration)
+                                        <span class="absolute right-1 top-1 rounded bg-black/80 px-1 py-0.5 text-[9px] leading-tight text-white">
+                                            {{ $video->duration }}
+                                        </span>
+                                    @endif
                                 </div>
 
                                 <div class="min-w-0 pt-0.5">
-                                    <p class="text-[10px] font-semibold leading-snug text-slate-800 transition group-hover:text-blue-700 sm:text-[11px]">
-                                        {{ $video['title'] }}
+                                    <p class="line-clamp-2 text-[10px] font-semibold leading-snug text-slate-800 transition group-hover:text-blue-700 sm:text-[11px]">
+                                        {{ $video->title }}
                                     </p>
                                     <p class="mt-1 text-[9px] text-slate-500">
-                                        {{ $video['duration'] }}
+                                        {{ $video->published_at?->translatedFormat('j M. Y') }}
                                     </p>
                                 </div>
                             </a>
-                        @endforeach
+                        @empty
+                            <p class="px-1 py-2 text-[10px] text-slate-500">
+                                Les prochaines capsules apparaîtront ici.
+                            </p>
+                        @endforelse
                     </div>
 
                 </div>
@@ -485,51 +489,23 @@
             Nous allons à la rencontre des populations, y compris dans les zones rurales et périurbaines.
         </p>
 
-        @php
-            $homeActivities = [
-                [
-                    'image' => 'placeholders/news-caravan',
-                    'category' => 'Caravane juridique',
-                    'color' => 'amber',
-                    'date' => '28 septembre 2024',
-                    'location' => 'Tillabéri',
-                    'title' => 'Caravane juridique à Tillabéri',
-                    'excerpt' => "Une journée d'information et de conseil juridique pour les populations locales.",
-                ],
-                [
-                    'image' => 'placeholders/news-3',
-                    'category' => 'Sensibilisation',
-                    'color' => 'purple',
-                    'date' => '12 octobre 2024',
-                    'location' => 'Niamey',
-                    'title' => 'Session de sensibilisation des jeunes',
-                    'excerpt' => "Sensibilisation des étudiants sur l'accès au droit et la prévention des conflits.",
-                ],
-                [
-                    'image' => 'placeholders/news-formation',
-                    'category' => 'Formation',
-                    'color' => 'green',
-                    'date' => '5 septembre 2024',
-                    'location' => 'Niamey',
-                    'title' => 'Formation sur la médiation',
-                    'excerpt' => "Renforcement des capacités des étudiants sur les techniques de médiation.",
-                ],
-            ];
-        @endphp
-
         <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($homeActivities as $activity)
+            @forelse ($homeActivities as $activity)
                 <x-activity-card
-                    :image="$activity['image']"
-                    :category="$activity['category']"
-                    :category-color="$activity['color']"
-                    :date="$activity['date']"
-                    :location="$activity['location']"
-                    :title="$activity['title']"
-                    :excerpt="$activity['excerpt']"
-                    :href="route('activities.index')"
+                    :stored-path="$activity->image"
+                    :category="$activity->category?->name"
+                    :category-color="$activity->category?->tone ?? 'primary'"
+                    :date="$activity->held_on?->translatedFormat('j F Y')"
+                    :location="$activity->location"
+                    :title="$activity->title"
+                    :excerpt="$activity->excerpt"
+                    :href="route('activities.show', $activity)"
                 />
-            @endforeach
+            @empty
+                <p class="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500 sm:col-span-2 lg:col-span-3">
+                    Aucune activité publiée pour le moment.
+                </p>
+            @endforelse
         </div>
     </div>
 </section>
