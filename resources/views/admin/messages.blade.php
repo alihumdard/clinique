@@ -37,7 +37,7 @@
         {{-- ============ KPIs ============ --}}
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <x-admin.stat-card icon="chat"         color="blue"  :value="$counts['new']"     label="Nouveaux messages" note="à traiter" />
-            <x-admin.stat-card icon="check-circle" color="green" :value="$counts['handled']" label="Traités" />
+            <x-admin.stat-card icon="check-circle" color="green" :value="$counts['handled']" label="Résolus" />
             <x-admin.stat-card icon="clock"        color="amber" :value="$counts['week']"    label="Reçus cette semaine" />
             <x-admin.stat-card icon="mail"         color="red"   :value="$counts['all']"     label="Total enregistré" />
         </div>
@@ -63,7 +63,7 @@
                     :tabs="[
                         ['label' => 'Tous', 'count' => $counts['all'], 'active' => ! $statut, 'href' => $tabLink([])],
                         ['label' => 'Nouveaux', 'count' => $counts['new'], 'active' => $statut === 'nouveaux', 'href' => $tabLink(['statut' => 'nouveaux'])],
-                        ['label' => 'Traités', 'count' => $counts['handled'], 'active' => $statut === 'traites', 'href' => $tabLink(['statut' => 'traites'])],
+                        ['label' => 'Résolus', 'count' => $counts['handled'], 'active' => $statut === 'traites', 'href' => $tabLink(['statut' => 'traites'])],
                     ]"
                 />
 
@@ -134,7 +134,7 @@
                                     @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
                                         <x-admin.badge tone="amber">Nouveau</x-admin.badge>
                                     @else
-                                        <x-admin.badge tone="green">Traité</x-admin.badge>
+                                        <x-admin.badge tone="green">Résolu</x-admin.badge>
                                     @endif
                                 </div>
 
@@ -164,7 +164,7 @@
                                         @csrf
                                         <button type="submit" class="inline-flex items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-100">
                                             <x-icon name="check-circle" class="h-4 w-4" />
-                                            Marquer traité
+                                            Marquer résolu
                                         </button>
                                     </form>
                                 @endif
@@ -185,7 +185,7 @@
                         <p class="mt-3 text-xs text-slate-400">
                             Consentement donné le {{ $message->consent_at?->translatedFormat('j F Y à H:i') ?? '—' }}
                             @if($message->handled_at)
-                                &middot; traité le {{ $message->handled_at->translatedFormat('j F Y') }}
+                                &middot; résolu le {{ $message->handled_at->translatedFormat('j F Y') }}
                                 @if($message->handler) par {{ $message->handler->name }} @endif
                             @endif
                         </p>

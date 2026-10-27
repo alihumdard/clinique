@@ -55,7 +55,7 @@ class MessageController extends Controller
     {
         $message->markHandled($request->user());
 
-        return back()->with('status', "Le message de {$message->name} est marqué comme traité.");
+        return back()->with('status', "Le message de {$message->name} est marqué comme résolu.");
     }
 
     /**

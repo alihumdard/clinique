@@ -192,7 +192,7 @@
                             @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
                                 <span class="mt-1 inline-block rounded bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">Nouveau</span>
                             @else
-                                <span class="mt-1 inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Traité</span>
+                                <span class="mt-1 inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Résolu</span>
                             @endif
                         </div>
                     </li>
