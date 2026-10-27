@@ -34,11 +34,14 @@
 
         <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($domains as $domain)
+                {{-- No per-domain detail page yet (needs real content from
+                     the Clinic) — :link="false" so the card doesn't offer
+                     a button that goes nowhere useful. --}}
                 <x-service-card
                     :icon="$domain->icon ?? 'scale'"
                     :title="$domain->name"
                     :color="$cardColours[$domain->tone] ?? 'primary'"
-                    :href="route('presaisine.index')"
+                    :link="false"
                 >
                     {{ $domain->plain_language }}
                 </x-service-card>
@@ -46,7 +49,7 @@
 
             {{-- Always last: the Clinic orients anyone whose situation is
                  not on the list, which is the point of saying so here. --}}
-            <x-service-card icon="users" title="Autres domaines" color="teal" :href="route('presaisine.index')">
+            <x-service-card icon="users" title="Autres domaines" color="teal" :link="false">
                 Orientation vers des services spécialisés selon la nature de votre situation.
             </x-service-card>
         </div>
