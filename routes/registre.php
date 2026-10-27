@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Registre\AuthController;
 use App\Http\Controllers\Registre\DashboardController;
+use App\Http\Controllers\Registre\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,5 +32,16 @@ Route::prefix('registre')->name('registre.')->group(function () {
         Route::post('/deconnexion', [AuthController::class, 'destroy'])->name('logout');
 
         Route::get('/', DashboardController::class)->name('dashboard');
+
+        /*
+        | Online requests, and what becomes of them: accepted, which opens
+        | a dossier and moves the attachments to it, or refused, which
+        | removes them. Both are recorded in the access log.
+        */
+        Route::get('/demandes', [SubmissionController::class, 'index'])->name('submissions');
+        Route::get('/demandes/{submission}', [SubmissionController::class, 'show'])->name('submissions.show');
+        Route::post('/demandes/{submission}/accepter', [SubmissionController::class, 'accept'])->name('submissions.accept');
+        Route::post('/demandes/{submission}/refuser', [SubmissionController::class, 'refuse'])->name('submissions.refuse');
+        Route::get('/demandes/{submission}/piece/{attachment}', [SubmissionController::class, 'attachment'])->name('submissions.attachment');
     });
 });

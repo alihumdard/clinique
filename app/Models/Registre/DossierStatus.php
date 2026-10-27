@@ -44,6 +44,19 @@ class DossierStatus extends Model
     }
 
     /**
+     * The status a dossier opens in: the first of the approved list.
+     *
+     * Which one that is belongs to the Clinic's ordering, so it is read
+     * from the rows rather than named in the code. Null while no status
+     * has been recorded at all, which callers must handle — opening a
+     * dossier under an invented status is not an option.
+     */
+    public static function opening(): ?self
+    {
+        return static::query()->orderBy('position')->first();
+    }
+
+    /**
      * True while no transition at all has been approved. The Clinic has
      * not supplied them yet, and a screen that offers "any status to any
      * status" would be inventing the workflow, so it is asked rather

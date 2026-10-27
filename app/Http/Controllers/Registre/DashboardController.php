@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Registre;
 
 use App\Http\Controllers\Controller;
+use App\Models\Registre\Dossier;
+use App\Models\Registre\PresaisineSubmission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
  * The Registre's landing screen.
  *
- * Module 3 fills it with the dossier figures. It exists now because the
- * foundation needs somewhere to land after sign-in, and because it is
- * where the state of the module is stated plainly rather than implied by
- * empty screens.
+ * It carries the figures that say what needs attention now — requests
+ * waiting, dossiers open, dossiers late — and says plainly what the rest
+ * of module 3 is still waiting on from the Clinic.
  */
 class DashboardController extends Controller
 {
@@ -20,6 +21,10 @@ class DashboardController extends Controller
     {
         return view('registre.dashboard', [
             'user' => Auth::guard('registre')->user(),
+            'pendingSubmissions' => PresaisineSubmission::pending()->count(),
+            'totalSubmissions' => PresaisineSubmission::count(),
+            'openDossiers' => Dossier::open()->count(),
+            'overdueDossiers' => Dossier::overdue()->count(),
         ]);
     }
 }

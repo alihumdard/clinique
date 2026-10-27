@@ -1,55 +1,37 @@
-<!DOCTYPE html>
-<html lang="fr" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="referrer" content="no-referrer">
-    <title>Registre numérique - {{ config('app.name') }}</title>
+@extends('layouts.registre')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="min-h-full bg-slate-100">
+@section('title', 'Tableau de bord')
 
-<header class="bg-slate-900">
-    <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <div class="flex items-center gap-3">
-            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-amber-400">
-                <x-icon name="lock-shield" class="h-5 w-5" />
-            </span>
-            <span class="leading-tight">
-                <span class="block text-sm font-bold uppercase tracking-wider text-amber-400">Registre numérique</span>
-                <span class="block text-xs text-slate-400">Clinique Juridique FSJP - UAM</span>
-            </span>
-        </div>
-
-        <div class="flex items-center gap-3">
-            <span class="hidden text-right leading-tight sm:block">
-                <span class="block text-sm font-semibold text-white">{{ $user->name }}</span>
-                <span class="block text-xs text-slate-400">{{ $user->roleLabel() }}</span>
-            </span>
-
-            <form method="POST" action="{{ route('registre.logout') }}">
-                @csrf
-                <button type="submit" class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800">
-                    Se déconnecter
-                </button>
-            </form>
-        </div>
-    </div>
-</header>
-
-<main class="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+@section('content')
 
     <h1 class="text-2xl font-bold text-slate-900">Tableau de bord</h1>
-    <p class="mt-1.5 text-sm text-slate-600">
-        Bienvenue, {{ $user->name }}.
-    </p>
+    <p class="mt-1.5 text-sm text-slate-600">Bienvenue, {{ $user->name }}.</p>
+
+    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        @php
+            $tiles = [
+                ['Demandes en attente', $pendingSubmissions, 'mail', route('registre.submissions', ['statut' => 'en_attente'])],
+                ['Dossiers ouverts', $openDossiers, 'folder', null],
+                ['Dossiers en retard', $overdueDossiers, 'clock', null],
+                ['Demandes reçues', $totalSubmissions, 'chart-bar', route('registre.submissions')],
+            ];
+        @endphp
+
+        @foreach ($tiles as [$label, $value, $icon, $href])
+            <{{ $href ? 'a' : 'div' }} @if($href) href="{{ $href }}" @endif class="rounded-xl border border-slate-200 bg-white p-5 {{ $href ? 'transition hover:border-slate-300 hover:shadow-sm' : '' }}">
+                <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                    <x-icon :name="$icon" class="h-5 w-5" />
+                </span>
+                <p class="mt-3 text-2xl font-bold text-slate-900">{{ $value }}</p>
+                <p class="text-sm text-slate-500">{{ $label }}</p>
+            </{{ $href ? 'a' : 'div' }}>
+        @endforeach
+    </div>
 
     {{--
-        Said plainly rather than shown as empty tables: the dossier screens
-        are the rest of module 3, and two of their rules are not ours to
-        write. Nothing here invents a status or a right.
+        Said plainly rather than shown as empty tables: the dossier
+        screens are the rest of module 3, and two of their rules are not
+        ours to write. Nothing here invents a status or a right.
     --}}
     <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-5">
         <h2 class="flex items-center gap-2 text-sm font-bold text-amber-900">
@@ -58,9 +40,8 @@
         </h2>
 
         <p class="mt-2 text-sm leading-relaxed text-amber-900">
-            La fondation du registre est en place : base de données distincte, comptes
-            distincts, session limitée à trente minutes. Les écrans de gestion des
-            dossiers suivent.
+            La pré-saisine, le transfert vers le registre et la gestion des pièces jointes
+            fonctionnent. Les écrans de consultation et de suivi des dossiers suivent.
         </p>
 
         <p class="mt-3 text-sm leading-relaxed text-amber-900">
@@ -93,14 +74,11 @@
         <div class="rounded-xl border border-slate-200 bg-white p-5">
             <h2 class="text-sm font-bold text-slate-900">Séparation des données</h2>
             <p class="mt-3 text-sm leading-relaxed text-slate-600">
-                Ce registre utilise sa propre base de données et ses propres comptes.
-                Un compte du site public n'ouvre pas cet espace, et aucune donnée de
-                dossier n'est enregistrée dans la base du site public.
+                Ce registre utilise sa propre base de données et ses propres comptes. Un compte
+                du site public n'ouvre pas cet espace, et aucune donnée de dossier — y compris
+                les pré-saisines reçues — n'est enregistrée dans la base du site public.
             </p>
         </div>
     </div>
 
-</main>
-
-</body>
-</html>
+@endsection
