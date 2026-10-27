@@ -284,6 +284,35 @@
                                             <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
                                         </div>
                                     </div>
+
+                                    <div>
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span class="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                                                <x-icon name="image" class="h-5 w-5 text-primary-600" />
+                                                Galerie photos
+                                            </span>
+                                            <span class="text-xs text-slate-500">{{ $activity->photos_count }} actuellement &middot; 20 à la fois max</span>
+                                        </div>
+
+                                        <label
+                                            for="edit-activity-{{ $activity->id }}-gallery"
+                                            class="mt-2 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
+                                        >
+                                            <x-icon name="upload" class="h-7 w-7 text-primary-500" />
+                                            <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour ajouter des photos</span>
+                                            <span class="mt-0.5 text-xs text-slate-500">ou glissez vos images ici &mdash; s'ajoutent à la galerie existante</span>
+                                            <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 5MB chacune)</span>
+
+                                            <input
+                                                type="file"
+                                                id="edit-activity-{{ $activity->id }}-gallery"
+                                                name="photos[]"
+                                                accept="image/jpeg,image/png,image/webp"
+                                                multiple
+                                                class="sr-only"
+                                            >
+                                        </label>
+                                    </div>
                                 </x-admin.edit-modal>
                             @empty
                                 <tr>
