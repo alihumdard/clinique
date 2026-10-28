@@ -6,7 +6,7 @@ one is for the next person in the code: the decisions that are not
 visible from the files, what is deliberately missing, and the things that
 cost a day to find out.
 
-Last updated: 28 October 2026 · `82bda8d` · 522 tests
+Last updated: 28 October 2026 · 535 tests
 
 ---
 
@@ -80,6 +80,36 @@ acknowledgement carries the reference; the Clinic's notice carries the
 reference, the domain and a count. The detail stays behind a sign-in.
 `PresaisineNotificationTest` asserts this.
 
+### A listing page's canonical keeps its parameters
+
+`url()->current()` drops the query string. Used for a canonical URL, it
+tells a search engine that page two of a listing *is* page one, and that
+every rubrique filter is the unfiltered page — an instruction to drop all
+of them. `App\Support\Seo::canonical()` keeps the parameters that change
+which items a page shows, drops the ones that only record where a visitor
+came from (`utm_*`, `fbclid`, `ref`), and sorts what remains so that two
+orderings of the same filters are one address rather than two.
+
+**There are deliberately no hreflang alternates.** English is an interface
+translation at the same URL, chosen by cookie, and page body text stays
+French. Alternates would advertise two addresses that are one address,
+holding near-identical pages. They become correct the day the content is
+translated and each language has its own URL. The reasoning is in the
+class, so it is not re-litigated from the symptom.
+
+### Heading levels are part of the design, not of the markup
+
+Card components are `h3`, because everywhere they appear in the design a
+section heading sits above them. On a listing with no such heading the
+page goes from `h1` to `h3`, which a screen reader reports as a skipped
+level. Two pages needed a visually hidden `h2`; `x-help-card` takes a
+`level` prop for the one page where it comes first in document order.
+
+`SeoMetadataTest::test_no_public_page_skips_a_heading_level` walks every
+public page rather than the ones that were reported — which is how the
+empty-gallery case was found, since the headings that disappear when
+there are no albums are the `h2`s.
+
 ### English is served from this repository
 
 Google Translate was tried and removed: its widget rewrites the page with
@@ -141,6 +171,18 @@ fails. Assert on a fragment without one.
 
 **PHPUnit reserves `status()`.** A test helper by that name is a fatal
 error, not a failure.
+
+**nginx's `expires` emits its own `Cache-Control`.** Setting both
+`expires 30d;` and `add_header Cache-Control "public, max-age=2592000"`
+sends the header twice, and the browser joins them into
+`max-age=2592000, public, max-age=2592000`. Keep the `add_header`, which
+can say `immutable`, and leave `expires` out.
+
+**A reload leaves the old workers serving.** For a few seconds after
+`systemctl reload nginx`, a request can still be answered by a worker
+holding the previous configuration — so the check that runs in the same
+command as the reload reports the old behaviour and the fix looks like it
+did nothing. Verify on a fresh connection, a moment later.
 
 ---
 

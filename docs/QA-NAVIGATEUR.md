@@ -278,20 +278,24 @@ Try disabling your own account → refused.
 | Rapports annuels have no detail page | A report is a PDF; a listing and a download are the whole of it |
 | `alt=""` on a card thumbnail | Correct, where the heading link beside it carries the text |
 
-### Already found — do not spend time re-finding these
+### Just fixed — check these rather than hunt for them
 
-Verified on the server. Report one of these only if you find a case the
-description does not cover.
+Found by the first browser pass, fixed and deployed. Confirm each; say so
+if one is not actually fixed. The full record is in `QA-FINDINGS.md`.
 
-| | |
+| | What to confirm |
 | --- | --- |
-| Paginated and filtered listings canonicalise to page 1 | `/actualites?page=2` → canonical `/actualites` |
-| `<title>` does not vary across pagination or filter variants | |
-| No `hreflang` alternates for FR/EN | |
-| Heading order skips H2 | An H3 follows the H1 on `/actualites` and `/politique-confidentialite` |
-| Two `Cache-Control` headers on static assets | nginx sets both `expires` and an `add_header` |
-| `/ressources` redirects 302 where 301 is meant | |
-| Two images without width/height | The contact icon and an activity gallery photo; measured CLS is 0 |
+| Canonical on listing variants | `/actualites?page=2` declares itself; `utm_*` and `fbclid` never appear in it |
+| Titles | Page two carries "(page 2)"; the four filtered listings name the active rubrique |
+| Declared language | `<html lang="en">` and `og:locale` `en_US` in English — every page used to claim French |
+| Heading order | No skipped level anywhere, including an empty `/galerie` |
+| Static assets | Exactly one `Cache-Control` header |
+| `/ressources` | Redirects with **301** |
+| Contact page icon | Carries `width` and `height` |
+
+There are deliberately still no `hreflang` alternates: the English is an
+interface translation at the same URL and the body text stays French, so
+alternates would advertise two addresses that are one address.
 
 ### Response time is not an application defect here
 

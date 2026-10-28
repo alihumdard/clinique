@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Rejoindre la Clinique - Appels à candidatures - ' . config('app.name'))
+@section('title', ($current ? $current->name . ' - ' : '') . 'Rejoindre la Clinique - Appels à candidatures - ' . config('app.name'))
 @section('meta_description', "Rejoignez une equipe engagee pour la promotion de l'acces au droit : stages, volontariat, consultances et partenariats avec la Clinique Juridique FSJP-UAM.")
 
 @section('content')

@@ -11,6 +11,12 @@ class NewsController extends Controller
 {
     public function index(Request $request): View
     {
+        // Resolved rather than taken as a slug, because the title and the
+        // filter pills both need the rubrique's name.
+        $category = $request->query('categorie')
+            ? Category::ofType('article')->where('slug', $request->query('categorie'))->first()
+            : null;
+
         $articles = Article::query()
             ->public()
             ->with('category')
@@ -44,6 +50,7 @@ class NewsController extends Controller
             'total' => Article::public()->count(),
             'archives' => Article::archiveYears(),
             'recent' => Article::public()->latest('published_at')->take(4)->get(),
+            'current' => $category,
             'filters' => $request->only(['categorie', 'annee', 'q']),
         ]);
     }

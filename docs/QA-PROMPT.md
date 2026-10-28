@@ -210,22 +210,36 @@ application defect — and say where you measured from.
 The same discipline applies to anything intermittent. If you cannot
 reproduce it deliberately, write that, or leave it out.
 
-ALREADY FOUND — do not spend time re-finding these
+JUST FIXED — check these rather than hunt for them
 
-Verified on the server and queued for fixing. Report them only if you find
-a case the description does not cover.
+A first pass over the public site found these; they are fixed and
+deployed. Confirm each, and say so if one is not actually fixed.
 
-- Paginated and filtered listings carry a canonical pointing at page 1
-  (/actualites?page=2 canonicalises to /actualites).
-- <title> does not vary across pagination or filter variants.
-- No <link rel="alternate" hreflang> pairs for FR/EN.
-- Heading order skips H2: an H3 follows the H1 on /actualites and
-  /politique-confidentialite.
-- Static assets carry two Cache-Control headers, because nginx sets both
-  "expires" and an explicit add_header.
-- /ressources redirects with 302 where 301 is meant.
-- Two images lack width/height (the contact page icon, an activity gallery
-  photo). Measured CLS is 0.
+- Paginated and filtered listings now canonicalise to themselves.
+  /actualites?page=2 should declare itself, not /actualites. Campaign
+  parameters (utm_*, fbclid, gclid, ref) should be absent from the
+  canonical, and ?a=1&b=2 and ?b=2&a=1 should give one identical
+  canonical.
+- Titles now vary. Page two of a listing carries "(page 2)", and
+  /actualites, /activites, /galerie and /rejoindre name the active
+  rubrique when one is selected.
+- The document declares the language actually being served. In English,
+  <html lang="en"> and og:locale en_US; in French, fr. This was wrong
+  before — every page claimed French.
+- Heading order no longer skips a level anywhere on the public site,
+  including /actualites and /politique-confidentialite, and including a
+  gallery with no albums in it.
+- Static assets carry exactly one Cache-Control header.
+- /ressources redirects with 301.
+- The contact page icon has width and height.
+
+There are deliberately still no hreflang alternates. The English is an
+interface translation at the same URL and the body text stays French;
+alternates would advertise two addresses that are one address. Do not
+report their absence.
+
+Response time was reported as a major defect in that pass and was not one
+— see MEASUREMENT DISCIPLINE above before raising it again.
 
 NOT DEFECTS — intentional, and awaited from the client
 

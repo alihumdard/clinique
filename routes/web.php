@@ -73,7 +73,8 @@ Route::get('/actualites/{article}', [NewsController::class, 'show'])->name('news
 |--------------------------------------------------------------------------
 */
 
-Route::redirect('/ressources', '/ressources/fiches-pratiques')->name('resources');
+// 301: the move is structural, not a temporary detour.
+Route::redirect('/ressources', '/ressources/fiches-pratiques', 301)->name('resources');
 Route::get('/ressources/fiches-pratiques', [ResourceController::class, 'guides'])->name('resources.guides');
 Route::get('/ressources/fiches-pratiques/{guide}', [ResourceController::class, 'guide'])->name('resources.guides.show');
 Route::get('/ressources/rapports-annuels', [ResourceController::class, 'reports'])->name('resources.reports');

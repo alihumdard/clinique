@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Activités et caravanes juridiques - ' . config('app.name'))
+@section('title', ($current ? $current->name . ' - ' : '') . 'Activités et caravanes juridiques - ' . config('app.name'))
 @section('meta_description', "Caravanes juridiques, sensibilisations, formations et rencontres communautaires organisees par la Clinique Juridique FSJP-UAM pour rapprocher la justice des populations.")
 
 @section('content')

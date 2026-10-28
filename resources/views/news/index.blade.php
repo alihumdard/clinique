@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Actualités - ' . config('app.name'))
+@section('title', ($current ? $current->name . ' - ' : '') . 'Actualités - ' . config('app.name'))
 @section('meta_description', "Suivez les dernieres actualites, evenements et initiatives de la Clinique Juridique FSJP-UAM en faveur de l'acces au droit.")
 
 @section('content')
@@ -62,6 +62,16 @@
 
             {{-- ============ NEWS GRID ============ --}}
             <div class="min-w-0">
+                {{-- The cards are h3, as they are everywhere else on the
+                     site, where a section heading sits above them. This
+                     listing has none in the design, so without this the
+                     page goes from h1 straight to h3. It also names the
+                     list for a screen reader, which the pills above only
+                     imply. --}}
+                <h2 class="sr-only">
+                    {{ $current ? $current->name : __('Toutes les actualités') }}
+                </h2>
+
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     @forelse ($articles as $article)
                         <x-news-card

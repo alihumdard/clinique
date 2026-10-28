@@ -22,7 +22,7 @@
             <div class="space-y-6 lg:sticky lg:top-24 lg:self-start">
                 <x-legal-nav current="privacy" />
 
-                <x-help-card icon="shield" :title="__('Une question ?')">
+                <x-help-card icon="shield" :title="__('Une question ?')" level="2">
                     Pour toute question relative à notre politique de confidentialité, veuillez nous contacter.
                 </x-help-card>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,11 @@
         // file or to config/clinique.php.
         $favicon = \App\Support\SiteSettings::imageUrl('site.favicon');
         $shareImage = \App\Support\SiteSettings::imageUrl('seo.image');
-        $metaTitle = trim($__env->yieldContent('title', config('clinique.seo.title')));
+        // The page number is added here rather than in each listing, so
+        // that page two of anything is never a second document with the
+        // same name as page one.
+        $metaTitle = trim($__env->yieldContent('title', config('clinique.seo.title')))
+            . \App\Support\Seo::pageSuffix(request());
         $metaDescription = trim($__env->yieldContent('meta_description', config('clinique.seo.description')));
     @endphp
 
@@ -20,7 +24,7 @@
 
     <title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">
-    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="canonical" href="{{ \App\Support\Seo::canonical(request()) }}">
 
     {{-- Open Graph and Twitter, so a shared link carries a title, a summary
          and an image rather than a bare URL. The share buttons on the
@@ -29,9 +33,9 @@
     <meta property="og:site_name" content="{{ config('clinique.name') }}">
     <meta property="og:title" content="{{ $metaTitle }}">
     <meta property="og:description" content="{{ $metaDescription }}">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="{{ \App\Support\Seo::canonical(request()) }}">
     <meta property="og:image" content="{{ $shareImage }}">
-    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'fr_FR' }}">
     <meta name="twitter:card" content="summary_large_image">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Galerie photos - ' . config('app.name'))
+@section('title', ($current ? $current->name . ' - ' : '') . 'Galerie photos - ' . config('app.name'))
 @section('meta_description', "Decouvrez en images les activites, caravanes juridiques, formations et rencontres communautaires de la Clinique Juridique FSJP-UAM.")
 
 @section('content')
@@ -54,9 +54,15 @@
                         </div>
                     </section>
                 @empty
-                    <p class="text-sm text-slate-500">
-                        Aucune photo n'est publiee dans cette rubrique pour le moment.
-                    </p>
+                    {{-- The albums above each carry an h2. Without one here
+                         an empty gallery goes from h1 straight to the h3 of
+                         the sidebar, and a level is skipped. --}}
+                    <section>
+                        <h2 class="sr-only">{{ __('Albums photos') }}</h2>
+                        <p class="text-sm text-slate-500">
+                            Aucune photo n'est publiée dans cette rubrique pour le moment.
+                        </p>
+                    </section>
                 @endforelse
             </div>
 

@@ -32,7 +32,7 @@
                 <li class="group rounded-xl bg-primary-50/60 p-6 text-center transition-transform duration-300 hover:scale-105">
                     <x-icon-badge class="mx-auto !bg-white transition-transform duration-300 group-hover:scale-110">
                         @if($reason['icon'] === 'handshake')
-                            <img src="{{ asset('images/icons/handshake.png') }}" alt="" class="h-6 w-6" aria-hidden="true">
+                            <img src="{{ asset('images/icons/handshake.png') }}" alt="" class="h-6 w-6" width="24" height="24" aria-hidden="true">
                         @else
                             <x-icon :name="$reason['icon']" class="h-6 w-6" />
                         @endif
