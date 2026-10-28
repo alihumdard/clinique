@@ -9,6 +9,7 @@ use App\Http\Controllers\Registre\DeadlineController;
 use App\Http\Controllers\Registre\DocumentController;
 use App\Http\Controllers\Registre\DossierController;
 use App\Http\Controllers\Registre\ProfileController;
+use App\Http\Controllers\Registre\StatusController;
 use App\Http\Controllers\Registre\DashboardController;
 use App\Http\Controllers\Registre\SubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,10 @@ Route::prefix('registre')->name('registre.')->group(function () {
         Route::post('/dossiers/{dossier}/echeances/{deadline}/faite', [DeadlineController::class, 'complete'])->name('deadlines.complete');
 
         Route::post('/dossiers/{dossier}/documents', [DocumentController::class, 'store'])->name('documents.store');
+
+        // Only a declared transition, and never past the supervisor's
+        // validation: the rules live in the workflow service.
+        Route::post('/dossiers/{dossier}/statut', [StatusController::class, 'update'])->name('status.update');
 
         Route::post('/dossiers/{dossier}/analyse', [AnalysisController::class, 'save'])->name('analysis.save');
         Route::post('/dossiers/{dossier}/analyse/valider', [AnalysisController::class, 'validateAnalysis'])->name('analysis.validate');

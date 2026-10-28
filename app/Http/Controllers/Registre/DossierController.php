@@ -84,6 +84,11 @@ class DossierController extends Controller
                 'statusHistory.user',
             ]),
             'agents' => User::active()->orderBy('name')->get(),
+            // Only the moves the Clinic allows from where the dossier
+            // stands; the screen offers nothing the workflow refuses.
+            'nextStatuses' => $dossier->status
+                ? $dossier->status->allowedNext()->orderBy('position')->get()
+                : collect(),
             'log' => AuditLog::with('user')
                 ->where('subject_type', 'Dossier')
                 ->where('subject_id', $dossier->id)

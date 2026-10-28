@@ -159,6 +159,56 @@
                 </form>
             </div>
 
+            {{-- ============ STATUT ============ --}}
+            <div class="rounded-xl border border-slate-200 bg-white p-5">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <h2 class="text-sm font-bold text-slate-900">Statut du dossier</h2>
+                    <span class="rounded bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+                        {{ $dossier->status?->label }}
+                    </span>
+                </div>
+
+                @if($dossier->closed_at)
+                    <p class="mt-3 text-sm text-slate-600">
+                        Dossier clôturé le {{ $dossier->closed_at->translatedFormat('j F Y') }}.
+                    </p>
+                @endif
+
+                @forelse ($nextStatuses as $status)
+                    @if($loop->first)
+                        <form method="POST" action="{{ route('registre.status.update', $dossier) }}" class="mt-4 space-y-3">
+                            @csrf
+                            <div>
+                                <label for="status_id" class="block text-xs font-semibold text-slate-600">Passer au statut</label>
+                                <select id="status_id" name="status_id" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    @endif
+
+                                    <option value="{{ $status->id }}">
+                                        {{ $status->label }}@if($status->is_terminal) — clôture @endif
+                                        @if($status->requires_supervisor_validation) — exige la validation de l'encadrant @endif
+                                    </option>
+
+                    @if($loop->last)
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="status-note" class="block text-xs font-semibold text-slate-600">Note (facultatif)</label>
+                                <input type="text" id="status-note" name="note" placeholder="Motif, décision, précision…" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                            </div>
+
+                            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                                Changer le statut
+                            </button>
+                        </form>
+                    @endif
+                @empty
+                    <p class="mt-3 text-sm text-slate-500">
+                        Aucun passage n'est déclaré depuis ce statut.
+                    </p>
+                @endforelse
+            </div>
+
             {{-- ============ ANALYSE ============ --}}
             <div class="rounded-xl border border-slate-200 bg-white p-5">
                 <div class="flex flex-wrap items-center justify-between gap-3">

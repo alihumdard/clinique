@@ -12,6 +12,7 @@ use App\Models\Registre\DossierStatusChange;
 use App\Models\Registre\User;
 use App\Support\Registre\DossierNumber;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Fictitious dossiers, for development and review of the Registre.
@@ -126,25 +127,63 @@ class RegistreDossierSeeder extends Seeder
     }
 
     /**
-     * Thirteen placeholders. The plan asks for thirteen statuses and
-     * forbids inventing their labels, so they are numbered rather than
-     * named, flagged provisional, and left without any transition between
-     * them — a screen must ask the Clinic, not guess.
+     * Thirteen placeholders, and a provisional path between them.
+     *
+     * The labels stay numbered: inventing the Clinic's wording is what
+     * the plan forbids, and a number cannot be mistaken for an approved
+     * label. What is real is the shape — a dossier moves forward one
+     * step at a time, can be sent back one step, and ends in one of two
+     * terminal statuses.
+     *
+     * Position 11 is marked as the one the supervisor's validation
+     * stands in front of, so the rule the plan demands can be seen
+     * working. Which status that really is, the Clinic will say.
+     *
+     * When their list arrives, the labels and the transitions below are
+     * replaced and nothing in the application changes.
      */
     private function statuses(): void
     {
+        $statuses = [];
+
         for ($i = 1; $i <= 13; $i++) {
-            DossierStatus::updateOrCreate(
+            $statuses[$i] = DossierStatus::updateOrCreate(
                 ['code' => 'provisoire-'.str_pad((string) $i, 2, '0', STR_PAD_LEFT)],
                 [
                     'label' => 'Statut provisoire '.str_pad((string) $i, 2, '0', STR_PAD_LEFT),
                     'position' => $i,
-                    'is_terminal' => false,
-                    // Set on the status the Clinic names as "analyse
-                    // retournée au demandeur"; unknown until then.
-                    'requires_supervisor_validation' => false,
+                    // The last two end a dossier: one closes it, one
+                    // ends it without a consultation.
+                    'is_terminal' => $i >= 12,
+                    'requires_supervisor_validation' => $i === 11,
                     'is_provisional' => true,
                 ]
+            );
+        }
+
+        $pairs = [];
+
+        for ($i = 1; $i <= 11; $i++) {
+            // One step forward.
+            $pairs[] = [$i, $i + 1];
+
+            // And one step back, because a dossier that cannot be
+            // corrected is a dossier people work around.
+            if ($i > 1) {
+                $pairs[] = [$i, $i - 1];
+            }
+
+            // Abandoned at any point before the end.
+            $pairs[] = [$i, 13];
+        }
+
+        foreach ($pairs as [$from, $to]) {
+            DB::connection('registre')->table('dossier_status_transitions')->updateOrInsert(
+                [
+                    'from_status_id' => $statuses[$from]->id,
+                    'to_status_id' => $statuses[$to]->id,
+                ],
+                ['created_at' => now(), 'updated_at' => now()]
             );
         }
     }
