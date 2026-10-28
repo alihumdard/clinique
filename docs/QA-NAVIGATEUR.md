@@ -275,6 +275,36 @@ Try disabling your own account → refused.
 | Figures such as "500+" | Examples, to be confirmed by the Clinic |
 | The content is invented | Required during development |
 | A purged attachment returns 410 | That is the rule working |
+| Rapports annuels have no detail page | A report is a PDF; a listing and a download are the whole of it |
+| `alt=""` on a card thumbnail | Correct, where the heading link beside it carries the text |
+
+### Already found — do not spend time re-finding these
+
+Verified on the server. Report one of these only if you find a case the
+description does not cover.
+
+| | |
+| --- | --- |
+| Paginated and filtered listings canonicalise to page 1 | `/actualites?page=2` → canonical `/actualites` |
+| `<title>` does not vary across pagination or filter variants | |
+| No `hreflang` alternates for FR/EN | |
+| Heading order skips H2 | An H3 follows the H1 on `/actualites` and `/politique-confidentialite` |
+| Two `Cache-Control` headers on static assets | nginx sets both `expires` and an `add_header` |
+| `/ressources` redirects 302 where 301 is meant | |
+| Two images without width/height | The contact icon and an activity gallery photo; measured CLS is 0 |
+
+### Response time is not an application defect here
+
+A browser's time-to-first-byte contains the round trip to the server, and
+this server is far from most places anyone will test it from. Measured on
+the machine itself, over TLS on the loopback: `/` renders in **42 ms**,
+`/actualites` in 42–52 ms, `/services/processus-de-consultation` in
+**29 ms**. `APP_DEBUG` is false, `APP_ENV` is production, the config and
+route caches are warm, OPcache is on with 128 Mo.
+
+So a one- or two-second TTFB measured from a laptop is the network path.
+Record it as that, and say where you measured from. Latency for real
+users in Niamey is a hosting question for UAM, not a code defect.
 
 ---
 
