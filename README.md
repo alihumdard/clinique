@@ -18,7 +18,9 @@ Trois composants dans une seule application Laravel, séparés là où il faut :
 | Pour qui | Document |
 | --- | --- |
 | Qui reprend le code | [Contexte de développement](docs/CONTEXT.md) |
-| Qui teste la plateforme | [Plan de tests](docs/QA-PLAN.md) |
+| Qui teste la plateforme, avec le code | [Plan de tests](docs/QA-PLAN.md) |
+| Qui teste depuis le navigateur seul | [QA navigateur](docs/QA-NAVIGATEUR.md) |
+| Les résultats des tests | [Anomalies relevées](docs/QA-FINDINGS.md) |
 | La Clinique | [Guide de l'administrateur](docs/GUIDE-ADMINISTRATEUR.md) |
 | Le service informatique de l'UAM | [Documentation technique](docs/DOCUMENTATION-TECHNIQUE.md) |
 | Le client, à la relecture | [Livraison du module 2](LIVRAISON.md) |
