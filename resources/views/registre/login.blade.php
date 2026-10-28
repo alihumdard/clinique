@@ -12,22 +12,27 @@
 </head>
 
 {{--
-    Slate rather than the Clinic's blue, on purpose: the Registre holds
-    confidential dossiers and the CMS holds the website. Someone with both
-    open should never have to read the title to know which one they are
-    typing into.
+    The Clinic's own navy, like the administration's sign-in: this is the
+    same platform. What says which door you are at is the badge under the
+    name, not a palette of its own.
 --}}
-<body class="flex h-full items-center justify-center bg-slate-900 px-4 py-10">
+<body class="flex h-full items-center justify-center bg-navy-950 px-4 py-10">
 
 <main class="w-full max-w-md">
 
     <div class="flex items-center gap-3">
-        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-amber-400">
-            <x-icon name="lock-shield" class="h-6 w-6" />
-        </span>
-        <span class="leading-tight">
-            <span class="block text-sm font-bold uppercase tracking-wider text-amber-400">Registre numérique</span>
-            <span class="block text-xs text-slate-400">Clinique Juridique FSJP - UAM</span>
+        <img
+            src="{{ asset('images/brand/logo.png') }}"
+            alt=""
+            class="h-11 w-11 shrink-0 rounded-full bg-white/10 object-cover"
+            width="44" height="44"
+        >
+        <span class="leading-tight text-white">
+            <span class="block text-sm font-bold tracking-wide">CLINIQUE JURIDIQUE</span>
+            <span class="block text-sm font-bold tracking-wide">FSJP - UAM</span>
+            <span class="mt-1 inline-block rounded bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                Registre numérique
+            </span>
         </span>
     </div>
 
@@ -52,7 +57,7 @@
                     autofocus
                     autocomplete="username"
                     @error('email') aria-invalid="true" aria-describedby="email-error" @enderror
-                    class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                    class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
             </div>
 
@@ -64,7 +69,7 @@
                     name="password"
                     required
                     autocomplete="current-password"
-                    class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                    class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
             </div>
 
@@ -75,11 +80,11 @@
             @enderror
 
             <label class="flex items-center gap-2 text-sm text-slate-600">
-                <input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded border-slate-300 text-slate-700 focus:ring-slate-500">
+                <input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500">
                 Rester connecté sur ce poste
             </label>
 
-            <button type="submit" class="w-full rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">
+            <button type="submit" class="w-full rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                 Se connecter
             </button>
         </form>

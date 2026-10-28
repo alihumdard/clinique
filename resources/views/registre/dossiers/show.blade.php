@@ -30,9 +30,14 @@
     @if($dossier->status?->is_provisional)
         {{-- The label on display is ours, not the Clinic's. Saying so on
              the dossier itself is the honest place for it. --}}
-        <p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            Le libellé de ce statut est provisoire, et aucune transition entre statuts n'est
-            encore déclarée : la liste approuvée des treize statuts est attendue de la Clinique.
+        {{-- The transitions exist now; what is still provisional is the
+             wording, and saying otherwise would be stale. --}}
+        <p class="mt-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900">
+            <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+            <span>
+                Le libellé de ce statut est provisoire, ainsi que les passages proposés :
+                la liste approuvée des treize statuts est attendue de la Clinique.
+            </span>
         </p>
     @endif
 
@@ -93,7 +98,7 @@
                     @csrf
                     <div>
                         <label for="user_id" class="block text-xs font-semibold text-slate-600">Affecter</label>
-                        <select id="user_id" name="user_id" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                        <select id="user_id" name="user_id" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             @foreach ($agents as $agent)
                                 <option value="{{ $agent->id }}">{{ $agent->name }} ({{ $agent->roleLabel() }})</option>
                             @endforeach
@@ -102,13 +107,13 @@
 
                     <div>
                         <label for="role" class="block text-xs font-semibold text-slate-600">En tant que</label>
-                        <select id="role" name="role" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                        <select id="role" name="role" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <option value="etudiant">Étudiant clinicien</option>
                             <option value="encadrant">Encadrant</option>
                         </select>
                     </div>
 
-                    <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                    <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
                         Ajouter
                     </button>
                 </form>
@@ -145,15 +150,15 @@
                     @csrf
                     <div class="min-w-48 flex-1">
                         <label for="label" class="block text-xs font-semibold text-slate-600">Intitulé</label>
-                        <input type="text" id="label" name="label" required placeholder="Audience, rappel, dépôt…" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                        <input type="text" id="label" name="label" required placeholder="Audience, rappel, dépôt…" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                     </div>
 
                     <div>
                         <label for="due_at" class="block text-xs font-semibold text-slate-600">Date</label>
-                        <input type="date" id="due_at" name="due_at" required class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                        <input type="date" id="due_at" name="due_at" required class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                     </div>
 
-                    <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                    <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
                         Ajouter
                     </button>
                 </form>
@@ -180,7 +185,7 @@
                             @csrf
                             <div>
                                 <label for="status_id" class="block text-xs font-semibold text-slate-600">Passer au statut</label>
-                                <select id="status_id" name="status_id" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                                <select id="status_id" name="status_id" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                     @endif
 
                                     <option value="{{ $status->id }}">
@@ -194,10 +199,10 @@
 
                             <div>
                                 <label for="status-note" class="block text-xs font-semibold text-slate-600">Note (facultatif)</label>
-                                <input type="text" id="status-note" name="note" placeholder="Motif, décision, précision…" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                                <input type="text" id="status-note" name="note" placeholder="Motif, décision, précision…" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             </div>
 
-                            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                            <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
                                 Changer le statut
                             </button>
                         </form>
@@ -237,11 +242,11 @@
                             name="analysis"
                             rows="8"
                             placeholder="Analyse juridique de la situation, réponse aux questions posées, suites proposées…"
-                            class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                            class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >{{ old('analysis', $dossier->analysis) }}</textarea>
 
                         <div class="flex flex-wrap items-center gap-3">
-                            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                            <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
                                 Enregistrer et soumettre
                             </button>
                         </div>
@@ -302,7 +307,7 @@
                     @csrf
                     <div>
                         <label for="kind" class="block text-xs font-semibold text-slate-600">Type</label>
-                        <select id="kind" name="kind" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                        <select id="kind" name="kind" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <option value="mandat_signe">Mandat signé</option>
                             <option value="analyse">Analyse</option>
                             <option value="piece_jointe">Pièce jointe</option>
@@ -315,7 +320,7 @@
                         <input type="file" id="file" name="file" required accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200">
                     </div>
 
-                    <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                    <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
                         Ajouter
                     </button>
                 </form>

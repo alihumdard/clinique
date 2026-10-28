@@ -13,7 +13,7 @@
     <form method="GET" action="{{ route('registre.journal') }}" class="mt-6 flex flex-wrap items-end gap-3">
         <div>
             <label for="action" class="block text-xs font-semibold text-slate-600">Action</label>
-            <select id="action" name="action" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+            <select id="action" name="action" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 <option value="">Toutes</option>
                 @foreach ($actions as $action)
                     <option value="{{ $action }}" @selected(($filters['action'] ?? null) === $action)>{{ $action }}</option>
@@ -23,7 +23,7 @@
 
         <div>
             <label for="compte" class="block text-xs font-semibold text-slate-600">Compte</label>
-            <select id="compte" name="compte" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+            <select id="compte" name="compte" class="mt-1 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 <option value="">Tous</option>
                 @foreach ($agents as $agent)
                     <option value="{{ $agent->id }}" @selected(($filters['compte'] ?? null) == $agent->id)>{{ $agent->name }}</option>
@@ -31,7 +31,7 @@
             </select>
         </div>
 
-        <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+        <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
             Filtrer
         </button>
     </form>

@@ -19,7 +19,7 @@
 
             <div>
                 <label for="name" class="block text-sm font-semibold text-slate-700">Nom <span class="text-rose-600">*</span></label>
-                <input type="text" id="name" name="name" required value="{{ old('name', $account->name) }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                <input type="text" id="name" name="name" required value="{{ old('name', $account->name) }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
             </div>
 
             <dl class="space-y-2 border-t border-slate-100 pt-4 text-sm">
@@ -40,7 +40,7 @@
                 L'adresse e-mail et le profil sont modifiés depuis l'écran Comptes.
             </p>
 
-            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">
+            <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                 Enregistrer
             </button>
         </form>
@@ -53,12 +53,12 @@
 
             <div>
                 <label for="current_password" class="block text-sm font-semibold text-slate-700">Mot de passe actuel <span class="text-rose-600">*</span></label>
-                <input type="password" id="current_password" name="current_password" required autocomplete="current-password" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                <input type="password" id="current_password" name="current_password" required autocomplete="current-password" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
             </div>
 
             <x-registre.password-fields prefix="profil" label="Nouveau mot de passe" />
 
-            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">
+            <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                 Changer le mot de passe
             </button>
         </form>

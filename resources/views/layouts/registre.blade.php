@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="h-full">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,85 +10,48 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-full bg-slate-100">
 
-@php $agent = auth('registre')->user(); @endphp
+{{--
+    admin-shell, deliberately: the registre is the same product as the
+    administration and carries the same shell, the same spacing and the
+    same components. It was built with a palette of its own, and that
+    was the wrong call — beside the rest of the site it read as a
+    different, less finished piece of software. What marks it as the
+    confidential area is now said in words, in the sidebar and the
+    topbar, rather than by looking unlike everything else.
+--}}
+<body class="admin-shell min-h-screen bg-slate-50">
 
-<header class="bg-slate-900">
-    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <a href="{{ route('registre.dashboard') }}" class="flex items-center gap-3">
-            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-amber-400">
-                <x-icon name="lock-shield" class="h-5 w-5" />
-            </span>
-            <span class="leading-tight">
-                <span class="block text-sm font-bold uppercase tracking-wider text-amber-400">Registre numérique</span>
-                <span class="block text-xs text-slate-400">Clinique Juridique FSJP - UAM</span>
-            </span>
-        </a>
+@include('registre.partials.sidebar')
 
-        <div class="flex items-center gap-3">
-            <span class="hidden text-right leading-tight sm:block">
-                <span class="block text-sm font-semibold text-white">{{ $agent?->name }}</span>
-                <span class="block text-xs text-slate-400">{{ $agent?->roleLabel() }}</span>
-            </span>
+{{-- lg:pl-64 clears the fixed sidebar on desktop --}}
+<div class="flex min-h-screen flex-col lg:pl-64">
 
-            <form method="POST" action="{{ route('registre.logout') }}">
-                @csrf
-                <button type="submit" class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800">
-                    Se déconnecter
-                </button>
-            </form>
-        </div>
-    </div>
+    @include('registre.partials.topbar')
 
-    <nav class="border-t border-slate-800">
-        <div class="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-2 sm:px-4">
-            @php
-                $tabs = [
-                    ['Tableau de bord', 'registre.dashboard'],
-                    ['Demandes en ligne', 'registre.submissions'],
-                    ['Dossiers', 'registre.dossiers'],
-                    ['Journal', 'registre.journal'],
-                    ['Comptes', 'registre.accounts'],
-                    ['Mon compte', 'registre.profile'],
-                ];
-            @endphp
+    <main id="admin-content" class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
 
-            @foreach ($tabs as [$label, $name])
-                <a
-                    href="{{ route($name) }}"
-                    @if(Route::is($name . '*')) aria-current="page" @endif
-                    class="whitespace-nowrap border-b-2 px-3 py-2.5 text-sm font-medium transition {{ Route::is($name . '*') ? 'border-amber-400 text-amber-400' : 'border-transparent text-slate-400 hover:text-slate-200' }}"
-                >
-                    {{ $label }}
-                </a>
-            @endforeach
-        </div>
-    </nav>
-</header>
+        @if(session('registre_message'))
+            <p role="status" class="mb-6 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+                <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                {{ session('registre_message') }}
+            </p>
+        @endif
 
-<main class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-    {{-- registre_message, not registre: the idle-session middleware
-         keeps registre.last_activity, which makes session('registre') an
-         array rather than this message. --}}
-    @if(session('registre_message'))
-        <p role="status" class="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            {{ session('registre_message') }}
-        </p>
-    @endif
+        @if($errors->any())
+            <div role="alert" class="mb-6 flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+                <x-icon name="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-rose-600" />
+                <ul class="min-w-0 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    @if($errors->any())
-        <div role="alert" class="mb-6 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
-            <ul class="space-y-1">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    @yield('content')
-</main>
+        @yield('content')
+    </main>
+</div>
 
 </body>
 </html>

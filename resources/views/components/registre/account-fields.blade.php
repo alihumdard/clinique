@@ -18,7 +18,7 @@
         name="name"
         required
         value="{{ old('name', $account?->name) }}"
-        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
     >
 </div>
 
@@ -30,7 +30,7 @@
         name="email"
         required
         value="{{ old('email', $account?->email) }}"
-        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
     >
 </div>
 
@@ -40,7 +40,7 @@
         id="{{ $prefix }}-role"
         name="role"
         required
-        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+        class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
     >
         @foreach ($roles as $value => $label)
             <option value="{{ $value }}" @selected(old('role', $account?->role) === $value)>{{ $label }}</option>

@@ -22,7 +22,7 @@
             @php $active = (string) $filter === (string) $value; @endphp
             <a
                 href="{{ route('registre.submissions', $value ? ['statut' => $value] : []) }}"
-                class="rounded-full border px-3.5 py-1.5 text-sm font-medium transition {{ $active ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300' }}"
+                class="rounded-full border px-3.5 py-1.5 text-sm font-medium transition {{ $active ? 'border-primary-600 bg-primary-600 text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300' }}"
             >
                 {{ $label }}
                 @if($value && ($counts[$value] ?? 0))

@@ -26,37 +26,37 @@
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                     <label for="last_name" class="block text-xs font-semibold text-slate-600">Nom <span class="text-rose-600">*</span></label>
-                    <input type="text" id="last_name" name="last_name" required value="{{ old('last_name') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="text" id="last_name" name="last_name" required value="{{ old('last_name') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
                 <div>
                     <label for="first_name" class="block text-xs font-semibold text-slate-600">Prénom</label>
-                    <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
                     <label for="phone" class="block text-xs font-semibold text-slate-600">Téléphone <span class="text-rose-600">*</span></label>
-                    <input type="tel" id="phone" name="phone" required value="{{ old('phone') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="tel" id="phone" name="phone" required value="{{ old('phone') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
                 <div>
                     <label for="email" class="block text-xs font-semibold text-slate-600">Adresse e-mail</label>
-                    <input type="email" id="email" name="email" value="{{ old('email') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
                 <div>
                     <label for="commune" class="block text-xs font-semibold text-slate-600">Commune</label>
-                    <input type="text" id="commune" name="commune" value="{{ old('commune') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="text" id="commune" name="commune" value="{{ old('commune') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <label class="flex items-center gap-2 text-sm text-slate-700">
-                    <input type="checkbox" name="is_uam_student" value="1" @checked(old('is_uam_student')) class="h-4 w-4 rounded border-slate-300 text-slate-700 focus:ring-slate-500">
+                    <input type="checkbox" name="is_uam_student" value="1" @checked(old('is_uam_student')) class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500">
                     Étudiant(e) de l'UAM
                 </label>
                 <div>
                     <label for="student_card_number" class="block text-xs font-semibold text-slate-600">Numéro de carte</label>
-                    <input type="text" id="student_card_number" name="student_card_number" value="{{ old('student_card_number') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="text" id="student_card_number" name="student_card_number" value="{{ old('student_card_number') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
             </div>
         </fieldset>
@@ -68,7 +68,7 @@
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
                     <label for="legal_domain" class="block text-xs font-semibold text-slate-600">Domaine <span class="text-rose-600">*</span></label>
-                    <select id="legal_domain" name="legal_domain" required class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <select id="legal_domain" name="legal_domain" required class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="">Choisir</option>
                         @foreach ($domains as $domain)
                             <option value="{{ $domain->name }}" @selected(old('legal_domain') === $domain->name)>{{ $domain->name }}</option>
@@ -78,7 +78,7 @@
 
                 <div>
                     <label for="urgency" class="block text-xs font-semibold text-slate-600">Urgence <span class="text-rose-600">*</span></label>
-                    <select id="urgency" name="urgency" required class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <select id="urgency" name="urgency" required class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         @foreach (['normale' => 'Normale', 'elevee' => 'Élevée', 'urgente' => 'Urgente'] as $value => $label)
                             <option value="{{ $value }}" @selected(old('urgency', 'normale') === $value)>{{ $label }}</option>
                         @endforeach
@@ -87,30 +87,30 @@
 
                 <div>
                     <label for="opened_at" class="block text-xs font-semibold text-slate-600">Date d'ouverture</label>
-                    <input type="date" id="opened_at" name="opened_at" value="{{ old('opened_at', now()->toDateString()) }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="date" id="opened_at" name="opened_at" value="{{ old('opened_at', now()->toDateString()) }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
             </div>
 
             <div>
                 <label for="subject" class="block text-xs font-semibold text-slate-600">Objet <span class="text-rose-600">*</span></label>
-                <input type="text" id="subject" name="subject" required value="{{ old('subject') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                <input type="text" id="subject" name="subject" required value="{{ old('subject') }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
             </div>
 
             <div>
                 <label for="narrative" class="block text-xs font-semibold text-slate-600">Exposé de la situation</label>
-                <textarea id="narrative" name="narrative" rows="6" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">{{ old('narrative') }}</textarea>
+                <textarea id="narrative" name="narrative" rows="6" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ old('narrative') }}</textarea>
             </div>
 
             @foreach ([1, 2, 3] as $n)
                 <div>
                     <label for="question_{{ $n }}" class="block text-xs font-semibold text-slate-600">Question {{ $n }}</label>
-                    <input type="text" id="question_{{ $n }}" name="question_{{ $n }}" value="{{ old('question_' . $n) }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+                    <input type="text" id="question_{{ $n }}" name="question_{{ $n }}" value="{{ old('question_' . $n) }}" class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
             @endforeach
         </fieldset>
 
         <div class="flex flex-wrap items-center gap-3">
-            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">
+            <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                 Ouvrir le dossier
             </button>
             <a href="{{ route('registre.dossiers') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-700">Annuler</a>

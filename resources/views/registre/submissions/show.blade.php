@@ -103,7 +103,7 @@
                     <div class="mt-4 flex flex-wrap items-start gap-3">
                         <form method="POST" action="{{ route('registre.submissions.accept', $submission) }}">
                             @csrf
-                            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">
+                            <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                                 Accepter et ouvrir un dossier
                             </button>
                         </form>
@@ -116,7 +116,7 @@
                                 id="note"
                                 name="note"
                                 placeholder="Motif du refus (facultatif)"
-                                class="w-64 max-w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                                class="w-64 max-w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
                             <button type="submit" class="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50">
                                 Refuser

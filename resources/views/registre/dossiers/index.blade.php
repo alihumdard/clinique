@@ -23,7 +23,7 @@
 
             <a
                 href="{{ route('registre.dossiers.create') }}"
-                class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+                class="rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700"
             >
                 Nouveau dossier
             </a>
@@ -40,13 +40,13 @@
                 name="q"
                 value="{{ $filters['q'] ?? '' }}"
                 placeholder="Référence, demandeur, téléphone, objet…"
-                class="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                class="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
         </div>
 
         <div>
             <label for="statut" class="sr-only">Statut</label>
-            <select id="statut" name="statut" class="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+            <select id="statut" name="statut" class="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 <option value="">Tous les statuts</option>
                 @foreach ($statuses as $status)
                     <option value="{{ $status->id }}" @selected(($filters['statut'] ?? null) == $status->id)>{{ $status->label }}</option>
@@ -56,7 +56,7 @@
 
         <div>
             <label for="urgence" class="sr-only">Urgence</label>
-            <select id="urgence" name="urgence" class="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500">
+            <select id="urgence" name="urgence" class="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 <option value="">Toutes urgences</option>
                 @foreach (['normale' => 'Normale', 'elevee' => 'Élevée', 'urgente' => 'Urgente'] as $value => $label)
                     <option value="{{ $value }}" @selected(($filters['urgence'] ?? null) === $value)>{{ $label }}</option>
@@ -66,11 +66,11 @@
 
         <div class="flex items-center gap-3">
             <label class="flex items-center gap-2 text-sm text-slate-700">
-                <input type="checkbox" name="retard" value="1" @checked($filters['retard'] ?? false) class="h-4 w-4 rounded border-slate-300 text-slate-700 focus:ring-slate-500">
+                <input type="checkbox" name="retard" value="1" @checked($filters['retard'] ?? false) class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500">
                 En retard
             </label>
 
-            <button type="submit" class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">
+            <button type="submit" class="rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                 Filtrer
             </button>
         </div>

@@ -16,7 +16,7 @@
         <button
             type="button"
             data-open-dialog="create-account"
-            class="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+            class="rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700"
         >
             Ajouter un compte
         </button>
@@ -63,12 +63,12 @@
                             </td>
                             <td class="px-5 py-3">
                                 <div class="flex items-center justify-end gap-1.5">
-                                    <button type="button" data-open-dialog="edit-account-{{ $account->id }}" title="Modifier" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+                                    <button type="button" data-open-dialog="edit-account-{{ $account->id }}" title="Modifier" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-primary-600">
                                         <x-icon name="pencil" class="h-4 w-4" />
                                         <span class="sr-only">Modifier {{ $account->name }}</span>
                                     </button>
 
-                                    <button type="button" data-open-dialog="password-account-{{ $account->id }}" title="Réinitialiser le mot de passe" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+                                    <button type="button" data-open-dialog="password-account-{{ $account->id }}" title="Réinitialiser le mot de passe" class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-primary-600">
                                         <x-icon name="lock" class="h-4 w-4" />
                                         <span class="sr-only">Réinitialiser le mot de passe de {{ $account->name }}</span>
                                     </button>
