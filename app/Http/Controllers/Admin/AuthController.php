@@ -42,7 +42,12 @@ class AuthController extends Controller
 
         $this->ensureIsNotRateLimited($request);
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+        /*
+         * is_active is part of the credentials, not a check afterwards: a
+         * disabled account must fail exactly as a wrong password does and
+         * never reach a signed-in state at all.
+         */
+        if (! Auth::attempt($credentials + ['is_active' => true], $request->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey($request), self::DECAY_SECONDS);
 
             // One generic message: naming which field was wrong would let an
@@ -56,6 +61,10 @@ class AuthController extends Controller
 
         // New session id on privilege change, against session fixation.
         $request->session()->regenerate();
+
+        // Recorded on the account: an account nobody uses is the first
+        // thing to look at when closing one.
+        Auth::user()->forceFill(['last_login_at' => now()])->save();
 
         return redirect()->intended(route('admin.dashboard'));
     }

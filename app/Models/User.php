@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'is_active',
     ];
 
     /** Writes, publishes and withdraws content. */
@@ -40,6 +41,25 @@ class User extends Authenticatable
     public function roleLabel(): string
     {
         return $this->isAdmin() ? 'Administrateur' : 'Éditeur';
+    }
+
+    /** A disabled account must not be able to sign in. */
+    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * The Clinic must never be left without an administrator: the screen
+     * that disables or demotes an account asks this first.
+     */
+    public static function otherActiveAdministratorsExist(self $besides): bool
+    {
+        return static::query()
+            ->active()
+            ->where('role', self::ROLE_ADMIN)
+            ->whereKeyNot($besides->getKey())
+            ->exists();
     }
 
     /**
@@ -62,6 +82,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
     }
 }

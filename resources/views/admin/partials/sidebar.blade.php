@@ -73,6 +73,7 @@
                 ['label' => 'Messages de contact', 'icon' => 'chat',    'route' => 'admin.messages'],
                 ['label' => 'Newsletter',         'icon' => 'mail',     'route' => 'admin.newsletter'],
                 ['label' => 'Référentiels',       'icon' => 'folder',   'route' => 'admin.references'],
+                ['label' => 'Utilisateurs',       'icon' => 'users',    'route' => 'admin.users'],
                 ['label' => 'Paramètres du site', 'icon' => 'settings', 'route' => 'admin.settings'],
             ],
         ],

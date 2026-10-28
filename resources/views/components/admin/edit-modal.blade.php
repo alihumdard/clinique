@@ -33,7 +33,14 @@
     a native <dialog> scrolls on its own too, so without it both the
     dialog and the inner div would scroll — two scrollbars for one form.
 --}}
-<dialog id="{{ $id }}" class="m-auto grid max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50">
+{{--
+    hidden open:grid, not grid: a closed <dialog> is display:none by the
+    browser's own stylesheet, and a `grid` utility overrides that — so
+    every closed dialog on a screen was being laid out in the page, below
+    the content. On a long table they sat under the fold and nobody saw
+    them; on a short one they appeared stacked beneath it.
+--}}
+<dialog id="{{ $id }}" class="m-auto hidden max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50 open:grid">
     <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="contents">
         @csrf
         @if(strtoupper($method) !== 'POST')

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ReferenceController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -173,6 +174,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         |
         */
         Route::middleware('admin')->group(function () {
+
+            /*
+            | Comptes du CMS (module 4). An account is disabled, never
+            | deleted: deleting one blanks the author of everything it
+            | published.
+            */
+            Route::get('/utilisateurs', [UserController::class, 'index'])->name('users');
+            Route::post('/utilisateurs', [UserController::class, 'store'])->name('users.store');
+            Route::put('/utilisateurs/{user}', [UserController::class, 'update'])->name('users.update');
+            Route::put('/utilisateurs/{user}/mot-de-passe', [UserController::class, 'password'])->name('users.password');
+            Route::post('/utilisateurs/{user}/activation', [UserController::class, 'toggle'])->name('users.toggle');
 
             /*
             | Paramètres du site. These are the CMS-editable half of
