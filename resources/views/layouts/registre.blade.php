@@ -49,6 +49,8 @@
                     ['Demandes en ligne', 'registre.submissions'],
                     ['Dossiers', 'registre.dossiers'],
                     ['Journal', 'registre.journal'],
+                    ['Comptes', 'registre.accounts'],
+                    ['Mon compte', 'registre.profile'],
                 ];
             @endphp
 

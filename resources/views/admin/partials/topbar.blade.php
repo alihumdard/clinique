@@ -47,8 +47,9 @@
             {{-- Divider --}}
             <div class="mx-1 hidden h-6 w-px bg-slate-200 sm:block"></div>
 
-            {{-- User --}}
-            <div class="flex items-center gap-2.5">
+            {{-- User. A link, because this is where someone looks for
+                 their own account. --}}
+            <a href="{{ route('admin.profile') }}" title="Mon compte" class="flex items-center gap-2.5 rounded-lg px-1.5 py-1 hover:bg-slate-100">
                 <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700">
                     {{ strtoupper(substr(auth()->user()?->name ?? 'A', 0, 1)) }}
                 </span>
@@ -58,7 +59,7 @@
                          for everyone, including an éditeur de contenu. --}}
                     <p class="text-xs text-slate-400">{{ auth()->user()?->roleLabel() }}</p>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </header>

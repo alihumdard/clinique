@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\GuideController;
 use App\Http\Controllers\Admin\ReferenceController;
 use App\Http\Controllers\Admin\ReportController;
@@ -43,6 +44,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 
         Route::get('/', DashboardController::class)->name('dashboard');
+
+        /*
+        | Your own account. Not administrator-only: this is the one
+        | screen about accounts that every account needs, and the
+        | security plan asks that a password be changed at first sign-in.
+        */
+        Route::get('/mon-compte', [ProfileController::class, 'edit'])->name('profile');
+        Route::put('/mon-compte', [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('/mon-compte/mot-de-passe', [ProfileController::class, 'password'])->name('profile.password');
 
         /*
         | Content management screens. Each renders its listing view; the

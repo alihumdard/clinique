@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Registre\AnalysisController;
+use App\Http\Controllers\Registre\AccountController;
 use App\Http\Controllers\Registre\AssignmentController;
 use App\Http\Controllers\Registre\AuditLogController;
 use App\Http\Controllers\Registre\AuthController;
 use App\Http\Controllers\Registre\DeadlineController;
 use App\Http\Controllers\Registre\DocumentController;
 use App\Http\Controllers\Registre\DossierController;
+use App\Http\Controllers\Registre\ProfileController;
 use App\Http\Controllers\Registre\DashboardController;
 use App\Http\Controllers\Registre\SubmissionController;
 use Illuminate\Support\Facades\Route;
@@ -76,5 +78,22 @@ Route::prefix('registre')->name('registre.')->group(function () {
 
         // Read-only, by design: nothing edits or deletes a line.
         Route::get('/journal', [AuditLogController::class, 'index'])->name('journal');
+
+        /*
+        | Comptes du registre. Its own accounts, in its own database:
+        | nothing here touches a CMS account. An account is disabled, not
+        | deleted — a dossier keeps its assignments and the journal keeps
+        | pointing at a row that exists.
+        */
+        Route::get('/comptes', [AccountController::class, 'index'])->name('accounts');
+        Route::post('/comptes', [AccountController::class, 'store'])->name('accounts.store');
+        Route::put('/comptes/{account}', [AccountController::class, 'update'])->name('accounts.update');
+        Route::put('/comptes/{account}/mot-de-passe', [AccountController::class, 'password'])->name('accounts.password');
+        Route::post('/comptes/{account}/activation', [AccountController::class, 'toggle'])->name('accounts.toggle');
+
+        // Your own account, which every profile needs.
+        Route::get('/mon-compte', [ProfileController::class, 'edit'])->name('profile');
+        Route::put('/mon-compte', [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('/mon-compte/mot-de-passe', [ProfileController::class, 'password'])->name('profile.password');
     });
 });
