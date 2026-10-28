@@ -151,7 +151,7 @@ error, not a failure.
 | Permission matrix enforcement | The Clinic has not approved it. Every registre account currently sees everything, and every action is logged. |
 | Real status labels | Same reason; the mechanism is in place. |
 | Dossier retention (5 years / 1 year) | Both count from a closure the thirteen statuses define. |
-| HTTPS, backups, registre subdomain | UAM IT's. |
+| Backups, the registre's own subdomain | UAM IT's. |
 | Rich-text editor | Not asked for by the plan; a library costs 45–200 Ko against a performance budget. |
 | Width variants for uploaded images | Bundled artwork has them; uploads do not. |
 
@@ -163,6 +163,11 @@ error, not a failure.
 ssh hxpeed@40.160.97.168                    # key: ~/.ssh/clinique_deploy
 cd /var/www/clinique && sudo bash scripts/deploy.sh
 ```
+
+Two addresses answer: `https://clinique.40-160-97-168.sslip.io` (a real
+certificate, added later) and the original `http://40.160.97.168:8080`.
+The nginx file for the first is `clinique-sslip`, deliberately separate
+from the other two sites' files.
 
 `sanem` shares the host and the php-fpm pool. Nothing in a deploy should
 touch it — the nginx server block, the databases and the application

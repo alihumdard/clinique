@@ -306,7 +306,6 @@ Disable your own → refused. Change your own password from
 
 | | Why |
 | --- | --- |
-| Browser says "Not secure" | No domain yet; HTTPS is UAM's |
 | `Statut provisoire 01…13` | The Clinic has not supplied the real labels |
 | All four registre profiles see the same thing | The permission matrix is awaited |
 | No e-mail arrives | SMTP credentials are awaited |

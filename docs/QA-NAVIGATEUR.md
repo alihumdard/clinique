@@ -8,7 +8,8 @@ The companion plan, `QA-PLAN.md`, is for someone who has the code. This
 one is narrower on purpose: it only asks for what a browser can actually
 see.
 
-**Target:** http://40.160.97.168:8080
+**Target:** https://clinique.40-160-97-168.sslip.io
+(the older `http://40.160.97.168:8080` still answers and is the same site)
 
 ---
 
@@ -267,7 +268,6 @@ Try disabling your own account → refused.
 
 | | Why |
 | --- | --- |
-| "Not secure" in the address bar | No domain yet; HTTPS is UAM's to provide |
 | `Statut provisoire 01…13` | The Clinic has not supplied the real labels |
 | The four registre profiles see the same thing | The permission matrix is awaited |
 | No e-mail ever arrives | SMTP credentials are awaited |

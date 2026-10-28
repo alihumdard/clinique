@@ -13,6 +13,11 @@ Trois composants dans une seule application Laravel, séparés là où il faut :
 
 ---
 
+**En ligne :** https://clinique.40-160-97-168.sslip.io
+(`http://40.160.97.168:8080` répond toujours — c'est le même site.)
+
+---
+
 ## Documentation
 
 | Pour qui | Document |

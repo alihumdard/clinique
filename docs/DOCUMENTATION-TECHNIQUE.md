@@ -198,9 +198,32 @@ Par ailleurs : CSRF sur chaque formulaire, champs pièges et limitation de débi
 sur les formulaires publics, administration et registre exclus de l'indexation,
 `Referrer-Policy: no-referrer` sur le registre.
 
-**HTTPS n'est pas actif** : le certificat dépend du nom de domaine, attendu de
-l'UAM. `upgrade-insecure-requests` s'active de lui-même dès que le site est servi
-en TLS.
+### HTTPS
+
+La plateforme est servie en HTTPS sur un nom d'hôte sslip.io :
+
+```
+https://clinique.40-160-97-168.sslip.io
+```
+
+sslip.io résout `<n'importe quoi>.40-160-97-168.sslip.io` vers 40.160.97.168 :
+aucune zone DNS à tenir, ce qui suffit pour une démonstration. Le certificat
+vient de Let's Encrypt et se renouvelle tout seul.
+
+La configuration est dans `/etc/nginx/sites-available/clinique-sslip`, un
+fichier à part : ni le bloc historique de la clinique (port 8080) ni celui de
+sanem ne sont touchés. Le bloc de sanem écoute le port 80 avec `_` en
+server_name, et nginx préfère un nom exact à ce fourre-tout.
+
+`http://40.160.97.168:8080` continue de répondre : le nom d'hôte s'ajoute, il ne
+remplace rien.
+
+`upgrade-insecure-requests` s'ajoute de lui-même à la politique de sécurité
+depuis que les requêtes sont chiffrées.
+
+**Pour la mise en service**, sslip.io ne convient pas : il faut le domaine de
+l'UAM. Le changement se limitera alors au `server_name`, au certificat et à
+`APP_URL`.
 
 ---
 
