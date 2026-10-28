@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\ContactMessage;
 use App\Support\SiteSettings;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +29,18 @@ class AppServiceProvider extends ServiceProvider
          * keeps the file's default.
          */
         SiteSettings::applyToConfig();
+
+        /*
+         * The topbar's alert badge. Composed here rather than returned by
+         * each of the twenty admin controllers, since the topbar is the
+         * only thing that reads it — and not queried at all for an
+         * éditeur, who cannot open the screen it points to.
+         */
+        View::composer('admin.partials.topbar', function ($view) {
+            $view->with(
+                'unhandledMessages',
+                auth()->user()?->isAdmin() ? ContactMessage::unhandled()->count() : 0
+            );
+        });
     }
 }

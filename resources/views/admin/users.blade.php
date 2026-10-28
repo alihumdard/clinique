@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('title', 'Utilisateurs')
-@section('search_placeholder', 'Rechercher un compte, une adresse e-mail...')
 
 @section('content')
 

@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('title', 'Paramètres du site')
-@section('search_placeholder', 'Rechercher un paramètre, une information...')
 
 @section('content')
 

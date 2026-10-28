@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', "Gestion de l'équipe")
+@section('search_action', route('admin.team'))
 @section('search_placeholder', "Rechercher un membre d'équipe, un poste, une compétence...")
 
 @section('content')
@@ -185,6 +186,8 @@
                                             :toggle-action="route('admin.team.toggle', $member)"
                                             :is-visible="$member->is_visible"
                                             :delete-action="route('admin.team.destroy', $member)"
+                                            :restore-action="$member->trashed() ? route('admin.team.restore', $member->id) : null"
+                                            :force-delete-action="$member->trashed() && auth()->user()->isAdmin() ? route('admin.team.force-destroy', $member->id) : null"
                                         />
                                     </td>
                                 </tr>

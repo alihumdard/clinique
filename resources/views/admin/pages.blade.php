@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion des pages')
+@section('search_action', route('admin.pages'))
 @section('search_placeholder', 'Rechercher une page, un titre, un mot-clé...')
 
 @section('content')
@@ -151,6 +152,8 @@
                                             :view-href="$page->isPublic() ? route('pages.show', $page) : null"
                                             :duplicate-action="route('admin.pages.duplicate', $page)"
                                             :delete-action="route('admin.pages.destroy', $page)"
+                                            :restore-action="$page->trashed() ? route('admin.pages.restore', $page->id) : null"
+                                            :force-delete-action="$page->trashed() && auth()->user()->isAdmin() ? route('admin.pages.force-destroy', $page->id) : null"
                                         />
                                     </td>
                                 </tr>

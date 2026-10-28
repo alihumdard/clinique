@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Newsletter')
+@section('search_action', route('admin.newsletter'))
 @section('search_placeholder', 'Rechercher un abonné, une adresse e-mail...')
 
 @section('content')

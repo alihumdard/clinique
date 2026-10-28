@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Messages de contact')
+@section('search_action', route('admin.messages'))
 @section('search_placeholder', 'Rechercher un message, un nom, une adresse...')
 
 @section('content')

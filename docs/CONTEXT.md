@@ -6,7 +6,7 @@ one is for the next person in the code: the decisions that are not
 visible from the files, what is deliberately missing, and the things that
 cost a day to find out.
 
-Last updated: 28 October 2026 · 556 tests
+Last updated: 29 October 2026 · 643 tests
 
 ---
 
@@ -110,6 +110,79 @@ public page rather than the ones that were reported — which is how the
 empty-gallery case was found, since the headings that disappear when
 there are no albums are the `h2`s.
 
+### An error page is drawn in the shell of the area it happened in
+
+`resources/views/errors/` held only 403 and 404, and both extended the
+public layout. So a 404 on an admin URL answered with the public site's
+header, the Clinic's telephone number and the FR/EN switcher — the
+administrator was ejected from the area they were working in — and every
+other status fell through to the framework's own English page. The
+registre raises `abort(410, 'Cette pièce jointe a été supprimée du serveur
+de réception.')`, and that sentence was being thrown away in favour of
+*"Something is broken. We will fix it as soon as possible."*
+
+`App\Support\ErrorPage::layout()` picks `layouts.error` — a plain,
+auth-independent shell — for anything under `/admin` or `/registre`, and
+`layouts.app` elsewhere, so the designed public 404 is untouched. Every
+status the application can raise now has a French view (403, 404, 410,
+419, 429, 500, 503) and each one prefers the exception's own message over
+its default. `ErrorPagesTest` asserts all of it, including that the public
+404 keeps its public chrome.
+
+**419 is the one to keep in mind.** A form submitted after the session has
+expired lands there, which makes it the error an ordinary visitor is most
+likely to see.
+
+### A deleted row offers restore, not edit
+
+The `restaurer` and `definitif` routes existed for all nine content types
+from the start — but `x-admin.row-actions` never offered them, so the
+corbeille stored items nobody could get back. It did offer *Modifier*,
+which was worse: the update route binds the model, `SoftDeletes` excludes a
+deleted one, and saving that form was answered with a 404.
+
+A row in the corbeille now carries exactly two controls, Restaurer and
+(for an administrator) Supprimer définitivement. The component decides
+from `restoreAction` / `forceDeleteAction` being set, and the view decides
+from `$row->trashed()`.
+
+**The delete confirmation is the form's to write.** Moving a row to the
+corbeille is reversible and a permanent delete is not, so each form
+carries its own `data-confirm` rather than `app.js` guessing from the
+button label. "Cette action est irréversible" was true only while nothing
+could be restored.
+
+### A control that cannot work is not rendered
+
+The topbar's search `<form>` had no `action`, so it submitted to whatever
+page you were on — and on the four screens whose controller never reads
+`q` (the dashboard you land on after signing in, paramètres, référentiels,
+comptes) the page simply re-rendered. The badge beside it was worse: a
+hard-coded `3`, an `aria-label` reading "3 notifications non lues", and a
+link to the page you were already on, while `/admin/notifications` was a
+404.
+
+The search box is now rendered only on a screen that declares
+`@section('search_action', …)`, and the badge counts unhandled contact
+messages, links to them, and disappears at zero. Both follow the rule that
+was already written in `row-actions`: *null hides the button entirely
+rather than showing a control that does nothing.*
+
+### Validation messages come from a file, not from each request
+
+There was no `lang/fr/validation.php`, so every validation key resolved to
+itself. The forms looked French only because nearly every FormRequest
+writes its own `messages()` by hand — and any rule those files had not
+anticipated printed its key to the Clinic. `CallRequest` has no
+`messages()` at all. The recette found one symptom, `validation.in` on the
+équipe screen; the cause was the whole file missing.
+
+`lang/fr/validation.php` now carries the complete set plus an `attributes`
+map for the field names several screens share. Per-field wording stays in
+the request that owns it. `ValidationMessagesTest` walks every rule used
+anywhere in the application, so a new rule cannot arrive without a
+sentence behind it.
+
 ### English is served from this repository
 
 Google Translate was tried and removed: its widget rewrites the page with
@@ -139,6 +212,22 @@ translated one at a time.
 ---
 
 ## 4. Things that cost a day to find out
+
+**A two-panel layout that pins itself to the viewport height traps its
+own form.** The admin sign-in had `h-full overflow-hidden` on the body and
+`flex h-full flex-col lg:flex-row` on the wrapper. Below `lg` the panels
+stack, so the form sat beneath a full-height brand panel — and the body
+could not scroll to it. Unreachable on every viewport under 1024 px,
+including 900x1100, because the breakpoint and not the height decides the
+stacking. The viewport-height pinning now starts at `lg`, where the panels
+are actually side by side.
+
+**Signing out of one area signs you out of both.** The `web` and
+`registre` guards are separate, but they share one session cookie, and
+`session()->invalidate()` on logout is guard-blind. Signing in is fine —
+`regenerate()` keeps the other guard's login. This is deliberate for a
+confidential register on a shared faculty machine, and it is the answer to
+"why did my CMS session end when I left the registre".
 
 **OPcache keeps compiled Blade in shared memory.** Two deploys went out
 without `systemctl reload php8.5-fpm` and the site kept serving the old

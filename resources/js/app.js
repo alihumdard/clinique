@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAdminTableSearch();
     initAdminFilterTabs();
     initAdminDeleteConfirm();
+    initDeclaredConfirm();
     initAdminForms();
     initAdminSettingsTabs();
 
@@ -381,6 +382,10 @@ function initAdminFilterTabs() {
 function initAdminDeleteConfirm() {
     document.addEventListener('submit', e => {
         const form = e.target;
+        // references, messages and newsletter rows have no corbeille, so
+        // "irréversible" is true of them. A form that has one says so
+        // itself, and initDeclaredConfirm asks the right question instead.
+        if (form.dataset?.confirm) return;
         if (!form.querySelector('input[name="_method"][value="DELETE"]')) return;
 
         const srOnly = form.querySelector('.sr-only');
@@ -388,6 +393,22 @@ function initAdminDeleteConfirm() {
 
         if (!confirm(`Supprimer « ${item} » ?\nCette action est irréversible.`)) {
             e.preventDefault();
+        }
+    });
+}
+
+/* ── Forms that word their own confirmation ──────────────────
+   A delete is not one question. Moving a row to the corbeille is
+   reversible and a permanent delete is not, so the form states what to
+   ask rather than this file guessing from the button's label. */
+function initDeclaredConfirm() {
+    document.addEventListener('submit', e => {
+        const message = e.target?.dataset?.confirm;
+        if (!message) return;
+
+        if (!confirm(message)) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
         }
     });
 }

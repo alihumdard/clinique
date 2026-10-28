@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion des actualités')
+@section('search_action', route('admin.news'))
 @section('search_placeholder', 'Rechercher une actualité, un mot-clé, une catégorie...')
 
 @section('content')
@@ -198,6 +199,8 @@
                                         :view-href="$article->isPublic() ? route('news.show', $article) : null"
                                         :duplicate-action="route('admin.news.duplicate', $article)"
                                         :delete-action="route('admin.news.destroy', $article)"
+                                        :restore-action="$article->trashed() ? route('admin.news.restore', $article->id) : null"
+                                        :force-delete-action="$article->trashed() && auth()->user()->isAdmin() ? route('admin.news.force-destroy', $article->id) : null"
                                     />
                                 </td>
                             </tr>

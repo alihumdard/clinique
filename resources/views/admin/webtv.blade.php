@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion de la Web TV')
+@section('search_action', route('admin.webtv'))
 @section('search_placeholder', 'Rechercher une vidéo, un titre, une catégorie...')
 
 @section('content')
@@ -208,6 +209,8 @@
                                             :view-href="$video->isPublic() ? route('webtv.show', $video) : null"
                                             :duplicate-action="route('admin.webtv.duplicate', $video)"
                                             :delete-action="route('admin.webtv.destroy', $video)"
+                                            :restore-action="$video->trashed() ? route('admin.webtv.restore', $video->id) : null"
+                                            :force-delete-action="$video->trashed() && auth()->user()->isAdmin() ? route('admin.webtv.force-destroy', $video->id) : null"
                                         />
                                     </td>
                                 </tr>

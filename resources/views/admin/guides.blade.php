@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion des fiches pratiques')
+@section('search_action', route('admin.guides'))
 @section('search_placeholder', 'Rechercher une fiche pratique, un sujet, un mot-clé...')
 
 @section('content')
@@ -199,6 +200,8 @@
                                             :download-href="$guide->file_path ? route('admin.guides.download', $guide) : null"
                                             :duplicate-action="route('admin.guides.duplicate', $guide)"
                                             :delete-action="route('admin.guides.destroy', $guide)"
+                                            :restore-action="$guide->trashed() ? route('admin.guides.restore', $guide->id) : null"
+                                            :force-delete-action="$guide->trashed() && auth()->user()->isAdmin() ? route('admin.guides.force-destroy', $guide->id) : null"
                                         />
                                     </td>
                                 </tr>

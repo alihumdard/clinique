@@ -249,23 +249,55 @@ reproduce it deliberately, write that, or leave it out.
 
 JUST FIXED — check these rather than hunt for them
 
-A first pass over the public site found these; they are fixed and
-deployed. Confirm each, and say so if one is not actually fixed.
+Everything below was found by an earlier pass and is now fixed and
+deployed. Confirm each, and say so plainly if one is not actually fixed.
 
-- Paginated and filtered listings now canonicalise to themselves.
+From pass 2, the authenticated platform:
+
+- The admin sign-in works on a narrow screen. Open /admin/login at
+  375 px, at 768 px and in a desktop window that is not maximised: the
+  password field and "Se connecter" must be reachable, by scrolling if
+  need be. It was unreachable below 1024 px on any device.
+- A row in the corbeille offers "Restaurer" and, for an administrator,
+  "Supprimer définitivement". It no longer offers "Modifier" — saving
+  that form used to answer 404 on the public site. Delete something,
+  filter statut=corbeille, restore it, confirm it is back in the list and
+  on the public site. Then delete it again and purge it.
+- The delete confirmation no longer says "irréversible" for a delete that
+  goes to the corbeille. The permanent delete does say it, because there
+  it is true.
+- The search box appears only on screens that can search. The dashboard,
+  paramètres, référentiels and comptes now show none, because their
+  controllers never read `q`. On a listing, typing and pressing Enter must
+  narrow the list.
+- The alert badge counts unhandled contact messages and links to
+  /admin/messages. It disappears when there are none, and an éditeur sees
+  no badge at all. It used to read a hard-coded "3".
+- Every error status has a French page in the right shell. Try a
+  nonsense URL under /admin and under /registre: no public header, no
+  telephone number, no language switcher, and a link back to the area you
+  were in. A purged pré-saisine attachment must say "supprimée du serveur
+  de réception", not "Something is broken".
+- A refused form prints a sentence, never a key. "validation.in" and
+  anything of that shape is a defect. Try /admin/equipe with a department
+  outside direction|enseignants|etudiants|administratif.
+- Every create/edit dialog has an accessible name taken from its own
+  heading.
+
+From pass 1, the public site:
+
+- Paginated and filtered listings canonicalise to themselves.
   /actualites?page=2 should declare itself, not /actualites. Campaign
   parameters (utm_*, fbclid, gclid, ref) should be absent from the
   canonical, and ?a=1&b=2 and ?b=2&a=1 should give one identical
   canonical.
-- Titles now vary. Page two of a listing carries "(page 2)", and
-  /actualites, /activites, /galerie and /rejoindre name the active
-  rubrique when one is selected.
+- Titles vary. Page two of a listing carries "(page 2)", and /actualites,
+  /activites, /galerie and /rejoindre name the active rubrique when one
+  is selected.
 - The document declares the language actually being served. In English,
-  <html lang="en"> and og:locale en_US; in French, fr. This was wrong
-  before — every page claimed French.
-- Heading order no longer skips a level anywhere on the public site,
-  including /actualites and /politique-confidentialite, and including a
-  gallery with no albums in it.
+  <html lang="en"> and og:locale en_US; in French, fr.
+- Heading order does not skip a level anywhere on the public site,
+  including a gallery with no albums in it.
 - Static assets carry exactly one Cache-Control header.
 - /ressources redirects with 301.
 - The contact page icon has width and height.
@@ -275,8 +307,13 @@ interface translation at the same URL and the body text stays French;
 alternates would advertise two addresses that are one address. Do not
 report their absence.
 
-Response time was reported as a major defect in that pass and was not one
-— see MEASUREMENT DISCIPLINE above before raising it again.
+Signing out of the registre also signs you out of the CMS, and the
+reverse. The two guards share one session cookie and logout invalidates
+it. That is deliberate for a confidential register on a shared machine —
+do not report it. Signing *in* to one does not end the other.
+
+Response time was reported as a major defect in pass 1 and was not one —
+see MEASUREMENT DISCIPLINE above before raising it again.
 
 NOT DEFECTS — intentional, and awaited from the client
 

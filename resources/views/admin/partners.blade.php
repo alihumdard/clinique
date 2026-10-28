@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion des partenaires')
+@section('search_action', route('admin.partners'))
 @section('search_placeholder', 'Rechercher un partenaire, une organisation...')
 
 @section('content')
@@ -211,6 +212,8 @@
                                             :toggle-action="route('admin.partners.toggle', $partner)"
                                             :is-visible="$partner->is_visible"
                                             :delete-action="route('admin.partners.destroy', $partner)"
+                                            :restore-action="$partner->trashed() ? route('admin.partners.restore', $partner->id) : null"
+                                            :force-delete-action="$partner->trashed() && auth()->user()->isAdmin() ? route('admin.partners.force-destroy', $partner->id) : null"
                                         />
                                     </td>
                                 </tr>

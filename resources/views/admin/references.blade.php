@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('title', 'Référentiels')
-@section('search_placeholder', 'Rechercher un tarif, un domaine du droit...')
 
 @section('content')
 

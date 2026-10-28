@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Appels à candidatures')
+@section('search_action', route('admin.calls'))
 @section('search_placeholder', 'Rechercher un appel, un profil...')
 
 @section('content')
@@ -188,6 +189,8 @@
                                             :view-href="$call->isOpen() ? route('join', ['type' => $call->category?->slug]) : null"
                                             :duplicate-action="route('admin.calls.duplicate', $call)"
                                             :delete-action="route('admin.calls.destroy', $call)"
+                                            :restore-action="$call->trashed() ? route('admin.calls.restore', $call->id) : null"
+                                            :force-delete-action="$call->trashed() && auth()->user()->isAdmin() ? route('admin.calls.force-destroy', $call->id) : null"
                                         />
                                     </td>
                                 </tr>

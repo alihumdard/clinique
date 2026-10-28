@@ -186,7 +186,205 @@ accident upstream. It is the fallback `title` of a video iframe, used when
 a capsule has no title of its own, so a screen reader would read the
 corruption aloud. Fixed.
 
-### Not covered
+### Not covered in pass 1
 
 Everything behind a sign-in: parts B through E, and the client-side half
 of F. Pass 2 starts there, and starts with the registre separation.
+
+---
+
+## Pass 2 — the authenticated platform, browser only — 29 October 2026
+
+Environment: `https://clinique.40-160-97-168.sslip.io` · commit `dd9c84f`
+Tested by: the same browser agent, now driving every screen behind a
+sign-in. The project owner typed each password; the agent drove everything
+after that.
+
+Coverage: around 97 % of the plan. All nine CMS content types through
+create → verify on the public site → delete → verify gone; the
+référentiels end to end including the pré-saisine select that reads them;
+the complete intake journey with its attachment rules; the registre from
+demande through dossier, analyse, the validation gate, assignments,
+deadlines, documents and journal; separation in both directions; the
+éditeur restrictions; responsive, keyboard and console.
+
+### What held up
+
+The parts of the platform the plan treats as highest-risk are the parts
+that passed. Worth recording in full, because it is the first independent
+confirmation:
+
+- **Separation holds both ways.** A CMS session opening any registre URL
+  gets the *registre* sign-in and no dossier data; a registre session
+  opening any admin URL gets the *CMS* sign-in.
+- **The registre state machine is enforced server-side.** Posting a
+  transition the screen does not offer (`status_id=7`) is refused, not
+  merely absent from the dropdown. The supervisor gate opens only once the
+  analyse is validated, and a validated analyse cannot be rewritten — the
+  lock holds across users, not just across sessions.
+- **The journal records twelve distinct action types**, attributed per
+  user, and there is no delete anywhere in the registre.
+- **Éditeur restrictions return a true 403** on all five protected
+  screens, and the links are not even emitted.
+- **The intake journey is correct end to end**: all four orientation
+  exits, all three attachment rules refused server-side with the client
+  `accept` bypassed, nothing written before confirmation, and the
+  attachment retained across "Corriger ma demande".
+- Rate limits fire on the contact form (the fourth message), the
+  newsletter and the sign-in, and the sign-in message does not reveal
+  whether an address exists.
+- CSV exports carry a UTF-8 BOM with accents intact.
+
+### Findings, and what was done
+
+| | Finding | Severity | Verdict |
+| --- | --- | --- | --- |
+| 1 | Admin sign-in unreachable below 1024 px | Bloquant | Confirmed · fixed |
+| 2 | Nothing in the UI restores or purges a deleted row | Majeur | Confirmed, wrong cause · fixed |
+| 3 | Saving an edit from the corbeille lands on the public 404 | Majeur | Confirmed, wrong cause · fixed |
+| 4 | Header search does nothing on the dashboard | Majeur | Confirmed, wider · fixed |
+| 5 | Notification badge advertises three notifications | Majeur | Confirmed · fixed |
+| 6 | A purged attachment returns the raw Symfony page | Mineur | Confirmed, wider · fixed |
+| 7 | `/admin/*` 404s render the public page | Mineur | Confirmed · fixed |
+| 8 | Edit dialog has no accessible name | Mineur | Confirmed · fixed |
+| 9 | "Cette action est irréversible" while a corbeille exists | Mineur | Confirmed · fixed |
+| 10 | `validation.in` printed raw | Mineur | Confirmed, far wider · fixed |
+| 11 | Interface in English, `<html lang>` still `fr` | Mineur | **Already fixed before the test ran** |
+| 12 | Heading order skips H2 | — | **Already fixed** |
+| 13 | `/ressources` answers 302 | — | **Already fixed (301)** |
+| 14 | Duplicated `Cache-Control` on static assets | — | **Already fixed** |
+| 15 | Paginated listings canonicalise to page 1 | — | **Already fixed** |
+| 16 | Latency: median 990 ms, 5.70 s peak | — | Network path, not the application |
+| 17 | Newsletter may insert duplicate rows | — | Checked: it does not |
+| 18 | Étudiant sees every registre screen | — | The awaited permission matrix |
+
+Findings 11–15 were fixed and deployed on 28 October; the crawl that
+reported them predates that deploy. Re-measured on 29 October: `lang="en"`
+and `og:locale=en_US` on the English interface, no skipped heading level on
+any of 22 public pages, `/ressources` 301, exactly one `Cache-Control`
+header, listings self-canonicalising with campaign parameters stripped.
+
+#### 1 — The sign-in page could not be used on a telephone
+
+The severity is right and the diagnosis is right. Confirmed in a real
+browser at seven viewports: the submit button sits 846 px down a 667 px
+screen, `document.scrollHeight === window.innerHeight`, and `scrollY`
+stays 0. Unreachable at 375, 500, 768 and 900×1100; reachable from 1024
+up. It is the `lg` breakpoint and not the height that decides, which is why
+a tall window fails too.
+
+Two things were wrong, not one. The body was pinned with `h-full
+overflow-hidden`, so the document could not scroll — and the form panel is
+`flex-1` with its own scrollbar, which is correct beside the brand panel
+and crushes to nothing beneath it. Both now start at `lg`.
+
+#### 2, 3 — The corbeille, and the 404 it led to
+
+**The routes were never missing.** `/restaurer` and `/definitif` exist for
+all nine content types, with the `admin` middleware on the permanent
+delete, and the controller actions behind them are complete. What was
+missing was any control in `x-admin.row-actions` that reached them. The
+suggested fix — "add a restore route and button" — would have duplicated
+working code.
+
+Finding 3's mechanism is also different from the report. `update()`
+redirects to the listing, correctly; it never redirects to
+`/admin/actualites/{id}`. What happens is that `{article:id}` binds the
+model, `SoftDeletes` excludes a deleted one, and the request 404s — so the
+address bar keeps the URL the form posted to, and it looks like a redirect
+to a dead route.
+
+Both are the same defect seen twice: a deleted row was offering the live
+row's four controls. It now offers Restaurer and, for an administrator,
+Supprimer définitivement — and *Modifier* is gone, so the 404 is
+unreachable rather than merely handled.
+
+#### 4, 5 — A search box and a badge that did nothing
+
+The search `<form>` had no `action` at all. On a listing it worked by
+accident, because submitting to the current URL hands `q` to a controller
+that reads it; on the dashboard — the screen you land on after signing in —
+nothing happened. **Wider than reported:** the same is true of paramètres,
+référentiels and comptes, so four screens carried a search box that could
+not search. The box is now rendered only where a screen declares where its
+search goes.
+
+The badge was a hard-coded `3` with `aria-label="3 notifications non
+lues"`, linking to the page you were already on, while
+`/admin/notifications` did not exist. It also broke the project's own rule
+that nothing fictional is rendered as if it were real. It now counts
+unhandled contact messages, links to them, and is absent at zero — and
+absent for an éditeur, who is refused that screen.
+
+#### 6, 7 — Error pages
+
+Confirmed, and wider than reported: `errors/` contained only 403 and 404.
+Every other status fell through to the framework's English page — **419
+included, which is where an ordinary visitor lands if their session expires
+before they submit a form.** That one matters more than the 410 the
+recette found.
+
+The 410 message was never missing: the registre aborts with
+`'Cette pièce jointe a été supprimée du serveur de réception.'` and the
+default page discarded it. Views now exist for 403, 404, 410, 419, 429,
+500 and 503, each preferring the exception's own message, and
+`App\Support\ErrorPage` draws anything under `/admin` or `/registre` in a
+plain shell instead of the public layout. The designed public 404 is
+unchanged.
+
+#### 10 — The validation key was the symptom, not the defect
+
+`lang/fr/validation.php` did not exist, so **every** validation key
+resolved to itself — `validation.required`, `validation.email`,
+`validation.mimes`, all of them. The screens looked French because nearly
+every FormRequest writes its own messages by hand; `CallRequest` writes
+none, so every one of its refusals printed a key. Adding the `in` key, as
+suggested, would have fixed one of about a hundred.
+
+The complete French set is now in place, with an `attributes` map for the
+field names several screens share, and a test that walks every rule the
+application uses.
+
+#### 16, 17, 18 — Not defects
+
+The latency figures are real and were measured from Karachi; the reporter
+recorded them as network path rather than application defect, which is
+correct, and is what the loopback figures say too. The newsletter was
+checked on the live database: one row per address, no duplicates, so the
+idempotent success message is idempotent underneath as well. The étudiant
+profile seeing every registre screen is the permission matrix the
+specification lists as awaiting the Clinic's approval.
+
+#### The open question, answered
+
+Signing into the registre did not end the CMS session — `store()` calls
+`session()->regenerate()`, which keeps the other guard's login. Signing
+*out* does: the two guards share one session cookie and
+`session()->invalidate()` is guard-blind, so leaving the registre leaves
+the CMS too. That is the safer behaviour for a confidential register on a
+shared faculty machine and is kept deliberately; it is now written down in
+`CONTEXT.md` so it is not read as a bug a second time.
+
+#### Reported as tester error, and correctly
+
+Three claims were withdrawn by the reporter before they reached this
+document: a dialog that appeared to close on empty submit (an artefact of
+scripted clicking), oversized images that are `<picture>` fallbacks never
+served, and three content types that appeared absent from the public site
+(two hidden by `is_visible`, one on page 2). They are recorded because
+withdrawing a claim after checking it is the behaviour that makes the rest
+of a report worth reading.
+
+### Still open
+
+- **The two safeguards deliberately not attempted** — disabling your own
+  account, and demoting the last administrator. Both are expected to be
+  refused, and both are asserted in `UserManagementTest`, but neither was
+  tried against the live server because `admin@clinique-fsjp.ne` is the
+  only administrator there. To close them, create a second administrator
+  first.
+- **Left behind by the run:** two QA éditeur accounts, and thirteen rows
+  across the corbeilles. Both can now be cleared from the interface —
+  which is itself the proof that findings 2 and 3 are fixed.
+- Brotli is not enabled in nginx: around 15–20 % off every text asset, no
+  code change. Left with the rest of the hosting to UAM IT.

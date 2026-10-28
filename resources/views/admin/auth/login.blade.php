@@ -9,9 +9,16 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="h-full overflow-hidden bg-white">
+<body class="min-h-full bg-white lg:h-full lg:overflow-hidden">
 
-<div class="flex h-full flex-col lg:flex-row">
+{{--
+    The two panels only share the viewport height from lg up, where they
+    sit side by side. Below that they stack, so the document has to be
+    allowed to grow and scroll: pinning the body to h-full with
+    overflow-hidden put the password field and the submit button below
+    the fold with no way to reach them on any viewport under 1024px.
+--}}
+<div class="flex min-h-full flex-col lg:h-full lg:flex-row">
 
     {{-- ============ BRAND PANEL ============ --}}
     <div class="relative overflow-hidden bg-primary-700 px-6 py-8 lg:w-1/2 lg:px-12 lg:py-10">
@@ -86,7 +93,9 @@
     </div>
 
     {{-- ============ FORM PANEL ============ --}}
-    <div class="relative flex flex-1 flex-col overflow-y-auto bg-slate-50 px-6 py-5 lg:px-12">
+    {{-- flex-1 with its own scrollbar is right beside the brand panel and
+     wrong beneath it: stacked, it gets squeezed to nothing. --}}
+    <div class="relative flex flex-col bg-slate-50 px-6 py-5 lg:flex-1 lg:overflow-y-auto lg:px-12">
 
         <div class="flex justify-end">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700">

@@ -40,7 +40,10 @@
     the content. On a long table they sat under the fold and nobody saw
     them; on a short one they appeared stacked beneath it.
 --}}
-<dialog id="{{ $id }}" class="m-auto hidden max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50 open:grid">
+{{-- aria-labelledby, not aria-label: the visible heading is already the
+     dialog's name, and a screen reader announced an unnamed dialog only
+     because that heading had no id to point at. --}}
+<dialog id="{{ $id }}" aria-labelledby="{{ $id }}-title" class="m-auto hidden max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50 open:grid">
     <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="contents">
         @csrf
         @if(strtoupper($method) !== 'POST')
@@ -48,7 +51,7 @@
         @endif
 
         <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <h2 class="text-base font-bold text-slate-900">{{ $title }}</h2>
+            <h2 id="{{ $id }}-title" class="text-base font-bold text-slate-900">{{ $title }}</h2>
             <button type="button" data-dialog-close class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600">
                 <x-icon name="plus" class="h-5 w-5 rotate-45" />
                 <span class="sr-only">Fermer</span>

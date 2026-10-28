@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion des activités & galerie')
+@section('search_action', route('admin.activities'))
 @section('search_placeholder', 'Rechercher une activité, un lieu, une date...')
 
 @section('content')
@@ -221,6 +222,8 @@
                                             :view-href="$activity->isPublic() ? route('activities.show', $activity) : null"
                                             :duplicate-action="route('admin.activities.duplicate', $activity)"
                                             :delete-action="route('admin.activities.destroy', $activity)"
+                                            :restore-action="$activity->trashed() ? route('admin.activities.restore', $activity->id) : null"
+                                            :force-delete-action="$activity->trashed() && auth()->user()->isAdmin() ? route('admin.activities.force-destroy', $activity->id) : null"
                                         />
                                     </td>
                                 </tr>

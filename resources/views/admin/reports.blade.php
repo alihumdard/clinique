@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', "Gestion des rapports annuels d'activité")
+@section('search_action', route('admin.reports'))
 @section('search_placeholder', 'Rechercher un rapport, une année...')
 
 @section('content')
@@ -201,6 +202,8 @@
                                             :download-href="$report->file_path ? route('admin.reports.download', $report) : null"
                                             :duplicate-action="route('admin.reports.duplicate', $report)"
                                             :delete-action="route('admin.reports.destroy', $report)"
+                                            :restore-action="$report->trashed() ? route('admin.reports.restore', $report->id) : null"
+                                            :force-delete-action="$report->trashed() && auth()->user()->isAdmin() ? route('admin.reports.force-destroy', $report->id) : null"
                                         />
                                     </td>
                                 </tr>
