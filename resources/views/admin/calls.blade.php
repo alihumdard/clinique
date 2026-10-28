@@ -28,7 +28,8 @@
                 <x-admin.stat-card icon="user-plus"    color="green" :value="$counts['open']"    label="Appels ouverts" note="visibles sur le site" />
                 <x-admin.stat-card icon="clock"        color="amber" :value="$counts['closed']"  label="Clôturés" note="date dépassée" />
                 <x-admin.stat-card icon="document"     color="blue"  :value="$counts['drafts']"  label="Brouillons" />
-                <x-admin.stat-card icon="trash"        color="red"   :value="$counts['trashed']" label="À la corbeille" />
+                <x-admin.stat-card icon="trash"        color="red"   :value="$counts['trashed']" :href="route('admin.calls', ['statut' => 'corbeille'])"
+                                   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}

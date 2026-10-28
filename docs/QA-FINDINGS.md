@@ -375,6 +375,55 @@ served, and three content types that appeared absent from the public site
 withdrawing a claim after checking it is the behaviour that makes the rest
 of a report worth reading.
 
+### Remarques — the three that were acted on
+
+The recette's *"works, but reads badly"* list held eight observations.
+None was a defect; each left someone guessing. Three were worth closing
+and are done, one turned out to be a measurement artefact, and the rest
+are recorded below as decisions rather than work.
+
+**The corbeille had no way in.** The counter above each listing said how
+many rows were in it without linking to them, so the only route was to
+type `?statut=corbeille`. Harmless while nothing could be restored, and
+not harmless now. The card is a link on the seven listings that count it;
+`activites` and `fiches-pratiques` keep their four slots for photos,
+téléchargements and domaines, and reach the corbeille through the statut
+filter that every listing carries.
+
+**A dialog opened on the way out of itself.** `showModal()` focuses
+whatever comes first in the markup, which is the close button. The caret
+now lands on the first real field.
+
+**The visibility toggle forgot a choice without saying so.** An editor who
+turned it off and hit a validation error got it back on. `old()` cannot
+express this alone — an absent checkbox returns the default and reads as
+checked — so the presence of old input is the signal.
+
+#### One that was not a defect
+
+**"Two overlapping visibility concepts"** — a row that is `status =
+Publié` and still hidden because `is_visible` defaults off. Checked in the
+code: the create form defaults the toggle to **on**, and the controller
+reads it with `$request->boolean()`, so a row created through the
+interface is visible. The agent created those rows by posting directly,
+without the field, which is why they came out hidden. Nothing changed.
+
+Worth knowing for whoever touches it: the toggle is a bare checkbox with
+no hidden companion, so an unchecked one posts nothing. It is the
+`boolean()` call that makes unchecking mean *false* rather than *leave it
+as it was*. Remove it and hiding a partner from the edit dialog silently
+stops working — `AdminAffordancesTest` asserts it does not.
+
+#### Left as they are, deliberately
+
+| | Why |
+| --- | --- |
+| Consent box clears on "Corriger ma demande" | Re-consent after editing a request is defensible. The Clinic should decide, not the code. |
+| Native HTML5 validation bubbles follow the browser's language | The browser draws them. Replacing them means replacing every `required` with scripted validation, against a page that ships no inline script. |
+| Two pages share the title "Session de sensibilisation des jeunes" | Seeded demonstration content, not a defect. |
+| Mobile filter strips scroll horizontally with no visual hint | A real affordance gap, but the fix is a design decision about fades or arrows. |
+| `/pre-saisine/confirmation` keeps rendering on reload | Session-scoped, so nothing leaks. Whether it should expire is the Clinic's call. |
+
 ### Still open
 
 - **The two safeguards deliberately not attempted** — disabling your own

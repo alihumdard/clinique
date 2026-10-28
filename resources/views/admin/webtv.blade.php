@@ -28,7 +28,8 @@
                 <x-admin.stat-card icon="play-circle" color="blue"  :value="$counts['published']" label="Vidéos publiées" />
                 <x-admin.stat-card icon="eye"         color="green" :value="number_format($counts['views'], 0, ',', ' ')" label="Vues totales" />
                 <x-admin.stat-card icon="clock"       color="amber" :value="$counts['drafts']"    label="Vidéos en brouillon" note="Non publiées" />
-                <x-admin.stat-card icon="trash"       color="red"   :value="$counts['trashed']"   label="À la corbeille" />
+                <x-admin.stat-card icon="trash"       color="red"   :value="$counts['trashed']"   :href="route('admin.webtv', ['statut' => 'corbeille'])"
+                                   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}

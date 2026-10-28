@@ -6,7 +6,7 @@ one is for the next person in the code: the decisions that are not
 visible from the files, what is deliberately missing, and the things that
 cost a day to find out.
 
-Last updated: 29 October 2026 · 643 tests
+Last updated: 29 October 2026 · 656 tests
 
 ---
 
@@ -182,6 +182,48 @@ map for the field names several screens share. Per-field wording stays in
 the request that owns it. `ValidationMessagesTest` walks every rule used
 anywhere in the application, so a new rule cannot arrive without a
 sentence behind it.
+
+### A figure that counts something is the way to it
+
+The corbeille counter above each listing said how many rows were in the
+corbeille without linking to them, so the only way in was to set
+`?statut=corbeille` by hand. That did not matter while nothing could be
+restored and matters now. `x-admin.stat-card` takes an optional `href`,
+and only the corbeille card is given one — the other figures on that row
+are not destinations, and making every card a link would promise screens
+that do not exist.
+
+`activites` and `fiches-pratiques` keep their four slots for photos,
+téléchargements and domaines; their corbeille is reached through the
+statut filter, which every listing has.
+
+### A dialog opens on its first field
+
+`showModal()` focuses whatever comes first in the markup, and that is the
+close button. So opening *Ajouter* put the caret on the way out of the
+form. `focusFirstField()` moves it to the first real control, with
+`preventScroll` so a trigger that opens the dialog at a particular section
+is not undone.
+
+### A checkbox that is absent is not a checkbox that is unchanged
+
+The visibility toggle is a bare checkbox with no hidden companion, so an
+unchecked one posts nothing at all. What makes unchecking mean *false*
+rather than *leave it as it was* is `$request->boolean('is_visible')` in
+the controller — not the form. Keep it that way, or hiding a partner from
+the edit dialog silently stops working.
+
+The create form defaults the toggle to on, which is right: an editor who
+fills the form and stops should get a partner that is actually on the
+page. `old()` cannot preserve an unchecked box on its own, because an
+absent key returns the default and reads as checked — hence
+`session()->hasOldInput()` as the signal that there was a submit to
+remember.
+
+**The recette's "two overlapping visibility concepts" was a measurement
+artefact.** The agent created those rows by posting directly rather than
+through the form, so `is_visible` was absent and became false. Through the
+interface it is on by default. Nothing was changed for that finding.
 
 ### English is served from this repository
 

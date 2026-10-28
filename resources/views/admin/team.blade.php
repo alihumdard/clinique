@@ -28,7 +28,8 @@
                 <x-admin.stat-card icon="users"   color="green" :value="$counts['published']" label="Membres visibles" note="affichés sur le site" />
                 <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['hidden']"    label="Masqués" note="enregistrés, non affichés" />
                 <x-admin.stat-card icon="clock"   color="blue"  :value="$counts['drafts']"    label="Brouillons" />
-                <x-admin.stat-card icon="trash"   color="red"   :value="$counts['trashed']"   label="À la corbeille" />
+                <x-admin.stat-card icon="trash"   color="red"   :value="$counts['trashed']"   :href="route('admin.team', ['statut' => 'corbeille'])"
+                                   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
@@ -469,7 +470,8 @@
         </div>
 
         <div class="pt-1">
-            <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="true" />
+            <x-admin.toggle name="is_visible" label="Afficher sur la page publique"
+                :checked="session()->hasOldInput() ? (bool) old('is_visible') : true" />
         </div>
     </x-admin.edit-modal>
 

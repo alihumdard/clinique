@@ -25,7 +25,8 @@
         <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Actualités publiées" />
         <x-admin.stat-card icon="eye"      color="green" :value="$counts['drafts']"    label="Brouillons" />
         <x-admin.stat-card icon="clock"    color="amber" :value="$counts['scheduled']" label="Programmées" note="Publication à venir" />
-        <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   label="À la corbeille" />
+        <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.news', ['statut' => 'corbeille'])"
+                                   label="À la corbeille" />
     </div>
 
     <div class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-4">

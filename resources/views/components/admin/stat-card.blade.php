@@ -5,6 +5,10 @@
     'trend' => null,
     'note' => null,
     'color' => 'blue',
+    // Makes the card the way in to what it counts. The corbeille was
+    // reachable only by setting the statut filter by hand, which did not
+    // matter while nothing could be restored from it, and does now.
+    'href' => null,
 ])
 
 @php
@@ -16,9 +20,15 @@
         'red'    => ['accent' => 'bg-rose-500',     'badge' => 'bg-rose-50 text-rose-600',        'trend' => 'text-rose-600'],
     ];
     $c = $swatches[$color] ?? $swatches['blue'];
+
+    $shell = 'relative block overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm'
+        .($href ? ' transition hover:border-slate-300 hover:shadow-md' : '');
 @endphp
 
-<div {{ $attributes->merge(['class' => 'relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm']) }}>
+<{{ $href ? 'a' : 'div' }}
+    @if($href) href="{{ $href }}" @endif
+    {{ $attributes->merge(['class' => $shell]) }}
+>
     {{-- Colored accent bar on top --}}
     <div class="absolute inset-x-0 top-0 h-1 {{ $c['accent'] }}"></div>
 
@@ -45,4 +55,4 @@
             @endif
         </div>
     </div>
-</div>
+</{{ $href ? 'a' : 'div' }}>

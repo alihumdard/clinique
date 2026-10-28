@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const dialog = document.getElementById(trigger.dataset.openDialog);
             dialog?.showModal();
+            focusFirstField(dialog);
 
             // A trigger naming a section inside the dialog (e.g. the
             // "Galerie" count in an activity's row) opens straight to that
@@ -61,7 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // open it once the page has loaded.
     const openParam = new URLSearchParams(window.location.search).get('ouvrir');
     if (openParam) {
-        document.getElementById(openParam)?.showModal();
+        const dialog = document.getElementById(openParam);
+        dialog?.showModal();
+        focusFirstField(dialog);
     }
 
     document.querySelectorAll('dialog').forEach((dialog) => {
@@ -376,6 +379,24 @@ function initAdminFilterTabs() {
             });
         });
     });
+}
+
+/* ── Where the focus lands when a dialog opens ────────
+   showModal() focuses the first focusable element, which is the close
+   button, because that is what comes first in the markup. So opening a
+   form put the caret on the way out of it. The first real field is what
+   someone opening "Ajouter" means to type in. */
+function focusFirstField(dialog) {
+    if (!dialog) return;
+
+    const field = dialog.querySelector(
+        'input:not([type=hidden]):not([disabled]), select:not([disabled]), textarea:not([disabled])'
+    );
+
+    // preventScroll: a trigger that opens the dialog at a particular
+    // section (data-scroll-to) would otherwise be undone by the focus
+    // jumping back to the top.
+    field?.focus({ preventScroll: true });
 }
 
 /* ── Delete confirmation ──────────────────────────────────── */
