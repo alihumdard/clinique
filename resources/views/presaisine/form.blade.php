@@ -6,12 +6,12 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
-        title="Votre demande"
+        :title="__('Votre demande')"
         subtitle="Étape 2 sur 3 — décrivez votre situation."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Pré-saisine', 'url' => route('presaisine.index')],
-            ['label' => 'Votre demande'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Pré-saisine'), 'url' => route('presaisine.index')],
+            ['label' => __('Votre demande')],
         ]"
     />
 
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <x-form-field name="phone" label="Téléphone" type="tel" :required="true" :value="old('phone', $draft['phone'] ?? '')" />
+                    <x-form-field name="phone" :label="__('Téléphone')" type="tel" :required="true" :value="old('phone', $draft['phone'] ?? '')" />
                     <x-form-field name="email" label="Adresse e-mail" type="email" :value="old('email', $draft['email'] ?? '')" hint="Pour recevoir un accusé de réception." />
                 </div>
 
@@ -94,7 +94,7 @@
 
             {{-- ============ QUESTIONS ============ --}}
             <fieldset class="space-y-4">
-                <legend class="text-base font-bold text-slate-900">Vos questions</legend>
+                <legend class="text-base font-bold text-slate-900">{{ __('Vos questions') }}</legend>
                 <p class="text-sm text-slate-500">Trois au maximum.</p>
 
                 @foreach ([1, 2, 3] as $n)
@@ -104,7 +104,7 @@
 
             {{-- ============ PIÈCES JOINTES ============ --}}
             <fieldset class="space-y-3">
-                <legend class="text-base font-bold text-slate-900">Pièces jointes</legend>
+                <legend class="text-base font-bold text-slate-900">{{ __('Pièces jointes') }}</legend>
 
                 <p class="text-sm text-slate-500">
                     {{ $attachments['max_files'] }} fichiers au maximum, {{ $attachments['max_size_kb'] / 1024 }} Mo chacun,

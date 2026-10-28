@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        title="Actualités"
+        :title="__('Actualités')"
         subtitle="Suivez nos dernières actualités, événements et initiatives en faveur de l'accès au droit."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Actualités'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Actualités')],
         ]"
     />
 
@@ -85,7 +85,7 @@
 
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6">
-                <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
+                <x-sidebar-card icon="folder" :title="__('Catégories')" color="amber" :tint="true">
                     @php
                         // The icon pairs with the rubrique by slug; one the
                         // Clinic adds later falls back to the folder icon.
@@ -129,7 +129,7 @@
                     "actualités avec catégories et archives par année".
                     Module 2 replaces the array with a grouped query.
                 --}}
-                <x-sidebar-card icon="calendar" title="Archives" color="amber" :tint="true">
+                <x-sidebar-card icon="calendar" :title="__('Archives')" color="amber" :tint="true">
                     <nav class="space-y-1">
                         @forelse ($archives as $archive)
                             <x-category-list-item
@@ -147,7 +147,7 @@
                     </nav>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
+                <x-sidebar-card icon="clock" :title="__('Actualités récentes')" color="amber" :tint="true">
                     <div class="space-y-5">
                         @forelse ($recent as $item)
                             <x-mini-article-row
@@ -167,7 +167,7 @@
                         <x-icon-badge size="sm" class="!bg-amber-50 !text-amber-500"><x-icon name="mail" class="h-5 w-5" /></x-icon-badge>
                         <x-icon name="paper-plane" class="h-6 w-6 text-primary-300" />
                     </div>
-                    <h3 class="mt-3 text-base font-bold text-slate-900">Restez informé</h3>
+                    <h3 class="mt-3 text-base font-bold text-slate-900">{{ __('Restez informé') }}</h3>
                     <p class="mt-1 text-sm leading-relaxed text-slate-600">
                         Abonnez-vous à notre newsletter pour recevoir nos dernières actualités et événements.
                     </p>
@@ -202,7 +202,7 @@
                                 <p id="newsletter-error" role="alert" class="text-sm text-rose-700">{{ $message }}</p>
                             @enderror
 
-                            <x-button variant="primary" type="submit" class="w-full justify-center">S'abonner</x-button>
+                            <x-button variant="primary" type="submit" class="w-full justify-center">{{ __("S'abonner") }}</x-button>
                         </form>
                     @endif
                 </div>
@@ -215,8 +215,8 @@
         <x-inline-cta
             variant="dark"
             icon="scale"
-            title="Une question juridique ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Une question juridique ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Nos étudiants encadrés sont à votre écoute pour vous informer et vous orienter dans vos démarches.

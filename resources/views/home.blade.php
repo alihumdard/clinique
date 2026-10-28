@@ -79,7 +79,7 @@
             <div class="flex items-center gap-3 p-4">
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">Horaires d'ouverture</p>
+                    <p class="text-sm font-semibold text-slate-900">{{ __("Horaires d'ouverture") }}</p>
                     <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
                 </div>
             </div>
@@ -87,7 +87,7 @@
             <div class="flex items-center gap-3 p-4">
                 <x-icon-badge size="sm"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">Adresse</p>
+                    <p class="text-sm font-semibold text-slate-900">{{ __('Adresse') }}</p>
                     <p class="text-sm text-slate-500">Faculté des Sciences<br>Juridiques, Niamey</p>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <div class="flex items-center gap-3 px-4 py-3">
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">Horaires d'ouverture</p>
+                    <p class="text-sm font-semibold text-slate-900">{{ __("Horaires d'ouverture") }}</p>
                     <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
                 </div>
             </div>
@@ -121,7 +121,7 @@
             <div class="flex items-center gap-3 px-4 py-3">
                 <x-icon-badge size="sm"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">Adresse</p>
+                    <p class="text-sm font-semibold text-slate-900">{{ __('Adresse') }}</p>
                     <p class="text-sm text-slate-500">Faculté des Sciences Juridiques, Niamey</p>
                 </div>
             </div>
@@ -168,7 +168,7 @@
 --}}
 <section class="bg-slate-50 py-12">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <x-eyebrow>Nos domaines d'intervention</x-eyebrow>
+        <x-eyebrow>{{ __("Nos domaines d'intervention") }}</x-eyebrow>
         <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Dans quels domaines pouvons-nous vous aider ?</h2>
         <p class="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
             Nos étudiants encadrés vous informent et vous orientent dans les principaux domaines du droit.
@@ -211,7 +211,7 @@
 
 {{-- ============ HOW IT WORKS ============ --}}
 <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <x-eyebrow>Comment ça marche</x-eyebrow>
+    <x-eyebrow>{{ __('Comment ça marche') }}</x-eyebrow>
     <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Quatre étapes, de votre demande à la réponse</h2>
 
     @php
@@ -240,8 +240,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Prêt à nous soumettre votre situation ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Prêt à nous soumettre votre situation ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             La pré-saisine est gratuite et vous oriente en quelques minutes vers la bonne démarche.
@@ -273,7 +273,7 @@
         </div>
 
         <div class="flex flex-col lg:h-full lg:justify-between">
-            <x-eyebrow color="muted">Notre mission</x-eyebrow>
+            <x-eyebrow color="muted">{{ __('Notre mission') }}</x-eyebrow>
 
             <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">
                 Former, accompagner
@@ -481,7 +481,7 @@
 {{-- ============ ACTIVITIES ============ --}}
 <section class="bg-slate-50 py-12">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <x-section-heading :link="route('activities.index')" link-label="Voir toutes les activités">
+        <x-section-heading :link="route('activities.index')" :link-label="__('Voir toutes les activités')">
             Activités et caravanes juridiques
         </x-section-heading>
 
@@ -517,7 +517,7 @@
     a visitor should not have to reach the contact page for those.
 --}}
 <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <x-eyebrow>Infos pratiques</x-eyebrow>
+    <x-eyebrow>{{ __('Infos pratiques') }}</x-eyebrow>
     <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Nous rencontrer, nous joindre</h2>
 
     <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
@@ -594,7 +594,7 @@
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 
             <div>
-                <x-eyebrow>Questions fréquentes</x-eyebrow>
+                <x-eyebrow>{{ __('Questions fréquentes') }}</x-eyebrow>
                 <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Vous vous posez une question ?</h2>
                 <p class="mt-3 text-base leading-relaxed text-slate-600">
                     Les réponses aux questions que l'on nous pose le plus souvent.

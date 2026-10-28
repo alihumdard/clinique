@@ -11,9 +11,9 @@
         :title="$guide->title"
         :subtitle="$guide->description"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Ressources', 'url' => route('resources')],
-            ['label' => 'Fiches pratiques juridiques', 'url' => route('resources.guides')],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Ressources'), 'url' => route('resources')],
+            ['label' => __('Fiches pratiques juridiques'), 'url' => route('resources.guides')],
             ['label' => $guide->title],
         ]"
     />
@@ -86,7 +86,7 @@
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
 
-                <x-sidebar-card icon="folder" title="Domaines du droit">
+                <x-sidebar-card icon="folder" :title="__('Domaines du droit')">
                     @php
                         $icons = [
                             'droit-de-la-famille' => ['users', 'blue'],
@@ -170,8 +170,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Vous avez une question juridique ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Vous avez une question juridique ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Utilisez notre service de pré-saisine pour décrire votre situation et recevoir une orientation.

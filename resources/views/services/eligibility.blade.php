@@ -7,12 +7,12 @@
 
     <x-page-hero
         image="placeholders/eligibility-hero"
-        title="Conditions d'accès et gratuité"
+        :title="__('Conditions d\'accès et gratuité')"
         subtitle="Une justice accessible à tous, sans discrimination"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Nos services', 'url' => route('services')],
-            ['label' => 'Conditions d\'accès et gratuité'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Nos services'), 'url' => route('services')],
+            ['label' => __('Conditions d\'accès et gratuité')],
         ]"
     />
 
@@ -22,7 +22,7 @@
             <div class="lg:col-span-2">
                 <div class="flex items-center gap-2.5">
                     <span class="h-0.5 w-6 shrink-0 bg-amber-400" aria-hidden="true"></span>
-                    <x-eyebrow>Notre engagement</x-eyebrow>
+                    <x-eyebrow>{{ __('Notre engagement') }}</x-eyebrow>
                 </div>
                 <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
                     Une assistance juridique gratuite et ouverte à tous
@@ -123,8 +123,8 @@
         <x-inline-cta
             variant="amber"
             icon="heart"
-            title="Une attention particulière aux personnes vulnérables"
-            button-label="Faire une pré-saisine"
+            :title="__('Une attention particulière aux personnes vulnérables')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             La Clinique accorde une attention spéciale aux femmes, aux enfants, aux personnes handicapées,
@@ -136,10 +136,10 @@
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <x-eyebrow>Questions fréquentes</x-eyebrow>
+                <x-eyebrow>{{ __('Questions fréquentes') }}</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold text-slate-900">Questions sur l'accès et la gratuité</h2>
             </div>
-            <x-button href="{{ route('services') }}#faq" variant="text" class="self-start shrink-0 sm:self-auto">Voir toutes les questions</x-button>
+            <x-button href="{{ route('services') }}#faq" variant="text" class="self-start shrink-0 sm:self-auto">{{ __('Voir toutes les questions') }}</x-button>
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -175,8 +175,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Besoin d'une assistance juridique ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Besoin d\'une assistance juridique ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.

@@ -8,13 +8,13 @@
     <x-page-hero
         image="placeholders/join-hero"
         image-position="object-right"
-        title="Rejoindre la Clinique"
+        :title="__('Rejoindre la Clinique')"
         title-line2="Appels à candidatures"
         subtitle="Rejoignez une équipe engagée pour la promotion de l'accès au droit et la justice au service des populations."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Rejoindre la Clinique', 'url' => route('join')],
-            ['label' => 'Appels à candidatures'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Rejoindre la Clinique'), 'url' => route('join')],
+            ['label' => __('Appels à candidatures')],
         ]"
     />
 
@@ -123,7 +123,7 @@
 
                 {{-- ============ FAQ ============ --}}
                 <div class="mt-12">
-                    <x-section-label>Questions fréquentes</x-section-label>
+                    <x-section-label>{{ __('Questions fréquentes') }}</x-section-label>
 
                     <div class="mt-5 space-y-3">
                         <x-faq-item question="Qui peut postuler aux appels à candidatures ?">
@@ -190,7 +190,7 @@
                     <x-numbered-steps :steps="$applySteps" />
                 </x-sidebar-card>
 
-                <x-help-card icon="mail" title="Une question ?">
+                <x-help-card icon="mail" :title="__('Une question ?')">
                     Notre équipe est à votre disposition pour répondre à vos questions sur les appels à candidatures.
                 </x-help-card>
 
@@ -220,7 +220,7 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Rejoignez notre réseau"
+            :title="__('Rejoignez notre réseau')"
             button-label="S'inscrire aux alertes"
             :button-href="route('contact')"
         >

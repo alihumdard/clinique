@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/contact-hero"
-        title="Contactez-nous"
+        :title="__('Contactez-nous')"
         subtitle="Une question, une demande d'information ou besoin d'accompagnement ? Notre équipe est à votre écoute."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Contact'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Contact')],
         ]"
     />
 
@@ -54,7 +54,7 @@
                     <li class="flex items-start gap-4">
                         <x-icon-badge size="sm" class="shrink-0"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
                         <div class="min-w-0">
-                            <p class="text-sm font-bold text-slate-900">Adresse</p>
+                            <p class="text-sm font-bold text-slate-900">{{ __('Adresse') }}</p>
                             <address class="mt-1 text-sm not-italic leading-relaxed text-slate-600">
                                 {{ config('clinique.contact.address.line1') }}<br>
                                 {{ config('clinique.contact.address.line2') }}<br>
@@ -66,7 +66,7 @@
                     <li class="flex items-start gap-4">
                         <x-icon-badge size="sm" class="shrink-0"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
                         <div class="min-w-0">
-                            <p class="text-sm font-bold text-slate-900">Téléphone</p>
+                            <p class="text-sm font-bold text-slate-900">{{ __('Téléphone') }}</p>
                             <p class="mt-1 text-sm text-slate-600">
                                 <a href="tel:{{ config('clinique.contact.phone.tel') }}" class="hover:text-primary-600">
                                     {{ config('clinique.contact.phone.display') }}
@@ -90,7 +90,7 @@
                     <li class="flex items-start gap-4">
                         <x-icon-badge size="sm" class="shrink-0"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                         <div class="min-w-0">
-                            <p class="text-sm font-bold text-slate-900">Horaires d'ouverture</p>
+                            <p class="text-sm font-bold text-slate-900">{{ __("Horaires d'ouverture") }}</p>
                             <div class="mt-1 text-sm leading-relaxed text-slate-600">
                                 @foreach (config('clinique.hours.schedule') as $slot)
                                     <p>{{ $slot['days'] }} : {{ $slot['time'] }}</p>
@@ -194,7 +194,7 @@
                         <x-form-field
                             name="phone"
                             type="tel"
-                            label="Téléphone"
+                            :label="__('Téléphone')"
                             placeholder="+227 ..."
                             autocomplete="tel"
                         />
@@ -314,7 +314,7 @@
         <div class="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
 
             <div class="lg:col-span-3">
-                <x-section-label>Questions fréquentes</x-section-label>
+                <x-section-label>{{ __('Questions fréquentes') }}</x-section-label>
 
                 <div class="mt-5 space-y-3">
                     <x-faq-item :tint="true" question="Comment puis-je bénéficier d'une assistance juridique ?">
@@ -373,8 +373,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Besoin d'une assistance rapide ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Besoin d\'une assistance rapide ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Vous pouvez également faire une pré-saisine en ligne pour être orienté plus rapidement.

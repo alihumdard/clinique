@@ -77,8 +77,9 @@ class LanguageSwitcherTest extends TestCase
             ->assertOk()
             // Translated chrome…
             ->assertSee('Our services', escape: false)
-            // …around French content that is served as it stands.
-            ->assertSee('Nos domaines', escape: false);
+            // …around body copy that has no English entry and is served
+            // as it stands, rather than as a missing-key marker.
+            ->assertSee('Nous allons à la rencontre des populations', escape: false);
     }
 
     /**

@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
-        title="Mentions légales"
+        :title="__('Mentions légales')"
         subtitle="Informations légales relatives à l'utilisation du site web de la Clinique Juridique FSJP-UAM."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Mentions légales'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Mentions légales')],
         ]"
     />
 
@@ -24,7 +24,7 @@
 
                 <x-legal-section
                     number="1"
-                    title="Éditeur du site"
+                    :title="__('Éditeur du site')"
                     lead="Le site web de la Clinique Juridique FSJP-UAM est édité par :"
                 >
                     <div class="flex items-start gap-4 rounded-lg bg-primary-50/60 p-5">
@@ -42,7 +42,7 @@
 
                 <x-legal-section
                     number="2"
-                    title="Responsable de la publication"
+                    :title="__('Responsable de la publication')"
                     lead="Le responsable de la publication du site est :"
                 >
                     <div class="flex items-start gap-4 rounded-lg bg-primary-50/60 p-5">
@@ -59,7 +59,7 @@
 
                 <x-legal-section
                     number="3"
-                    title="Hébergement du site"
+                    :title="__('Hébergement du site')"
                     lead="Le site est hébergé par :"
                 >
                     {{-- Host details are a placeholder: UAM IT confirms the final

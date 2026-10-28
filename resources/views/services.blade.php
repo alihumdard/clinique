@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        title="Nos services juridiques"
+        :title="__('Nos services juridiques')"
         subtitle="Une assistance juridique gratuite et accessible dans plusieurs domaines du droit, assurée par des étudiants encadrés par des enseignants et des professionnels."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Nos services juridiques'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Nos services juridiques')],
         ]"
     />
 
@@ -132,10 +132,10 @@
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-2xl font-bold text-slate-900">Questions fréquentes</h2>
+                <h2 class="text-2xl font-bold text-slate-900">{{ __('Questions fréquentes') }}</h2>
                 <p class="mt-1 text-sm text-slate-600">Trouvez rapidement les réponses aux questions les plus courantes sur nos services.</p>
             </div>
-            <x-button :href="route('contact')" variant="text" class="self-start shrink-0 sm:self-auto">Voir toutes les questions</x-button>
+            <x-button :href="route('contact')" variant="text" class="self-start shrink-0 sm:self-auto">{{ __('Voir toutes les questions') }}</x-button>
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -169,8 +169,8 @@
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="paper-plane"
-            title="Vous avez besoin d'une assistance juridique ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Vous avez besoin d\'une assistance juridique ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Notre équipe est à votre écoute pour vous orienter et vous accompagner.

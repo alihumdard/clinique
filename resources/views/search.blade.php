@@ -8,11 +8,11 @@
     <x-page-hero
         image="placeholders/search-hero"
         image-position="object-right"
-        title="Résultats de recherche"
+        :title="__('Résultats de recherche')"
         subtitle="Trouvez rapidement des actualités, guides pratiques, vidéos et informations sur nos services."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Recherche'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Recherche')],
         ]"
     />
 

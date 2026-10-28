@@ -8,11 +8,11 @@
     <x-page-hero
         image="placeholders/gallery-hero"
         image-position="object-left-top"
-        title="Galerie photos"
+        :title="__('Galerie photos')"
         subtitle="Découvrez en images nos activités, caravanes juridiques, formations et rencontres avec les communautés."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Galerie photos'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Galerie photos')],
         ]"
     />
 
@@ -116,8 +116,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Une activité à partager ?"
-            button-label="Nous contacter"
+            :title="__('Une activité à partager ?')"
+            :button-label="__('Nous contacter')"
             :button-href="route('contact')"
         >
             Contactez-nous pour que vos photos soient publiées dans notre galerie.

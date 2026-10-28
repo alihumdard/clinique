@@ -11,8 +11,8 @@
         :title="$video->title"
         :subtitle="$video->summary"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Web TV', 'url' => route('webtv.index')],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Web TV'), 'url' => route('webtv.index')],
             ['label' => $video->title],
         ]"
     />
@@ -111,7 +111,7 @@
                 {{-- ============ MORE VIDEOS ============ --}}
                 @if($more->isNotEmpty())
                     <div class="mt-12">
-                        <x-section-heading :link="route('webtv.index')" link-label="Voir toutes les vidéos">
+                        <x-section-heading :link="route('webtv.index')" :link-label="__('Voir toutes les vidéos')">
                             Plus de vidéos
                         </x-section-heading>
 

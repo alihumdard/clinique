@@ -7,12 +7,12 @@
 
     <x-page-hero
         image="placeholders/fees-hero"
-        title="Tarifs administratifs"
+        :title="__('Tarifs administratifs')"
         subtitle="Des frais administratifs transparents et accessibles"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Nos services', 'url' => route('services')],
-            ['label' => 'Tarifs administratifs'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Nos services'), 'url' => route('services')],
+            ['label' => __('Tarifs administratifs')],
         ]"
     />
 
@@ -117,10 +117,10 @@
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <x-eyebrow>Questions fréquentes</x-eyebrow>
+                <x-eyebrow>{{ __('Questions fréquentes') }}</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold text-slate-900">Questions sur les tarifs administratifs</h2>
             </div>
-            <x-button href="{{ route('services') }}#faq" variant="text" class="self-start shrink-0 sm:self-auto">Voir toutes les questions</x-button>
+            <x-button href="{{ route('services') }}#faq" variant="text" class="self-start shrink-0 sm:self-auto">{{ __('Voir toutes les questions') }}</x-button>
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -156,8 +156,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Besoin d'une assistance juridique ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Besoin d\'une assistance juridique ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Nos services sont gratuits et accessibles à tous. Remplissez notre formulaire de pré-saisine

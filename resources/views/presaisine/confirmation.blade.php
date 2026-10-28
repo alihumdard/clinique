@@ -34,8 +34,8 @@
         </div>
 
         <div class="mt-8 flex flex-wrap items-center gap-3">
-            <x-button :href="route('home')" variant="primary">Retour à l'accueil</x-button>
-            <x-button :href="route('contact')" variant="outline" :arrow="false">Nous contacter</x-button>
+            <x-button :href="route('home')" variant="primary">{{ __("Retour à l'accueil") }}</x-button>
+            <x-button :href="route('contact')" variant="outline" :arrow="false">{{ __('Nous contacter') }}</x-button>
         </div>
 
     </section>

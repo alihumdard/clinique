@@ -20,7 +20,7 @@
         </p>
 
         <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <x-button :href="route('home')" variant="primary">Retour à l'accueil</x-button>
+            <x-button :href="route('home')" variant="primary">{{ __("Retour à l'accueil") }}</x-button>
             <x-button :href="route('news.index')" variant="outline">Voir les actualités</x-button>
         </div>
     </section>

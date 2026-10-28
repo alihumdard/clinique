@@ -96,7 +96,7 @@
 
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6">
-                <x-sidebar-card icon="clock" title="Actualités récentes" color="amber" :tint="true">
+                <x-sidebar-card icon="clock" :title="__('Actualités récentes')" color="amber" :tint="true">
                     <div class="space-y-4">
                         @forelse ($recent as $item)
                             <x-mini-article-row
@@ -111,7 +111,7 @@
                     </div>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="folder" title="Catégories" color="amber" :tint="true">
+                <x-sidebar-card icon="folder" :title="__('Catégories')" color="amber" :tint="true">
                     @php
                         $icons = [
                             'evenements' => 'calendar',
@@ -155,8 +155,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Besoin d'une assistance juridique ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Besoin d\'une assistance juridique ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.

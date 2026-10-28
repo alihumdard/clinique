@@ -17,7 +17,7 @@
 
     <x-page-hero
         image="placeholders/annual-report-hero"
-        title="Rapports annuels d'activité"
+        :title="__('Rapports annuels d\'activité')"
         subtitle="Découvrez nos réalisations, nos chiffres clés et l'impact de nos actions pour une justice plus accessible au Niger."
         :breadcrumb="$breadcrumb"
     />
@@ -156,8 +156,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Contribuez à nos actions"
-            button-label="Faire une pré-saisine"
+            :title="__('Contribuez à nos actions')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Votre soutien nous permet de renforcer nos activités et d'atteindre plus de personnes.

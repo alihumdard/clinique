@@ -23,7 +23,7 @@
             <nav aria-label="Fil d'Ariane" class="mb-4 flex flex-wrap items-center gap-2 text-sm text-slate-300">
                 <a href="{{ route('home') }}" class="hover:text-white">Accueil</a>
                 <span aria-hidden="true">&rsaquo;</span>
-                <a href="{{ route('activities.index') }}" class="hover:text-white">Activités et caravanes juridiques</a>
+                <a href="{{ route('activities.index') }}" class="hover:text-white">{{ __('Activités et caravanes juridiques') }}</a>
                 <span aria-hidden="true">&rsaquo;</span>
                 <span class="text-white">{{ $activity->title }}</span>
             </nav>
@@ -127,8 +127,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Vous souhaitez organiser une activité dans votre localité ?"
-            button-label="Nous contacter"
+            :title="__('Vous souhaitez organiser une activité dans votre localité ?')"
+            :button-label="__('Nous contacter')"
             :button-href="route('contact')"
         >
             Contactez-nous pour planifier une caravane juridique ou une session de sensibilisation.

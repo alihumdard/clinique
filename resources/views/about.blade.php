@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        title="À propos de la Clinique"
+        :title="__('À propos de la Clinique')"
         subtitle="Une clinique juridique universitaire au service de la population, pour une justice plus accessible, plus humaine et plus proche des citoyens."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'À propos de la Clinique'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('À propos de la Clinique')],
         ]"
     />
 
@@ -32,7 +32,7 @@
                     solidaire et citoyenne.
                 </p>
                 <div class="mt-6">
-                    <x-button href="#mission" variant="primary">Notre mission</x-button>
+                    <x-button href="#mission" variant="primary">{{ __('Notre mission') }}</x-button>
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
 
         {{-- Mission / Vision / Valeurs --}}
         <div id="mission" class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <x-value-card icon="document" title="Notre mission">
+            <x-value-card icon="document" :title="__('Notre mission')">
                 Offrir une assistance juridique gratuite et accessible, promouvoir la justice et former les
                 étudiants par la pratique.
             </x-value-card>
@@ -159,8 +159,8 @@
 
     {{-- ============ PARTENAIRES ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-        <x-eyebrow>Ils nous soutiennent</x-eyebrow>
-        <h2 class="mt-2 text-3xl font-bold text-slate-900">Nos partenaires institutionnels</h2>
+        <x-eyebrow>{{ __('Ils nous soutiennent') }}</x-eyebrow>
+        <h2 class="mt-2 text-3xl font-bold text-slate-900">{{ __('Nos partenaires institutionnels') }}</h2>
 
         <div class="mt-8">
             @include('partials.partners-grid')
@@ -171,8 +171,8 @@
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="users"
-            title="Une clinique au service de tous"
-            button-label="Faire une pré-saisine"
+            :title="__('Une clinique au service de tous')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Vous avez une question juridique ? Besoin d'une orientation ? Notre équipe est là pour vous accompagner.

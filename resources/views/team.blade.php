@@ -7,12 +7,12 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        title="Notre équipe"
+        :title="__('Notre équipe')"
         subtitle="Une équipe engagée au service de la justice et des citoyens"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'La Clinique', 'url' => route('about')],
-            ['label' => 'Équipe'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('La Clinique'), 'url' => route('about')],
+            ['label' => __('Équipe')],
         ]"
     />
 
@@ -112,7 +112,7 @@
                         <x-eyebrow color="amber">Nos étudiants</x-eyebrow>
                         <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
                     </div>
-                    <x-button :href="route('join')" variant="primary" class="self-start rounded-full! sm:self-auto">Rejoindre la Clinique</x-button>
+                    <x-button :href="route('join')" variant="primary" class="self-start rounded-full! sm:self-auto">{{ __('Rejoindre la Clinique') }}</x-button>
                 </div>
 
                 <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
@@ -157,7 +157,7 @@
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="users"
-            title="Rejoignez notre équipe"
+            :title="__('Rejoignez notre équipe')"
             button-label="Voir les opportunités"
             :button-href="route('presaisine.index')"
         >

@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
-        title="Pré-saisine"
+        :title="__('Pré-saisine')"
         subtitle="Quatre questions pour savoir si nous pouvons prendre votre demande en charge."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Pré-saisine'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Pré-saisine')],
         ]"
     />
 
@@ -76,7 +76,7 @@
 
             <div class="flex flex-wrap items-center gap-3">
                 <x-button variant="primary" type="submit">Continuer</x-button>
-                <x-button :href="route('contact')" variant="outline" :arrow="false">Nous contacter</x-button>
+                <x-button :href="route('contact')" variant="outline" :arrow="false">{{ __('Nous contacter') }}</x-button>
             </div>
         </form>
 

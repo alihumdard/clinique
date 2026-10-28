@@ -10,7 +10,7 @@
         :image-url="$page->image ? $page->imageUrl($page->image, 'placeholders/legal-scales-gavel') : null"
         :title="$page->title"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
+            ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => $page->title],
         ]"
     />

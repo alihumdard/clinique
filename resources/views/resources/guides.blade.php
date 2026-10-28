@@ -7,12 +7,12 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
-        title="Fiches pratiques juridiques"
+        :title="__('Fiches pratiques juridiques')"
         subtitle="Des guides simples et clairs pour comprendre vos droits et vous accompagner dans vos démarches."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Ressources', 'url' => route('resources')],
-            ['label' => 'Fiches pratiques juridiques'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Ressources'), 'url' => route('resources')],
+            ['label' => __('Fiches pratiques juridiques')],
         ]"
     />
 
@@ -124,7 +124,7 @@
                     </button>
                 </form>
 
-                <x-sidebar-card icon="folder" title="Domaines du droit" :tint="true">
+                <x-sidebar-card icon="folder" :title="__('Domaines du droit')" :tint="true">
                     @php
                         // The icon pairs with the domain by name; a domain the
                         // Clinic adds later falls back to the folder icon.
@@ -209,8 +209,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Vous ne trouvez pas la fiche dont vous avez besoin ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Vous ne trouvez pas la fiche dont vous avez besoin ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Contactez-nous pour obtenir un accompagnement personnalisé ou une documentation spécifique.

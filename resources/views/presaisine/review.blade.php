@@ -6,12 +6,12 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
-        title="Vérifiez votre demande"
+        :title="__('Vérifiez votre demande')"
         subtitle="Étape 3 sur 3 — relisez avant d'envoyer."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Pré-saisine', 'url' => route('presaisine.index')],
-            ['label' => 'Vérification'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Pré-saisine'), 'url' => route('presaisine.index')],
+            ['label' => __('Vérification')],
         ]"
     />
 
@@ -68,7 +68,7 @@
 
         @if(count($questions))
             <div class="mt-6 space-y-2">
-                <h2 class="text-sm font-bold text-slate-900">Vos questions</h2>
+                <h2 class="text-sm font-bold text-slate-900">{{ __('Vos questions') }}</h2>
                 <ol class="notranslate list-inside list-decimal space-y-1.5 rounded-xl border border-slate-200 bg-white p-5 text-sm leading-relaxed text-slate-700" translate="no">
                     @foreach ($questions as $question)
                         <li>{{ $question }}</li>
@@ -79,7 +79,7 @@
 
         @if(count($files))
             <div class="mt-6 space-y-2">
-                <h2 class="text-sm font-bold text-slate-900">Pièces jointes</h2>
+                <h2 class="text-sm font-bold text-slate-900">{{ __('Pièces jointes') }}</h2>
                 <ul class="notranslate space-y-2 rounded-xl border border-slate-200 bg-white p-5" translate="no">
                     @foreach ($files as $file)
                         <li class="flex items-center gap-2 text-sm text-slate-700">

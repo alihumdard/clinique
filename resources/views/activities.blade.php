@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/webtv-show-hero"
-        title="Activités et caravanes juridiques"
+        :title="__('Activités et caravanes juridiques')"
         subtitle="Aller vers les populations pour une justice plus proche de tous"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Activités et caravanes juridiques'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Activités et caravanes juridiques')],
         ]"
     />
 
@@ -37,7 +37,7 @@
         {{-- ============ INTRO + HIGHLIGHT ============ --}}
         <div class="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
             <div class="lg:col-span-3">
-                <x-eyebrow>Notre engagement</x-eyebrow>
+                <x-eyebrow>{{ __('Notre engagement') }}</x-eyebrow>
                 <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Une présence sur le terrain</h2>
                 <p class="mt-4 text-base leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM organise régulièrement des activités de proximité
@@ -59,7 +59,7 @@
     {{-- ============ DOMAINES D'INTERVENTION ============ --}}
     <section class="bg-slate-50 py-12">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-eyebrow>Nos domaines d'intervention</x-eyebrow>
+            <x-eyebrow>{{ __("Nos domaines d'intervention") }}</x-eyebrow>
             <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Des actions adaptées aux besoins des populations</h2>
 
             @php
@@ -177,8 +177,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Vous souhaitez organiser une activité dans votre localité ?"
-            button-label="Nous contacter"
+            :title="__('Vous souhaitez organiser une activité dans votre localité ?')"
+            :button-label="__('Nous contacter')"
             :button-href="route('contact')"
         >
             Contactez-nous pour planifier une caravane juridique ou une session de sensibilisation.

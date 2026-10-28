@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/process-hero"
-        title="Processus de consultation"
+        :title="__('Processus de consultation')"
         subtitle="Un accompagnement simple, transparent et gratuit pour tous."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Processus de consultation'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Processus de consultation')],
         ]"
     />
 
@@ -90,7 +90,7 @@
             />
 
             <div class="p-4 lg:p-8">
-                <x-eyebrow>Notre engagement</x-eyebrow>
+                <x-eyebrow>{{ __('Notre engagement') }}</x-eyebrow>
                 <h2 class="mt-2 text-xl font-bold leading-tight text-slate-900 sm:text-2xl">Une justice plus proche</h2>
                 <p class="mt-2.5 max-w-md text-sm leading-relaxed text-slate-600">
                     La Clinique Juridique FSJP-UAM s'engage à rendre le droit plus accessible et à renforcer
@@ -109,9 +109,9 @@
     {{-- ============ FAQ + DOCUMENTS ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <x-action-note-card icon="help-circle" title="Questions fréquentes">
+            <x-action-note-card icon="help-circle" :title="__('Questions fréquentes')">
                 <p>Vous avez d'autres questions sur notre processus de consultation ? Consultez notre FAQ pour plus d'informations.</p>
-                <x-button href="{{ route('services') }}#faq" variant="primary" class="mt-4">Voir toutes les questions</x-button>
+                <x-button href="{{ route('services') }}#faq" variant="primary" class="mt-4">{{ __('Voir toutes les questions') }}</x-button>
             </x-action-note-card>
 
             <x-action-note-card icon="download" title="Documents utiles">
@@ -138,8 +138,8 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Besoin d'une assistance juridique ?"
-            button-label="Faire une pré-saisine"
+            :title="__('Besoin d\'une assistance juridique ?')"
+            :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
             Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.

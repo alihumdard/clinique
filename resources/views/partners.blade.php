@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        title="Nos partenaires"
+        :title="__('Nos partenaires')"
         subtitle="Des institutions et organisations engagées à nos côtés pour une justice plus accessible"
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Partenaires'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Partenaires')],
         ]"
     />
 
@@ -80,7 +80,7 @@
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <x-partner-section
                     eyebrow="Nos partenaires"
-                    title="Autres partenaires"
+                    :title="__('Autres partenaires')"
                     :partners="$unsorted"
                 />
             </div>
@@ -91,8 +91,8 @@
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <x-inline-cta
             icon="users"
-            title="Vous souhaitez devenir partenaire ?"
-            button-label="Nous contacter"
+            :title="__('Vous souhaitez devenir partenaire ?')"
+            :button-label="__('Nous contacter')"
             button-href="{{ route('contact') }}"
         >
             Nous sommes ouverts à toute collaboration visant à renforcer l'accès au droit, la formation des

@@ -8,11 +8,11 @@
     <x-page-hero
         image="placeholders/webtv-hero"
         image-position="object-right"
-        title="Web TV"
+        :title="__('Web TV')"
         subtitle="Des vidéos pour informer, sensibiliser et promouvoir l'accès au droit pour tous."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Web TV'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Web TV')],
         ]"
     />
 
@@ -202,7 +202,7 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            title="Abonnez-vous à notre Web TV"
+            :title="__('Abonnez-vous à notre Web TV')"
             button-label="Voir la chaîne YouTube"
             :button-href="config('clinique.social.youtube') ?: '#'"
         >

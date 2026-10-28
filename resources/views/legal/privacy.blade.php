@@ -7,11 +7,11 @@
 
     <x-page-hero
         image="placeholders/privacy-security"
-        title="Politique de confidentialité"
+        :title="__('Politique de confidentialité')"
         subtitle="La Clinique Juridique FSJP-UAM s'engage à protéger vos données personnelles et à respecter votre vie privée."
         :breadcrumb="[
-            ['label' => 'Accueil', 'url' => route('home')],
-            ['label' => 'Politique de confidentialité'],
+            ['label' => __('Accueil'), 'url' => route('home')],
+            ['label' => __('Politique de confidentialité')],
         ]"
     />
 
@@ -22,7 +22,7 @@
             <div class="space-y-6 lg:sticky lg:top-24 lg:self-start">
                 <x-legal-nav current="privacy" />
 
-                <x-help-card icon="shield" title="Une question ?">
+                <x-help-card icon="shield" :title="__('Une question ?')">
                     Pour toute question relative à notre politique de confidentialité, veuillez nous contacter.
                 </x-help-card>
 
