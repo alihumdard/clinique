@@ -153,6 +153,39 @@ photo is not known, so a `width` attribute would be an invented number.
 The admin thumbnails have fixed CSS sizes for the same reason. Measured
 CLS of 0 agrees.
 
+### Found while verifying the fixes
+
+Two the browser pass did not report, caught by driving the live site with
+the console open.
+
+#### A — An inline script blocked on every visit to `/a-propos/equipe`
+
+| | |
+| --- | --- |
+| Severity | Mineur, and a Majeur that happened not to be one |
+
+`team.blade.php` pushed a `<script>` block implementing the team
+carousel. The policy sent with every page is `script-src 'self'`, so the
+browser refused it and logged a violation on every visit.
+
+It did not break the carousel, because `resources/js/app.js` binds the
+same `data-carousel-prev` / `data-carousel-next` attributes and the
+bundled copy is what has been running all along. So the page carried a
+dead duplicate and a console error, and the feature it looked responsible
+for worked for another reason entirely — which is why nobody noticed. Had
+app.js not had it, the buttons would simply have done nothing.
+
+The block is removed. `PublicPagesTest::test_public_page_ships_no_inline_script`
+now walks every public route, so the next inline script fails a test
+rather than only a console.
+
+#### B — A replacement character in a screen-reader label
+
+`app.js` held `'Lecteur vid� o'` — the `é` lost to an encoding
+accident upstream. It is the fallback `title` of a video iframe, used when
+a capsule has no title of its own, so a screen reader would read the
+corruption aloud. Fixed.
+
 ### Not covered
 
 Everything behind a sign-in: parts B through E, and the client-side half

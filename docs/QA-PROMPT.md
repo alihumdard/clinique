@@ -57,22 +57,59 @@ below is not optional.
 
 CREDENTIALS
 
-Administration — /admin/login
+Administration (CMS) — /admin/login
   admin@clinique-fsjp.ne   Administrateur   password supplied separately
 
-  This is the only CMS account on the live server. Do not change its
-  password, and do not disable it — it is the last administrator, and the
-  platform refuses that anyway.
+  This is the ONLY account that exists in the CMS on the live server. Do
+  not change its password and do not disable it — it is the last
+  administrator, and the platform refuses that anyway.
 
-  There is no éditeur account yet. You create one in part D, as
-  qa-test-editeur@example.test; I will type its password for you.
+Registre numérique — /registre/connexion    all five: registre-demo-2026
+  coordination@registre.test      Coordinateur
+  encadrant@registre.test         Superviseur / encadrant
+  etudiant@registre.test          Étudiant clinicien
+  technique@registre.test         Administrateur technique
+  compte-desactive@registre.test  DISABLED — signing in must fail
 
-Registre — /registre/connexion       all four: registre-demo-2026
-  coordination@registre.test     Coordinateur
-  encadrant@registre.test        Superviseur / encadrant
-  etudiant@registre.test         Étudiant clinicien
-  technique@registre.test        Administrateur technique
-  compte-desactive@registre.test DISABLED — signing in must fail
+  These exist on the live server and are seeded demonstration accounts.
+  They are yours to test with. You do not need to create registre roles.
+
+ACCOUNTS YOU CREATE YOURSELF
+
+Do not wait on me for an account that does not exist. Creating it is part
+of the test, not a prerequisite to it — the creation screen, the role
+assignment, and the rules that stop the Clinic locking itself out are all
+being checked by the act of making one.
+
+  1. The éditeur (CMS). It does not exist; there is no second CMS
+     account. Signed in as administrateur, /admin/utilisateurs → create:
+
+       Name   QA-TEST Éditeur
+       Email  qa-test-editeur@example.test
+       Role   Éditeur
+
+     Then sign in as them and run part D. What that proves: an éditeur
+     reaches the content screens, and is refused the paramètres, the
+     référentiels, the user accounts, and every page under /registre.
+
+  2. A registre account (part E, "comptes"). Signed in as
+     coordination@registre.test, create QA-TEST Clinicien /
+     qa-test-clinicien@example.test as an étudiant, sign in as it,
+     disable it, and confirm the sign-in then fails.
+
+Do not create a second administrateur. The last-administrator rules are
+tested by attempting the refused action on the account you are in — a
+refusal changes nothing, which is what makes it safe to try on the
+client's server; a new administrator would be a real change.
+
+When you are done, disable the two QA accounts. Do not delete them. In
+this platform an account is disabled and never deleted — deleting a CMS
+account would blank the author of everything it published — so the
+delete path you might reach for as cleanup is itself one of the things
+under test, and the expected result is a refusal.
+
+The password is the one field you may not be able to fill yourself: set
+up the whole record, leave the password empty, and hand me that field.
 
 SIGNING IN
 

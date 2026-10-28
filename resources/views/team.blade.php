@@ -166,24 +166,3 @@
     </section>
 
 @endsection
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var indices = {};
-    document.querySelectorAll('[data-carousel-prev], [data-carousel-next]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var key = this.dataset.carouselPrev || this.dataset.carouselNext;
-            var container = document.getElementById('carousel-' + key);
-            if (!container) return;
-            var cards = Array.from(container.children);
-            if (!cards.length) return;
-            indices[key] = indices[key] || 0;
-            indices[key] += this.dataset.carouselPrev !== undefined ? -1 : 1;
-            indices[key] = Math.max(0, Math.min(indices[key], cards.length - 1));
-            cards[indices[key]].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-        });
-    });
-});
-</script>
-@endpush

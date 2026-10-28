@@ -513,6 +513,27 @@ class PublicPagesTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('publicRoutes')]
+    public function test_public_page_ships_no_inline_script(string $uri): void
+    {
+        $html = $this->get($uri)->getContent();
+
+        /*
+         * The policy sent with every page is script-src 'self', so an
+         * inline <script> is refused by the browser and reported in the
+         * console. It does not fail loudly: the équipe page carried a
+         * carousel this way for weeks, working only because app.js binds
+         * the same data attributes, while every visit logged a violation.
+         *
+         * Behaviour belongs in resources/js. Nothing here needs a nonce.
+         */
+        $this->assertDoesNotMatchRegularExpression(
+            '~<script(?![^>]*\bsrc=)[^>]*>\s*\S~',
+            $html,
+            "{$uri} carries an inline script, which script-src 'self' blocks."
+        );
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('publicRoutes')]
     public function test_public_page_does_not_leak_php(string $uri): void
     {
         $html = $this->get($uri)->getContent();

@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const iframe = document.createElement('iframe');
             iframe.src = container.dataset.videoEmbed;
-            iframe.title = container.dataset.videoTitle || 'Lecteur vid�o';
+            iframe.title = container.dataset.videoTitle || 'Lecteur vidéo';
             iframe.loading = 'lazy';
             iframe.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
             iframe.allowFullscreen = true;
