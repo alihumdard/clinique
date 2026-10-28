@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PresaisineRequest;
+use App\Mail\PresaisineReceipt;
+use App\Mail\PresaisineReceived;
 use App\Models\LegalDomain;
 use App\Models\Registre\PresaisineAttachment;
 use App\Models\Registre\PresaisineSubmission;
@@ -11,10 +13,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Throwable;
 
 /**
  * The public pré-saisine: orientation, form, review, confirmation.
@@ -197,10 +202,39 @@ class PresaisineController extends Controller
             return $submission;
         });
 
+        $this->notify($submission);
+
         $request->session()->forget([self::ORIENTATION, self::DRAFT, self::DRAFT_FILES, 'presaisine.token']);
         $request->session()->put(self::CONFIRMED, $submission->reference);
 
         return redirect()->route('presaisine.confirmation');
+    }
+
+    /**
+     * The two messages the plan asks for: "envoyer un accusé de réception
+     * par e-mail si une adresse est fournie et notifier la Clinique pour
+     * chaque demande valide".
+     *
+     * Sent after the request is safely stored, and never allowed to undo
+     * it. A mail server that is down, misconfigured or simply not set up
+     * yet must not cost someone the request they just spent ten minutes
+     * writing: the failure is logged and the visitor still gets their
+     * reference.
+     */
+    private function notify(PresaisineSubmission $submission): void
+    {
+        try {
+            if (filled($submission->email)) {
+                Mail::to($submission->email)->send(new PresaisineReceipt($submission));
+            }
+
+            Mail::to(config('clinique.contact.email'))->send(new PresaisineReceived($submission));
+        } catch (Throwable $e) {
+            Log::error('Pré-saisine : notification non envoyée.', [
+                'reference' => $submission->reference,
+                'exception' => $e->getMessage(),
+            ]);
+        }
     }
 
     // 40. Confirmation / numéro de référence -------------------------
