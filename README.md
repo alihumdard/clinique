@@ -17,6 +17,7 @@ Trois composants dans une seule application Laravel, séparés là où il faut :
 
 | Pour qui | Document |
 | --- | --- |
+| Qui reprend le code | [Contexte de développement](docs/CONTEXT.md) |
 | La Clinique | [Guide de l'administrateur](docs/GUIDE-ADMINISTRATEUR.md) |
 | Le service informatique de l'UAM | [Documentation technique](docs/DOCUMENTATION-TECHNIQUE.md) |
 | Le client, à la relecture | [Livraison du module 2](LIVRAISON.md) |
