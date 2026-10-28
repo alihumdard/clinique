@@ -28,6 +28,14 @@ composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 echo "==> Database"
 php artisan migrate --force
 
+# The registre keeps its own database, on its own connection, with its
+# own migrations path. Skipped quietly when the connection is not
+# configured, so a deploy of the public site alone still works.
+if php artisan tinker --execute="exit(config('database.connections.registre') ? 0 : 1);" >/dev/null 2>&1; then
+    echo "==> Database (registre)"
+    php artisan migrate --database=registre --path=database/migrations/registre --force
+fi
+
 echo "==> Image variants"
 # Idempotent: only writes a variant that is missing or older than its
 # source, so this costs nothing on a deploy that changed no images.
@@ -48,9 +56,12 @@ php artisan view:cache
 echo "==> Ownership and modes"
 # Seeding or caching under sudo leaves root-owned files that php-fpm
 # cannot traverse; this is what made the stored PDFs unreachable once.
-chown -R hxpeed:www-data storage bootstrap/cache public/build public/images
+chown -R hxpeed:www-data storage bootstrap/cache public/build public/images database
 find storage -type d -exec chmod 2775 {} +
 find storage -type f -exec chmod 664 {} +
+# A SQLite file is written by php-fpm, and so is the directory holding it.
+find database -maxdepth 1 -name '*.sqlite' -exec chmod 664 {} + 2>/dev/null || true
+chmod 2775 database
 
 echo "==> Reloading php-fpm (clears the OPcache)"
 systemctl reload php8.5-fpm
