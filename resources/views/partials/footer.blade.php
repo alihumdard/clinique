@@ -94,7 +94,6 @@
                 <a href="{{ route('legal.notice') }}" class="hover:text-white">Mentions légales</a>
                 <a href="{{ route('legal.privacy') }}" class="hover:text-white">Politique de confidentialité</a>
                 <a href="{{ route('legal.terms') }}" class="hover:text-white">Conditions d'utilisation</a>
-
             </div>
         </div>
     </div>

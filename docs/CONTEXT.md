@@ -6,7 +6,7 @@ one is for the next person in the code: the decisions that are not
 visible from the files, what is deliberately missing, and the things that
 cost a day to find out.
 
-Last updated: 29 October 2026 · 663 tests
+Last updated: 29 October 2026 · 656 tests
 
 ---
 

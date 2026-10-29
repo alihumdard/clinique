@@ -263,7 +263,7 @@ sont).
 php vendor/bin/phpunit
 ```
 
-**663 tests.** Ils tournent sur SQLite en mémoire, avec une base distincte pour
+**656 tests.** Ils tournent sur SQLite en mémoire, avec une base distincte pour
 le registre — de sorte qu'un test ne puisse pas démontrer la séparation contre
 une base unique.
 
