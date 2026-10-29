@@ -9,9 +9,10 @@ use Tests\TestCase;
  * The way in, from the public site.
  *
  * Neither sign-in was linked from anywhere: both areas are noindex, so the
- * only route to them was to know the URL by heart. They now sit in the
- * footer's bottom bar, which is where an institutional site puts a link
- * meant for its own staff rather than for the visitor.
+ * only route to them was to know the URL by heart. They are now a
+ * "Connexion" control in the header, beside the Pré-saisine call to
+ * action — one control with two destinations, since the platform has two
+ * and an account from one is refused at the other.
  *
  * There is deliberately no registration. Accounts in the CMS are created
  * by an administrator and accounts in the registre by a coordinator, which
@@ -33,8 +34,8 @@ class PublicSignInLinksTest extends TestCase
 
     public function test_the_links_are_on_every_public_page(): void
     {
-        // They are in the shared footer, so a visitor does not have to find
-        // their way back to the home page first.
+        // They are in the shared header, so they are reachable from
+        // wherever someone happens to be.
         foreach (['/a-propos', '/actualites', '/contact', '/services'] as $uri) {
             $html = $this->get($uri)->assertOk()->getContent();
 

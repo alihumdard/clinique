@@ -112,7 +112,44 @@
             @endforeach
         </nav>
 
-        <div class="hidden items-center lg:flex">
+        <div class="hidden items-center gap-3 lg:flex">
+
+            {{--
+                One Connexion control with two destinations, because the
+                platform has two: a CMS account presented at the registre is
+                refused and the reverse too, so a single door would turn
+                half the staff away without telling them why.
+
+                Opened on hover and on focus, exactly like the navigation's
+                own menus and for the same reason — the page is served with
+                script-src 'self', so nothing inline runs and a menu that
+                needs a script would not open at all.
+            --}}
+            <div class="group relative">
+                <x-button
+                    variant="outline"
+                    :arrow="false"
+                    class="!rounded-full !px-4 !py-2.5"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                >
+                    <x-icon name="lock" class="h-4 w-4" />
+                    {{ __('Connexion') }}
+                    <svg class="h-3.5 w-3.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </x-button>
+
+                <div class="invisible absolute right-0 top-full z-50 w-60 rounded-lg border border-slate-200 bg-white py-2 opacity-0 shadow-lg transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                    <a href="{{ route('admin.login') }}" rel="nofollow" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-primary-600">
+                        {{ __('Administration') }}
+                    </a>
+                    <a href="{{ route('registre.login') }}" rel="nofollow" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-primary-600">
+                        {{ __('Registre numérique') }}
+                    </a>
+                </div>
+            </div>
+
             <x-button :href="route('presaisine.index')" variant="primary" class="!rounded-full">{{ __('Pré-saisine') }}</x-button>
         </div>
 
@@ -177,6 +214,25 @@
             <x-icon name="search" class="h-4 w-4" />
             Rechercher
         </a>
+        {{-- Listed rather than folded into a menu: there is no hover on a
+             telephone, and two lines cost less than a control to open. --}}
+        <a
+            href="{{ route('admin.login') }}"
+            rel="nofollow"
+            class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+        >
+            <x-icon name="lock" class="h-4 w-4" />
+            {{ __('Administration') }}
+        </a>
+        <a
+            href="{{ route('registre.login') }}"
+            rel="nofollow"
+            class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+        >
+            <x-icon name="folder" class="h-4 w-4" />
+            {{ __('Registre numérique') }}
+        </a>
+
         <x-button :href="route('presaisine.index')" variant="primary" class="mt-1 w-full justify-center !rounded-full">{{ __('Pré-saisine') }}</x-button>
     </nav>
 </header>
