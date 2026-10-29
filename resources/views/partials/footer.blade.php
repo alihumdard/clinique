@@ -90,10 +90,36 @@
     <div class="border-t border-white/10">
         <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 text-sm text-slate-300 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <p>&copy; {{ date('Y') }} Clinique Juridique FSJP-UAM. Tous droits réservés.</p>
-            <div class="flex items-center gap-4">
+            <div class="flex flex-wrap items-center gap-4">
                 <a href="{{ route('legal.notice') }}" class="hover:text-white">Mentions légales</a>
                 <a href="{{ route('legal.privacy') }}" class="hover:text-white">Politique de confidentialité</a>
                 <a href="{{ route('legal.terms') }}" class="hover:text-white">Conditions d'utilisation</a>
+
+                {{--
+                    The two sign-ins. In the footer rather than the header on
+                    purpose: the header's one call to action is the
+                    pré-saisine, which is what a visitor came for, and these
+                    are for the Clinic's own staff. Both areas are
+                    noindex, so this is the only route to them that does not
+                    involve knowing the URL.
+
+                    Two links and not one, because they are two systems with
+                    separate accounts: a CMS account signing in at the
+                    registre is refused, and the reverse too. Sending
+                    everyone to a single door would mean half of them are
+                    turned away without being told why.
+                --}}
+                <span class="hidden h-4 w-px bg-white/20 sm:block" aria-hidden="true"></span>
+
+                <a href="{{ route('admin.login') }}" rel="nofollow" class="inline-flex items-center gap-1.5 hover:text-white">
+                    <x-icon name="lock" class="h-3.5 w-3.5" />
+                    {{ __('Administration') }}
+                </a>
+
+                <a href="{{ route('registre.login') }}" rel="nofollow" class="inline-flex items-center gap-1.5 hover:text-white">
+                    <x-icon name="folder" class="h-3.5 w-3.5" />
+                    {{ __('Registre numérique') }}
+                </a>
             </div>
         </div>
     </div>
