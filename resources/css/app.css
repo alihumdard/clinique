@@ -67,14 +67,30 @@ body {
     position: relative;
 }
 
-/* Pointer cursor on all interactive elements */
+/* Pointer cursor on all interactive elements.
+
+   [type=file] and [type=date] are here because the browser draws them as
+   buttons — "Choose File", and the little calendar — while leaving the
+   default arrow over them, so the one part of a form that is pressed
+   rather than typed into did not say so. A text input keeps its caret:
+   it is typed into, and a pointer there would promise a click that does
+   nothing. */
 button:not(:disabled),
 a,
 label[for],
 [role="button"],
 select,
 [type="checkbox"],
-[type="radio"] {
+[type="radio"],
+[type="file"],
+[type="date"],
+summary {
+    cursor: pointer;
+}
+
+/* The "Choose File" button itself, which is a shadow part and does not
+   inherit the cursor from the input around it. */
+::file-selector-button {
     cursor: pointer;
 }
 

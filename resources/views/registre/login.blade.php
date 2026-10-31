@@ -8,6 +8,10 @@
     <meta name="referrer" content="no-referrer">
     <title>Registre numérique - {{ config('app.name') }}</title>
 
+    {{-- The Clinic's mark in the tab, as on every other screen. --}}
+    <link rel="icon" href="{{ \App\Support\SiteSettings::imageUrl('site.favicon') }}">
+    <link rel="apple-touch-icon" href="{{ \App\Support\SiteSettings::imageUrl('site.favicon') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 

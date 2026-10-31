@@ -8,6 +8,9 @@
     <meta name="referrer" content="no-referrer">
     <title>@yield('title', 'Registre numérique') - {{ config('app.name') }}</title>
 
+    <link rel="icon" href="{{ \App\Support\SiteSettings::imageUrl('site.favicon') }}">
+    <link rel="apple-touch-icon" href="{{ \App\Support\SiteSettings::imageUrl('site.favicon') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 

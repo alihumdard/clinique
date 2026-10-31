@@ -14,6 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Erreur') - {{ config('app.name') }}</title>
+    {{-- The bundled file, not the one in Paramètres: a 500 is raised when
+         the database is the thing that failed, and this page must not ask
+         it for a setting on the way to saying so. --}}
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
     @vite(['resources/css/app.css'])
 </head>
 <body class="min-h-full bg-slate-50">

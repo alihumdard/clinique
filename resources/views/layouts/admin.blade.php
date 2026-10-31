@@ -7,6 +7,14 @@
     <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Administration') - {{ config('app.name') }}</title>
 
+    {{-- The same mark as the public site, and from the same place: the
+         favicon is editable in Paramètres du site and falls back to the
+         bundled file. Only the public layout carried it, so an
+         administrator working across several tabs had the Clinic's logo
+         on the site and a blank sheet on every screen of the CMS. --}}
+    <link rel="icon" href="{{ \App\Support\SiteSettings::imageUrl('site.favicon') }}">
+    <link rel="apple-touch-icon" href="{{ \App\Support\SiteSettings::imageUrl('site.favicon') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="admin-shell min-h-screen bg-slate-50">
