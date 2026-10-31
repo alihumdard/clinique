@@ -43,8 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
             const dialog = document.getElementById(trigger.dataset.openDialog);
-            dialog?.showModal();
-            focusFirstField(dialog);
+            openDialog(dialog);
 
             // A trigger naming a section inside the dialog (e.g. the
             // "Galerie" count in an activity's row) opens straight to that
@@ -62,9 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // open it once the page has loaded.
     const openParam = new URLSearchParams(window.location.search).get('ouvrir');
     if (openParam) {
-        const dialog = document.getElementById(openParam);
-        dialog?.showModal();
-        focusFirstField(dialog);
+        openDialog(document.getElementById(openParam));
     }
 
     document.querySelectorAll('dialog').forEach((dialog) => {
@@ -76,6 +73,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // click only outside its content box) closes it too.
         dialog.addEventListener('click', (e) => {
             if (e.target === dialog) dialog.close();
+        });
+
+        /*
+         * Hold the page still while the dialog is open.
+         *
+         * showModal() takes the page out of the dialog's reach but not
+         * out of the wheel's: with the pointer anywhere outside the
+         * form's own scroll box the document kept scrolling underneath,
+         * and since the dialog is fixed and centred the content slid
+         * away behind it. Selecting the video link with ctrl+A was the
+         * way this was met — the browser scrolls to what it selects, and
+         * the form appeared to jump.
+         *
+         * It is released on the dialog's own close event, which fires
+         * whichever way it was closed — the button, the backdrop,
+         * Escape, a submit — so no path can leave the page frozen. The
+         * guard is for the one screen that opens a second dialog over
+         * the first: the last one to close releases the lock.
+         */
+        dialog.addEventListener('close', () => {
+            if (!document.querySelector('dialog[open]')) {
+                lockPageScroll(false);
+            }
         });
     });
 
@@ -387,6 +407,50 @@ function initAdminFilterTabs() {
    button, because that is what comes first in the markup. So opening a
    form put the caret on the way out of it. The first real field is what
    someone opening "Ajouter" means to type in. */
+/*
+ * Opening is showModal() plus the page lock, never one without the
+ * other: a dialog opened by some other path would scroll the document
+ * behind itself, which is the defect this pairing exists to stop. The
+ * matching release is on each dialog's close event.
+ */
+function openDialog(dialog) {
+    if (!dialog) return;
+
+    dialog.showModal();
+    lockPageScroll(true);
+    focusFirstField(dialog);
+}
+
+/*
+ * The lock goes on <html>, not <body>.
+ *
+ * document.scrollingElement is the html element here, and the admin
+ * body has already grown to the full height of its content — so
+ * overflow-hidden on the body (what the mobile drawer uses, and what
+ * this first tried) changes nothing at all: the box it would clip is
+ * not the box that scrolls. Measured with the dialog open: body
+ * scrollHeight 1759 = clientHeight 1759, while html was 1759 against a
+ * 651 viewport.
+ *
+ * The scrollbar's width is given back as padding, otherwise the page
+ * widens by ~15 px the moment a dialog opens and the whole layout
+ * shifts sideways under the backdrop.
+ */
+function lockPageScroll(locked) {
+    const root = document.documentElement;
+
+    if (!locked) {
+        root.style.overflow = '';
+        root.style.paddingRight = '';
+        return;
+    }
+
+    const gap = window.innerWidth - root.clientWidth;
+
+    root.style.overflow = 'hidden';
+    if (gap > 0) root.style.paddingRight = `${gap}px`;
+}
+
 function focusFirstField(dialog) {
     if (!dialog) return;
 
