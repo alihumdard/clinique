@@ -8,9 +8,25 @@
     config/clinique.php so the strip already shows real hours.
 --}}
 @props([
-    'state' => 'open',
+    // null means "ask the Clinic's setting", which is the normal case.
+    // A caller may still pass a state, which is what the tests do.
+    'state' => null,
     'message' => null,
 ])
+
+@php
+    /*
+     * The state comes from Paramètres du site, not from the template.
+     *
+     * It was written in as state="open", so the strip announced
+     * "Permanences ouvertes" every day of the year — including the days
+     * nobody is there. It is a claim about something real, and the only
+     * people who know it are the Clinic's, so they set it. Absent, it
+     * stays open, which is what the page said before and what is true
+     * most of the time.
+     */
+    $state ??= \App\Support\SiteSettings::values()['service.state'] ?? 'open';
+@endphp
 
 @php
     $states = [

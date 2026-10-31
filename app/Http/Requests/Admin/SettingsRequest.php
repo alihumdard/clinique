@@ -52,6 +52,10 @@ class SettingsRequest extends FormRequest
             'banner_message' => ['nullable', 'string', 'max:300', 'required_with:banner_enabled'],
             'banner_tone' => ['nullable', Rule::in(['info', 'warning', 'closure'])],
 
+            // Whether the permanence is receiving visitors today. Three
+            // states, the ones the strip already draws.
+            'service_state' => ['nullable', Rule::in(['open', 'closed', 'notice'])],
+
             /*
              * Logo, favicon and the default sharing image. SVG is refused
              * here as everywhere: it is a document that can carry script,

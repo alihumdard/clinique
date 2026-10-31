@@ -25,7 +25,7 @@
 
             {{-- ============ KPIs ============ --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Rapports publiés" />
+                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Rapports publiés" keep-at-zero />
                 <x-admin.stat-card icon="download" color="green" :value="number_format($counts['downloads'], 0, ',', ' ')" label="Téléchargements" />
                 <x-admin.stat-card icon="clock"    color="amber" :value="$counts['drafts']"    label="En brouillon" note="non publiés" />
                 <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.reports', ['statut' => 'corbeille'])"

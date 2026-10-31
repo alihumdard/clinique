@@ -24,7 +24,7 @@
 
             {{-- ============ KPIs ============ --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="calendar"     color="blue"  :value="$counts['published']" label="Activités publiées" />
+                <x-admin.stat-card icon="calendar"     color="blue"  :value="$counts['published']" label="Activités publiées" keep-at-zero />
                 <x-admin.stat-card icon="clock"        color="amber" :value="$counts['upcoming']"  label="À venir" note="prochaines activités" />
                 <x-admin.stat-card icon="check-circle" color="green" :value="$counts['past']"      label="Activités passées" />
                 <x-admin.stat-card icon="image"        color="red"   :value="$counts['photos']"    label="Photos" note="dans la galerie" />

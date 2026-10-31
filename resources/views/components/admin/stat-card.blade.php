@@ -9,9 +9,37 @@
     // reachable only by setting the statut filter by hand, which did not
     // matter while nothing could be restored from it, and does now.
     'href' => null,
+    // Set on the one or two cards per screen that carry the figure the
+    // screen is about — "Actualités publiées" on the actualités listing.
+    // Those stay at zero, because an empty listing saying nothing at all
+    // reads as a page that failed to load.
+    'keepAtZero' => false,
 ])
 
 @php
+    /*
+     * A card counting nothing is not drawn.
+     *
+     * Four cards sat above every listing whatever the data, so a fresh
+     * Clinic met a row of zeros — "0 brouillons", "0 à la corbeille",
+     * "0 reçus cette semaine" — which says nothing except that the
+     * figures are real. The row now holds what there is, and the screen
+     * is quiet until there is something to report.
+     *
+     * Numeric zero only: a card is kept when its value is a string the
+     * caller meant to show, such as a date or "—".
+     */
+    $isEmpty = ! $keepAtZero
+        && (is_int($value) || is_float($value) || (is_string($value) && ctype_digit($value)))
+        && (int) $value === 0;
+
+    // return, not an @if around the markup: the card's own tag is written
+    // as <{{ $href ? 'a' : 'div' }}>, and Blade loses track of a
+    // conditional wrapped around a tag whose name it has to compile.
+    if ($isEmpty) {
+        return;
+    }
+
     $swatches = [
         'blue'   => ['accent' => 'bg-primary-500',  'badge' => 'bg-primary-50 text-primary-600',  'trend' => 'text-primary-600'],
         'green'  => ['accent' => 'bg-emerald-500',  'badge' => 'bg-emerald-50 text-emerald-600',  'trend' => 'text-emerald-600'],

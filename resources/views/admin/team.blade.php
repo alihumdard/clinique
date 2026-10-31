@@ -25,7 +25,7 @@
 
             {{-- ============ KPIs ============ --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="users"   color="green" :value="$counts['published']" label="Membres visibles" note="affichés sur le site" />
+                <x-admin.stat-card icon="users"   color="green" :value="$counts['published']" label="Membres visibles" note="affichés sur le site" keep-at-zero />
                 <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['hidden']"    label="Masqués" note="enregistrés, non affichés" />
                 <x-admin.stat-card icon="clock"   color="blue"  :value="$counts['drafts']"    label="Brouillons" />
                 <x-admin.stat-card icon="trash"   color="red"   :value="$counts['trashed']"   :href="route('admin.team', ['statut' => 'corbeille'])"

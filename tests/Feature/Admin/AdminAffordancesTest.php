@@ -26,23 +26,71 @@ class AdminAffordancesTest extends TestCase
         return User::factory()->create();
     }
 
-    /** @return array<string, array{string}> */
+    /** @return array<string, array{string, class-string}> */
     public static function listingsWithACorbeilleCounter(): array
     {
         return [
-            'actualités' => ['admin.news'],
-            'web tv' => ['admin.webtv'],
-            'pages' => ['admin.pages'],
-            'appels' => ['admin.calls'],
-            'équipe' => ['admin.team'],
-            'partenaires' => ['admin.partners'],
-            'rapports annuels' => ['admin.reports'],
+            'actualités' => ['admin.news', \App\Models\Article::class],
+            'web tv' => ['admin.webtv', \App\Models\Video::class],
+            'pages' => ['admin.pages', \App\Models\Page::class],
+            'appels' => ['admin.calls', \App\Models\Call::class],
+            'équipe' => ['admin.team', \App\Models\TeamMember::class],
+            'partenaires' => ['admin.partners', \App\Models\Partner::class],
+            'rapports annuels' => ['admin.reports', \App\Models\Report::class],
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('listingsWithACorbeilleCounter')]
-    public function test_the_corbeille_counter_is_the_way_into_the_corbeille(string $route): void
+    /**
+     * A row in the corbeille, so there is something for the counter to
+     * count. A card whose figure is zero is no longer drawn at all —
+     * a screen of zeros said nothing except that the figures were real —
+     * so without this the test would assert against a card that is
+     * correctly absent.
+     *
+     * The rows are built by hand because these models have no factories;
+     * only the columns the listing needs are filled.
+     */
+    private function trashOne(string $model): void
     {
+        $title = 'À jeter '.Str::random(6);
+
+        $row = $model::create(match ($model) {
+            \App\Models\TeamMember::class => [
+                'name' => $title, 'slug' => Str::slug($title),
+                'role' => 'Encadrante', 'department' => 'enseignants',
+                'status' => 'published',
+            ],
+            \App\Models\Partner::class => [
+                'name' => $title, 'slug' => Str::slug($title), 'is_visible' => true,
+            ],
+            \App\Models\Video::class => [
+                'title' => $title, 'slug' => Str::slug($title),
+                'provider' => 'youtube', 'video_id' => 'dQw4w9WgXcQ',
+                'video_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                'status' => 'published', 'published_at' => now()->subDay(),
+            ],
+            // A report is its PDF: both columns are NOT NULL, because a
+            // row with nothing to download has no reason to exist.
+            \App\Models\Report::class => [
+                'title' => $title, 'slug' => Str::slug($title), 'year' => 2024,
+                'file_path' => 'rapports-annuels/a-jeter.pdf',
+                'file_name' => 'a-jeter.pdf',
+                'status' => 'published', 'published_at' => now()->subDay(),
+            ],
+            default => [
+                'title' => $title, 'slug' => Str::slug($title),
+                'status' => 'published', 'published_at' => now()->subDay(),
+            ],
+        });
+
+        $row->delete();
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('listingsWithACorbeilleCounter')]
+    public function test_the_corbeille_counter_is_the_way_into_the_corbeille(string $route, string $model): void
+    {
+        $this->trashOne($model);
+
         $html = $this->actingAs($this->admin())->get(route($route))->assertOk()->getContent();
 
         // It counted the rows in the corbeille without being a link to
@@ -57,6 +105,8 @@ class AdminAffordancesTest extends TestCase
 
     public function test_the_counter_is_a_link_only_where_it_is_given_one(): void
     {
+        $this->trashOne(\App\Models\Article::class);
+
         $html = $this->actingAs($this->admin())->get(route('admin.news'))->assertOk()->getContent();
 
         // The other cards on the same row are figures, not destinations;

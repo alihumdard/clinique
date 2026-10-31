@@ -19,15 +19,27 @@
     $current = app()->getLocale();
 
     $languages = [
-        'fr' => ['label' => 'FR', 'title' => 'Français', 'flag' => '🇫🇷'],
-        'en' => ['label' => 'EN', 'title' => 'English', 'flag' => '🇬🇧'],
+        'fr' => ['label' => 'FR', 'title' => 'Français'],
+        'en' => ['label' => 'EN', 'title' => 'English'],
     ];
 
     $base = $dark ? 'text-slate-300 hover:text-white' : 'text-slate-500 hover:text-slate-900';
     $active = $dark ? 'text-white' : 'text-slate-900';
 @endphp
 
+{{--
+    A globe rather than two flag emoji.
+
+    The flags were 🇫🇷 and 🇬🇧, which Windows does not draw: it has no flag
+    glyphs, so both came out as the bare letters FR and GB beside the
+    labels — "FR FR", "GB EN". A flag is the wrong sign for a language in
+    any case (English is not Britain's alone, and French is the language
+    of Niger's courts), and the icon here is drawn by us, so it looks the
+    same on every machine.
+--}}
 <div class="flex items-center gap-1">
+    <x-icon name="globe" class="{{ $dark ? 'text-slate-400' : 'text-slate-400' }} h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+
     @foreach ($languages as $code => $language)
         @if($current === $code)
             <span
@@ -36,7 +48,6 @@
                 title="{{ $language['title'] }}"
                 class="flex items-center gap-1 rounded px-1.5 py-1 text-xs font-semibold {{ $active }}"
             >
-                <span aria-hidden="true">{{ $language['flag'] }}</span>
                 <span>{{ $language['label'] }}</span>
             </span>
         @else
@@ -49,7 +60,6 @@
                 data-language="{{ $code }}"
                 class="flex items-center gap-1 rounded px-1.5 py-1 text-xs font-semibold transition {{ $base }}"
             >
-                <span aria-hidden="true">{{ $language['flag'] }}</span>
                 <span>{{ $language['label'] }}</span>
                 <span class="sr-only">{{ __('Afficher le site en :langue', ['langue' => $language['title']]) }}</span>
             </a>

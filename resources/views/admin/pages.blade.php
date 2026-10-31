@@ -41,7 +41,7 @@
 
             {{-- ============ KPIs ============ --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="document" color="green" :value="$counts['published']" label="Pages publiées" />
+                <x-admin.stat-card icon="document" color="green" :value="$counts['published']" label="Pages publiées" keep-at-zero />
                 <x-admin.stat-card icon="eye-off"  color="amber" :value="$counts['drafts']"    label="Brouillons" />
                 <x-admin.stat-card icon="clock"    color="blue"  :value="$counts['scheduled']" label="Programmées" />
                 <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.pages', ['statut' => 'corbeille'])"

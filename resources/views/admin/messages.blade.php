@@ -37,7 +37,7 @@
 
         {{-- ============ KPIs ============ --}}
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <x-admin.stat-card icon="chat"         color="blue"  :value="$counts['new']"     label="Nouveaux messages" note="à traiter" />
+            <x-admin.stat-card icon="chat"         color="blue"  :value="$counts['new']"     label="Nouveaux messages" note="à traiter" keep-at-zero />
             <x-admin.stat-card icon="check-circle" color="green" :value="$counts['handled']" label="Résolus" />
             <x-admin.stat-card icon="clock"        color="amber" :value="$counts['week']"    label="Reçus cette semaine" />
             <x-admin.stat-card icon="mail"         color="red"   :value="$counts['all']"     label="Total enregistré" />

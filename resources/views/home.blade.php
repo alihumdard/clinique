@@ -8,8 +8,9 @@
 @section('content')
 
 {{-- ============ SERVICE STATUS ============ --}}
-{{-- Module 2 drives the state and message from CMS settings. --}}
-<x-service-status-banner state="open" />
+{{-- No state passed: the component reads it from Paramètres du site, so
+     the strip says what the Clinic says rather than always "ouvertes". --}}
+<x-service-status-banner />
 
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-primary-50">

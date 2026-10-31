@@ -25,7 +25,7 @@
 
             {{-- ============ KPIs ============ --}}
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="play-circle" color="blue"  :value="$counts['published']" label="Vidéos publiées" />
+                <x-admin.stat-card icon="play-circle" color="blue"  :value="$counts['published']" label="Vidéos publiées" keep-at-zero />
                 <x-admin.stat-card icon="eye"         color="green" :value="number_format($counts['views'], 0, ',', ' ')" label="Vues totales" />
                 <x-admin.stat-card icon="clock"       color="amber" :value="$counts['drafts']"    label="Vidéos en brouillon" note="Non publiées" />
                 <x-admin.stat-card icon="trash"       color="red"   :value="$counts['trashed']"   :href="route('admin.webtv', ['statut' => 'corbeille'])"

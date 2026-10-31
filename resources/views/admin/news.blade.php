@@ -22,7 +22,7 @@
     {{-- ============ KPIs ============ --}}
     {{-- Counts are illustrative until Module 2 supplies real queries. --}}
     <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Actualités publiées" />
+        <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Actualités publiées" keep-at-zero />
         <x-admin.stat-card icon="eye"      color="green" :value="$counts['drafts']"    label="Brouillons" />
         <x-admin.stat-card icon="clock"    color="amber" :value="$counts['scheduled']" label="Programmées" note="Publication à venir" />
         <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.news', ['statut' => 'corbeille'])"

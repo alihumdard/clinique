@@ -39,7 +39,7 @@
 
         {{-- ============ KPIs ============ --}}
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <x-admin.stat-card icon="users"   color="green" :value="number_format($counts['active'], 0, ',', ' ')" label="Abonnés actifs" note="recevront vos envois" />
+            <x-admin.stat-card icon="users"   color="green" :value="number_format($counts['active'], 0, ',', ' ')" label="Abonnés actifs" note="recevront vos envois" keep-at-zero />
             <x-admin.stat-card icon="mail"    color="blue"  :value="$counts['month']" label="Nouveaux ce mois-ci" />
             <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['unsubscribed']" label="Désinscrits" note="à ne pas réimporter" />
             <x-admin.stat-card icon="users"   color="red"   :value="number_format($counts['all'], 0, ',', ' ')" label="Total enregistré" />

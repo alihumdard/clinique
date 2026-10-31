@@ -54,6 +54,12 @@ class SettingController extends Controller
         'banner_enabled' => ['banner.enabled', 'boolean'],
         'banner_message' => ['banner.message', 'string'],
         'banner_tone' => ['banner.tone', 'string'],
+
+        // The bandeau d'état on the home page said "Permanences ouvertes"
+        // whatever the day: the state was written into the template. It is
+        // a claim about something real — whether anyone is there to receive
+        // a visitor — so the Clinic sets it.
+        'service_state' => ['service.state', 'string'],
     ];
 
     /** Which card each field belongs to, used for the setting's group. */
@@ -64,6 +70,7 @@ class SettingController extends Controller
         'social' => 'social',
         'seo' => 'seo',
         'banner' => 'banner',
+        'service' => 'banner',
     ];
 
     public function index(): View

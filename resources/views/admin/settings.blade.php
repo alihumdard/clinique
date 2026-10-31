@@ -329,6 +329,36 @@
                             @endforeach
                         </select>
                     </div>
+
+                    {{-- The strip on the home page. It is separate from the
+                         notice above: that one is a message the Clinic
+                         writes, this one is whether the permanence is
+                         receiving today. It used to be written into the
+                         template as "ouvertes", every day of the year. --}}
+                    <div class="sm:col-span-2">
+                        <label for="service-state" class="block text-sm font-medium text-slate-700">
+                            État des permanences
+                        </label>
+                        <select
+                            id="service-state"
+                            name="service_state"
+                            class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                            @php
+                                $serviceStates = [
+                                    'open' => 'Permanences ouvertes',
+                                    'closed' => 'Permanences fermées',
+                                    'notice' => 'Information importante',
+                                ];
+                            @endphp
+                            @foreach ($serviceStates as $value => $label)
+                                <option value="{{ $value }}" @selected(old('service_state', $values['service.state'] ?? 'open') === $value)>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                        <p class="mt-1.5 text-xs text-slate-500">
+                            Affiché en haut de la page d'accueil, avec les horaires.
+                        </p>
+                    </div>
                 </div>
             </section>
 
