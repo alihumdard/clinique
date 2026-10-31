@@ -15,7 +15,10 @@
     <x-section-label :color="$color">{{ $slot }}</x-section-label>
 
     @if($link)
-        <a href="{{ $link }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
+        {{-- py-1 carries the 24 px pointer target WCAG 2.5.8 asks of a
+             standalone control; the -my-1 gives the space back to the
+             layout, so the heading row keeps the height it was drawn at. --}}
+        <a href="{{ $link }}" class="-my-1 inline-flex items-center gap-1.5 py-1 text-sm font-semibold text-primary-600 hover:text-primary-700">
             {{ $linkLabel }}
             <x-icon name="arrow-right" class="h-4 w-4" />
         </a>

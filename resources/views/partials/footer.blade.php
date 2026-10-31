@@ -33,29 +33,35 @@
 
             <div>
                 <h2 class="text-sm font-semibold text-white">{{ __('Liens rapides') }}</h2>
-                <ul class="mt-4 space-y-3 text-sm text-slate-200">
-                    <li><a href="{{ route('home') }}" class="hover:text-white">{{ __('Accueil') }}</a></li>
-                    <li><a href="{{ route('about') }}" class="hover:text-white">{{ __('À propos') }}</a></li>
-                    <li><a href="{{ route('about.team') }}" class="hover:text-white">{{ __('Notre équipe') }}</a></li>
-                    <li><a href="{{ route('partners') }}" class="hover:text-white">{{ __('Nos partenaires') }}</a></li>
-                    <li><a href="{{ route('news.index') }}" class="hover:text-white">{{ __('Actualités') }}</a></li>
-                    <li><a href="{{ route('activities.index') }}" class="hover:text-white">{{ __('Activités') }}</a></li>
-                    <li><a href="{{ route('webtv.index') }}" class="hover:text-white">{{ __('Web TV') }}</a></li>
-                    <li><a href="{{ route('contact') }}" class="hover:text-white">{{ __('Contact') }}</a></li>
+                {{-- The gap between these links lives in the anchors' own
+                     py-1, not in the list, so that each one is the 24 px
+                     target WCAG 2.5.8 asks for — a footer read mostly on a
+                     telephone. space-y-0.5 makes up the difference and
+                     keeps the column the height it was drawn at; raising
+                     it back to space-y-3 would space the footer out. --}}
+                <ul class="mt-4 space-y-0.5 text-sm text-slate-200">
+                    <li><a href="{{ route('home') }}" class="inline-block py-1 hover:text-white">{{ __('Accueil') }}</a></li>
+                    <li><a href="{{ route('about') }}" class="inline-block py-1 hover:text-white">{{ __('À propos') }}</a></li>
+                    <li><a href="{{ route('about.team') }}" class="inline-block py-1 hover:text-white">{{ __('Notre équipe') }}</a></li>
+                    <li><a href="{{ route('partners') }}" class="inline-block py-1 hover:text-white">{{ __('Nos partenaires') }}</a></li>
+                    <li><a href="{{ route('news.index') }}" class="inline-block py-1 hover:text-white">{{ __('Actualités') }}</a></li>
+                    <li><a href="{{ route('activities.index') }}" class="inline-block py-1 hover:text-white">{{ __('Activités') }}</a></li>
+                    <li><a href="{{ route('webtv.index') }}" class="inline-block py-1 hover:text-white">{{ __('Web TV') }}</a></li>
+                    <li><a href="{{ route('contact') }}" class="inline-block py-1 hover:text-white">{{ __('Contact') }}</a></li>
                 </ul>
             </div>
 
             <div>
                 <h2 class="text-sm font-semibold text-white">{{ __('Nos services') }}</h2>
-                <ul class="mt-4 space-y-3 text-sm text-slate-200">
-                    <li><a href="{{ route('services') }}" class="hover:text-white">{{ __('Nos services') }}</a></li>
-                    <li><a href="{{ route('services.process') }}" class="hover:text-white">{{ __('Processus de consultation') }}</a></li>
-                    <li><a href="{{ route('services.eligibility') }}" class="hover:text-white">{{ __('Conditions d\'accès') }}</a></li>
-                    <li><a href="{{ route('services.fees') }}" class="hover:text-white">{{ __('Tarifs administratifs') }}</a></li>
-                    <li><a href="{{ route('resources.guides') }}" class="hover:text-white">{{ __('Fiches pratiques juridiques') }}</a></li>
-                    <li><a href="{{ route('resources.reports') }}" class="hover:text-white">{{ __('Rapports annuels') }}</a></li>
-                    <li><a href="{{ route('gallery') }}" class="hover:text-white">{{ __('Galerie photos') }}</a></li>
-                    <li><a href="{{ route('join') }}" class="hover:text-white">{{ __('Nous rejoindre') }}</a></li>
+                <ul class="mt-4 space-y-0.5 text-sm text-slate-200">
+                    <li><a href="{{ route('services') }}" class="inline-block py-1 hover:text-white">{{ __('Nos services') }}</a></li>
+                    <li><a href="{{ route('services.process') }}" class="inline-block py-1 hover:text-white">{{ __('Processus de consultation') }}</a></li>
+                    <li><a href="{{ route('services.eligibility') }}" class="inline-block py-1 hover:text-white">{{ __('Conditions d\'accès') }}</a></li>
+                    <li><a href="{{ route('services.fees') }}" class="inline-block py-1 hover:text-white">{{ __('Tarifs administratifs') }}</a></li>
+                    <li><a href="{{ route('resources.guides') }}" class="inline-block py-1 hover:text-white">{{ __('Fiches pratiques juridiques') }}</a></li>
+                    <li><a href="{{ route('resources.reports') }}" class="inline-block py-1 hover:text-white">{{ __('Rapports annuels') }}</a></li>
+                    <li><a href="{{ route('gallery') }}" class="inline-block py-1 hover:text-white">{{ __('Galerie photos') }}</a></li>
+                    <li><a href="{{ route('join') }}" class="inline-block py-1 hover:text-white">{{ __('Nous rejoindre') }}</a></li>
                 </ul>
             </div>
 
@@ -68,11 +74,11 @@
                     </li>
                     <li class="flex items-center gap-3">
                         <x-icon name="phone" class="h-5 w-5 shrink-0 text-white" />
-                        <a href="tel:{{ config('clinique.contact.phone.tel') }}" class="hover:text-white">{{ config('clinique.contact.phone.display') }}</a>
+                        <a href="tel:{{ config('clinique.contact.phone.tel') }}" class="inline-block py-1 hover:text-white">{{ config('clinique.contact.phone.display') }}</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <svg class="h-5 w-5 shrink-0 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                        <a href="{{ 'mailto:' . config('clinique.contact.email') }}" class="break-all hover:text-white">{{ config("clinique.contact.email") }}</a>
+                        <a href="{{ 'mailto:' . config('clinique.contact.email') }}" class="inline-block break-all py-1 hover:text-white">{{ config("clinique.contact.email") }}</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <x-icon name="clock" class="h-5 w-5 shrink-0 text-white" />
@@ -80,7 +86,7 @@
                     </li>
                     <li class="flex items-center gap-3">
                         <svg class="h-5 w-5 shrink-0 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.93 11.93 0 0012.04 0C5.47 0 .14 5.33.14 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.3-1.65a11.86 11.86 0 005.74 1.46h.01c6.57 0 11.9-5.33 11.9-11.9 0-3.18-1.24-6.17-3.43-8.43zm-8.48 18.3h-.01a9.9 9.9 0 01-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.87 9.87 0 01-1.51-5.27c0-5.46 4.44-9.9 9.91-9.9a9.85 9.85 0 017 2.9 9.85 9.85 0 012.9 7.01c0 5.46-4.45 9.9-9.91 9.9zm5.43-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.91-2.21-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35z"/></svg>
-                        <a href="{{ 'https://wa.me/' . config('clinique.contact.whatsapp.number') }}" target="_blank" rel="noopener" class="hover:text-white">WhatsApp</a>
+                        <a href="{{ 'https://wa.me/' . config('clinique.contact.whatsapp.number') }}" target="_blank" rel="noopener" class="inline-block py-1 hover:text-white">WhatsApp</a>
                     </li>
                 </ul>
             </div>
@@ -91,9 +97,9 @@
         <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 text-sm text-slate-300 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <p>&copy; {{ date('Y') }} Clinique Juridique FSJP-UAM. Tous droits réservés.</p>
             <div class="flex items-center gap-4">
-                <a href="{{ route('legal.notice') }}" class="hover:text-white">Mentions légales</a>
-                <a href="{{ route('legal.privacy') }}" class="hover:text-white">Politique de confidentialité</a>
-                <a href="{{ route('legal.terms') }}" class="hover:text-white">Conditions d'utilisation</a>
+                <a href="{{ route('legal.notice') }}" class="inline-block py-1 hover:text-white">Mentions légales</a>
+                <a href="{{ route('legal.privacy') }}" class="inline-block py-1 hover:text-white">Politique de confidentialité</a>
+                <a href="{{ route('legal.terms') }}" class="inline-block py-1 hover:text-white">Conditions d'utilisation</a>
             </div>
         </div>
     </div>
