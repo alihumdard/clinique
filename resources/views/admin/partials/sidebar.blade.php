@@ -225,7 +225,11 @@
             </ul>
         @endforeach
         </nav>
-        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#0b1f38] to-transparent" aria-hidden="true"></div>
+        {{-- The fade that used to sit here is gone. It was a hint that the
+             list continued below, but it is painted over whatever the nav's
+             last visible item is, so the item under it looked dimmed and
+             half-erased — and it stayed there even when the list was fully
+             scrolled and there was nothing more to reach. --}}
     </div>
 
     {{-- Footer: fixed, never scrolls away from the sign-out control --}}
@@ -243,25 +247,50 @@
             </svg>
         </a>
 
-        <div class="flex items-center gap-3 border-t border-white/10 px-5 py-3.5">
-            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-600 text-xs font-bold text-white">
-                {{ strtoupper(mb_substr(auth()->user()?->name ?? 'A', 0, 1)) }}
-            </span>
+        {{--
+            One row: the account on the left, sign-out on the right.
 
-            <div class="min-w-0 flex-1">
-                <p class="truncate text-sm font-semibold text-white">{{ auth()->user()?->name ?? 'Administrateur' }}</p>
-                <p class="truncate text-xs text-slate-300">{{ auth()->user()?->email }}</p>
-            </div>
+            The name and the avatar are the way to the account screen —
+            /admin/mon-compte existed from the start but nothing on this
+            panel pointed at it, and the obvious place to look for "my
+            account" is one's own name. Sign-out keeps the place it always
+            had, at the end of that row: a second full-width button below
+            gave the panel two footers and made the rarest action the
+            largest thing on it.
+        --}}
+        <div class="flex items-center gap-1 border-t border-white/10 px-3 py-3">
+            <a
+                href="{{ route('admin.profile') }}"
+                title="{{ auth()->user()?->email }}"
+                @class([
+                    'group flex min-w-0 flex-1 items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/10',
+                    'bg-white/10' => request()->routeIs('admin.profile'),
+                ])
+                @if(request()->routeIs('admin.profile')) aria-current="page" @endif
+            >
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-600 text-xs font-bold text-white">
+                    {{ strtoupper(mb_substr(auth()->user()?->name ?? 'A', 0, 1)) }}
+                </span>
+
+                <span class="min-w-0 flex-1">
+                    <span class="block truncate text-sm font-semibold text-white">{{ auth()->user()?->name ?? 'Administrateur' }}</span>
+                    {{-- The role, not the address: the address is in the
+                         title above and would not fit here, while the role
+                         is what tells an editor why a screen is refused. --}}
+                    <span class="block truncate text-xs text-slate-300">{{ auth()->user()?->isAdmin() ? 'Administrateur' : 'Éditeur de contenu' }}</span>
+                </span>
+            </a>
 
             {{-- POST: signing out changes state, so it must not be reachable by a link --}}
-            <form method="POST" action="{{ route('admin.logout') }}">
+            <form method="POST" action="{{ route('admin.logout') }}" class="shrink-0">
                 @csrf
                 <button
                     type="submit"
-                    aria-label="Se déconnecter"
-                    class="shrink-0 rounded-lg p-1.5 text-slate-200 transition hover:bg-white/10 hover:text-rose-300"
+                    title="Se déconnecter"
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-300 transition hover:bg-rose-500/15 hover:text-rose-200"
                 >
                     <x-icon name="logout" class="h-5 w-5" />
+                    <span class="sr-only">Se déconnecter</span>
                 </button>
             </form>
         </div>

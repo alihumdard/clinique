@@ -34,7 +34,7 @@ class NewsletterController extends Controller
                 });
             })
             ->latest('created_at')
-            ->paginate(25)
+            ->paginate($this->perPage($request, 25))
             ->withQueryString();
 
         return view('admin.newsletter', [

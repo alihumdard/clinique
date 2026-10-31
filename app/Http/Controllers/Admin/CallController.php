@@ -37,7 +37,7 @@ class CallController extends Controller
             ->when($view === 'clotures', fn ($q) => $q->whereDate('closes_on', '<', today()))
             ->orderByDesc('closes_on')
             ->latest('created_at')
-            ->paginate(10)
+            ->paginate($this->perPage($request, 10))
             ->withQueryString();
 
         return view('admin.calls', [

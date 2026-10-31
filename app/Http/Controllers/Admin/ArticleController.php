@@ -28,7 +28,7 @@ class ArticleController extends Controller
             ['title', 'excerpt']
         )
             ->latest('created_at')
-            ->paginate(10)
+            ->paginate($this->perPage($request, 10))
             ->withQueryString();
 
         return view('admin.news', [

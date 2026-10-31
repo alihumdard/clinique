@@ -239,22 +239,20 @@ select,
     background-color: var(--color-primary-400);
 }
 
-/* A default Windows scrollbar is an opaque grey bar drawn over the panel:
-   it covered the labels and made them look faded. This one sits inside. */
+/* The sidebar scrolls, but its scrollbar is not drawn.
+
+   A default Windows scrollbar is an opaque grey bar over the panel: it
+   covered the labels and made them look faded. A thin custom one still
+   drew a pale line down a navigation of sixteen items that only scrolls
+   on a short window, and it read as a seam in the panel rather than as a
+   control. The nav keeps overflow-y-auto, so the wheel, a trackpad, the
+   keyboard and a touch drag all still reach the items below the fold —
+   only the bar itself is gone. */
 .admin-sidebar-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: rgb(255 255 255 / 0.2) transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 .admin-sidebar-scroll::-webkit-scrollbar {
-    width: 6px;
-}
-.admin-sidebar-scroll::-webkit-scrollbar-track {
-    background: transparent;
-}
-.admin-sidebar-scroll::-webkit-scrollbar-thumb {
-    background-color: rgb(255 255 255 / 0.2);
-    border-radius: 3px;
-}
-.admin-sidebar-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(255 255 255 / 0.35);
+    width: 0;
+    height: 0;
 }

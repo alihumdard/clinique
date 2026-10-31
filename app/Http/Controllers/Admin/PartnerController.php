@@ -32,7 +32,7 @@ class PartnerController extends Controller
             // just created would otherwise land wherever its (usually
             // default) position happens to sort it.
             ->latest('created_at')
-            ->paginate(12)
+            ->paginate($this->perPage($request, 12))
             ->withQueryString();
 
         return view('admin.partners', [

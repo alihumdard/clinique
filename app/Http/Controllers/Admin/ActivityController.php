@@ -35,7 +35,7 @@ class ActivityController extends Controller
             ->when($view === 'passees', fn ($q) => $q->past())
             ->orderByDesc('held_on')
             ->latest('created_at')
-            ->paginate(10)
+            ->paginate($this->perPage($request, 10))
             ->withQueryString();
 
         return view('admin.activities', [

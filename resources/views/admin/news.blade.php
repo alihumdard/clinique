@@ -29,10 +29,21 @@
                                    label="À la corbeille" />
     </div>
 
-    <div class="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-4">
+    {{--
+        The Catégories panel moves alongside the table at 2xl, not at xl.
+
+        This is the one management screen with an aside, so it is the one
+        whose table does not get the full width every other listing has.
+        Splitting at xl (1280 px) left nine columns in 778 px on an
+        ordinary laptop, and the table scrolled sideways inside its own
+        card while Rapports annuels — same columns, no aside — fitted
+        exactly. From 2xl (1536 px) there is room for both; below it the
+        panel sits under the table, where it is still one scroll away.
+    --}}
+    <div class="mt-6 grid grid-cols-1 gap-5 2xl:grid-cols-4">
 
         {{-- ============ TABLE ============ --}}
-        <section class="rounded-xl border border-slate-200 bg-white xl:col-span-3">
+        <section class="rounded-xl border border-slate-200 bg-white 2xl:col-span-3">
 
             <div class="space-y-3 p-5">
                 <form method="GET" action="{{ route('admin.news') }}" class="space-y-3">
@@ -116,7 +127,7 @@
             </p>
 
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[58rem] text-left">
+                <table class="w-full min-w-[56rem] text-left">
                     <thead>
                         <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="w-12 px-5 py-3">
@@ -128,7 +139,7 @@
                             </th>
                             <th scope="col" class="w-12 px-2 py-3">#</th>
                             <th scope="col" class="w-20 px-2 py-3">Image</th>
-                            <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de l'actualité</th>
+                            <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de l'actualité</th>
                             <th scope="col" class="px-3 py-3">Catégorie</th>
                             <th scope="col" class="px-3 py-3">Auteur</th>
                             <th scope="col" class="px-3 py-3">Date</th>

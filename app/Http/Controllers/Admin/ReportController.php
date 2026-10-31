@@ -33,7 +33,7 @@ class ReportController extends Controller
             ->orderByDesc('year')
             ->latest('created_at')
             ->when($request->query('annee'), fn ($q, $year) => $q->where('year', $year))
-            ->paginate(10)
+            ->paginate($this->perPage($request, 10))
             ->withQueryString();
 
         return view('admin.reports', [

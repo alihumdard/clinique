@@ -109,7 +109,7 @@
                 </p>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[64rem] text-left">
+                    <table class="w-full min-w-[56rem] text-left">
                         <thead>
                             <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 <th scope="col" class="w-12 px-5 py-3">
@@ -121,7 +121,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Aperçu</th>
-                                <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de la fiche pratique</th>
+                                <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de la fiche pratique</th>
                                 <th scope="col" class="px-3 py-3">Domaine</th>
                                 <th scope="col" class="px-3 py-3">Format</th>
                                 <th scope="col" class="px-3 py-3">Date d'ajout</th>

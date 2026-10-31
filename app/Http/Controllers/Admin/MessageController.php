@@ -35,7 +35,7 @@ class MessageController extends Controller
                 });
             })
             ->latest('created_at')
-            ->paginate(15)
+            ->paginate($this->perPage($request, 15))
             ->withQueryString();
 
         return view('admin.messages', [

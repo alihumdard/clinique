@@ -110,7 +110,7 @@
                 </p>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[60rem] text-left">
+                    <table class="w-full min-w-[56rem] text-left">
                         <thead>
                             <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 <th scope="col" class="w-12 px-5 py-3">
@@ -122,7 +122,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-24 px-2 py-3">Miniature</th>
-                                <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de la vidéo</th>
+                                <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de la vidéo</th>
                                 <th scope="col" class="px-3 py-3">Rubrique</th>
                                 <th scope="col" class="px-3 py-3">Durée</th>
                                 <th scope="col" class="px-3 py-3">Vues</th>
