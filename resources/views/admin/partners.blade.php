@@ -287,6 +287,17 @@
                     </span>
                     <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
                 </div>
+
+                {{-- The checkbox rather than x-admin.image-field: the preview
+                     above is this screen's own, a bundled asset by bare
+                     filename with the partner's initials when there is none.
+                     Removing the logo falls back to those initials. --}}
+                @if($partner->logo)
+                    <label for="edit-partner-{{ $partner->id }}-remove-logo" class="mt-2 inline-flex items-center gap-2 text-sm text-slate-600">
+                        <input type="checkbox" id="edit-partner-{{ $partner->id }}-remove-logo" name="remove_logo" value="1" class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500">
+                        <span>Retirer le logo actuel</span>
+                    </label>
+                @endif
             </div>
 
             <div>

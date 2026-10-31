@@ -70,13 +70,7 @@ class TeamController extends Controller
     {
         $data = $this->prepare($request, $member);
 
-        if ($request->hasFile('photo')) {
-            // Replace, then drop the old file — not the other way round, so
-            // a failed upload cannot leave the row pointing at nothing.
-            $previous = $member->photo;
-            $data['photo'] = $this->media->storeImage($request->file('photo'), 'equipe');
-            $this->media->deleteImage($previous);
-        }
+        $data = $this->applyImage($request, $data, $member, 'photo', 'equipe');
 
         $member->update($data);
 

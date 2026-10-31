@@ -74,13 +74,7 @@ class PageController extends Controller
     {
         $data = $this->prepare($request, $page);
 
-        if ($request->hasFile('image')) {
-            // Replace, then drop the old file — not the other way round, so
-            // a failed upload cannot leave the row pointing at nothing.
-            $previous = $page->image;
-            $data['image'] = $this->media->storeImage($request->file('image'), 'pages');
-            $this->media->deleteImage($previous);
-        }
+        $data = $this->applyImage($request, $data, $page, 'image', 'pages');
 
         $page->update($data);
 

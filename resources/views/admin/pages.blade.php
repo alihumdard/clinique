@@ -248,13 +248,14 @@
                 <textarea id="edit-page-{{ $page->id }}-body" name="body" rows="8" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $page->body }}</textarea>
             </div>
 
-            <div>
-                <span class="block text-sm font-medium text-slate-700">Image de bannière</span>
-                <div class="mt-1.5 flex items-center gap-3">
-                    <img src="{{ $page->imageUrl() }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
-                    <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                </div>
-            </div>
+                <x-admin.image-field
+                    name="image"
+                    :id="'edit-page-'.$page->id.'-image'"
+                    label="Image de bannière"
+                    :current="$page->image"
+                    :preview="$page->imageUrl()"
+                    accept="image/jpeg,image/png,image/webp"
+                />
 
             <div>
                 <label for="edit-page-{{ $page->id }}-seo-title" class="block text-sm font-medium text-slate-700">Titre SEO</label>

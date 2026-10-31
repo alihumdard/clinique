@@ -278,13 +278,14 @@
                 </div>
             </div>
 
-            <div>
-                <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
-                <div class="mt-1.5 flex items-center gap-3">
-                    <img src="{{ $report->coverUrl() }}" alt="" class="h-14 w-11 shrink-0 rounded-md border border-slate-200 object-cover">
-                    <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                </div>
-            </div>
+                <x-admin.image-field
+                    name="cover"
+                    :id="'edit-report-'.$report->id.'-cover'"
+                    label="Image de couverture"
+                    :current="$report->cover"
+                    :preview="$report->coverUrl()"
+                    accept="image/jpeg,image/png,image/webp"
+                />
 
             <div>
                 <span class="block text-sm font-medium text-slate-700">Fichier PDF</span>

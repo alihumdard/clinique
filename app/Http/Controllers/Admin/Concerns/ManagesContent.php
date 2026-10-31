@@ -86,6 +86,42 @@ trait ManagesContent
     }
 
     /**
+     * Replace, or take away, a row's image.
+     *
+     * Three things can happen to an image on an edit, and the order
+     * matters. A new file replaces the old one, and the old file is
+     * dropped only once the new one is stored — the other way round, a
+     * failed upload would leave the row pointing at nothing. The remove
+     * checkbox clears the column and deletes the file. Neither present
+     * means the image is left exactly as it was, which is why this
+     * returns the data untouched rather than writing a null.
+     *
+     * $request->boolean(): an unchecked checkbox posts nothing at all,
+     * so its absence has to be read as false here rather than as "no
+     * opinion" — the same rule the visibility toggles follow.
+     *
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    protected function applyImage(Request $request, array $data, ?Model $existing, string $field, string $folder): array
+    {
+        if ($request->hasFile($field)) {
+            $previous = $existing?->{$field};
+            $data[$field] = $this->media->storeImage($request->file($field), $folder);
+            $this->media->deleteImage($previous);
+
+            return $data;
+        }
+
+        if ($request->boolean('remove_'.$field) && $existing?->{$field}) {
+            $this->media->deleteImage($existing->{$field});
+            $data[$field] = null;
+        }
+
+        return $data;
+    }
+
+    /**
      * A published row needs a date: without one it would never appear,
      * since every public listing orders and filters on it.
      *

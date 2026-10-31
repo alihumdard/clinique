@@ -284,15 +284,14 @@
                 </div>
             </div>
 
-            <div>
-                <span class="block text-sm font-medium text-slate-700">Photo</span>
-                <div class="mt-1.5 flex items-center gap-3">
-                    @if($member->hasPhoto())
-                        <img src="{{ $member->photoUrl() }}" alt="" class="h-14 w-14 shrink-0 rounded-lg object-cover">
-                    @endif
-                    <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                </div>
-            </div>
+                <x-admin.image-field
+                    name="photo"
+                    :id="'edit-member-'.$member->id.'-photo'"
+                    label="Photo"
+                    :current="$member->photo"
+                    :preview="$member->photoUrl()"
+                    accept="image/jpeg,image/png,image/webp"
+                />
 
             <div class="pt-1">
                 <x-admin.toggle name="is_visible" label="Afficher sur la page publique" :checked="(bool) $member->is_visible" />

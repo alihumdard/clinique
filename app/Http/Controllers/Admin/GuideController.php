@@ -85,11 +85,7 @@ class GuideController extends Controller
         // way the uploaded file itself is not a column.
         unset($data['document']);
 
-        if ($request->hasFile('cover')) {
-            $previous = $guide->cover;
-            $data['cover'] = $this->media->storeImage($request->file('cover'), 'fiches-pratiques');
-            $this->media->deleteImage($previous);
-        }
+        $data = $this->applyImage($request, $data, $guide, 'cover', 'fiches-pratiques');
 
         $guide->update($data);
 

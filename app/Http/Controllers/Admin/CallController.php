@@ -71,13 +71,7 @@ class CallController extends Controller
     {
         $data = $this->prepare($request, $call);
 
-        if ($request->hasFile('image')) {
-            // Replace, then drop the old file — not the other way round, so
-            // a failed upload cannot leave the row pointing at nothing.
-            $previous = $call->image;
-            $data['image'] = $this->media->storeImage($request->file('image'), 'appels');
-            $this->media->deleteImage($previous);
-        }
+        $data = $this->applyImage($request, $data, $call, 'image', 'appels');
 
         $call->update($data);
 

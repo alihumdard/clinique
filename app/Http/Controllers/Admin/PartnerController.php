@@ -62,13 +62,7 @@ class PartnerController extends Controller
     {
         $data = $this->prepare($request, $partner);
 
-        if ($request->hasFile('logo')) {
-            // Replace, then drop the old file — not the other way round, so
-            // a failed upload cannot leave the row pointing at nothing.
-            $previous = $partner->logo;
-            $data['logo'] = $this->media->storeImage($request->file('logo'), 'partenaires');
-            $this->media->deleteImage($previous);
-        }
+        $data = $this->applyImage($request, $data, $partner, 'logo', 'partenaires');
 
         $partner->update($data);
 

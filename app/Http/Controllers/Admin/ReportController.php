@@ -86,11 +86,10 @@ class ReportController extends Controller
 
         unset($data['document']);
 
-        if ($request->hasFile('cover')) {
-            $previous = $report->cover;
-            $data['cover'] = $this->media->storeImage($request->file('cover'), 'rapports-annuels');
-            $this->media->deleteImage($previous);
-        }
+        // The cover can be taken away; the PDF above cannot. A report
+        // without its document has nothing left to download, which is
+        // the whole point of the row.
+        $data = $this->applyImage($request, $data, $report, 'cover', 'rapports-annuels');
 
         $report->update($data);
 

@@ -304,13 +304,14 @@
 
                 {{-- Each listing keeps its own thumbnail; the edit modal only ever
                      replaces this row's own cover, never a shared/static image. --}}
-                <div>
-                    <span class="block text-sm font-medium text-slate-700">Image de couverture</span>
-                    <div class="mt-1.5 flex items-center gap-3">
-                        <img src="{{ $video->coverUrl() }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
-                        <input type="file" name="cover" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                    </div>
-                </div>
+                <x-admin.image-field
+                    name="cover"
+                    :id="'edit-video-'.$video->id.'-cover'"
+                    label="Image de couverture"
+                    :current="$video->cover"
+                    :preview="$video->coverUrl()"
+                    hint="Sans image, la miniature de la chaîne est utilisée."
+                />
             </x-admin.edit-modal>
         @endforeach
 

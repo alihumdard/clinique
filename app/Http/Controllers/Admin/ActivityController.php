@@ -72,13 +72,7 @@ class ActivityController extends Controller
     {
         $data = $this->prepare($request, $activity);
 
-        if ($request->hasFile('image')) {
-            // Replace, then drop the old file — not the other way round, so
-            // a failed upload cannot leave the row pointing at nothing.
-            $previous = $activity->image;
-            $data['image'] = $this->media->storeImage($request->file('image'), 'activites');
-            $this->media->deleteImage($previous);
-        }
+        $data = $this->applyImage($request, $data, $activity, 'image', 'activites');
 
         $activity->update($data);
 

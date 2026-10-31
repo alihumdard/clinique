@@ -273,13 +273,14 @@
                 </div>
             </div>
 
-            <div>
-                <span class="block text-sm font-medium text-slate-700">Image</span>
-                <div class="mt-1.5 flex items-center gap-3">
-                    <img src="{{ $call->imageUrl($call->image, 'placeholders/join-call-stage') }}" alt="" class="h-14 w-20 shrink-0 rounded-md object-cover">
-                    <input type="file" name="image" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
-                </div>
-            </div>
+                <x-admin.image-field
+                    name="image"
+                    :id="'edit-call-'.$call->id.'-image'"
+                    label="Image"
+                    :current="$call->image"
+                    :preview="$call->imageUrl($call->image, 'placeholders/join-call-stage')"
+                    accept="image/jpeg,image/png,image/webp"
+                />
         </x-admin.edit-modal>
     @endforeach
 

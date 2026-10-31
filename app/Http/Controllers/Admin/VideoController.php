@@ -61,13 +61,7 @@ class VideoController extends Controller
     {
         $data = $this->prepare($request, $video);
 
-        if ($request->hasFile('cover')) {
-            // Replace, then drop the old file — not the other way round, so
-            // a failed upload cannot leave the row pointing at nothing.
-            $previous = $video->cover;
-            $data['cover'] = $this->media->storeImage($request->file('cover'), 'web-tv');
-            $this->media->deleteImage($previous);
-        }
+        $data = $this->applyImage($request, $data, $video, 'cover', 'web-tv');
 
         $video->update($data);
 
