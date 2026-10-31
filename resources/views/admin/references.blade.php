@@ -71,8 +71,8 @@
                     <thead>
                         <tr class="whitespace-nowrap border-b border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="w-20 px-5 py-3">Ordre</th>
-                            <th scope="col" class="min-w-[14rem] px-3 py-3">Nature de la prestation</th>
-                            <th scope="col" class="min-w-[16rem] px-3 py-3">Description</th>
+                            <th scope="col" class="min-w-[11rem] px-3 py-3">Nature de la prestation</th>
+                            <th scope="col" class="min-w-[11rem] px-3 py-3">Description</th>
                             <th scope="col" class="w-44 px-3 py-3">Montant</th>
                             <th scope="col" class="w-32 px-3 py-3">Options</th>
                             <th scope="col" class="px-5 py-3 text-right">Actions</th>
@@ -264,7 +264,7 @@
                         <tr class="whitespace-nowrap border-b border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="w-20 px-5 py-3">Ordre</th>
                             <th scope="col" class="min-w-[12rem] px-3 py-3">Nom du domaine</th>
-                            <th scope="col" class="min-w-[16rem] px-3 py-3">Formulation simple</th>
+                            <th scope="col" class="min-w-[11rem] px-3 py-3">Formulation simple</th>
                             <th scope="col" class="w-36 px-3 py-3">Icône</th>
                             <th scope="col" class="w-36 px-3 py-3">Couleur</th>
                             <th scope="col" class="px-5 py-3 text-right">Actions</th>

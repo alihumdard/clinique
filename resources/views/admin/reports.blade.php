@@ -122,7 +122,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Couverture</th>
-                                <th scope="col" class="min-w-[14rem] px-3 py-3">Titre du rapport</th>
+                                <th scope="col" class="min-w-[11rem] px-3 py-3">Titre du rapport</th>
                                 <th scope="col" class="px-3 py-3">Année</th>
                                 <th scope="col" class="px-3 py-3">Format</th>
                                 <th scope="col" class="px-3 py-3">Date d'ajout</th>

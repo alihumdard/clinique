@@ -124,7 +124,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Photo</th>
-                                <th scope="col" class="min-w-[14rem] px-3 py-3">Nom complet</th>
+                                <th scope="col" class="min-w-[11rem] px-3 py-3">Nom complet</th>
                                 <th scope="col" class="px-3 py-3">Poste / Fonction</th>
                                 <th scope="col" class="px-3 py-3">Groupe</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>

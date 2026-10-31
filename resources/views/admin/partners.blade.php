@@ -122,7 +122,7 @@
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Logo</th>
-                                <th scope="col" class="min-w-[14rem] px-3 py-3">Nom du partenaire</th>
+                                <th scope="col" class="min-w-[11rem] px-3 py-3">Nom du partenaire</th>
                                 <th scope="col" class="px-3 py-3">Catégorie</th>
                                 <th scope="col" class="px-3 py-3">Site web</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>

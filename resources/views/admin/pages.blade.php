@@ -114,7 +114,7 @@
                         <thead>
                             <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 <th scope="col" class="w-12 px-5 py-3">#</th>
-                                <th scope="col" class="min-w-[14rem] px-3 py-3">Titre de la page</th>
+                                <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de la page</th>
                                 <th scope="col" class="px-3 py-3">Adresse (URL)</th>
                                 <th scope="col" class="px-3 py-3">Dernière modification</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>

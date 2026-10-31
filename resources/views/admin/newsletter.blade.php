@@ -110,7 +110,7 @@
                     <thead>
                         <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="w-12 px-5 py-3">#</th>
-                            <th scope="col" class="min-w-[16rem] px-3 py-3">Adresse e-mail</th>
+                            <th scope="col" class="min-w-[11rem] px-3 py-3">Adresse e-mail</th>
                             <th scope="col" class="px-3 py-3">Nom</th>
                             <th scope="col" class="px-3 py-3">Inscrit le</th>
                             <th scope="col" class="px-3 py-3">Statut</th>
