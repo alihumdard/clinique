@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAdminFilterTabs();
     initAdminDeleteConfirm();
     initDeclaredConfirm();
+    initAdminScrollRestore();
     initAdminForms();
     initAdminSettingsTabs();
 
@@ -432,6 +433,56 @@ function initDeclaredConfirm() {
             e.stopImmediatePropagation();
         }
     });
+}
+
+/* ── Keeping the place after an action reloads the screen ───
+   A row action — Supprimer, Dupliquer, Masquer — posts and the
+   controller answers with a redirect, so the browser loads a fresh
+   document at the top. On the dashboard the recent-articles panel sits
+   below a chart, so deleting a row from it threw the administrator back
+   to the top of the page, away from the row they were working on and
+   from the confirmation itself.
+
+   The position is written just before the form leaves, and read back on
+   the next load of that same path. sessionStorage, not history.state:
+   the answer is a redirect to a new document, which carries no state of
+   ours. Keyed by path so a different screen never inherits an offset
+   that means nothing on it.
+
+   Restoring happens here rather than on load: the browser's own
+   scrollRestoration has already run by then, and the markup above the
+   fold is laid out, so the position is the one the page was left at. */
+function initAdminScrollRestore() {
+    const KEY = 'admin:scroll';
+
+    document.addEventListener('submit', e => {
+        const form = e.target;
+        if (!(form instanceof HTMLFormElement)) return;
+        // Only the row and panel actions inside the administration, and
+        // never a dialog's own form: that one closes and the screen is
+        // meant to settle wherever the redirect puts it.
+        if (!form.closest('.admin-shell')) return;
+
+        try {
+            sessionStorage.setItem(KEY, JSON.stringify({
+                path: location.pathname + location.search,
+                y: window.scrollY,
+            }));
+        } catch { /* private mode: the page simply opens at the top */ }
+    }, true);
+
+    let saved = null;
+    try {
+        saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+        sessionStorage.removeItem(KEY);
+    } catch { /* unreadable: nothing to restore */ }
+
+    if (!saved || saved.path !== location.pathname + location.search) return;
+    if (!Number.isFinite(saved.y) || saved.y <= 0) return;
+
+    // 'instant': the page was already scrolled when it was left, so an
+    // animation would show a journey the administrator did not make.
+    window.scrollTo({ top: saved.y, behavior: 'instant' });
 }
 
 /* ── Sidebar / aside forms → toast (presentation-only pages) */
