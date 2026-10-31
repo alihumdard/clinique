@@ -69,10 +69,30 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', () => dialog.close());
         });
 
-        // Click on the backdrop (the dialog element itself receives the
-        // click only outside its content box) closes it too.
+        /*
+         * Click on the backdrop closes the dialog — but only when the
+         * gesture started there.
+         *
+         * The target of a click is the common ancestor of where the
+         * button went down and where it came up, so selecting the video
+         * link by dragging across it and releasing a few pixels past the
+         * field put the dialog itself in e.target. A drag that overshot
+         * the form was read as a click on the backdrop, and the form
+         * closed with everything typed into it still unsaved.
+         *
+         * Recording where the press began separates the two: a real
+         * backdrop click goes down on the backdrop, a text selection
+         * goes down inside the form.
+         */
+        let pressedOnBackdrop = false;
+
+        dialog.addEventListener('mousedown', (e) => {
+            pressedOnBackdrop = e.target === dialog;
+        });
+
         dialog.addEventListener('click', (e) => {
-            if (e.target === dialog) dialog.close();
+            if (e.target === dialog && pressedOnBackdrop) dialog.close();
+            pressedOnBackdrop = false;
         });
 
         /*
