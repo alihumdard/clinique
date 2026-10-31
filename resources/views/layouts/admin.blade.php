@@ -29,5 +29,7 @@
     </main>
 </div>
 
+@include('admin.partials.confirm-dialog')
+
 </body>
 </html>

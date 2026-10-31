@@ -43,7 +43,21 @@
 {{-- aria-labelledby, not aria-label: the visible heading is already the
      dialog's name, and a screen reader announced an unnamed dialog only
      because that heading had no id to point at. --}}
-<dialog id="{{ $id }}" aria-labelledby="{{ $id }}-title" class="m-auto hidden max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl p-0 backdrop:bg-slate-900/50 open:grid">
+{{--
+    overflow-clip rather than overflow-hidden on the dialog itself.
+
+    overflow-hidden hides the scrollbar but leaves the box scrollable by
+    script, and the browser scrolls it on its own: clicking the "Cliquez
+    pour télécharger" area focuses the sr-only file input inside the
+    label, and focusing an element scrolls every scrollable ancestor to
+    bring it into view. The dialog slid 298 px under its own header —
+    the heading disappeared off the top, the footer ended up halfway up
+    the box and the rest was empty white. overflow-clip is not
+    scrollable at all, so there is nothing for that to move.
+
+    The inner div keeps overflow-y-auto: the form is meant to scroll,
+    just not the frame around it. --}}
+<dialog id="{{ $id }}" aria-labelledby="{{ $id }}-title" class="m-auto hidden max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg grid-rows-[auto_1fr_auto] overflow-clip rounded-xl p-0 backdrop:bg-slate-900/50 open:grid">
     <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="contents">
         @csrf
         @if(strtoupper($method) !== 'POST')

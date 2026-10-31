@@ -220,8 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAdminSelectAll();
     initAdminTableSearch();
     initAdminFilterTabs();
-    initAdminDeleteConfirm();
-    initDeclaredConfirm();
+    initConfirmDialog();
     initAdminScrollRestore();
     initAdminForms();
     initAdminSettingsTabs();
@@ -484,39 +483,82 @@ function focusFirstField(dialog) {
     field?.focus({ preventScroll: true });
 }
 
-/* ── Delete confirmation ──────────────────────────────────── */
-function initAdminDeleteConfirm() {
+/* ── Asking before an action runs ────────────────────────────
+   One handler for both questions, and one dialog for the whole area.
+
+   This used to call window.confirm(). That box is the operating
+   system's: it prints "127.0.0.1:8123 says" above the question, cannot
+   be styled, orders its buttons the OS way rather than ours, and labels
+   them in the browser's language while everything around it is French.
+   Next to these screens it read as a security warning rather than as a
+   question the Clinic is asking.
+
+   confirm() is synchronous and a <dialog> is not, so the submit is
+   always stopped first and the form submitted again once the answer is
+   yes. requestSubmit() rather than submit(): submit() skips the submit
+   event, which is what every other handler here listens to, so a form
+   confirmed this way would bypass them.
+
+   A delete is not one question. Moving a row to the corbeille is
+   reversible and a permanent delete is not, so a form states what to
+   ask in data-confirm rather than this file guessing from a label. The
+   fallback below covers the few screens whose rows have no corbeille —
+   references, messages, newsletter — where "irréversible" is true. */
+function initConfirmDialog() {
+    const dialog = document.getElementById('confirm-dialog');
+    if (!dialog) return;
+
+    const message = dialog.querySelector('#confirm-dialog-message');
+    const acceptLabel = dialog.querySelector('#confirm-dialog-accept-label');
+    const accept = dialog.querySelector('[data-confirm-accept]');
+    const cancel = dialog.querySelector('[data-confirm-cancel]');
+
+    // The form waiting on an answer, and the flag that lets its second
+    // submit through without asking again.
+    let pending = null;
+
     document.addEventListener('submit', e => {
         const form = e.target;
-        // references, messages and newsletter rows have no corbeille, so
-        // "irréversible" is true of them. A form that has one says so
-        // itself, and initDeclaredConfirm asks the right question instead.
-        if (form.dataset?.confirm) return;
-        if (!form.querySelector('input[name="_method"][value="DELETE"]')) return;
+        if (!(form instanceof HTMLFormElement)) return;
+        if (form.dataset.confirmed === 'yes') return;
 
-        const srOnly = form.querySelector('.sr-only');
-        const item = srOnly?.textContent.replace('Supprimer', '').replace(':', '').trim() || 'cet élément';
+        const declared = form.dataset.confirm;
+        const isDelete = form.querySelector('input[name="_method"][value="DELETE"]');
+        if (!declared && !isDelete) return;
 
-        if (!confirm(`Supprimer « ${item} » ?\nCette action est irréversible.`)) {
-            e.preventDefault();
+        let text = declared;
+        if (!text) {
+            const srOnly = form.querySelector('.sr-only');
+            const item = srOnly?.textContent.replace('Supprimer', '').replace(':', '').trim() || 'cet élément';
+            text = `Supprimer « ${item} » ?\nCette action est irréversible.`;
         }
-    });
-}
 
-/* ── Forms that word their own confirmation ──────────────────
-   A delete is not one question. Moving a row to the corbeille is
-   reversible and a permanent delete is not, so the form states what to
-   ask rather than this file guessing from the button's label. */
-function initDeclaredConfirm() {
-    document.addEventListener('submit', e => {
-        const message = e.target?.dataset?.confirm;
-        if (!message) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
 
-        if (!confirm(message)) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-        }
+        pending = form;
+        message.textContent = text;
+        // "Supprimer définitivement" on the one delete that cannot be
+        // undone, so the button says what it will do rather than "OK".
+        acceptLabel.textContent = /irréversible/i.test(text) ? 'Supprimer définitivement' : 'Confirmer';
+        openDialog(dialog);
+    }, true);
+
+    accept.addEventListener('click', () => {
+        const form = pending;
+        pending = null;
+        dialog.close();
+
+        if (!form) return;
+        form.dataset.confirmed = 'yes';
+        form.requestSubmit();
     });
+
+    cancel.addEventListener('click', () => dialog.close());
+
+    // Escape and the backdrop reach close() without touching the buttons,
+    // so the pending form is dropped here rather than in each handler.
+    dialog.addEventListener('close', () => { pending = null; });
 }
 
 /* ── Keeping the place after an action reloads the screen ───

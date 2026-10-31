@@ -53,5 +53,9 @@
     </main>
 </div>
 
+{{-- The registre uses the administration's components deliberately, and
+     its confirmations are the same question in the same place. --}}
+@include('admin.partials.confirm-dialog')
+
 </body>
 </html>

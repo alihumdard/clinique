@@ -87,7 +87,9 @@ class NoDeadControlsTest extends TestCase
         preg_match_all('~<button\b(?![^>]*\btype="submit")[^>]*>~', $html, $matches);
 
         $inert = array_values(array_filter($matches[0], function (string $tag) {
-            foreach (['data-open-dialog', 'data-dialog-close', 'data-carousel', 'id=', 'aria-haspopup', 'aria-expanded', 'aria-controls'] as $bound) {
+            // data-confirm-accept / -cancel: the two buttons of the shared
+            // confirmation dialog, bound in initConfirmDialog().
+            foreach (['data-open-dialog', 'data-dialog-close', 'data-carousel', 'data-confirm-accept', 'data-confirm-cancel', 'id=', 'aria-haspopup', 'aria-expanded', 'aria-controls'] as $bound) {
                 if (str_contains($tag, $bound)) {
                     return false;
                 }
