@@ -86,17 +86,22 @@
             <x-icon name="pencil" class="h-4 w-4" />
             <span class="sr-only">Modifier{{ $label ? ' : '.$label : '' }}</span>
         </button>
-    @else
-        <a href="{{ $editHref ?? '#' }}" class="{{ $base }} text-primary-600 hover:bg-primary-50">
+    @elseif($editHref)
+        <a href="{{ $editHref }}" class="{{ $base }} text-primary-600 hover:bg-primary-50">
             <x-icon name="pencil" class="h-4 w-4" />
             <span class="sr-only">Modifier{{ $label ? ' : '.$label : '' }}</span>
         </a>
     @endif
 
-    <a href="{{ $viewHref ?? '#' }}" class="{{ $base }} text-slate-500 hover:bg-slate-100">
-        <x-icon name="eye" class="h-4 w-4" />
-        <span class="sr-only">Aperçu{{ $label ? ' : '.$label : '' }}</span>
-    </a>
+    {{-- A draft has no public page to preview, so there is nothing to
+         point at. An href="#" reloads the page, which reads as the screen
+         refusing to do anything rather than as the control being absent. --}}
+    @if($viewHref)
+        <a href="{{ $viewHref }}" class="{{ $base }} text-slate-500 hover:bg-slate-100">
+            <x-icon name="eye" class="h-4 w-4" />
+            <span class="sr-only">Aperçu{{ $label ? ' : '.$label : '' }}</span>
+        </a>
+    @endif
 
     @if($downloadHref)
         <a href="{{ $downloadHref }}" class="{{ $base }} text-slate-500 hover:bg-slate-100">
@@ -144,9 +149,10 @@
     {{-- The form carries its own wording, because this delete moves the
          row to the corbeille: calling it irreversible contradicted the
          design, and was only true while nothing could be restored. --}}
+    @if($deleteAction)
     <form
         method="POST"
-        action="{{ $deleteAction ?? '#' }}"
+        action="{{ $deleteAction }}"
         class="contents"
         data-confirm="Mettre {{ $label ? '« '.$label.' »' : 'cet élément' }} à la corbeille ?&#10;Vous pourrez le restaurer depuis le filtre « Corbeille »."
     >
@@ -157,6 +163,7 @@
             <span class="sr-only">Supprimer{{ $label ? ' : '.$label : '' }}</span>
         </button>
     </form>
+    @endif
 
 @endif
 </div>

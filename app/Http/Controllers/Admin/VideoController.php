@@ -92,7 +92,7 @@ class VideoController extends Controller
         $video->delete();
 
         return redirect()
-            ->route('admin.webtv')
+            ->back(fallback: route('admin.webtv'))
             ->with('status', "La vidéo « {$video->title} » a été mise à la corbeille.");
     }
 

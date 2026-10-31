@@ -4,6 +4,12 @@
 
 @section('content')
 
+    {{-- Every other admin screen carries this. The dashboard did not, and
+         it did not show because no action ever returned here. Deleting a
+         row from this page now does, so without it the row disappears and
+         nothing says why. --}}
+    <x-admin.flash />
+
     {{-- ============ WELCOME ============ --}}
     <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div class="min-w-0">
@@ -135,9 +141,18 @@
                                 </td>
 
                                 <td class="px-5 py-3.5 align-middle">
+                                    {{--
+                                        The dashboard has no edit dialog of
+                                        its own, so Modifier opens the one on
+                                        the actualités screen: ?ouvrir= is the
+                                        same mechanism the sidebar's
+                                        "Ajouter" already uses. Without it the
+                                        control had nowhere to go and the page
+                                        simply reloaded.
+                                    --}}
                                     <x-admin.row-actions
                                         :label="$article->title"
-                                        :duplicate="false"
+                                        :edit-href="route('admin.news', ['ouvrir' => 'edit-article-'.$article->id])"
                                         :view-href="$article->isPublic() ? route('news.show', $article) : null"
                                         :delete-action="route('admin.news.destroy', $article)"
                                     />

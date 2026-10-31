@@ -92,7 +92,7 @@ class PartnerController extends Controller
         $partner->delete();
 
         return redirect()
-            ->route('admin.partners')
+            ->back(fallback: route('admin.partners'))
             ->with('status', "Le partenaire « {$partner->name} » a été mis à la corbeille.");
     }
 

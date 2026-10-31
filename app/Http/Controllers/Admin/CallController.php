@@ -101,7 +101,7 @@ class CallController extends Controller
         $call->delete();
 
         return redirect()
-            ->route('admin.calls')
+            ->back(fallback: route('admin.calls'))
             ->with('status', "L'appel « {$call->title} » a été mis à la corbeille.");
     }
 

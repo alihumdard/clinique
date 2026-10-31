@@ -109,7 +109,7 @@ class ActivityController extends Controller
         $activity->delete();
 
         return redirect()
-            ->route('admin.activities')
+            ->back(fallback: route('admin.activities'))
             ->with('status', "L'activité « {$activity->title} » a été mise à la corbeille.");
     }
 

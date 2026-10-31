@@ -99,7 +99,7 @@ class TeamController extends Controller
         $member->delete();
 
         return redirect()
-            ->route('admin.team')
+            ->back(fallback: route('admin.team'))
             ->with('status', "La fiche de {$member->name} a été mise à la corbeille.");
     }
 

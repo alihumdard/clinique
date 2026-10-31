@@ -137,7 +137,7 @@ class GuideController extends Controller
         $guide->delete();
 
         return redirect()
-            ->route('admin.guides')
+            ->back(fallback: route('admin.guides'))
             ->with('status', "La fiche pratique « {$guide->title} » a été mise à la corbeille.");
     }
 

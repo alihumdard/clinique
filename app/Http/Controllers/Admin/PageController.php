@@ -113,7 +113,7 @@ class PageController extends Controller
         $page->delete();
 
         return redirect()
-            ->route('admin.pages')
+            ->back(fallback: route('admin.pages'))
             ->with('status', "La page « {$page->title} » a été mise à la corbeille.");
     }
 

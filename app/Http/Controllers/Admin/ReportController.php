@@ -136,7 +136,7 @@ class ReportController extends Controller
         $report->delete();
 
         return redirect()
-            ->route('admin.reports')
+            ->back(fallback: route('admin.reports'))
             ->with('status', "Le rapport « {$report->title} » a été mis à la corbeille.");
     }
 

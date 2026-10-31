@@ -97,7 +97,7 @@ class ArticleController extends Controller
         $article->delete();
 
         return redirect()
-            ->route('admin.news')
+            ->back(fallback: route('admin.news'))
             ->with('status', "L'actualité « {$article->title} » a été mise à la corbeille.");
     }
 
