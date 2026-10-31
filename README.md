@@ -87,7 +87,7 @@ ne retombe pas discrètement sur la base publique.
 php vendor/bin/phpunit
 ```
 
-665 tests, sur SQLite en mémoire — avec une base distincte pour le registre,
+714 tests, sur SQLite en mémoire — avec une base distincte pour le registre,
 afin qu'un test ne puisse pas démontrer la séparation contre une base unique.
 
 ---

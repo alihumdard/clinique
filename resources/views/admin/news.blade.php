@@ -229,10 +229,11 @@
                         Catégories
                     </h2>
 
-                    <button type="button" class="inline-flex items-center gap-1.5 rounded-lg bg-primary-50 px-3 py-1.5 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-100">
-                        <x-icon name="plus" class="h-4 w-4" />
-                        Ajouter
-                    </button>
+                    {{-- No "Ajouter" here. Categories are read by six
+                         content types and there is no route anywhere in the
+                         application that creates, renames or deletes one —
+                         they are seeded. The button promised a screen that
+                         does not exist, which is worse than its absence. --}}
                 </div>
 
                 @php
