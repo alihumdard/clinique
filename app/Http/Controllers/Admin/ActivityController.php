@@ -42,8 +42,20 @@ class ActivityController extends Controller
             'activities' => $activities,
             'categories' => Category::ofType('activity')->withCount('activities')->get(),
             'counts' => $this->publicationCounts(Activity::class) + [
-                'upcoming' => Activity::public()->upcoming()->count(),
-                'past' => Activity::public()->past()->count(),
+                /*
+                 * The tab's figure has to be the number of rows the tab
+                 * opens. These two counted public() rows while the listing
+                 * below filters on the date alone, so "Passées (11)" led
+                 * to twelve — the twelfth being a draft, which this screen
+                 * is exactly where you go to see.
+                 *
+                 * The stat cards above keep public(): those say what the
+                 * site shows, which is a different question.
+                 */
+                'upcoming' => Activity::upcoming()->count(),
+                'past' => Activity::past()->count(),
+                'publicUpcoming' => Activity::public()->upcoming()->count(),
+                'publicPast' => Activity::public()->past()->count(),
                 'photos' => ActivityPhoto::count(),
                 'all' => Activity::count(),
             ],

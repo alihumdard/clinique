@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAdminToast();
     initAdminSelectAll();
     initAdminTableSearch();
-    initAdminFilterTabs();
+
     initConfirmDialog();
     initAdminScrollRestore();
     initAdminForms();
@@ -372,54 +372,31 @@ function adminFilterRows(tbody, q) {
     }
 }
 
-/* ── Filter tabs (visual switch + row filtering) ──────────── */
-function initAdminFilterTabs() {
-    document.querySelectorAll('[data-filter-tabs]').forEach(tabsEl => {
-        const tabs = [...tabsEl.querySelectorAll('a')];
-        if (!tabs.length) return;
+/* ── Filter tabs ─────────────────────────────────────────────
+   There is deliberately no handler here any more.
 
-        const section = tabsEl.closest('section');
-        const tbody = section?.querySelector('tbody');
+   The tabs were links to a real query — ?vue=passees, ?statut=brouillon —
+   and this file called preventDefault() on them, then tried to do the
+   same work in the browser: hide the rows whose text did not contain a
+   keyword taken from the tab's own label.
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', e => {
-                e.preventDefault();
+   It could not work, for two reasons that compound.
 
-                // Switch active classes
-                tabs.forEach(t => {
-                    t.classList.remove('border-primary-600', 'font-semibold', 'text-primary-600');
-                    t.classList.add('border-transparent', 'font-medium', 'text-slate-500');
-                    t.removeAttribute('aria-current');
-                });
-                tab.classList.add('border-primary-600', 'font-semibold', 'text-primary-600');
-                tab.classList.remove('border-transparent', 'font-medium', 'text-slate-500');
-                tab.setAttribute('aria-current', 'page');
+   It filtered the rows on the page, and a page holds ten of them. On
+   "Passées (11)" it hid everything that was not past among the ten
+   visible, while the eleventh sat on page two — and the footer went on
+   counting the unfiltered total, so the screen read "1 à 10 sur 14" with
+   an empty table underneath.
 
-                if (!tbody) return;
+   And the keywords were French: a map of 'passées' → 'terminé' written
+   into this file. With the interface in English the labels are "Past"
+   and "Coming soon", nothing matched, and every tab emptied the table.
 
-                // Derive filter keyword from label (strip count)
-                const label = tab.textContent.replace(/\(\d+\)/g, '').trim().toLowerCase();
-
-                if (label.startsWith('toutes') || label.startsWith('tous')) {
-                    [...tbody.querySelectorAll('tr:not(.js-empty)')].forEach(r => { r.hidden = false; });
-                    tbody.querySelector('tr.js-empty')?.remove();
-                    return;
-                }
-
-                // Map plural/alias → singular status text found in rows
-                const map = {
-                    'publiées': 'publié', 'publiés': 'publié',
-                    'brouillons': 'brouillon',
-                    'archivées': 'archivé', 'archivés': 'archivé',
-                    'passées': 'terminé',
-                    'caravanes juridiques': 'caravane',
-                };
-                const filter = map[label] ?? label;
-                adminFilterRows(tbody, filter);
-            });
-        });
-    });
-}
+   The controller has always done this properly: it reads the parameter,
+   filters in the query and paginates what is left. Letting the link
+   through is the whole fix. The live search box above still filters as
+   you type, because that one searches what you are looking at and does
+   not claim a total. */
 
 /* ── Where the focus lands when a dialog opens ────────
    showModal() focuses the first focusable element, which is the close
