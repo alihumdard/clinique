@@ -7,6 +7,7 @@ use App\Models\Activity;
 use App\Models\ActivityPhoto;
 use App\Models\Article;
 use App\Models\Call;
+use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Guide;
 use App\Models\NewsletterSubscriber;
@@ -35,6 +36,15 @@ class DashboardController extends Controller
                 ->latest('created_at')
                 ->take(5)
                 ->get(),
+            /*
+             * The "Dernières actualités" panel carries its own Modifier
+             * dialogs, so it needs the select's options exactly as the
+             * actualités screen builds them. Without this the dashboard
+             * could only link across to that screen, and pressing
+             * Modifier here moved the administrator off the page they
+             * were working on.
+             */
+            'categories' => Category::ofType('article')->get(),
             /*
              * The design's second panel was "Dernières candidatures".
              * Nothing records an application: a call tells the applicant

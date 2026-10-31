@@ -76,8 +76,16 @@ class ArticleController extends Controller
 
         $article->update($data);
 
+        /*
+         * Back to the screen the form was submitted from, not always the
+         * actualités listing: the dashboard carries the same Modifier
+         * dialog, and an administrator who edited a title there was
+         * answered with a different screen. The fallback matches
+         * destroy() below — without one, a submit with no previous URL
+         * falls through to the public home page.
+         */
         return redirect()
-            ->route('admin.news')
+            ->back(fallback: route('admin.news'))
             ->with('status', "L'actualité « {$article->title} » a été mise à jour.");
     }
 

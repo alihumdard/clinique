@@ -17,6 +17,12 @@ use Tests\TestCase;
  * reload; Aperçu did the same for a draft, which has no public page; and
  * Supprimer worked but its controller sent you to the actualités listing,
  * so deleting from the dashboard threw you into another screen.
+ *
+ * Modifier was first repaired by linking to the listing with ?ouvrir=,
+ * which gave the control a destination but kept the shape of the third
+ * fault: pressing it still replaced the screen being worked on. The
+ * dialogs now live in a partial both screens include, and update()
+ * returns to whichever one submitted the form.
  */
 class DashboardActionsTest extends TestCase
 {
@@ -50,30 +56,88 @@ class DashboardActionsTest extends TestCase
         $this->assertStringNotContainsString('action="#"', $html);
     }
 
-    public function test_modifier_on_the_dashboard_opens_the_real_edit_dialog(): void
+    public function test_modifier_on_the_dashboard_opens_a_dialog_on_the_dashboard(): void
     {
         $article = $this->article('Note a modifier');
 
-        $response = $this->actingAs($this->admin())->get(route('admin.dashboard'))->assertOk();
+        $html = $this->actingAs($this->admin())->get(route('admin.dashboard'))->assertOk()->getContent();
 
-        // ?ouvrir= is the mechanism app.js already uses for the sidebar's
-        // "Ajouter": it loads the listing and opens that dialog.
-        $response->assertSee(
+        // The dialog is on this page. It used to be a link to the
+        // actualités listing, which answered Modifier by replacing the
+        // screen the administrator was working on — and left them there
+        // once the dialog closed.
+        $this->assertStringContainsString('id="edit-article-'.$article->id.'"', $html);
+        $this->assertStringNotContainsString(
             route('admin.news', ['ouvrir' => 'edit-article-'.$article->id]),
-            escape: false
+            $html
         );
     }
 
-    public function test_the_dialog_that_link_names_exists_on_the_listing(): void
+    public function test_the_dashboards_edit_dialogs_sit_outside_the_table(): void
+    {
+        $this->article('Note a modifier');
+
+        $html = $this->actingAs($this->admin())->get(route('admin.dashboard'))->assertOk()->getContent();
+
+        // A dialog is not valid content between tr elements: a browser
+        // recovering from that parse lifts it out of the table and
+        // corrupts the form inside it, without raising a console error.
+        $table = Str::between($html, '<table', '</table>');
+
+        $this->assertStringNotContainsString('<dialog', $table);
+    }
+
+    public function test_the_dialog_still_exists_on_the_listing(): void
     {
         $article = $this->article('Note a modifier');
 
-        // A link to a dialog id that is not in the page would open nothing,
-        // which is the defect this is meant to fix rather than move.
+        // Both screens render the same partial, so neither can lose it.
         $this->actingAs($this->admin())
             ->get(route('admin.news', ['ouvrir' => 'edit-article-'.$article->id]))
             ->assertOk()
             ->assertSee('id="edit-article-'.$article->id.'"', escape: false);
+    }
+
+    public function test_editing_from_the_dashboard_returns_to_the_dashboard(): void
+    {
+        $article = $this->article('Note a modifier');
+
+        $this->actingAs($this->admin())
+            ->from(route('admin.dashboard'))
+            ->put(route('admin.news.update', $article), [
+                'title' => 'Note modifiee',
+                'status' => Article::STATUS_PUBLISHED,
+            ])
+            ->assertRedirect(route('admin.dashboard'))
+            ->assertSessionHas('status');
+
+        $this->assertSame('Note modifiee', $article->fresh()->title);
+    }
+
+    public function test_editing_from_the_listing_still_returns_to_the_listing(): void
+    {
+        $article = $this->article('Note a modifier');
+
+        $this->actingAs($this->admin())
+            ->from(route('admin.news'))
+            ->put(route('admin.news.update', $article), [
+                'title' => 'Note modifiee',
+                'status' => Article::STATUS_PUBLISHED,
+            ])
+            ->assertRedirect(route('admin.news'));
+    }
+
+    public function test_an_edit_with_nowhere_to_go_back_to_lands_on_the_listing(): void
+    {
+        $article = $this->article('Note a modifier');
+
+        // Without a fallback, back() falls through to the public home page.
+        $this->actingAs($this->admin())
+            ->put(route('admin.news.update', $article), [
+                'title' => 'Note modifiee',
+                'status' => Article::STATUS_PUBLISHED,
+            ])
+            ->assertRedirect(route('admin.news'));
     }
 
     public function test_a_draft_offers_no_preview_because_it_has_no_public_page(): void

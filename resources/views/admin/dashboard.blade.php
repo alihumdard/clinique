@@ -142,17 +142,17 @@
 
                                 <td class="px-5 py-3.5 align-middle">
                                     {{--
-                                        The dashboard has no edit dialog of
-                                        its own, so Modifier opens the one on
-                                        the actualités screen: ?ouvrir= is the
-                                        same mechanism the sidebar's
-                                        "Ajouter" already uses. Without it the
-                                        control had nowhere to go and the page
-                                        simply reloaded.
+                                        Modifier opens the dialog rendered at
+                                        the foot of this page, not a link to
+                                        the actualités screen: this is the
+                                        screen the administrator is working
+                                        on, and sending them elsewhere to
+                                        change a title left them on that other
+                                        screen once the dialog closed.
                                     --}}
                                     <x-admin.row-actions
                                         :label="$article->title"
-                                        :edit-href="route('admin.news', ['ouvrir' => 'edit-article-'.$article->id])"
+                                        edit-dialog="edit-article-{{ $article->id }}"
                                         :view-href="$article->isPublic() ? route('news.show', $article) : null"
                                         :delete-action="route('admin.news.destroy', $article)"
                                     />
@@ -227,5 +227,13 @@
             </div>
         </section>
     </div>
+
+    {{--
+        Rendered here, at the foot of the page and outside every table: a
+        dialog is not valid content between tr elements, and a browser
+        recovering from that parse lifts it out of the table and corrupts
+        the form inside it without raising a console error.
+    --}}
+    @include('admin.partials.article-edit-dialogs', ['articles' => $latest, 'categories' => $categories])
 
 @endsection
