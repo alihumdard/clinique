@@ -67,6 +67,47 @@ body {
     position: relative;
 }
 
+/* Room between a select's text and its arrow.
+
+   These keep the browser's own arrow (appearance: auto) rather than a
+   drawn one, and Chrome on Windows gives it about 20 px inside the
+   padding box. The utilities set pr-7 or pr-8 — 28 and 32 px — which
+   left two or three pixels between the longest option and the arrow, so
+   "Archivé" and "Brouillon" read as though the chevron were sitting on
+   the last letter. It is worse again when the browser translates the
+   page: the replacement text is laid out in a box sized for the
+   original.
+
+   The padding is set here rather than on fifty selects across twelve
+   screens. Only inside the administration: the public site's selects are
+   styled with the rest of its forms.
+
+   The width grows with it. A select that is w-full or sized to its
+   content only moves the text leftwards when the padding grows, so the
+   gap stays exactly where it was — the box has to get wider for the
+   arrow to have somewhere of its own to sit. */
+.admin-shell select {
+    padding-inline-end: 2.5rem;
+}
+
+/* A select that sizes itself to its content — the filters above a table,
+   the rows-per-page in the footer — has to be told to leave the arrow
+   somewhere, or it simply shrinks the text box by whatever the padding
+   gained. fit-content keeps them as wide as their longest option plus
+   the padding, and no wider. A w-full select inside a grid column is
+   excluded: its width is the column's to decide. */
+.admin-shell select:not(.w-full) {
+    min-width: fit-content;
+}
+
+/* The status pill on a listing row is smaller than a form field, so its
+   arrow needs proportionally less — but still more than it had, and the
+   pill widens to pay for it. */
+.admin-shell select.rounded-full {
+    padding-inline-end: 2rem;
+    min-width: 8.5rem;
+}
+
 /* Pointer cursor on all interactive elements.
 
    [type=file] and [type=date] are here because the browser draws them as
