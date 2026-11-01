@@ -200,7 +200,7 @@
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$video->statusTone()">{{ $video->statusLabel() }}</x-admin.badge>
+                                        <x-admin.status-select :row="$video" :action="route('admin.webtv.status', $video)" :label="$video->title" />
                                     </td>
 
                                     <td class="px-5 py-3">

@@ -172,7 +172,7 @@
 
                                     <td class="px-3 py-3">
                                         <div class="flex flex-wrap items-center gap-1.5">
-                                            <x-admin.badge :tone="$call->statusTone()">{{ $call->statusLabel() }}</x-admin.badge>
+                                            <x-admin.status-select :row="$call" :action="route('admin.calls.status', $call)" :label="$call->title" />
                                             @if($call->isPublic())
                                                 @if($call->isOpen())
                                                     <x-admin.badge tone="green">Ouvert</x-admin.badge>

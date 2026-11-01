@@ -100,6 +100,11 @@ class ActivityController extends Controller
      * on the source only ever returns the activities table's own columns,
      * never the related photos rows, so the copy cannot inherit them.
      */
+    /** Publish, unpublish or archive straight from the listing. */
+    public function status(Request $request, Activity $activity): RedirectResponse
+    {
+        return $this->changeStatus($request, $activity, $activity->title);
+    }
     public function duplicate(Activity $activity): RedirectResponse
     {
         $copy = $this->duplicateAsDraft($activity, Activity::class, 'title', 'activite');

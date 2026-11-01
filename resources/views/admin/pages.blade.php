@@ -143,7 +143,7 @@
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$page->statusTone()">{{ $page->statusLabel() }}</x-admin.badge>
+                                        <x-admin.status-select :row="$page" :action="route('admin.pages.status', $page)" :label="$page->title" />
                                     </td>
 
                                     <td class="px-5 py-3">

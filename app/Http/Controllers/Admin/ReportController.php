@@ -120,6 +120,11 @@ class ReportController extends Controller
         ]);
     }
 
+    /** Publish, unpublish or archive straight from the listing. */
+    public function status(Request $request, Report $report): RedirectResponse
+    {
+        return $this->changeStatus($request, $report, $report->title);
+    }
     /** A copy as a draft, ready to adapt rather than written from scratch. */
     public function duplicate(Report $report): RedirectResponse
     {

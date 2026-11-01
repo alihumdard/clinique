@@ -67,6 +67,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
         Route::put('/pages/{page:id}', [PageController::class, 'update'])->name('pages.update');
         Route::post('/pages/{page:id}/dupliquer', [PageController::class, 'duplicate'])->name('pages.duplicate');
+        Route::post('/pages/{page:id}/statut', [PageController::class, 'status'])->name('pages.status');
         Route::delete('/pages/{page:id}', [PageController::class, 'destroy'])->name('pages.destroy');
         Route::post('/pages/{id}/restaurer', [PageController::class, 'restore'])->name('pages.restore');
         Route::delete('/pages/{id}/definitif', [PageController::class, 'forceDestroy'])->middleware('admin')->name('pages.force-destroy');
@@ -79,6 +80,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/actualites', [ArticleController::class, 'store'])->name('news.store');
         Route::put('/actualites/{article:id}', [ArticleController::class, 'update'])->name('news.update');
         Route::post('/actualites/{article:id}/dupliquer', [ArticleController::class, 'duplicate'])->name('news.duplicate');
+        Route::post('/actualites/{article:id}/statut', [ArticleController::class, 'status'])->name('news.status');
         Route::delete('/actualites/{article:id}', [ArticleController::class, 'destroy'])->name('news.destroy');
         Route::post('/actualites/{id}/restaurer', [ArticleController::class, 'restore'])->name('news.restore');
         Route::delete('/actualites/{id}/definitif', [ArticleController::class, 'forceDestroy'])->middleware('admin')->name('news.force-destroy');
@@ -90,6 +92,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/web-tv', [VideoController::class, 'store'])->name('webtv.store');
         Route::put('/web-tv/{video:id}', [VideoController::class, 'update'])->name('webtv.update');
         Route::post('/web-tv/{video:id}/dupliquer', [VideoController::class, 'duplicate'])->name('webtv.duplicate');
+        Route::post('/web-tv/{video:id}/statut', [VideoController::class, 'status'])->name('webtv.status');
         Route::delete('/web-tv/{video:id}', [VideoController::class, 'destroy'])->name('webtv.destroy');
         Route::post('/web-tv/{id}/restaurer', [VideoController::class, 'restore'])->name('webtv.restore');
         Route::delete('/web-tv/{id}/definitif', [VideoController::class, 'forceDestroy'])->middleware('admin')->name('webtv.force-destroy');
@@ -128,6 +131,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/activites', [ActivityController::class, 'store'])->name('activities.store');
         Route::put('/activites/{activity:id}', [ActivityController::class, 'update'])->name('activities.update');
         Route::post('/activites/{activity:id}/dupliquer', [ActivityController::class, 'duplicate'])->name('activities.duplicate');
+        Route::post('/activites/{activity:id}/statut', [ActivityController::class, 'status'])->name('activities.status');
         Route::delete('/activites/{activity:id}', [ActivityController::class, 'destroy'])->name('activities.destroy');
         Route::post('/activites/{id}/restaurer', [ActivityController::class, 'restore'])->name('activities.restore');
         Route::delete('/activites/{id}/definitif', [ActivityController::class, 'forceDestroy'])->middleware('admin')->name('activities.force-destroy');
@@ -143,6 +147,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/fiches-pratiques', [GuideController::class, 'store'])->name('guides.store');
         Route::put('/fiches-pratiques/{guide:id}', [GuideController::class, 'update'])->name('guides.update');
         Route::post('/fiches-pratiques/{guide:id}/dupliquer', [GuideController::class, 'duplicate'])->name('guides.duplicate');
+        Route::post('/fiches-pratiques/{guide:id}/statut', [GuideController::class, 'status'])->name('guides.status');
         Route::get('/fiches-pratiques/{guide:id}/telecharger', [GuideController::class, 'download'])->name('guides.download');
         Route::delete('/fiches-pratiques/{guide:id}', [GuideController::class, 'destroy'])->name('guides.destroy');
         Route::post('/fiches-pratiques/{id}/restaurer', [GuideController::class, 'restore'])->name('guides.restore');
@@ -152,6 +157,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/rapports-annuels', [ReportController::class, 'store'])->name('reports.store');
         Route::put('/rapports-annuels/{report:id}', [ReportController::class, 'update'])->name('reports.update');
         Route::post('/rapports-annuels/{report:id}/dupliquer', [ReportController::class, 'duplicate'])->name('reports.duplicate');
+        Route::post('/rapports-annuels/{report:id}/statut', [ReportController::class, 'status'])->name('reports.status');
         Route::get('/rapports-annuels/{report:id}/telecharger', [ReportController::class, 'download'])->name('reports.download');
         Route::delete('/rapports-annuels/{report:id}', [ReportController::class, 'destroy'])->name('reports.destroy');
         Route::post('/rapports-annuels/{id}/restaurer', [ReportController::class, 'restore'])->name('reports.restore');
@@ -166,6 +172,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/appels', [CallController::class, 'store'])->name('calls.store');
         Route::put('/appels/{call:id}', [CallController::class, 'update'])->name('calls.update');
         Route::post('/appels/{call:id}/dupliquer', [CallController::class, 'duplicate'])->name('calls.duplicate');
+        Route::post('/appels/{call:id}/statut', [CallController::class, 'status'])->name('calls.status');
         Route::delete('/appels/{call:id}', [CallController::class, 'destroy'])->name('calls.destroy');
         Route::post('/appels/{id}/restaurer', [CallController::class, 'restore'])->name('calls.restore');
         Route::delete('/appels/{id}/definitif', [CallController::class, 'forceDestroy'])->middleware('admin')->name('calls.force-destroy');

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * The parts every content-type screen in the CMS does the same way.
@@ -83,6 +85,62 @@ trait ManagesContent
             'drafts' => $model::drafts()->count(),
             'trashed' => $model::onlyTrashed()->count(),
         ];
+    }
+
+    /**
+     * Change a row's status from the listing.
+     *
+     * Publishing was a trip through the edit dialog: open it, find the
+     * field among a dozen others, save, and the whole form is revalidated
+     * for a change of one column. The listing already shows the status in
+     * its own column, so it is where the change belongs.
+     *
+     * Only the three the trait declares are accepted. "Programmée" and
+     * "Masqué" are not among them: neither is a status, they are what
+     * statusLabel() reports when a published row has a date still ahead
+     * or is individually hidden, and both are set elsewhere.
+     *
+     * No date is touched here. A draft that has been published before
+     * keeps the date it had, and one that has not is given today's by
+     * publicationDate() the next time the form is saved — guessing one
+     * here would backdate a row to whenever it was first typed.
+     */
+    protected function changeStatus(Request $request, Model $row, string $label): RedirectResponse
+    {
+        /*
+         * The constants are read through the row, not through the trait
+         * that declares them: PHP refuses a trait constant accessed
+         * directly, and every one of these models composes Publishable.
+         */
+        $published = $row::STATUS_PUBLISHED;
+
+        $data = $request->validate([
+            'status' => ['required', Rule::in([
+                $row::STATUS_DRAFT,
+                $published,
+                $row::STATUS_ARCHIVED,
+            ])],
+        ], [
+            'status.in' => "Ce statut n'existe pas.",
+        ], ['status' => 'statut']);
+
+        /*
+         * A row being published for the first time needs a date, or every
+         * public listing — which orders and filters on it — would skip it.
+         *
+         * hasAttribute, not publishesOnADate(): the latter is protected on
+         * the model, and the types that do not publish on a date have no
+         * published_at column at all, so there is nothing to fill.
+         */
+        if ($data["status"] === $published
+            && array_key_exists('published_at', $row->getAttributes())
+            && blank($row->published_at)) {
+            $data['published_at'] = now();
+        }
+
+        $row->update($data);
+
+        return back()->with('status', "« {$label} » : {$row->statusLabel()}.");
     }
 
     /**

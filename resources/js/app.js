@@ -221,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAdminTableSearch();
 
     initConfirmDialog();
+    initSubmitOnChange();
     initAdminScrollRestore();
     initAdminForms();
     initAdminSettingsTabs();
@@ -536,6 +537,28 @@ function initConfirmDialog() {
     // Escape and the backdrop reach close() without touching the buttons,
     // so the pending form is dropped here rather than in each handler.
     dialog.addEventListener('close', () => { pending = null; });
+}
+
+/* ── A select that submits its own form ──────────────────────
+   The status on a listing row, and the rows-per-page in the footer.
+
+   Written first as onchange="this.form.requestSubmit()", which never
+   ran: the Content-Security-Policy here is script-src 'self', and an
+   inline handler is exactly what that forbids. The browser said so in
+   the console and blocked it, so the select changed and nothing was
+   saved — the value came back on the next load because the page had
+   never been asked to change it.
+
+   The <noscript> button beside each one still carries the form when
+   scripts are off. */
+function initSubmitOnChange() {
+    document.addEventListener('change', e => {
+        const el = e.target;
+        if (!(el instanceof HTMLSelectElement)) return;
+        if (!el.hasAttribute('data-submit-on-change')) return;
+
+        el.form?.requestSubmit();
+    });
 }
 
 /* ── Keeping the place after an action reloads the screen ───

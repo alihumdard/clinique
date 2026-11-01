@@ -83,6 +83,11 @@ class ArticleController extends Controller
             ->with('status', "L'actualité « {$article->title} » a été mise à jour.");
     }
 
+    /** Publish, unpublish or archive straight from the listing. */
+    public function status(Request $request, Article $article): RedirectResponse
+    {
+        return $this->changeStatus($request, $article, $article->title);
+    }
     /** A copy as a draft, ready to adapt rather than written from scratch. */
     public function duplicate(Article $article): RedirectResponse
     {

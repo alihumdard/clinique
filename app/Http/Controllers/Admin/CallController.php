@@ -80,6 +80,11 @@ class CallController extends Controller
             ->with('status', "L'appel « {$call->title} » a été mis à jour.");
     }
 
+    /** Publish, unpublish or archive straight from the listing. */
+    public function status(Request $request, Call $call): RedirectResponse
+    {
+        return $this->changeStatus($request, $call, $call->title);
+    }
     /** A copy as a draft, ready to adapt rather than written from scratch. */
     public function duplicate(Call $call): RedirectResponse
     {

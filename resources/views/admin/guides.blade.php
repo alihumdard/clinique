@@ -189,7 +189,7 @@
                                     </td>
 
                                     <td class="px-3 py-3">
-                                        <x-admin.badge :tone="$guide->statusTone()">{{ $guide->statusLabel() }}</x-admin.badge>
+                                        <x-admin.status-select :row="$guide" :action="route('admin.guides.status', $guide)" :label="$guide->title" />
                                     </td>
 
                                     <td class="px-5 py-3">

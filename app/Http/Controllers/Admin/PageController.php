@@ -91,6 +91,11 @@ class PageController extends Controller
      * that ever changes, since a system page is a designed template, not
      * CMS content.
      */
+    /** Publish, unpublish or archive straight from the listing. */
+    public function status(Request $request, Page $page): RedirectResponse
+    {
+        return $this->changeStatus($request, $page, $page->title);
+    }
     public function duplicate(Page $page): RedirectResponse
     {
         abort_if($page->is_system, 403);

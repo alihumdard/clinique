@@ -117,6 +117,11 @@ class GuideController extends Controller
         ]);
     }
 
+    /** Publish, unpublish or archive straight from the listing. */
+    public function status(Request $request, Guide $guide): RedirectResponse
+    {
+        return $this->changeStatus($request, $guide, $guide->title);
+    }
     /** A copy as a draft, ready to adapt rather than written from scratch. */
     public function duplicate(Guide $guide): RedirectResponse
     {

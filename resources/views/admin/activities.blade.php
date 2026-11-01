@@ -195,7 +195,7 @@
 
                                     <td class="px-3 py-3">
                                         <div class="flex flex-wrap items-center gap-1.5">
-                                            <x-admin.badge :tone="$activity->statusTone()">{{ $activity->statusLabel() }}</x-admin.badge>
+                                            <x-admin.status-select :row="$activity" :action="route('admin.activities.status', $activity)" :label="$activity->title" />
                                             @if($activity->isUpcoming())
                                                 <x-admin.badge tone="amber">À venir</x-admin.badge>
                                             @endif

@@ -85,7 +85,7 @@
             <select
                 id="per-page"
                 name="par_page"
-                onchange="this.form.requestSubmit()"
+                data-submit-on-change
                 class="rounded-lg border border-slate-200 py-2 pl-3 pr-8 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
                 @foreach ([10, 25, 50] as $size)
