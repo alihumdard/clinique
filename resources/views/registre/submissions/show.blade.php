@@ -30,7 +30,8 @@
 
     @if($submission->dossier)
         <p class="mt-5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-            Cette demande a ouvert le dossier <strong>{{ $submission->dossier->reference }}</strong>
+            Cette demande a ouvert le dossier
+            <a href="{{ route('registre.dossiers.show', $submission->dossier) }}" class="font-semibold underline hover:text-emerald-700">{{ $submission->dossier->reference }}</a>
             le {{ $submission->reviewed_at?->translatedFormat('j F Y') }}.
         </p>
     @endif
