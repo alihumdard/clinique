@@ -18,6 +18,7 @@
                 :value="$pendingSubmissions"
                 label="Demandes en attente"
                 note="à examiner"
+                :keepAtZero="true"
             />
         </a>
 
@@ -27,6 +28,7 @@
                 color="blue"
                 :value="$openDossiers"
                 label="Dossiers ouverts"
+                :keepAtZero="true"
             />
         </a>
 
@@ -36,6 +38,7 @@
             :value="$overdueDossiers"
             label="Dossiers en retard"
             :note="$overdueDossiers ? 'échéance dépassée' : 'rien en retard'"
+            :keepAtZero="true"
         />
 
         <a href="{{ route('registre.submissions') }}" class="block transition hover:-translate-y-0.5">
@@ -45,6 +48,7 @@
                 :value="$totalSubmissions"
                 label="Demandes reçues"
                 note="depuis le site public"
+                :keepAtZero="true"
             />
         </a>
     </div>
