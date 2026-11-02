@@ -46,7 +46,10 @@
                         </span>
                         <div class="min-w-0">
                             <p class="truncate text-xs text-slate-500">{{ $s['title'] }}</p>
-                            <p class="text-lg font-bold text-slate-900 sm:text-2xl">{{ $counts[$s['key']] ?? 0 }}</p>
+                            <p class="text-lg font-bold text-slate-900 sm:text-2xl">
+                                {{ $counts[$s['key']] ?? 0 }}
+                                @if(($counts[$s['key']] ?? 0) > 0)<span class="text-primary-500">+</span>@endif
+                            </p>
                             <p class="truncate text-xs text-slate-500">{{ $s['sub'] }}</p>
                         </div>
                     </div>
@@ -112,10 +115,13 @@
                         <x-eyebrow color="amber">Nos étudiants</x-eyebrow>
                         <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
                     </div>
-                    <x-button :href="route('join')" variant="primary" class="self-start rounded-full! sm:self-auto">{{ __('Rejoindre la Clinique') }}</x-button>
+                    <div class="flex items-center gap-3">
+                        <x-button :href="route('join')" variant="outline" size="sm" class="self-start sm:self-auto">{{ __('Voir tous les étudiants') }} →</x-button>
+                        <x-button :href="route('join')" variant="primary" class="self-start rounded-full! sm:self-auto">{{ __('Rejoindre la Clinique') }}</x-button>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-6">
+                <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                     @foreach ($groups['etudiants'] as $member)
                         <x-profile-card
                             size="compact"
