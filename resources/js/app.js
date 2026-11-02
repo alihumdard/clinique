@@ -87,11 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let pressedOnBackdrop = false;
 
         dialog.addEventListener('mousedown', (e) => {
-            pressedOnBackdrop = e.target === dialog;
+            pressedOnBackdrop = e.target === dialog && e.isTrusted;
         });
 
         dialog.addEventListener('click', (e) => {
-            if (e.target === dialog && pressedOnBackdrop) dialog.close();
+            if (e.target === dialog && pressedOnBackdrop && e.isTrusted) dialog.close();
             pressedOnBackdrop = false;
         });
 
