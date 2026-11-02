@@ -6,6 +6,7 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
+        imagePosition="object-right"
         :title="__('Vérifiez votre demande')"
         subtitle="Étape 3 sur 3 — relisez avant d'envoyer."
         :breadcrumb="[

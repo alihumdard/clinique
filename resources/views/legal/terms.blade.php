@@ -15,6 +15,7 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
+        imagePosition="object-right"
         :title="__('Conditions d\'utilisation')"
         subtitle="Les présentes conditions régissent l'utilisation du site web de la Clinique Juridique FSJP-UAM."
         :breadcrumb="$breadcrumb"

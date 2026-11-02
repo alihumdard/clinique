@@ -6,6 +6,7 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
+        imagePosition="object-right"
         :title="__('Votre demande')"
         subtitle="Étape 2 sur 3 — décrivez votre situation."
         :breadcrumb="[

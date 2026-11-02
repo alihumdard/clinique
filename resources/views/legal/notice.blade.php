@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
+        imagePosition="object-right"
         :title="__('Mentions légales')"
         subtitle="Informations légales relatives à l'utilisation du site web de la Clinique Juridique FSJP-UAM."
         :breadcrumb="[

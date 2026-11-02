@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/webtv-show-hero"
+        imagePosition="object-right"
         image-position="object-right"
         :title="$video->title"
         :subtitle="$video->summary"

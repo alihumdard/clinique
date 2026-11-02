@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/privacy-security"
+        imagePosition="object-center"
         :title="__('Politique de confidentialité')"
         subtitle="La Clinique Juridique FSJP-UAM s'engage à protéger vos données personnelles et à respecter votre vie privée."
         :breadcrumb="[

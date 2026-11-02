@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/process-hero"
+        imagePosition="object-right"
         :title="__('Processus de consultation')"
         subtitle="Un accompagnement simple, transparent et gratuit pour tous."
         :breadcrumb="[

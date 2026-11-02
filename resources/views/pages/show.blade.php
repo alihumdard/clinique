@@ -8,6 +8,7 @@
     <x-page-hero
         :image="$page->image ? null : 'placeholders/legal-scales-gavel'"
         :image-url="$page->image ? $page->imageUrl($page->image, 'placeholders/legal-scales-gavel') : null"
+        imagePosition="object-right"
         :title="$page->title"
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],

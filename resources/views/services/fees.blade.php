@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/fees-hero"
+        imagePosition="object-right"
         :title="__('Tarifs administratifs')"
         subtitle="Des frais administratifs transparents et accessibles"
         :breadcrumb="[
