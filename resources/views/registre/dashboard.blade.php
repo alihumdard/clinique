@@ -122,7 +122,7 @@
     @endif
 
     {{-- Bottom section: shortcuts + profile --}}
-    <div class="mt-5 grid grid-cols-1 items-start gap-5 lg:grid-cols-3">
+    <div class="mt-5 grid grid-cols-1 items-stretch gap-5 lg:grid-cols-3">
         <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-span-2">
             <h2 class="text-sm font-bold text-slate-900">Par où commencer</h2>
 
@@ -150,7 +150,7 @@
             </div>
         </section>
 
-        <aside class="space-y-5">
+        <aside class="flex flex-col gap-5">
             <section class="rounded-xl border border-slate-200 bg-white p-5">
                 <h2 class="text-sm font-bold text-slate-900">Votre profil</h2>
                 <dl class="mt-3 space-y-2.5 text-sm">
@@ -169,7 +169,7 @@
                 </dl>
             </section>
 
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section class="flex-1 rounded-xl border border-slate-200 bg-white p-5">
                 <h2 class="flex items-center gap-2 text-sm font-bold text-slate-900">
                     <x-icon name="lock-shield" class="h-4 w-4 text-primary-600" />
                     Séparation des données
