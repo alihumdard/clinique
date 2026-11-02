@@ -25,6 +25,10 @@ class DashboardController extends Controller
             'totalSubmissions' => PresaisineSubmission::count(),
             'openDossiers' => Dossier::open()->count(),
             'overdueDossiers' => Dossier::overdue()->count(),
+            'recentDossiers' => Dossier::with(['status', 'applicant'])
+                ->latest()
+                ->limit(5)
+                ->get(),
         ]);
     }
 }

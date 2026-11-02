@@ -10,7 +10,7 @@
         :breadcrumb="[['label' => 'Registre numérique']]"
     />
 
-    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="mt-6 grid grid-cols-2 gap-4 xl:grid-cols-4">
         <a href="{{ route('registre.submissions', ['statut' => 'en_attente']) }}" class="block transition hover:-translate-y-0.5">
             <x-admin.stat-card
                 icon="mail"
@@ -21,12 +21,14 @@
             />
         </a>
 
-        <x-admin.stat-card
-            icon="folder"
-            color="blue"
-            :value="$openDossiers"
-            label="Dossiers ouverts"
-        />
+        <a href="{{ route('registre.dossiers') }}" class="block transition hover:-translate-y-0.5">
+            <x-admin.stat-card
+                icon="folder"
+                color="blue"
+                :value="$openDossiers"
+                label="Dossiers ouverts"
+            />
+        </a>
 
         <x-admin.stat-card
             icon="clock"
@@ -63,6 +65,48 @@
             </p>
         </div>
     </div>
+
+    {{-- Recent dossiers table --}}
+    @if($recentDossiers->isNotEmpty())
+    <div class="mt-5 overflow-hidden rounded-xl border border-slate-200 bg-white">
+        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+            <h2 class="text-sm font-bold text-slate-900">Derniers dossiers</h2>
+            <a href="{{ route('registre.dossiers') }}" class="text-xs font-medium text-primary-600 hover:text-primary-700">Voir tous les dossiers →</a>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-slate-100 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <th class="px-5 py-3 text-left">N° Dossier</th>
+                        <th class="px-5 py-3 text-left">Demandeur</th>
+                        <th class="px-5 py-3 text-left">Domaine</th>
+                        <th class="px-5 py-3 text-left">Statut</th>
+                        <th class="px-5 py-3 text-left">Date</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach($recentDossiers as $dossier)
+                    <tr class="hover:bg-slate-50/60">
+                        <td class="px-5 py-3">
+                            <a href="{{ route('registre.dossiers.show', $dossier) }}" class="font-mono text-xs font-semibold text-primary-600 hover:text-primary-700">
+                                {{ $dossier->reference }}
+                            </a>
+                        </td>
+                        <td class="px-5 py-3 font-medium text-slate-900">{{ $dossier->applicant?->fullName() ?? '—' }}</td>
+                        <td class="px-5 py-3 text-slate-600">{{ $dossier->legal_domain ?? '—' }}</td>
+                        <td class="px-5 py-3">
+                            <span class="inline-flex items-center rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700">
+                                {{ $dossier->status?->label ?? '—' }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-3 text-slate-500">{{ $dossier->created_at->format('d/m/Y') }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
 
     {{-- items-start: without it the shorter card stretches to match the
          taller column and ends in a band of empty white. --}}
