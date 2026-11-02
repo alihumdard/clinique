@@ -36,7 +36,7 @@
                 class="h-full w-full object-cover {{ $imagePosition }}"
             />
         @endif
-        <div class="absolute inset-0 bg-navy-950/40 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
+        <div class="absolute inset-0 bg-navy-950/25 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
     </div>
 
     <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
