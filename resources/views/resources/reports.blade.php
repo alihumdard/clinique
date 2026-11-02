@@ -17,6 +17,7 @@
 
     <x-page-hero
         image="placeholders/annual-report-hero"
+        imagePosition="object-right"
         :title="__('Rapports annuels d\'activité')"
         subtitle="Découvrez nos réalisations, nos chiffres clés et l'impact de nos actions pour une justice plus accessible au Niger."
         :breadcrumb="$breadcrumb"

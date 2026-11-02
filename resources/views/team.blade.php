@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/about-hero"
+        imagePosition="object-right"
         :title="__('Notre équipe')"
         subtitle="Une équipe engagée au service de la justice et des citoyens"
         :breadcrumb="[

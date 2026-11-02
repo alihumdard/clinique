@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/about-hero"
+        imagePosition="object-right"
         :title="__('Nos services juridiques')"
         subtitle="Une assistance juridique gratuite et accessible dans plusieurs domaines du droit, assurée par des étudiants encadrés par des enseignants et des professionnels."
         :breadcrumb="[

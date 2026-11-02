@@ -7,6 +7,7 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
+        imagePosition="object-right"
         :title="__('Fiches pratiques juridiques')"
         subtitle="Des guides simples et clairs pour comprendre vos droits et vous accompagner dans vos démarches."
         :breadcrumb="[
