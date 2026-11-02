@@ -24,7 +24,7 @@
                 size="lg"
                 :name="$partner->name"
                 :subtitle="$partner->description"
-                :logo="$partner->logo"
+                :logoUrl="$partner->logo ? \App\Support\Media::url($partner->logo) : null"
                 :href="$partner->website"
             />
         @endif
