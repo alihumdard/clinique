@@ -10,53 +10,62 @@
         :breadcrumb="[['label' => 'Registre numérique']]"
     />
 
-    <div class="mt-6 grid grid-cols-2 gap-4 xl:grid-cols-4">
-        <a href="{{ route('registre.submissions', ['statut' => 'en_attente']) }}" class="block transition hover:-translate-y-0.5">
-            <x-admin.stat-card
-                icon="mail"
-                color="amber"
-                :value="$pendingSubmissions"
-                label="Demandes en attente"
-                note="à examiner"
-                :keepAtZero="true"
-            />
+    {{-- 4 stat cards — ref style: horizontal, icon left, arrow right --}}
+    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+        {{-- Total dossiers --}}
+        <a href="{{ route('registre.dossiers') }}" class="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 transition hover:border-primary-300 hover:shadow-sm">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <x-icon name="folder" class="h-6 w-6" />
+            </span>
+            <div class="min-w-0 flex-1">
+                <p class="text-xs font-medium text-slate-500">Dossiers ouverts</p>
+                <p class="mt-0.5 text-2xl font-bold text-slate-900">{{ $openDossiers }}</p>
+            </div>
+            <x-icon name="arrow-right" class="h-4 w-4 shrink-0 text-slate-400" />
         </a>
 
-        <a href="{{ route('registre.dossiers') }}" class="block transition hover:-translate-y-0.5">
-            <x-admin.stat-card
-                icon="folder"
-                color="blue"
-                :value="$openDossiers"
-                label="Dossiers ouverts"
-                :keepAtZero="true"
-            />
+        {{-- Demandes en attente --}}
+        <a href="{{ route('registre.submissions', ['statut' => 'en_attente']) }}" class="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 transition hover:border-amber-300 hover:shadow-sm">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                <x-icon name="mail" class="h-6 w-6" />
+            </span>
+            <div class="min-w-0 flex-1">
+                <p class="text-xs font-medium text-slate-500">Demandes en attente</p>
+                <p class="mt-0.5 text-2xl font-bold text-slate-900">{{ $pendingSubmissions }}</p>
+                <p class="text-xs text-slate-400">à examiner</p>
+            </div>
+            <x-icon name="arrow-right" class="h-4 w-4 shrink-0 text-slate-400" />
         </a>
 
-        <x-admin.stat-card
-            icon="clock"
-            :color="$overdueDossiers ? 'red' : 'green'"
-            :value="$overdueDossiers"
-            label="Dossiers en retard"
-            :note="$overdueDossiers ? 'échéance dépassée' : 'rien en retard'"
-            :keepAtZero="true"
-        />
+        {{-- Dossiers en retard --}}
+        <div class="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl {{ $overdueDossiers ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600' }}">
+                <x-icon name="clock" class="h-6 w-6" />
+            </span>
+            <div class="min-w-0 flex-1">
+                <p class="text-xs font-medium text-slate-500">Dossiers en retard</p>
+                <p class="mt-0.5 text-2xl font-bold {{ $overdueDossiers ? 'text-red-600' : 'text-slate-900' }}">{{ $overdueDossiers }}</p>
+                <p class="text-xs text-slate-400">{{ $overdueDossiers ? 'échéance dépassée' : 'rien en retard' }}</p>
+            </div>
+        </div>
 
-        <a href="{{ route('registre.submissions') }}" class="block transition hover:-translate-y-0.5">
-            <x-admin.stat-card
-                icon="chart-bar"
-                color="purple"
-                :value="$totalSubmissions"
-                label="Demandes reçues"
-                note="depuis le site public"
-                :keepAtZero="true"
-            />
+        {{-- Demandes reçues --}}
+        <a href="{{ route('registre.submissions') }}" class="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 transition hover:border-purple-300 hover:shadow-sm">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-purple-50 text-purple-600">
+                <x-icon name="chart-bar" class="h-6 w-6" />
+            </span>
+            <div class="min-w-0 flex-1">
+                <p class="text-xs font-medium text-slate-500">Demandes reçues</p>
+                <p class="mt-0.5 text-2xl font-bold text-slate-900">{{ $totalSubmissions }}</p>
+                <p class="text-xs text-slate-400">depuis le site public</p>
+            </div>
+            <x-icon name="arrow-right" class="h-4 w-4 shrink-0 text-slate-400" />
         </a>
+
     </div>
 
-    {{--
-        Said plainly rather than shown as empty tables: two of the rules
-        the dossiers follow are not ours to write.
-    --}}
+    {{-- Warning banner --}}
     <div class="mt-5 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-5">
         <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
         <div class="min-w-0 text-sm leading-relaxed text-amber-900">
@@ -112,8 +121,7 @@
     </div>
     @endif
 
-    {{-- items-start: without it the shorter card stretches to match the
-         taller column and ends in a band of empty white. --}}
+    {{-- Bottom section: shortcuts + profile --}}
     <div class="mt-5 grid grid-cols-1 items-start gap-5 lg:grid-cols-3">
         <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-span-2">
             <h2 class="text-sm font-bold text-slate-900">Par où commencer</h2>
