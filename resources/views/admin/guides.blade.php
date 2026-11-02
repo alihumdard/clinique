@@ -109,7 +109,7 @@
                 </p>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[48rem] text-left">
+                    <table class="w-full text-left">
                         <thead>
                             <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 <th scope="col" class="w-12 px-5 py-3">

@@ -67,7 +67,7 @@
             </p>
 
             <div class="overflow-x-auto border-t border-slate-100">
-                <table class="w-full min-w-[52rem] text-left">
+                <table class="w-full text-left">
                     <thead>
                         <tr class="whitespace-nowrap border-b border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="w-20 px-5 py-3">Ordre</th>
@@ -259,7 +259,7 @@
             </p>
 
             <div class="overflow-x-auto border-t border-slate-100">
-                <table class="w-full min-w-[52rem] text-left">
+                <table class="w-full text-left">
                     <thead>
                         <tr class="whitespace-nowrap border-b border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="w-20 px-5 py-3">Ordre</th>

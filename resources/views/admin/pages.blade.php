@@ -76,7 +76,7 @@
                             <input type="hidden" name="statut" value="{{ $statut }}">
                         @endif
 
-                        <div role="search" class="relative w-full min-w-[12rem] flex-1 sm:w-64">
+                        <div role="search" class="relative w-full flex-1 sm:w-64">
                             <label for="pages-search" class="sr-only">Rechercher une page</label>
                             <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                                 <x-icon name="search" class="h-4 w-4" />
@@ -110,7 +110,7 @@
                 </p>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[52rem] text-left">
+                    <table class="w-full text-left">
                         <thead>
                             <tr class="whitespace-nowrap border-y border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 <th scope="col" class="w-12 px-5 py-3">#</th>
