@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/legal-scales-gavel"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         :title="__('Pré-saisine')"
         subtitle="Quatre questions pour savoir si nous pouvons prendre votre demande en charge."
         :breadcrumb="[

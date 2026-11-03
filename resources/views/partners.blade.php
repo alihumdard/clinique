@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         :title="__('Nos partenaires')"
         subtitle="Des institutions et organisations engagées à nos côtés pour une justice plus accessible"
         :breadcrumb="[

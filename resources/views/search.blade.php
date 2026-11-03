@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/search-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         image-position="object-right"
         :title="__('Résultats de recherche')"
         subtitle="Trouvez rapidement des actualités, guides pratiques, vidéos et informations sur nos services."

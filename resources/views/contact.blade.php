@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/contact-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         :title="__('Contactez-nous')"
         subtitle="Une question, une demande d'information ou besoin d'accompagnement ? Notre équipe est à votre écoute."
         :breadcrumb="[

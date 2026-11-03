@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/eligibility-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         :title="__('Conditions d\'accès et gratuité')"
         subtitle="Une justice accessible à tous, sans discrimination"
         :breadcrumb="[

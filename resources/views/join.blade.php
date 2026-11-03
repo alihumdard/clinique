@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/join-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         image-position="object-right"
         :title="__('Rejoindre la Clinique')"
         title-line2="Appels à candidatures"

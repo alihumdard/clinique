@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         :title="__('Actualités')"
         subtitle="Suivez nos dernières actualités, événements et initiatives en faveur de l'accès au droit."
         :breadcrumb="[

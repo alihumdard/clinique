@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/about-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         :title="__('À propos de la Clinique')"
         subtitle="Une clinique juridique universitaire au service de la population, pour une justice plus accessible, plus humaine et plus proche des citoyens."
         :breadcrumb="[

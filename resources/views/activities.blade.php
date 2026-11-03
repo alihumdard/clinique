@@ -7,7 +7,7 @@
 
     <x-page-hero
         image="placeholders/webtv-show-hero"
-        imagePosition="object-right"
+        imagePosition="object-right-top"
         :title="__('Activités et caravanes juridiques')"
         subtitle="Aller vers les populations pour une justice plus proche de tous"
         :breadcrumb="[
