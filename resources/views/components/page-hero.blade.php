@@ -16,7 +16,7 @@
     'imagePosition' => 'object-left',
 ])
 
-<section class="relative overflow-hidden min-h-[220px] sm:min-h-[280px] lg:min-h-[320px]">
+<section class="relative overflow-hidden min-h-[320px] sm:min-h-[380px] lg:min-h-[420px]">
     <div class="absolute inset-0">
         @if($imageUrl)
             <img
