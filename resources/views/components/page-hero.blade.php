@@ -16,7 +16,7 @@
     'imagePosition' => 'object-left',
 ])
 
-<section class="relative overflow-hidden min-h-[320px] sm:min-h-[380px] lg:min-h-[420px]">
+<section class="relative overflow-hidden">
     <div class="absolute inset-0">
         @if($imageUrl)
             <img
@@ -39,7 +39,7 @@
         <div class="absolute inset-0 bg-blue-950/30 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
     </div>
 
-    <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+    <div class="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 sm:py-32 lg:px-8 lg:py-36">
         @if(count($breadcrumb))
             <nav aria-label="Fil d'Ariane" class="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-300">
                 @foreach ($breadcrumb as $i => $crumb)
