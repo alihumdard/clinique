@@ -24,7 +24,8 @@
                 alt=""
                 width="2170" height="725"
                 fetchpriority="high"
-                class="h-full w-full object-cover {{ $imagePosition }}"
+                class="h-full w-full object-cover"
+                style="object-position: right top"
             >
         @else
             <x-picture
@@ -33,7 +34,8 @@
                 width="1600" height="535"
                 :eager="true"
                 :hero="true"
-                class="h-full w-full object-cover {{ $imagePosition }}"
+                class="h-full w-full object-cover"
+                style="object-position: right top"
             />
         @endif
         <div class="absolute inset-0 bg-blue-950/30 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
