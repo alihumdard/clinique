@@ -51,13 +51,13 @@
 
             <h1 class="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
                 Un accès à la justice
-                <span class="block text-primary-600">pour tous</span>
+                <span class="block text-primary-600">pour tous, gratuitement</span>
             </h1>
 
             <p class="mt-5 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-                La Clinique Juridique de la FSJP-UAM offre des consultations juridiques gratuites,
-                un accompagnement par des étudiants encadrés,
-                et contribue à la promotion des droits humains.
+                La Clinique Juridique de la FSJP-UAM vous conseille, vous informe et vous oriente
+                gratuitement. Étudiants en droit encadrés par des enseignants et des professionnels,
+                au service de toutes les personnes confrontées à une difficulté juridique.
             </p>
 
             <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -81,7 +81,7 @@
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                 <div>
                     <p class="text-sm font-semibold text-slate-900">{{ __("Horaires d'ouverture") }}</p>
-                    <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
+                    <p class="text-sm text-slate-500">Mardi et jeudi : 8h30 - 18h00</p>
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                 <div>
                     <p class="text-sm font-semibold text-slate-900">{{ __("Horaires d'ouverture") }}</p>
-                    <p class="text-sm text-slate-500">Lun - Ven : 9h00 - 17h00</p>
+                    <p class="text-sm text-slate-500">Mardi et jeudi : 8h30 - 18h00</p>
                 </div>
             </div>
 
@@ -291,13 +291,13 @@
             </div>
 
             <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <x-stat value="500+" label="Personnes accompagnées">
-                    <x-icon name="users" class="h-8 w-8 shrink-0 text-primary-600" />
+                <x-stat value="0 F CFA" label="Coût de la consultation">
+                    <x-icon name="gift" class="h-8 w-8 shrink-0 text-primary-600" />
                 </x-stat>
-                <x-stat value="50+" label="Étudiants impliqués">
-                    <x-icon name="user-plus" class="h-8 w-8 shrink-0 text-primary-600" />
+                <x-stat value="5 jours" label="Délai de réponse moyen">
+                    <x-icon name="clock" class="h-8 w-8 shrink-0 text-primary-600" />
                 </x-stat>
-                <x-stat value="15+" label="Activités et caravanes">
+                <x-stat value="72 heures" label="Délai pour les urgences">
                     <x-icon name="document" class="h-8 w-8 shrink-0 text-primary-600" />
                 </x-stat>
             </div>
@@ -609,9 +609,8 @@
             {{-- Native <details>: keyboard-accessible, works without JavaScript. --}}
             <div class="space-y-3 lg:col-span-2">
                 <x-faq-item question="Les consultations sont-elles gratuites ?">
-                    Oui. Les consultations juridiques de la Clinique sont gratuites. Seuls certains frais
-                    administratifs, fixés et affichés à l'avance, peuvent s'appliquer pour des démarches
-                    particulières — ils sont détaillés sur la page des tarifs administratifs.
+                    Oui. L'ensemble de nos services — consultation, orientation, accompagnement — est
+                    entièrement gratuit pour les particuliers. Aucun frais n'est demandé.
                 </x-faq-item>
 
                 <x-faq-item question="Qui peut bénéficier de nos services ?">
@@ -633,9 +632,9 @@
                 </x-faq-item>
 
                 <x-faq-item question="Combien de temps avant d'obtenir une réponse ?">
-                    Après une pré-saisine, vous recevez une réponse sur la recevabilité de votre demande dans
-                    un délai de cinq jours ouvrables. Le délai de traitement complet dépend ensuite de la
-                    complexité de votre situation.
+                    Après une pré-saisine, vous recevez une réponse dans un délai de cinq jours ouvrables.
+                    Pour les situations urgentes (garde à vue, audience imminente), nous intervenons sous
+                    72 heures.
                 </x-faq-item>
             </div>
         </div>

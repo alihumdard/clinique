@@ -2,7 +2,7 @@
     $navItems = [
         ['label' => __('Accueil'), 'route' => 'home'],
         ['label' => __('La Clinique'), 'route' => 'about', 'children' => [
-            ['label' => __('À propos de la Clinique'), 'route' => 'about'],
+            ['label' => __('Présentation de la Clinique'), 'route' => 'about'],
             ['label' => __('Notre équipe'), 'route' => 'about.team'],
             ['label' => __('Nos partenaires'), 'route' => 'partners'],
         ]],
@@ -10,7 +10,6 @@
             ['label' => __('Nos services'), 'route' => 'services'],
             ['label' => __('Processus de consultation'), 'route' => 'services.process'],
             ['label' => __("Conditions d'accès et gratuité"), 'route' => 'services.eligibility'],
-            ['label' => __('Tarifs administratifs'), 'route' => 'services.fees'],
         ]],
         ['label' => __('Actualités'), 'route' => 'news.index'],
         ['label' => __('Ressources'), 'route' => 'resources.guides', 'children' => [

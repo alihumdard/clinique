@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'À propos de la Clinique - ' . config('app.name'))
-@section('meta_description', "La Clinique Juridique FSJP-UAM est une structure universitaire creee au sein de la Faculte des Sciences Juridiques et Politiques de l'Universite Abdou Moumouni de Niamey.")
+@section('title', 'Présentation de la Clinique - ' . config('app.name'))
+@section('meta_description', "La Clinique Juridique FSJP-UAM est une structure universitaire créée au sein de la Faculté des Sciences Juridiques et Politiques de l'Université Abdou Moumouni de Niamey.")
 
 @section('content')
 
     <x-page-hero
         image="placeholders/about-hero"
-        imagePosition="object-right-top"
-        :title="__('À propos de la Clinique')"
+        imagePosition="object-right"
+        :title="__('Présentation de la Clinique')"
         subtitle="Une clinique juridique universitaire au service de la population, pour une justice plus accessible, plus humaine et plus proche des citoyens."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
-            ['label' => __('À propos de la Clinique')],
+            ['label' => __('Présentation de la Clinique')],
         ]"
     />
 
@@ -26,11 +26,11 @@
                     <span class="block">de l'Université Abdou Moumouni</span>
                 </h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM est une structure universitaire créée au sein de la Faculté
-                    des Sciences Juridiques et Politiques de l'Université Abdou Moumouni de Niamey. Elle a pour
-                    mission d'offrir une assistance juridique gratuite à la population, de promouvoir la culture
-                    des droits et de former les futurs professionnels du droit à travers une approche pratique,
-                    solidaire et citoyenne.
+                    La Clinique Juridique de la FSJP-UAM est une structure d'enseignement clinique du droit
+                    créée en 2025 au sein de la Faculté des Sciences Juridiques et Politiques de l'Université
+                    Abdou Moumouni de Niamey, par arrêté rectoral n° 00072. Elle offre une assistance juridique
+                    gratuite à toute personne confrontée à une difficulté juridique, assurée par des étudiants
+                    encadrés par des enseignants et des professionnels du droit.
                 </p>
                 <div class="mt-6">
                     <x-button href="#mission" variant="primary">{{ __('Notre mission') }}</x-button>
@@ -48,14 +48,16 @@
         {{-- Mission / Vision / Valeurs --}}
         <div id="mission" class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
             <x-value-card icon="document" :title="__('Notre mission')">
-                Offrir une assistance juridique gratuite et accessible, promouvoir la justice et former les
-                étudiants par la pratique.
+                Offrir une assistance juridique gratuite et accessible, former les étudiants en droit par la
+                pratique et promouvoir la culture des droits au sein de la communauté.
             </x-value-card>
             <x-value-card icon="search" title="Notre vision">
-                Une société plus juste, informée et respectueuse des droits fondamentaux.
+                Une société nigérienne plus juste, où chaque personne peut connaître et défendre ses droits,
+                quelle que soit sa situation.
             </x-value-card>
             <x-value-card icon="scale" title="Nos valeurs">
-                Solidarité, intégrité, impartialité, professionnalisme et engagement au service de la communauté.
+                Gratuité, confidentialité, impartialité, professionnalisme et engagement au service de toutes
+                les personnes vulnérables.
             </x-value-card>
         </div>
     </section>
@@ -69,12 +71,13 @@
                     <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Une initiative au service de la justice</h2>
                     <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
                         La Clinique Juridique FSJP-UAM est née de la volonté de la Faculté des Sciences Juridiques
-                        et Politiques de contribuer activement à l'accès au droit et à la promotion de la justice au Niger.
+                        et Politiques de l'Université Abdou Moumouni de contribuer activement à l'accès au droit
+                        et à la promotion de la justice au Niger.
                     </p>
                     <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
-                        Depuis sa création, elle n'a cessé de développer ses activités à travers des consultations
-                        juridiques, des campagnes de sensibilisation, des caravanes juridiques et des formations
-                        pratiques pour les étudiants.
+                        Créée en 2025 par arrêté rectoral, elle a lancé ses premières activités avec le soutien
+                        de partenaires nationaux et internationaux, et poursuit son développement à travers
+                        des consultations, des caravanes juridiques et la formation pratique des étudiants.
                     </p>
                 </div>
 
@@ -95,10 +98,10 @@
             <h2 class="mt-2 text-3xl font-bold text-white">Notre impact en chiffres</h2>
 
             <div class="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-4">
-                <x-stat-dark icon="users" value="500+" label="Personnes conseillées depuis la création" />
-                <x-stat-dark icon="book" value="200+" label="Étudiants formés par la pratique" />
-                <x-stat-dark icon="gavel" value="50+" label="Activités de sensibilisation et caravanes juridiques" />
-                <x-stat-dark icon="document" value="100+" label="Supports pédagogiques et fiches pratiques" />
+                <x-stat-dark icon="gift" value="0 F CFA" label="Coût des consultations — entièrement gratuit" />
+                <x-stat-dark icon="clock" value="5 jours" label="Délai de réponse pour les dossiers courants" />
+                <x-stat-dark icon="document" value="72h" label="Délai de traitement pour les situations urgentes" />
+                <x-stat-dark icon="users" value="2025" label="Année de création de la Clinique Juridique" />
             </div>
         </div>
     </section>
@@ -117,9 +120,9 @@
                 <x-eyebrow>Cadre institutionnel</x-eyebrow>
                 <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Création et cadre juridique</h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM a été créée par arrêté de l'Université Abdou Moumouni de
-                    Niamey, dans le cadre de la promotion de l'enseignement clinique du droit et de l'engagement
-                    social de la faculté.
+                    La Clinique Juridique FSJP-UAM a été créée en 2025 par arrêté rectoral n° 00072 de
+                    l'Université Abdou Moumouni de Niamey, dans le cadre de la promotion de l'enseignement
+                    clinique du droit et de l'engagement social de la faculté.
                 </p>
 
                 <div class="mt-6 flex flex-col items-start gap-4 rounded-lg border border-primary-100 bg-primary-50/60 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -149,11 +152,10 @@
 
             <div class="relative mt-10 flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-0">
                 <div class="hidden sm:absolute sm:left-0 sm:right-0 sm:top-[0.6rem] sm:z-0 sm:mx-[10%] sm:block sm:h-px sm:bg-slate-300"></div>
-                <x-timeline-item year="2018" label="Réflexion et lancement du projet" />
-                <x-timeline-item year="2019" label="Création officielle de la Clinique Juridique" :accent="true" />
-                <x-timeline-item year="2021" label="Développement des activités et premières caravanes juridiques" />
-                <x-timeline-item year="2023" label="Renforcement des partenariats et des ressources" :accent="true" />
-                <x-timeline-item year="2024" label="Extension des services et digitalisation" />
+                <x-timeline-item year="2025" label="Création officielle de la Clinique par arrêté rectoral n° 00072" :accent="true" />
+                <x-timeline-item year="2025" label="Signature des conventions de partenariat avec HCR, IDLO et Affaires mondiales Canada" />
+                <x-timeline-item year="2025" label="Premières caravanes juridiques avec IDLO dans les communes de Niamey" :accent="true" />
+                <x-timeline-item year="2026" label="Lancement du site web et ouverture des permanences (mardi et jeudi)" />
             </div>
         </div>
     </section>

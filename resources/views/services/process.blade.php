@@ -28,10 +28,10 @@
         <div class="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_260px]">
             @php
                 $timelineSteps = [
-                    ['number' => '1', 'icon' => 'document', 'title' => 'Orientation initiale', 'duration' => '15 à 30 minutes', 'text' => 'Nous analysons votre situation et vous orientons vers le service approprié.'],
-                    ['number' => '2', 'icon' => 'users', 'title' => 'Entretien', 'duration' => '30 à 60 minutes', 'text' => 'Rencontre avec nos étudiants encadrés pour comprendre votre situation.'],
-                    ['number' => '3', 'icon' => 'search', 'title' => 'Analyse juridique', 'duration' => '2 à 5 jours', 'text' => 'Étude de votre dossier et recherche des solutions adaptées.'],
-                    ['number' => '4', 'icon' => 'document', 'title' => 'Orientation / Suivi', 'duration' => 'selon le cas', 'text' => 'Recommandations et accompagnement vers les structures compétentes si nécessaire.'],
+                    ['number' => '1', 'icon' => 'document', 'title' => 'Accueil et pré-saisine', 'duration' => 'Le jour même', 'text' => 'Vous décrivez votre situation via le formulaire en ligne ou lors d\'une permanence. Réponse sur la recevabilité le jour même ou le lendemain.'],
+                    ['number' => '2', 'icon' => 'users', 'title' => 'Entretien de consultation', 'duration' => '30 à 60 minutes', 'text' => 'Un rendez-vous est fixé à nos locaux. Un étudiant clinicien encadré recueille l\'ensemble des informations nécessaires à l\'étude de votre dossier.'],
+                    ['number' => '3', 'icon' => 'search', 'title' => 'Analyse juridique', 'duration' => 'Sous 5 jours ouvrables', 'text' => 'Étude approfondie de votre dossier par l\'équipe, avec validation par un encadrant (enseignant ou professionnel du droit).'],
+                    ['number' => '4', 'icon' => 'document', 'title' => 'Réponse et orientation', 'duration' => 'Sous 2 semaines', 'text' => 'Vous recevez une réponse écrite validée : avis juridique, démarches à suivre, ou orientation vers un partenaire compétent.'],
                 ];
             @endphp
 
@@ -80,9 +80,9 @@
         </div>
     </section>
 
-    {{-- ============ NOTRE ENGAGEMENT ============ --}}
+    {{-- ============ URGENCES ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 gap-6 rounded-xl border border-primary-100 bg-primary-50/60 p-2 lg:grid-cols-2 lg:items-center lg:gap-0 lg:p-0">
+        <div class="grid grid-cols-1 gap-6 rounded-xl border border-rose-100 bg-rose-50/60 p-2 lg:grid-cols-2 lg:items-center lg:gap-0 lg:p-0">
             <x-picture
                 path="placeholders/scales-gavel-engagement"
                 alt="Balance de la justice et marteau de juge"
@@ -91,17 +91,18 @@
             />
 
             <div class="p-4 lg:p-8">
-                <x-eyebrow>{{ __('Notre engagement') }}</x-eyebrow>
-                <h2 class="mt-2 text-xl font-bold leading-tight text-slate-900 sm:text-2xl">Une justice plus proche</h2>
+                <x-eyebrow>{{ __('Urgences') }}</x-eyebrow>
+                <h2 class="mt-2 text-xl font-bold leading-tight text-slate-900 sm:text-2xl">Situations urgentes : intervention sous 72h</h2>
                 <p class="mt-2.5 max-w-md text-sm leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM s'engage à rendre le droit plus accessible et à renforcer
-                    la culture juridique au Niger, à travers un accompagnement de proximité, humain et de qualité.
+                    Pour les situations nécessitant une réponse rapide — garde à vue, audience imminente,
+                    expulsion, violence — la Clinique mobilise son équipe en priorité et intervient dans
+                    un délai de 72 heures.
                 </p>
 
                 <div class="mt-4 flex flex-wrap items-center gap-5">
-                    <x-inline-icon-label icon="headset" label="Écoute" />
-                    <x-inline-icon-label icon="chat" label="Conseil" />
-                    <x-inline-icon-label icon="heart" label="Accompagnement" />
+                    <x-inline-icon-label icon="gavel" label="Garde à vue" />
+                    <x-inline-icon-label icon="document" label="Audience imminente" />
+                    <x-inline-icon-label icon="heart" label="Situations de crise" />
                 </div>
             </div>
         </div>

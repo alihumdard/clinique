@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contactez-nous - ' . config('app.name'))
+@section('title', 'Nous contacter - ' . config('app.name'))
 @section('meta_description', "Une question, une demande d'information ou besoin d'accompagnement ? Contactez la Clinique Juridique FSJP-UAM a Niamey.")
 
 @section('content')
@@ -8,7 +8,7 @@
     <x-page-hero
         image="placeholders/contact-hero"
         imagePosition="object-right-top"
-        :title="__('Contactez-nous')"
+        :title="__('Nous contacter')"
         subtitle="Une question, une demande d'information ou besoin d'accompagnement ? Notre équipe est à votre écoute."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
@@ -286,28 +286,17 @@
             </div>
 
             <div class="rounded-xl bg-primary-50/60 p-6 lg:col-span-2">
-                @php
-                    $access = [
-                        ['icon' => 'map-pin', 'title' => 'Accès et transports', 'text' => "La Clinique est située dans l'enceinte de la FSJP - UAM, facilement accessible depuis le centre-ville de Niamey."],
-                        ['icon' => 'users', 'title' => 'Transport en commun', 'text' => "Lignes de bus universitaires et urbaines desservant l'UAM."],
-                        ['icon' => 'building', 'title' => 'En voiture', 'text' => "Parking disponible à l'entrée de la faculté."],
-                        ['icon' => 'info', 'title' => 'Repère', 'text' => "À proximité de la Bibliothèque universitaire et de l'amphithéâtre central."],
-                    ];
-                @endphp
-
-                <ul class="space-y-5">
-                    @foreach ($access as $item)
-                        <li class="flex items-start gap-3">
-                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-primary-600">
-                                <x-icon :name="$item['icon']" class="h-5 w-5" />
-                            </span>
-                            <div class="min-w-0">
-                                <p class="text-sm font-bold text-slate-900">{{ $item['title'] }}</p>
-                                <p class="mt-0.5 text-sm leading-relaxed text-slate-600">{{ $item['text'] }}</p>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
+                <x-section-label>Comment nous trouver</x-section-label>
+                <div class="mt-4 space-y-4 text-sm leading-relaxed text-slate-600">
+                    <p>
+                        La Clinique Juridique est située dans l'enceinte de la Faculté des Sciences Juridiques
+                        et Politiques (FSJP) de l'Université Abdou Moumouni de Niamey.
+                    </p>
+                    <p>
+                        Les permanences se tiennent <strong class="text-slate-900">le mardi et le jeudi de 8h30 à 18h00</strong>.
+                        Vous pouvez également faire une pré-saisine en ligne à tout moment.
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -325,8 +314,8 @@
                     </x-faq-item>
 
                     <x-faq-item :tint="true" question="Quels sont vos horaires de consultation ?">
-                        Les permanences se tiennent du lundi au vendredi de 08h00 à 16h00, et le samedi de 08h00
-                        à 12h00. La Clinique est fermée le dimanche et les jours fériés.
+                        Les permanences se tiennent le mardi et le jeudi de 8h30 à 18h00. La Clinique est
+                        fermée les autres jours et les jours fériés.
                     </x-faq-item>
 
                     <x-faq-item :tint="true" question="Puis-je vous contacter en dehors des heures d'ouverture ?">

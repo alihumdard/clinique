@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Nos services juridiques - ' . config('app.name'))
+@section('title', 'Nos services - ' . config('app.name'))
 @section('meta_description', "La Clinique Juridique FSJP-UAM offre un accompagnement, une information et une orientation juridique gratuite dans plusieurs domaines du droit.")
 
 @section('content')
@@ -8,20 +8,21 @@
     <x-page-hero
         image="placeholders/about-hero"
         imagePosition="object-right-top"
-        :title="__('Nos services juridiques')"
+        :title="__('Nos services')"
         subtitle="Une assistance juridique gratuite et accessible dans plusieurs domaines du droit, assurée par des étudiants encadrés par des enseignants et des professionnels."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
-            ['label' => __('Nos services juridiques')],
+            ['label' => __('Nos services')],
         ]"
     />
 
     {{-- ============ DOMAINES D'INTERVENTION ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold text-slate-900">Nos principaux domaines d'intervention</h2>
+        <h2 class="text-2xl font-bold text-slate-900">Nos domaines d'intervention</h2>
         <p class="mt-2 max-w-3xl text-base text-slate-600">
-            La Clinique Juridique FSJP-UAM offre un accompagnement, une information et une orientation
-            juridique gratuite dans plusieurs domaines du droit, en fonction des besoins de la population.
+            La Clinique Juridique FSJP-UAM offre une information, une orientation et un accompagnement
+            juridique entièrement gratuits dans plusieurs domaines du droit, en fonction des besoins
+            de la population.
         </p>
 
         @php

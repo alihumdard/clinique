@@ -66,15 +66,14 @@ return [
     */
     'hours' => [
         // Short form used in the header strip, footer and homepage card.
-        'days' => 'Lundi - Vendredi',
-        'time' => '08h00 - 16h00',
+        'days' => 'Mardi et jeudi',
+        'time' => '8h30 - 18h00',
 
         // Full schedule shown on the contact page.
         'schedule' => [
-            ['days' => 'Lundi - Vendredi', 'time' => '08h00 - 16h00'],
-            ['days' => 'Samedi', 'time' => '08h00 - 12h00'],
+            ['days' => 'Mardi et jeudi', 'time' => '8h30 - 18h00'],
         ],
-        'closed' => 'Fermé le dimanche',
+        'closed' => 'Fermé les autres jours',
 
         'note' => 'Accueil uniquement à Niamey',
     ],

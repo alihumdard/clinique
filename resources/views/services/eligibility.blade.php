@@ -29,10 +29,10 @@
                     Une assistance juridique gratuite et ouverte à tous
                 </h2>
                 <p class="mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM offre une assistance juridique gratuite à la population,
-                    dans le cadre de sa mission de service public et de formation pratique des étudiants.
-                    Nos services sont accessibles à toute personne, sans discrimination, dans le respect des
-                    principes d'égalité, de dignité et de justice.
+                    La Clinique Juridique FSJP-UAM offre une assistance juridique entièrement gratuite à la
+                    population, dans le cadre de sa mission de service public et de formation pratique des
+                    étudiants. Nos services sont accessibles à toute personne, sans discrimination, dans le
+                    respect des principes d'égalité, de dignité et de justice.
                 </p>
             </div>
 
@@ -95,8 +95,8 @@
                 <x-eyebrow>La gratuité</x-eyebrow>
                 <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900">Des services entièrement gratuits</h2>
                 <p class="mt-3 max-w-lg text-sm leading-relaxed text-slate-600">
-                    L'assistance juridique fournie par la Clinique Juridique FSJP-UAM est gratuite. Aucun frais
-                    n'est demandé pour :
+                    L'assistance juridique fournie par la Clinique Juridique FSJP-UAM est entièrement gratuite
+                    pour les particuliers. Aucun frais n'est demandé pour :
                 </p>
 
                 <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -163,7 +163,8 @@
                 Oui, nos étudiants encadrés peuvent vous accompagner tout au long de votre démarche juridique.
             </x-faq-item>
             <x-faq-item question="Y a-t-il des frais de dossier ou d'administration ?">
-                Non, aucun frais n'est demandé, quel que soit le type de service sollicité.
+                Non. Les services de la Clinique sont entièrement gratuits pour les particuliers, sans aucune
+                exception.
             </x-faq-item>
             <x-faq-item question="Que faire si mon cas ne relève pas de la Clinique ?">
                 Nous vous orientons vers un service partenaire ou une structure compétente adaptée à votre situation.

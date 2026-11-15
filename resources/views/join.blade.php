@@ -197,19 +197,24 @@
 
                 <div class="rounded-xl bg-primary-50/60 p-5">
                     <div class="flex items-start gap-3">
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white text-rose-500">
-                            <x-icon name="document" class="h-6 w-6" />
-                        </span>
+                        <x-icon-badge size="sm" class="shrink-0"><x-icon name="users" class="h-5 w-5" /></x-icon-badge>
                         <div class="min-w-0">
-                            <h3 class="text-base font-bold text-slate-900">Télécharger le guide</h3>
-                            <p class="mt-0.5 text-sm text-slate-600">Guide du candidat (PDF, 1,2 Mo)</p>
+                            <h3 class="text-base font-bold text-slate-900">Devenir étudiant clinicien</h3>
                         </div>
                     </div>
-
-                    <x-button href="#" variant="outline" :arrow="false" class="mt-4 w-full justify-center">
-                        <x-icon name="download" class="h-4 w-4" />
-                        Télécharger
-                    </x-button>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600">
+                        La Clinique Juridique FSJP-UAM recrute chaque année des étudiants en droit qui souhaitent
+                        mettre leurs connaissances au service de la population tout en renforçant leurs compétences pratiques.
+                    </p>
+                    <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                        Les étudiants cliniciens participent aux permanences, aux consultations et aux activités de
+                        terrain (caravanes juridiques, sensibilisation). Ils sont encadrés à chaque étape par des
+                        enseignants et des professionnels du droit.
+                    </p>
+                    <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                        Pour rejoindre la Clinique, consultez les appels à candidatures publiés sur cette page ou
+                        contactez-nous directement pendant les permanences (mardi et jeudi, 8h30–18h00).
+                    </p>
                 </div>
 
             </aside>
