@@ -41,13 +41,6 @@
             </div>
         @endif
 
-        @if($provisional)
-            <p class="mt-6 text-xs leading-relaxed text-slate-400">
-                Le texte de cette orientation est provisoire et sera remplacé par la
-                formulation approuvée par la Clinique.
-            </p>
-        @endif
-
         <div class="mt-8 flex flex-wrap items-center gap-3">
             <x-button :href="route('contact')" variant="primary">{{ __('Nous contacter') }}</x-button>
             <x-button :href="route('services')" variant="outline" :arrow="false">Voir nos services</x-button>

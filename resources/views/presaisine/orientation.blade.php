@@ -18,15 +18,6 @@
 
     <section class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
 
-        @if($provisional)
-            {{-- Said to the visitor, not only to the Clinic: the wording
-                 below is ours until the Clinic approves its own. --}}
-            <x-notice-banner icon="info" lead="Formulation provisoire." class="mb-8">
-                Les questions ci-dessous servent à vous orienter ; leur formulation
-                définitive est en cours de validation par la Clinique.
-            </x-notice-banner>
-        @endif
-
         <div class="space-y-3">
             <x-section-label>Avant de déposer une demande</x-section-label>
             <p class="text-base leading-relaxed text-slate-600">
@@ -76,7 +67,7 @@
             @endforeach
 
             <div class="flex flex-wrap items-center gap-3">
-                <x-button variant="primary" type="submit">Continuer</x-button>
+                <x-button variant="primary" type="submit">Voir le résultat</x-button>
                 <x-button :href="route('contact')" variant="outline" :arrow="false">{{ __('Nous contacter') }}</x-button>
             </div>
         </form>

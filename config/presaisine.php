@@ -31,39 +31,38 @@
 return [
 
     // Shown on the orientation page while the wording is not approved.
-    'provisional' => true,
+    'provisional' => false,
 
     'questions' => [
 
         [
             'key' => 'urgence',
-            'label' => "Votre situation présente-t-elle un danger immédiat pour une personne ?",
-            'help' => "Violences en cours, menace pour l'intégrité physique, mise en danger d'un enfant.",
-            // The answer that stops the journey, and what is shown then.
+            'label' => "Votre situation est-elle urgente (garde à vue, audience dans moins de 48h, violence en cours) ?",
+            'help' => "Garde à vue, audience imminente, expulsion, violence conjugale ou familiale en cours.",
             'blocking' => 'oui',
             'outcome' => 'urgence',
         ],
 
         [
             'key' => 'avocat',
-            'label' => "Êtes-vous déjà assisté par un avocat dans cette affaire ?",
-            'help' => "Un avocat déjà saisi suit votre dossier ; la Clinique n'intervient pas en parallèle.",
+            'label' => "Êtes-vous déjà représenté par un avocat dans cette affaire ?",
+            'help' => "Si un avocat suit déjà votre dossier, la Clinique n'intervient pas en parallèle.",
             'blocking' => 'oui',
             'outcome' => 'avocat',
         ],
 
         [
             'key' => 'domaine',
-            'label' => "Votre demande relève-t-elle d'un des domaines d'intervention de la Clinique ?",
-            'help' => "Famille, travail, foncier, état civil, succession, pénal, administratif.",
+            'label' => "Votre demande concerne-t-elle le droit de la famille, le droit du travail, le foncier, l'état civil, les droits humains ou un domaine juridique similaire ?",
+            'help' => "Mariage, divorce, succession, contrat de travail, litige foncier, acte de naissance, nationalité, droits des réfugiés…",
             'blocking' => 'non',
             'outcome' => 'hors_domaine',
         ],
 
         [
             'key' => 'deplacement',
-            'label' => "Pouvez-vous vous déplacer à Niamey si une consultation est nécessaire ?",
-            'help' => "L'accueil de la Clinique se tient uniquement à Niamey.",
+            'label' => "Pouvez-vous vous déplacer à Niamey pour une consultation si nécessaire ?",
+            'help' => "Les permanences de la Clinique se tiennent à la FSJP - UAM, à Niamey, le mardi et le jeudi.",
             'blocking' => 'non',
             'outcome' => 'hors_niamey',
         ],
@@ -71,34 +70,36 @@ return [
     ],
 
     /*
-    | What the visitor is shown when a question stops the journey. The
-    | telephone instruction, the ANAJJ wording and the partner to refer to
-    | are all awaiting the Clinic's approved text; the contact details
-    | come from the site settings so they are never written twice.
+    | Outcomes A–E per client corrections document.
+    | A = can proceed (routed to form — handled by controller, not here)
+    | B = urgence
+    | C = already has lawyer
+    | D = out of scope
+    | E = cannot travel to Niamey
     */
     'outcomes' => [
 
         'urgence' => [
-            'title' => "Votre situation nécessite une réponse immédiate",
-            'body' => "La pré-saisine en ligne n'est pas adaptée à une situation d'urgence : elle est examinée sous plusieurs jours ouvrables. Contactez directement les services compétents, ou appelez la Clinique pendant ses heures d'ouverture.",
+            'title' => "Votre situation est urgente — appelez-nous directement",
+            'body' => "La pré-saisine en ligne est traitée sous cinq jours ouvrables, ce qui n'est pas adapté à votre situation. Appelez la Clinique pendant les permanences (mardi et jeudi, 8h30–18h00). En dehors des heures d'ouverture, contactez les services de police ou de gendarmerie les plus proches.",
             'show_phone' => true,
         ],
 
         'avocat' => [
-            'title' => "Vous êtes déjà assisté par un avocat",
-            'body' => "La Clinique n'intervient pas sur une affaire déjà suivie par un avocat. Pour toute question sur l'aide juridictionnelle ou sur la désignation d'un avocat, adressez-vous à l'ANAJJ (Agence Nationale d'Assistance Juridique et Judiciaire).",
+            'title' => "Vous êtes déjà représenté par un avocat",
+            'body' => "La Clinique Juridique n'intervient pas sur une affaire déjà prise en charge par un avocat. Si vous souhaitez un deuxième avis sur vos droits en dehors de cette affaire, vous pouvez nous contacter directement pendant les permanences.",
             'show_phone' => false,
         ],
 
         'hors_domaine' => [
-            'title' => "Votre demande sort de nos domaines d'intervention",
-            'body' => "La Clinique intervient sur un nombre limité de matières. Nous vous invitons à consulter la page de nos services, ou à nous contacter pour être orienté vers une structure partenaire.",
+            'title' => "Votre demande ne relève pas de nos domaines d'intervention",
+            'body' => "La Clinique intervient principalement en droit de la famille, droit du travail, droit foncier, état civil, successions, droits humains, droits des réfugiés et état civil. Si votre demande concerne un autre domaine, contactez-nous : nous vous orienterons vers un partenaire ou une structure compétente.",
             'show_phone' => false,
         ],
 
         'hors_niamey' => [
-            'title' => "L'accueil de la Clinique se tient à Niamey",
-            'body' => "Si vous ne pouvez pas vous déplacer, contactez-nous : nous vous orienterons vers une structure partenaire proche de chez vous, et nos caravanes juridiques se rendent régulièrement en région.",
+            'title' => "Nos permanences se tiennent à Niamey",
+            'body' => "Si vous ne pouvez pas vous déplacer à Niamey, contactez-nous par téléphone ou par WhatsApp pendant les permanences (mardi et jeudi, 8h30–18h00). Nous vous orienterons vers une structure partenaire proche de chez vous. La Clinique organise également des caravanes juridiques dans plusieurs localités du Niger.",
             'show_phone' => true,
         ],
 

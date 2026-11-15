@@ -59,9 +59,9 @@ Route::get('/services/conditions-acces-gratuite', function () {
     return view('services.eligibility');
 })->name('services.eligibility');
 
-// The fee grid is CMS-managed, so the page reads it rather than listing it.
+// Tarifs page removed per client request — redirect permanently to eligibility.
 Route::get('/services/tarifs-administratifs', function () {
-    return view('services.fees', ['fees' => App\Models\Fee::visible()->get()]);
+    return redirect()->route('services.eligibility', [], 301);
 })->name('services.fees');
 
 Route::get('/actualites', [NewsController::class, 'index'])->name('news.index');
