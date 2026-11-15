@@ -30,6 +30,8 @@
         ],
         [
             'label' => 'Contenus',
+            // Membre: may submit articles/photos but cannot manage content directly.
+            'coordinateur_min' => true,
             'items' => [
                 ['label' => 'Actualités',       'icon' => 'document',    'route' => 'admin.news'],
                 ['label' => 'Web TV',           'icon' => 'play-circle', 'filled' => true, 'route' => 'admin.webtv'],
@@ -44,6 +46,7 @@
         ],
         [
             'label' => 'Terrain',
+            'coordinateur_min' => true,
             'items' => [
                 [
                     'label' => 'Appels à candidatures',
@@ -59,6 +62,7 @@
         ],
         [
             'label' => 'Personnes',
+            'coordinateur_min' => true,
             'items' => [
                 ['label' => 'Équipe',      'icon' => 'users',     'route' => 'admin.team'],
                 ['label' => 'Partenaires', 'icon' => 'globe', 'route' => 'admin.partners'],
@@ -66,8 +70,7 @@
         ],
         [
             'label' => 'Administration',
-            // Administrator-only, like the routes behind them: an éditeur
-            // de contenu would only reach a 403 by following these.
+            // Administrator-only, like the routes behind them.
             'admin' => true,
             'items' => [
                 ['label' => 'Messages de contact', 'icon' => 'chat',    'route' => 'admin.messages'],
@@ -142,6 +145,7 @@
         <nav class="admin-sidebar-scroll h-full overflow-y-auto overscroll-contain px-3 py-4">
         @foreach ($navGroups as $group)
             @continue(($group['admin'] ?? false) && ! auth()->user()?->isAdmin())
+            @continue(($group['coordinateur_min'] ?? false) && auth()->user()?->isMembre())
 
             @if($group['label'])
                 <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-300">
@@ -277,7 +281,7 @@
                     {{-- The role, not the address: the address is in the
                          title above and would not fit here, while the role
                          is what tells an editor why a screen is refused. --}}
-                    <span class="block truncate text-xs text-slate-300">{{ auth()->user()?->isAdmin() ? 'Administrateur' : 'Éditeur de contenu' }}</span>
+                    <span class="block truncate text-xs text-slate-300">{{ auth()->user()?->roleLabel() }}</span>
                 </span>
             </a>
 

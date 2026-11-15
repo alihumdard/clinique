@@ -38,11 +38,12 @@
     <div class="mt-5 space-y-5">
 
         {{-- ============ KPIs ============ --}}
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <x-admin.stat-card icon="users"       color="blue"  :value="$counts['total']" label="Comptes enregistrés" keep-at-zero />
-            <x-admin.stat-card icon="lock-shield" color="green" :value="$counts['admins']" label="Administrateurs" note="accès complet" />
-            <x-admin.stat-card icon="pencil"      color="amber" :value="$counts['editors']" label="Éditeurs" note="contenus uniquement" />
-            <x-admin.stat-card icon="eye-off"     color="red"   :value="$counts['disabled']" label="Comptes désactivés" />
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+            <x-admin.stat-card icon="users"       color="blue"  :value="$counts['total']"         label="Comptes enregistrés" keep-at-zero />
+            <x-admin.stat-card icon="lock-shield" color="green" :value="$counts['admins']"        label="Administrateurs IT" note="accès complet" />
+            <x-admin.stat-card icon="pencil"      color="amber" :value="$counts['coordinateurs']" label="Coordinateurs" note="contenus &amp; registre" />
+            <x-admin.stat-card icon="user"        color="slate" :value="$counts['membres']"       label="Membres" note="soumission uniquement" />
+            <x-admin.stat-card icon="eye-off"     color="red"   :value="$counts['disabled']"      label="Comptes désactivés" />
         </div>
 
         {{-- ============ TABLE ============ --}}
@@ -73,7 +74,14 @@
                                 <td class="px-5 py-3 text-slate-600">{{ $account->email }}</td>
 
                                 <td class="px-5 py-3">
-                                    <x-admin.badge :tone="$account->isAdmin() ? 'blue' : 'slate'">
+                                    @php
+                                        $roleTone = match($account->role) {
+                                            'admin'        => 'blue',
+                                            'coordinateur' => 'amber',
+                                            default        => 'slate',
+                                        };
+                                    @endphp
+                                    <x-admin.badge :tone="$roleTone">
                                         {{ $account->roleLabel() }}
                                     </x-admin.badge>
                                 </td>
@@ -156,8 +164,9 @@
         <div>
             <label for="create-user-role" class="block text-sm font-semibold text-slate-700">Rôle <span class="text-rose-600">*</span></label>
             <select id="create-user-role" name="role" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                <option value="editor">Éditeur — rédige et publie les contenus</option>
-                <option value="admin">Administrateur — contenus, paramètres, référentiels, données personnelles</option>
+                <option value="coordinateur">Coordinateur — gère les contenus et les dossiers du registre</option>
+                <option value="membre">Membre — soumet des articles et photos (validation coordinateur requise)</option>
+                <option value="admin">Administrateur IT — accès complet (sans accès aux dossiers réels)</option>
             </select>
         </div>
 
@@ -193,8 +202,9 @@
             <div>
                 <label for="edit-user-{{ $account->id }}-role" class="block text-sm font-semibold text-slate-700">Rôle <span class="text-rose-600">*</span></label>
                 <select id="edit-user-{{ $account->id }}-role" name="role" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                    <option value="editor" @selected(! $account->isAdmin())>Éditeur — rédige et publie les contenus</option>
-                    <option value="admin" @selected($account->isAdmin())>Administrateur — contenus, paramètres, référentiels, données personnelles</option>
+                    <option value="coordinateur" @selected($account->role === 'coordinateur' || $account->role === 'editor')>Coordinateur — gère les contenus et les dossiers du registre</option>
+                    <option value="membre" @selected($account->role === 'membre')>Membre — soumet des articles et photos (validation coordinateur requise)</option>
+                    <option value="admin" @selected($account->isAdmin())>Administrateur IT — accès complet (sans accès aux dossiers réels)</option>
                 </select>
             </div>
         </x-admin.edit-modal>

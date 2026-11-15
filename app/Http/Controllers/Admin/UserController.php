@@ -33,10 +33,11 @@ class UserController extends Controller
                 ->orderBy('name')
                 ->get(),
             'counts' => [
-                'total' => User::count(),
-                'admins' => User::active()->where('role', User::ROLE_ADMIN)->count(),
-                'editors' => User::active()->where('role', User::ROLE_EDITOR)->count(),
-                'disabled' => User::where('is_active', false)->count(),
+                'total'         => User::count(),
+                'admins'        => User::active()->where('role', User::ROLE_ADMIN)->count(),
+                'coordinateurs' => User::active()->where('role', User::ROLE_COORDINATEUR)->count(),
+                'membres'       => User::active()->where('role', User::ROLE_MEMBRE)->count(),
+                'disabled'      => User::where('is_active', false)->count(),
             ],
         ]);
     }
@@ -49,7 +50,7 @@ class UserController extends Controller
             // Twelve characters, as the security plan requires of a
             // production account.
             'password' => ['required', 'string', 'min:12', 'confirmed'],
-            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_EDITOR])],
+            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_COORDINATEUR, User::ROLE_MEMBRE])],
         ], [], $this->labels());
 
         User::create($data + ['is_active' => true]);
@@ -62,7 +63,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_EDITOR])],
+            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_COORDINATEUR, User::ROLE_MEMBRE])],
         ], [], $this->labels());
 
         // Demoting the last administrator leaves nobody able to reach the

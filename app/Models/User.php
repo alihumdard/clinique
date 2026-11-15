@@ -26,21 +26,41 @@ class User extends Authenticatable
         'is_active',
     ];
 
-    /** Writes, publishes and withdraws content. */
-    public const ROLE_EDITOR = 'editor';
+    /** Submits articles and photos for coordinator review before publication. No registre access. */
+    public const ROLE_MEMBRE = 'membre';
 
-    /** The above, plus the site settings, the référentiels, the personal
-     *  data left by the public, and permanent deletion. */
+    /** Manages all CMS content and registre dossiers. Cannot change global settings or create admin accounts. */
+    public const ROLE_COORDINATEUR = 'coordinateur';
+
+    /** Full platform access. Cannot read real dossier data (enforced at registre level). */
     public const ROLE_ADMIN = 'admin';
+
+    /** @deprecated Use ROLE_COORDINATEUR — kept so old 'editor' rows still resolve until migration runs. */
+    public const ROLE_EDITOR = 'editor';
 
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
     }
 
+    public function isCoordinateur(): bool
+    {
+        return $this->role === self::ROLE_COORDINATEUR || $this->role === self::ROLE_EDITOR;
+    }
+
+    public function isMembre(): bool
+    {
+        return $this->role === self::ROLE_MEMBRE;
+    }
+
     public function roleLabel(): string
     {
-        return $this->isAdmin() ? 'Administrateur' : 'Éditeur';
+        return match($this->role) {
+            self::ROLE_ADMIN        => 'Administrateur IT',
+            self::ROLE_COORDINATEUR => 'Coordinateur',
+            self::ROLE_MEMBRE       => 'Membre',
+            default                 => 'Éditeur',
+        };
     }
 
     /** A disabled account must not be able to sign in. */
