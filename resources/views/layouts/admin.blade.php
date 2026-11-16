@@ -28,7 +28,7 @@
 @include('admin.partials.sidebar')
 
 {{-- lg:pl-64 clears the fixed sidebar on desktop --}}
-<div class="flex min-h-screen flex-col lg:pl-64">
+<div class="flex min-h-screen flex-col lg:pl-72">
 
     @include('admin.partials.topbar')
 
