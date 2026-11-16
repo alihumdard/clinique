@@ -28,10 +28,10 @@
 
         {{-- ============ SETTINGS CARDS ============ --}}
         {{-- Left col: shorter cards. Right col: Contact (tallest). --}}
-        <div class="mt-5 grid grid-cols-1 items-start gap-5 lg:grid-cols-[1fr_1.3fr]">
+        <div class="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
 
             {{-- General information --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:order-1">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-start-1">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="building" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -104,7 +104,7 @@
             </section>
 
             {{-- Logo and visual identity --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:order-3">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-start-1">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="image" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -168,7 +168,7 @@
             </section>
 
             {{-- Contact details --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:order-2 lg:row-span-3">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-start-2 lg:row-span-3">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -230,7 +230,7 @@
             </section>
 
             {{-- Social networks --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:order-5">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-start-1">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="share" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -279,7 +279,7 @@
                 could not take effect — whereas the bandeau is a plan
                 requirement that had no screen of its own.
             --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:order-4">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-start-2">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="bell" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -364,7 +364,7 @@
             </section>
 
             {{-- SEO --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:order-6">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:col-start-2">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="search" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
