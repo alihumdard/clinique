@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Gestion des partenaires')
 @section('search_action', route('admin.partners'))
@@ -10,7 +10,7 @@
 
     <x-admin.page-header
         title="Gestion des partenaires"
-        lead="Gérez les organisations et institutions partenaires de la Clinique Juridique FSJP-UAM."
+        lead="GÃ©rez les organisations et institutions partenaires de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un partenaire"
         action-dialog="create-partner"
         :breadcrumb="[
@@ -24,18 +24,18 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="check-circle" color="green" :value="$counts['published']" label="Partenaires visibles" note="affichés sur le site" keep-at-zero />
-                <x-admin.stat-card icon="eye-off"      color="amber" :value="$counts['hidden']"    label="Masqués" note="enregistrés, non affichés" />
+            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+                <x-admin.stat-card icon="check-circle" color="green" :value="$counts['published']" label="Partenaires visibles" note="affichÃ©s sur le site" keep-at-zero />
+                <x-admin.stat-card icon="eye-off"      color="amber" :value="$counts['hidden']"    label="MasquÃ©s" note="enregistrÃ©s, non affichÃ©s" />
                 <x-admin.stat-card icon="document"     color="blue"  :value="$counts['drafts']"    label="Brouillons" />
                 <x-admin.stat-card icon="trash"        color="red"   :value="$counts['trashed']"   :href="route('admin.partners', ['statut' => 'corbeille'])"
-                                   label="À la corbeille" />
+                                   label="Ã€ la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                {{-- One GET form: search, catégorie and statut submit together,
+                {{-- One GET form: search, catÃ©gorie and statut submit together,
                      so a filtered list is a URL that can be shared. --}}
                 <form method="GET" action="{{ route('admin.partners') }}" class="space-y-3 p-5">
                     <div role="search" class="relative w-full lg:max-w-xs">
@@ -56,22 +56,22 @@
                     @php
                         $statuses = [
                             '' => 'Tous les statuts',
-                            'published' => 'Publiés',
+                            'published' => 'PubliÃ©s',
                             'draft' => 'Brouillons',
-                            'archived' => 'Archivés',
+                            'archived' => 'ArchivÃ©s',
                             'corbeille' => 'Corbeille',
                         ];
                     @endphp
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
                         <div class="min-w-0 sm:shrink-0">
-                            <label for="partners-category" class="sr-only">Filtrer par catégorie</label>
+                            <label for="partners-category" class="sr-only">Filtrer par catÃ©gorie</label>
                             <select
                                 id="partners-category"
                                 name="categorie"
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
                             >
-                                <option value="">Toutes les catégories</option>
+                                <option value="">Toutes les catÃ©gories</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" @selected((int) ($filters['categorie'] ?? 0) === $category->id)>{{ $category->name }}</option>
                                 @endforeach
@@ -98,7 +98,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.partners') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
-                                Réinitialiser
+                                RÃ©initialiser
                             </a>
                         @endif
                     </div>
@@ -116,14 +116,14 @@
                                 <th scope="col" class="w-12 px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="Sélectionner tous les partenaires"
+                                        aria-label="SÃ©lectionner tous les partenaires"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Logo</th>
                                 <th scope="col" class="min-w-[11rem] px-3 py-3">Nom du partenaire</th>
-                                <th scope="col" class="px-3 py-3">Catégorie</th>
+                                <th scope="col" class="px-3 py-3">CatÃ©gorie</th>
                                 <th scope="col" class="px-3 py-3">Site web</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
                                 <th scope="col" class="px-5 py-3 text-right">Actions</th>
@@ -136,7 +136,7 @@
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $partner->name }}"
+                                            aria-label="SÃ©lectionner : {{ $partner->name }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
@@ -221,7 +221,7 @@
                             @empty
                                 <tr>
                                     <td colspan="8" class="px-5 py-12 text-center">
-                                        <p class="text-sm text-slate-500">Aucun partenaire ne correspond à cette recherche.</p>
+                                        <p class="text-sm text-slate-500">Aucun partenaire ne correspond Ã  cette recherche.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -239,7 +239,7 @@
         Every row's "Modifier" dialog, rendered here rather than inside the
         table above: a <dialog> is not valid content for <tbody> between
         <tr> elements, and a browser that encounters one there foster-
-        parents it out — which was silently corrupting the <form> markup
+        parents it out â€” which was silently corrupting the <form> markup
         of every dialog on the page (content spilling out as siblings of
         an empty <form>, breaking its height/scroll layout) without ever
         raising a console error, since this is valid-by-recovery HTML, not
@@ -256,9 +256,9 @@
             </div>
 
             <div>
-                <label for="edit-partner-{{ $partner->id }}-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
+                <label for="edit-partner-{{ $partner->id }}-category" class="block text-sm font-medium text-slate-700">CatÃ©gorie</label>
                 <select id="edit-partner-{{ $partner->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                    <option value="">Sélectionner une catégorie</option>
+                    <option value="">SÃ©lectionner une catÃ©gorie</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" @selected($partner->category_id === $category->id)>{{ $category->name }}</option>
                     @endforeach
@@ -310,8 +310,8 @@
                     <label for="edit-partner-{{ $partner->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                     <select id="edit-partner-{{ $partner->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="draft" @selected($partner->status === 'draft')>Brouillon</option>
-                        <option value="published" @selected($partner->status === 'published')>Publié</option>
-                        <option value="archived" @selected($partner->status === 'archived')>Archivé</option>
+                        <option value="published" @selected($partner->status === 'published')>PubliÃ©</option>
+                        <option value="archived" @selected($partner->status === 'archived')>ArchivÃ©</option>
                     </select>
                 </div>
 
@@ -329,7 +329,7 @@
 
     {{--
         "Ajouter un partenaire" in the page header opens this dialog rather
-        than scrolling to a sidebar form, matching the Actualités pattern.
+        than scrolling to a sidebar form, matching the ActualitÃ©s pattern.
     --}}
     <x-admin.edit-modal id="create-partner" title="Ajouter un partenaire" :action="route('admin.partners.store')" method="POST" submit-label="Ajouter le partenaire">
         <div>
@@ -343,19 +343,19 @@
                 id="partner-name"
                 name="name"
                 required
-                placeholder="Ex. Union Européenne"
+                placeholder="Ex. Union EuropÃ©enne"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
         </div>
 
         <div>
-            <label for="partner-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
+            <label for="partner-category" class="block text-sm font-medium text-slate-700">CatÃ©gorie</label>
             <select
                 id="partner-category"
                 name="category_id"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
-                <option value="">Sélectionner une catégorie</option>
+                <option value="">SÃ©lectionner une catÃ©gorie</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -369,11 +369,11 @@
                 name="description"
                 rows="3"
                 aria-describedby="partner-description-hint"
-                placeholder="Ex. Programme des Nations Unies pour le Développement"
+                placeholder="Ex. Programme des Nations Unies pour le DÃ©veloppement"
                 class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             ></textarea>
             <p id="partner-description-hint" class="mt-1.5 text-xs text-slate-500">
-                Affichée sous le nom lorsqu'aucun logo n'a été importé.
+                AffichÃ©e sous le nom lorsqu'aucun logo n'a Ã©tÃ© importÃ©.
             </p>
         </div>
 
@@ -425,7 +425,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
             <p id="partner-position-hint" class="mt-1.5 text-xs text-slate-500">
-                Laissez vide pour ajouter à la fin de la liste.
+                Laissez vide pour ajouter Ã  la fin de la liste.
             </p>
         </div>
 
@@ -442,7 +442,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
                 @php
-                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                    $options = ['published' => 'PubliÃ©', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©'];
                 @endphp
                 @foreach ($options as $value => $label)
                     <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
@@ -457,3 +457,4 @@
     </x-admin.edit-modal>
 
 @endsection
+

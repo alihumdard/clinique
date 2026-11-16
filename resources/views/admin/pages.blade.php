@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Gestion des pages')
 @section('search_action', route('admin.pages'))
-@section('search_placeholder', 'Rechercher une page, un titre, un mot-clé...')
+@section('search_placeholder', 'Rechercher une page, un titre, un mot-clÃ©...')
 
 @section('content')
 
@@ -10,7 +10,7 @@
 
     <x-admin.page-header
         title="Gestion des pages"
-        lead="Créez et modifiez les pages que vous rédigez vous-même."
+        lead="CrÃ©ez et modifiez les pages que vous rÃ©digez vous-mÃªme."
         action-label="Ajouter une page"
         action-dialog="create-page"
         :breadcrumb="[
@@ -22,15 +22,15 @@
     {{--
         The site's own pages are not rows here. Each is a designed template
         with its own sections and its own route, so an "edit" on this screen
-        could not change them — modifying their text is a developer change.
+        could not change them â€” modifying their text is a developer change.
         They are listed further down as a reference instead.
     --}}
     <div class="mt-6 flex items-start gap-3 rounded-xl border border-primary-100 bg-primary-50/60 p-4">
         <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-primary-600" />
         <p class="text-sm leading-relaxed text-slate-700">
-            Cet écran gère les pages que vous rédigez vous-même : Cookies, Accessibilité, Crédits
-            ou toute autre page à ajouter. Les pages principales du site (Accueil, Services,
-            Contact, Mentions légales…) sont des gabarits conçus sur mesure ; elles sont listées
+            Cet Ã©cran gÃ¨re les pages que vous rÃ©digez vous-mÃªme : Cookies, AccessibilitÃ©, CrÃ©dits
+            ou toute autre page Ã  ajouter. Les pages principales du site (Accueil, Services,
+            Contact, Mentions lÃ©galesâ€¦) sont des gabarits conÃ§us sur mesure ; elles sont listÃ©es
             en bas de page pour information.
         </p>
     </div>
@@ -40,12 +40,12 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="document" color="green" :value="$counts['published']" label="Pages publiées" keep-at-zero />
+            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+                <x-admin.stat-card icon="document" color="green" :value="$counts['published']" label="Pages publiÃ©es" keep-at-zero />
                 <x-admin.stat-card icon="eye-off"  color="amber" :value="$counts['drafts']"    label="Brouillons" />
-                <x-admin.stat-card icon="clock"    color="blue"  :value="$counts['scheduled']" label="Programmées" />
+                <x-admin.stat-card icon="clock"    color="blue"  :value="$counts['scheduled']" label="ProgrammÃ©es" />
                 <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.pages', ['statut' => 'corbeille'])"
-                                   label="À la corbeille" />
+                                   label="Ã€ la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
@@ -65,7 +65,7 @@
                         class="lg:border-b-0"
                         :tabs="[
                             ['label' => 'Toutes', 'active' => ! $statut, 'href' => $tabLink([])],
-                            ['label' => 'Publiées', 'count' => $counts['published'], 'active' => $statut === 'published', 'href' => $tabLink(['statut' => 'published'])],
+                            ['label' => 'PubliÃ©es', 'count' => $counts['published'], 'active' => $statut === 'published', 'href' => $tabLink(['statut' => 'published'])],
                             ['label' => 'Brouillons', 'count' => $counts['drafts'], 'active' => $statut === 'draft', 'href' => $tabLink(['statut' => 'draft'])],
                             ['label' => 'Corbeille', 'count' => $counts['trashed'], 'active' => $statut === 'corbeille', 'href' => $tabLink(['statut' => 'corbeille'])],
                         ]"
@@ -98,7 +98,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.pages') }}" class="shrink-0 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50">
-                                Réinitialiser
+                                RÃ©initialiser
                             </a>
                         @endif
                     </form>
@@ -116,7 +116,7 @@
                                 <th scope="col" class="w-12 px-5 py-3">#</th>
                                 <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de la page</th>
                                 <th scope="col" class="px-3 py-3">Adresse (URL)</th>
-                                <th scope="col" class="px-3 py-3">Dernière modification</th>
+                                <th scope="col" class="px-3 py-3">DerniÃ¨re modification</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
                                 <th scope="col" class="px-5 py-3 text-right">Actions</th>
                             </tr>
@@ -163,9 +163,9 @@
                                     <td colspan="6" class="px-5 py-12 text-center">
                                         <p class="text-sm text-slate-500">
                                             @if (array_filter($filters))
-                                                Aucune page ne correspond à cette recherche.
+                                                Aucune page ne correspond Ã  cette recherche.
                                             @else
-                                                Aucune page créée pour le moment.
+                                                Aucune page crÃ©Ã©e pour le moment.
                                             @endif
                                         </p>
                                     </td>
@@ -185,9 +185,9 @@
                     Pages principales du site
                 </h2>
                 <p class="mt-1 text-xs leading-relaxed text-slate-500">
-                    Gabarits conçus sur mesure, avec leurs propres sections. Leur contenu provient
-                    des écrans correspondants (Actualités, Web TV, Équipe…) ou des Paramètres du
-                    site ; leur structure relève du développement.
+                    Gabarits conÃ§us sur mesure, avec leurs propres sections. Leur contenu provient
+                    des Ã©crans correspondants (ActualitÃ©s, Web TV, Ã‰quipeâ€¦) ou des ParamÃ¨tres du
+                    site ; leur structure relÃ¨ve du dÃ©veloppement.
                 </p>
 
                 <ul class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -214,7 +214,7 @@
         Every row's "Modifier" dialog, rendered here rather than inside the
         table above: a dialog element is not valid content for a table body
         between row elements, and a browser that encounters one there foster-
-        parents it out — which was silently corrupting the form markup of
+        parents it out â€” which was silently corrupting the form markup of
         every dialog on the page (content spilling out as siblings of an
         empty form, breaking its height/scroll layout) without ever raising
         a console error, since this is valid-by-recovery HTML, not a parse
@@ -251,7 +251,7 @@
                 <x-admin.image-field
                     name="image"
                     :id="'edit-page-'.$page->id.'-image'"
-                    label="Image de bannière"
+                    label="Image de banniÃ¨re"
                     :current="$page->image"
                     :preview="$page->imageUrl()"
                     accept="image/jpeg,image/png,image/webp"
@@ -272,8 +272,8 @@
                     <label for="edit-page-{{ $page->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                     <select id="edit-page-{{ $page->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="draft" @selected($page->status === 'draft')>Brouillon</option>
-                        <option value="published" @selected($page->status === 'published')>Publié</option>
-                        <option value="archived" @selected($page->status === 'archived')>Archivé</option>
+                        <option value="published" @selected($page->status === 'published')>PubliÃ©</option>
+                        <option value="archived" @selected($page->status === 'archived')>ArchivÃ©</option>
                     </select>
                 </div>
 
@@ -297,7 +297,7 @@
                 id="page-title"
                 name="title"
                 required
-                placeholder="Ex. Accessibilité"
+                placeholder="Ex. AccessibilitÃ©"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
         </div>
@@ -321,7 +321,7 @@
                 >
             </div>
             <p id="page-slug-hint" class="mt-1.5 text-xs text-slate-500">
-                Lettres, chiffres et tirets. Une adresse déjà utilisée par le site est refusée.
+                Lettres, chiffres et tirets. Une adresse dÃ©jÃ  utilisÃ©e par le site est refusÃ©e.
             </p>
         </div>
 
@@ -336,12 +336,12 @@
                 class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             ></textarea>
             <p id="page-body-hint" class="mt-1.5 text-xs text-slate-500">
-                Les sauts de ligne sont conservés tels quels.
+                Les sauts de ligne sont conservÃ©s tels quels.
             </p>
         </div>
 
         <div>
-            <span class="block text-sm font-medium text-slate-700">Image de bannière</span>
+            <span class="block text-sm font-medium text-slate-700">Image de banniÃ¨re</span>
 
             <label
                 for="page-image"
@@ -400,7 +400,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
                 @php
-                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                    $options = ['published' => 'PubliÃ©', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©'];
                 @endphp
                 @foreach ($options as $value => $label)
                     <option value="{{ $value }}" @selected($value === 'draft')>{{ $label }}</option>
@@ -420,3 +420,4 @@
     </x-admin.edit-modal>
 
 @endsection
+

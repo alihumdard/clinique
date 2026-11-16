@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Messages de contact')
 @section('search_action', route('admin.messages'))
@@ -10,7 +10,7 @@
 
     <x-admin.page-header
         title="Messages de contact"
-        lead="Messages reçus via le formulaire de contact du site."
+        lead="Messages reÃ§us via le formulaire de contact du site."
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
             ['label' => 'Messages de contact'],
@@ -20,27 +20,27 @@
     {{--
         These rows hold personal data a visitor typed in. There is no
         corbeille: a deletion is permanent, which is the deletion the
-        retention rules ask for. Mail notification is not wired — no SMTP
-        credentials have been supplied for this deployment — so this screen
+        retention rules ask for. Mail notification is not wired â€” no SMTP
+        credentials have been supplied for this deployment â€” so this screen
         is where the messages arrive.
     --}}
     <div class="mt-6 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
         <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
         <p class="text-sm leading-relaxed text-slate-700">
-            Ces messages contiennent des données personnelles. La suppression est définitive
-            (pas de corbeille). L'envoi d'une notification par e-mail sera activé dès que les
-            paramètres SMTP de la Clinique seront fournis.
+            Ces messages contiennent des donnÃ©es personnelles. La suppression est dÃ©finitive
+            (pas de corbeille). L'envoi d'une notification par e-mail sera activÃ© dÃ¨s que les
+            paramÃ¨tres SMTP de la Clinique seront fournis.
         </p>
     </div>
 
     <div class="mt-5 space-y-5">
 
         {{-- ============ KPIs ============ --}}
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <x-admin.stat-card icon="chat"         color="blue"  :value="$counts['new']"     label="Nouveaux messages" note="à traiter" keep-at-zero />
-            <x-admin.stat-card icon="check-circle" color="green" :value="$counts['handled']" label="Résolus" />
-            <x-admin.stat-card icon="clock"        color="amber" :value="$counts['week']"    label="Reçus cette semaine" />
-            <x-admin.stat-card icon="mail"         color="red"   :value="$counts['all']"     label="Total enregistré" />
+        <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+            <x-admin.stat-card icon="chat"         color="blue"  :value="$counts['new']"     label="Nouveaux messages" note="Ã  traiter" keep-at-zero />
+            <x-admin.stat-card icon="check-circle" color="green" :value="$counts['handled']" label="RÃ©solus" />
+            <x-admin.stat-card icon="clock"        color="amber" :value="$counts['week']"    label="ReÃ§us cette semaine" />
+            <x-admin.stat-card icon="mail"         color="red"   :value="$counts['all']"     label="Total enregistrÃ©" />
         </div>
 
         {{-- ============ LIST ============ --}}
@@ -64,7 +64,7 @@
                     :tabs="[
                         ['label' => 'Tous', 'count' => $counts['all'], 'active' => ! $statut, 'href' => $tabLink([])],
                         ['label' => 'Nouveaux', 'count' => $counts['new'], 'active' => $statut === 'nouveaux', 'href' => $tabLink(['statut' => 'nouveaux'])],
-                        ['label' => 'Résolus', 'count' => $counts['handled'], 'active' => $statut === 'traites', 'href' => $tabLink(['statut' => 'traites'])],
+                        ['label' => 'RÃ©solus', 'count' => $counts['handled'], 'active' => $statut === 'traites', 'href' => $tabLink(['statut' => 'traites'])],
                     ]"
                 />
 
@@ -109,7 +109,7 @@
 
                     @if (array_filter($filters))
                         <a href="{{ route('admin.messages') }}" class="shrink-0 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50">
-                            Réinitialiser
+                            RÃ©initialiser
                         </a>
                     @endif
                 </form>
@@ -126,7 +126,7 @@
                         {{-- Stacked on mobile (name/badges, then meta, then
                              actions as their own right-aligned row) rather
                              than one wide row that wraps mid-badge or needs
-                             a horizontal scrollbar — both read worse than a
+                             a horizontal scrollbar â€” both read worse than a
                              plain second line. Side-by-side from sm: up,
                              matching the original desktop layout. --}}
                         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -141,7 +141,7 @@
                                     @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
                                         <x-admin.badge tone="amber">Nouveau</x-admin.badge>
                                     @else
-                                        <x-admin.badge tone="green">Résolu</x-admin.badge>
+                                        <x-admin.badge tone="green">RÃ©solu</x-admin.badge>
                                     @endif
                                 </div>
 
@@ -160,7 +160,7 @@
 
                                     <span class="inline-flex items-center gap-1.5 whitespace-nowrap">
                                         <x-icon name="calendar" class="h-3.5 w-3.5 shrink-0" />
-                                        {{ $message->created_at->translatedFormat('j F Y à H:i') }}
+                                        {{ $message->created_at->translatedFormat('j F Y Ã  H:i') }}
                                     </span>
                                 </div>
                             </div>
@@ -171,7 +171,7 @@
                                         @csrf
                                         <button type="submit" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-100">
                                             <x-icon name="check-circle" class="h-4 w-4" />
-                                            Marquer résolu
+                                            Marquer rÃ©solu
                                         </button>
                                     </form>
                                 @endif
@@ -181,7 +181,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="relative flex h-8 w-8 items-center justify-center rounded-md text-rose-600 transition-colors hover:bg-rose-50">
                                         <x-icon name="trash" class="h-4 w-4" />
-                                        <span class="sr-only">Supprimer définitivement le message de {{ $message->name }}</span>
+                                        <span class="sr-only">Supprimer dÃ©finitivement le message de {{ $message->name }}</span>
                                     </button>
                                 </form>
                             </div>
@@ -190,9 +190,9 @@
                         <p class="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">{{ $message->message }}</p>
 
                         <p class="mt-3 text-xs text-slate-400">
-                            Consentement donné le {{ $message->consent_at?->translatedFormat('j F Y à H:i') ?? '—' }}
+                            Consentement donnÃ© le {{ $message->consent_at?->translatedFormat('j F Y Ã  H:i') ?? 'â€”' }}
                             @if($message->handled_at)
-                                &middot; résolu le {{ $message->handled_at->translatedFormat('j F Y') }}
+                                &middot; rÃ©solu le {{ $message->handled_at->translatedFormat('j F Y') }}
                                 @if($message->handler) par {{ $message->handler->name }} @endif
                             @endif
                         </p>
@@ -201,7 +201,7 @@
                     <div class="p-12 text-center">
                         <p class="text-sm text-slate-500">
                             @if (array_filter($filters))
-                                Aucun message ne correspond à cette recherche.
+                                Aucun message ne correspond Ã  cette recherche.
                             @else
                                 Aucun message pour le moment.
                             @endif
@@ -215,3 +215,4 @@
     </div>
 
 @endsection
+

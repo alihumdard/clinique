@@ -1,6 +1,6 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
-@section('title', 'Appels à candidatures')
+@section('title', 'Appels Ã  candidatures')
 @section('search_action', route('admin.calls'))
 @section('search_placeholder', 'Rechercher un appel, un profil...')
 
@@ -9,13 +9,13 @@
     <x-admin.flash />
 
     <x-admin.page-header
-        title="Appels à candidatures"
-        lead="Stages, volontariat, consultances et partenariats proposés par la Clinique."
+        title="Appels Ã  candidatures"
+        lead="Stages, volontariat, consultances et partenariats proposÃ©s par la Clinique."
         action-label="Ajouter un appel"
         action-dialog="create-call"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
-            ['label' => 'Appels à candidatures'],
+            ['label' => 'Appels Ã  candidatures'],
         ]"
     />
 
@@ -24,12 +24,12 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
                 <x-admin.stat-card icon="user-plus"    color="green" :value="$counts['open']"    label="Appels ouverts" note="visibles sur le site" keep-at-zero />
-                <x-admin.stat-card icon="clock"        color="amber" :value="$counts['closed']"  label="Clôturés" note="date dépassée" />
+                <x-admin.stat-card icon="clock"        color="amber" :value="$counts['closed']"  label="ClÃ´turÃ©s" note="date dÃ©passÃ©e" />
                 <x-admin.stat-card icon="document"     color="blue"  :value="$counts['drafts']"  label="Brouillons" />
                 <x-admin.stat-card icon="trash"        color="red"   :value="$counts['trashed']" :href="route('admin.calls', ['statut' => 'corbeille'])"
-                                   label="À la corbeille" />
+                                   label="Ã€ la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
@@ -53,7 +53,7 @@
                         :tabs="[
                             ['label' => 'Tous', 'count' => $counts['all'], 'active' => ! $vue, 'href' => $tabLink([])],
                             ['label' => 'Ouverts', 'count' => $counts['open'], 'active' => $vue === 'ouverts', 'href' => $tabLink(['vue' => 'ouverts'])],
-                            ['label' => 'Clôturés', 'count' => $counts['closed'], 'active' => $vue === 'clotures', 'href' => $tabLink(['vue' => 'clotures'])],
+                            ['label' => 'ClÃ´turÃ©s', 'count' => $counts['closed'], 'active' => $vue === 'clotures', 'href' => $tabLink(['vue' => 'clotures'])],
                         ]"
                     />
 
@@ -98,7 +98,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.calls') }}" class="shrink-0 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50">
-                                Réinitialiser
+                                RÃ©initialiser
                             </a>
                         @endif
                     </form>
@@ -117,7 +117,7 @@
                                 <th scope="col" class="w-20 px-2 py-3">Image</th>
                                 <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de l'appel</th>
                                 <th scope="col" class="px-3 py-3">Type</th>
-                                <th scope="col" class="px-3 py-3">Clôture</th>
+                                <th scope="col" class="px-3 py-3">ClÃ´ture</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
                                 <th scope="col" class="px-5 py-3 text-right">Actions</th>
                             </tr>
@@ -177,7 +177,7 @@
                                                 @if($call->isOpen())
                                                     <x-admin.badge tone="green">Ouvert</x-admin.badge>
                                                 @else
-                                                    <x-admin.badge tone="slate">Clôturé</x-admin.badge>
+                                                    <x-admin.badge tone="slate">ClÃ´turÃ©</x-admin.badge>
                                                 @endif
                                             @endif
                                         </div>
@@ -198,7 +198,7 @@
                             @empty
                                 <tr>
                                     <td colspan="7" class="px-5 py-12 text-center">
-                                        <p class="text-sm text-slate-500">Aucun appel ne correspond à cette recherche.</p>
+                                        <p class="text-sm text-slate-500">Aucun appel ne correspond Ã  cette recherche.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -216,7 +216,7 @@
         Every row's "Modifier" dialog, rendered here rather than inside the
         table above: a dialog element is not valid content for a table body
         between row elements, and a browser that encounters one there foster-
-        parents it out — which was silently corrupting the form markup of
+        parents it out â€” which was silently corrupting the form markup of
         every dialog on the page (content spilling out as siblings of an
         empty form, breaking its height/scroll layout) without ever raising
         a console error, since this is valid-by-recovery HTML, not a parse
@@ -235,7 +235,7 @@
             <div>
                 <label for="edit-call-{{ $call->id }}-category" class="block text-sm font-medium text-slate-700">Type d'appel</label>
                 <select id="edit-call-{{ $call->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                    <option value="">Sélectionner un type</option>
+                    <option value="">SÃ©lectionner un type</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" @selected($call->category_id === $category->id)>{{ $category->name }}</option>
                     @endforeach
@@ -243,17 +243,17 @@
             </div>
 
             <div>
-                <label for="edit-call-{{ $call->id }}-closes" class="block text-sm font-medium text-slate-700">Date de clôture</label>
+                <label for="edit-call-{{ $call->id }}-closes" class="block text-sm font-medium text-slate-700">Date de clÃ´ture</label>
                 <input type="date" id="edit-call-{{ $call->id }}-closes" name="closes_on" value="{{ $call->closes_on?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
             </div>
 
             <div>
-                <label for="edit-call-{{ $call->id }}-excerpt" class="block text-sm font-medium text-slate-700">Résumé</label>
+                <label for="edit-call-{{ $call->id }}-excerpt" class="block text-sm font-medium text-slate-700">RÃ©sumÃ©</label>
                 <textarea id="edit-call-{{ $call->id }}-excerpt" name="excerpt" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $call->excerpt }}</textarea>
             </div>
 
             <div>
-                <label for="edit-call-{{ $call->id }}-body" class="block text-sm font-medium text-slate-700">Détail de l'appel</label>
+                <label for="edit-call-{{ $call->id }}-body" class="block text-sm font-medium text-slate-700">DÃ©tail de l'appel</label>
                 <textarea id="edit-call-{{ $call->id }}-body" name="body" rows="6" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $call->body }}</textarea>
             </div>
 
@@ -262,8 +262,8 @@
                     <label for="edit-call-{{ $call->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                     <select id="edit-call-{{ $call->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="draft" @selected($call->status === 'draft')>Brouillon</option>
-                        <option value="published" @selected($call->status === 'published')>Publié</option>
-                        <option value="archived" @selected($call->status === 'archived')>Archivé</option>
+                        <option value="published" @selected($call->status === 'published')>PubliÃ©</option>
+                        <option value="archived" @selected($call->status === 'archived')>ArchivÃ©</option>
                     </select>
                 </div>
 
@@ -284,7 +284,7 @@
         </x-admin.edit-modal>
     @endforeach
 
-    <x-admin.edit-modal id="create-call" title="Ajouter un appel à candidatures" :action="route('admin.calls.store')" method="POST" submit-label="Publier l'appel">
+    <x-admin.edit-modal id="create-call" title="Ajouter un appel Ã  candidatures" :action="route('admin.calls.store')" method="POST" submit-label="Publier l'appel">
         <div>
             <label for="call-title" class="block text-sm font-medium text-slate-700">
                 Titre de l'appel
@@ -296,7 +296,7 @@
                 id="call-title"
                 name="title"
                 required
-                placeholder="Ex. Stage pour étudiants en droit"
+                placeholder="Ex. Stage pour Ã©tudiants en droit"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
         </div>
@@ -308,7 +308,7 @@
                 name="category_id"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
-                <option value="">Sélectionner un type</option>
+                <option value="">SÃ©lectionner un type</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -316,7 +316,7 @@
         </div>
 
         <div>
-            <label for="call-closes" class="block text-sm font-medium text-slate-700">Date de clôture</label>
+            <label for="call-closes" class="block text-sm font-medium text-slate-700">Date de clÃ´ture</label>
             <input
                 type="date"
                 id="call-closes"
@@ -325,28 +325,28 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
             <p id="call-closes-hint" class="mt-1.5 text-xs text-slate-500">
-                Passée cette date, l'appel disparaît du site de lui-même. Laissez vide pour un appel sans échéance.
+                PassÃ©e cette date, l'appel disparaÃ®t du site de lui-mÃªme. Laissez vide pour un appel sans Ã©chÃ©ance.
             </p>
         </div>
 
         <div>
-            <label for="call-excerpt" class="block text-sm font-medium text-slate-700">Résumé</label>
+            <label for="call-excerpt" class="block text-sm font-medium text-slate-700">RÃ©sumÃ©</label>
             <textarea
                 id="call-excerpt"
                 name="excerpt"
                 rows="3"
-                placeholder="Quelques lignes affichées dans la liste..."
+                placeholder="Quelques lignes affichÃ©es dans la liste..."
                 class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             ></textarea>
         </div>
 
         <div>
-            <label for="call-body" class="block text-sm font-medium text-slate-700">Détail de l'appel</label>
+            <label for="call-body" class="block text-sm font-medium text-slate-700">DÃ©tail de l'appel</label>
             <textarea
                 id="call-body"
                 name="body"
                 rows="5"
-                placeholder="Conditions, pièces à fournir, modalités de candidature..."
+                placeholder="Conditions, piÃ¨ces Ã  fournir, modalitÃ©s de candidature..."
                 class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             ></textarea>
         </div>
@@ -385,7 +385,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
                 @php
-                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                    $options = ['published' => 'PubliÃ©', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©'];
                 @endphp
                 @foreach ($options as $value => $label)
                     <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
@@ -405,3 +405,4 @@
     </x-admin.edit-modal>
 
 @endsection
+

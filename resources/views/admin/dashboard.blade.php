@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Tableau de bord')
 
@@ -18,7 +18,7 @@
                 <span aria-hidden="true">&#128075;</span>
             </h1>
             <p class="mt-1.5 text-sm text-slate-600">
-                Voici un aperçu des activités de la Clinique Juridique FSJP-UAM.
+                Voici un aperÃ§u des activitÃ©s de la Clinique Juridique FSJP-UAM.
             </p>
         </div>
 
@@ -33,11 +33,11 @@
 
     {{-- ============ KPIs ============ --}}
     {{-- Figures are illustrative until Module 2 supplies real counts. --}}
-    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <x-admin.stat-card icon="document"    color="blue"   :value="$kpis['articles']"   label="Actualités publiées" />
+    <div class="mt-6 grid grid-cols-2 gap-4 xl:grid-cols-4">
+        <x-admin.stat-card icon="document"    color="blue"   :value="$kpis['articles']"   label="ActualitÃ©s publiÃ©es" />
         <x-admin.stat-card icon="play-circle" color="green"  :value="$kpis['videos']"     label="Capsules Web TV" />
-        <x-admin.stat-card icon="chat"        color="amber"  :value="$kpis['messages']"   label="Messages à traiter" note="formulaire de contact" />
-        <x-admin.stat-card icon="calendar"    color="purple" :value="$kpis['activities']" label="Activités publiées" />
+        <x-admin.stat-card icon="chat"        color="amber"  :value="$kpis['messages']"   label="Messages Ã  traiter" note="formulaire de contact" />
+        <x-admin.stat-card icon="calendar"    color="purple" :value="$kpis['activities']" label="ActivitÃ©s publiÃ©es" />
     </div>
 
     {{-- ============ CHARTS ============ --}}
@@ -64,15 +64,15 @@
         <section class="rounded-xl border border-slate-200 bg-white p-5">
             <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                 <x-icon name="chart-pie" class="h-5 w-5 text-primary-600" />
-                Répartition du contenu
+                RÃ©partition du contenu
             </h2>
 
             <div class="mt-5">
                 @if(count($breakdown))
-                    <x-admin.donut-chart total-label="Éléments" :items="$breakdown" />
+                    <x-admin.donut-chart total-label="Ã‰lÃ©ments" :items="$breakdown" />
                 @else
                     <p class="py-8 text-center text-sm text-slate-500">
-                        Aucun contenu publié pour le moment.
+                        Aucun contenu publiÃ© pour le moment.
                     </p>
                 @endif
             </div>
@@ -86,7 +86,7 @@
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 p-5">
                 <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                     <x-icon name="document" class="h-5 w-5 text-primary-600" />
-                    Dernières actualités
+                    DerniÃ¨res actualitÃ©s
                 </h2>
 
                 <a href="{{ route('admin.news') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
@@ -106,7 +106,7 @@
                         <tr class="whitespace-nowrap border-b border-slate-100 text-xs font-semibold uppercase tracking-wide text-slate-500">
                             <th scope="col" class="px-5 py-3">#</th>
                             <th scope="col" class="px-5 py-3">Titre</th>
-                            <th scope="col" class="px-5 py-3">Catégorie</th>
+                            <th scope="col" class="px-5 py-3">CatÃ©gorie</th>
                             <th scope="col" class="px-5 py-3">Statut</th>
                             <th scope="col" class="px-5 py-3">Date</th>
                             <th scope="col" class="px-5 py-3 text-right">Actions</th>
@@ -144,7 +144,7 @@
                                     {{--
                                         Modifier opens the dialog rendered at
                                         the foot of this page, not a link to
-                                        the actualités screen: this is the
+                                        the actualitÃ©s screen: this is the
                                         screen the administrator is working
                                         on, and sending them elsewhere to
                                         change a title left them on that other
@@ -161,7 +161,7 @@
                         @empty
                             <tr>
                                 <td colspan="6" class="px-5 py-10 text-center">
-                                    <p class="text-sm text-slate-500">Aucune actualité enregistrée.</p>
+                                    <p class="text-sm text-slate-500">Aucune actualitÃ© enregistrÃ©e.</p>
                                 </td>
                             </tr>
                         @endforelse
@@ -184,7 +184,7 @@
             </div>
 
             {{--
-                The design had "Dernières candidatures" here. Nothing records
+                The design had "DerniÃ¨res candidatures" here. Nothing records
                 an application: a call tells the applicant how to apply and
                 they do so by e-mail or in person, so there is no table
                 behind that panel. The contact inbox is the real stream of
@@ -207,13 +207,13 @@
                             @if($message->status === \App\Models\ContactMessage::STATUS_NEW)
                                 <span class="mt-1 inline-block rounded bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">Nouveau</span>
                             @else
-                                <span class="mt-1 inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Résolu</span>
+                                <span class="mt-1 inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">RÃ©solu</span>
                             @endif
                         </div>
                     </li>
                 @empty
                     <li class="p-8 text-center">
-                        <p class="text-sm text-slate-500">Aucun message reçu pour le moment.</p>
+                        <p class="text-sm text-slate-500">Aucun message reÃ§u pour le moment.</p>
                     </li>
                 @endforelse
             </ul>
@@ -222,7 +222,7 @@
                 <p class="flex items-center gap-2 text-sm text-slate-600">
                     <x-icon name="mail" class="h-4 w-4 shrink-0 text-slate-400" />
                     {{ number_format($subscribers, 0, ',', ' ') }}
-                    {{ $subscribers === 1 ? 'abonné' : 'abonnés' }} à la newsletter
+                    {{ $subscribers === 1 ? 'abonnÃ©' : 'abonnÃ©s' }} Ã  la newsletter
                 </p>
             </div>
         </section>
@@ -237,3 +237,4 @@
     @include('admin.partials.article-edit-dialogs', ['articles' => $latest, 'categories' => $categories])
 
 @endsection
+

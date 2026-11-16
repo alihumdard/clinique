@@ -1,42 +1,42 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
-@section('title', 'Gestion des actualités')
+@section('title', 'Gestion des actualitÃ©s')
 @section('search_action', route('admin.news'))
-@section('search_placeholder', 'Rechercher une actualité, un mot-clé, une catégorie...')
+@section('search_placeholder', 'Rechercher une actualitÃ©, un mot-clÃ©, une catÃ©gorie...')
 
 @section('content')
 
     <x-admin.flash />
 
     <x-admin.page-header
-        title="Gestion des actualités"
-        lead="Créez, modifiez et gérez toutes les actualités publiées sur votre site."
-        action-label="Ajouter une actualité"
+        title="Gestion des actualitÃ©s"
+        lead="CrÃ©ez, modifiez et gÃ©rez toutes les actualitÃ©s publiÃ©es sur votre site."
+        action-label="Ajouter une actualitÃ©"
         action-dialog="create-article"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
-            ['label' => 'Actualités'],
+            ['label' => 'ActualitÃ©s'],
         ]"
     />
 
     {{-- ============ KPIs ============ --}}
     {{-- Counts are illustrative until Module 2 supplies real queries. --}}
-    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Actualités publiées" keep-at-zero />
+    <div class="mt-6 grid grid-cols-2 gap-4 xl:grid-cols-4">
+        <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="ActualitÃ©s publiÃ©es" keep-at-zero />
         <x-admin.stat-card icon="eye"      color="green" :value="$counts['drafts']"    label="Brouillons" />
-        <x-admin.stat-card icon="clock"    color="amber" :value="$counts['scheduled']" label="Programmées" note="Publication à venir" />
+        <x-admin.stat-card icon="clock"    color="amber" :value="$counts['scheduled']" label="ProgrammÃ©es" note="Publication Ã  venir" />
         <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.news', ['statut' => 'corbeille'])"
-                                   label="À la corbeille" />
+                                   label="Ã€ la corbeille" />
     </div>
 
     {{--
-        The Catégories panel moves alongside the table at 2xl, not at xl.
+        The CatÃ©gories panel moves alongside the table at 2xl, not at xl.
 
         This is the one management screen with an aside, so it is the one
         whose table does not get the full width every other listing has.
         Splitting at xl (1280 px) left nine columns in 778 px on an
         ordinary laptop, and the table scrolled sideways inside its own
-        card while Rapports annuels — same columns, no aside — fitted
+        card while Rapports annuels â€” same columns, no aside â€” fitted
         exactly. From 2xl (1536 px) there is room for both; below it the
         panel sits under the table, where it is still one scroll away.
     --}}
@@ -48,7 +48,7 @@
             <div class="space-y-3 p-5">
                 <form method="GET" action="{{ route('admin.news') }}" class="space-y-3">
                     <div class="relative w-full lg:max-w-xs">
-                        <label for="news-search" class="sr-only">Rechercher une actualité</label>
+                        <label for="news-search" class="sr-only">Rechercher une actualitÃ©</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
                         </span>
@@ -57,20 +57,20 @@
                             id="news-search"
                             name="q"
                             value="{{ $filters['q'] ?? '' }}"
-                            placeholder="Rechercher une actualité..."
+                            placeholder="Rechercher une actualitÃ©..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
                         <div class="min-w-0 sm:shrink-0">
-                            <label for="filter-category" class="sr-only">Filtrer par catégorie</label>
+                            <label for="filter-category" class="sr-only">Filtrer par catÃ©gorie</label>
                             <select
                                 id="filter-category"
                                 name="categorie"
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
                             >
-                                <option value="">Toutes les catégories</option>
+                                <option value="">Toutes les catÃ©gories</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" @selected((string) ($filters['categorie'] ?? '') === (string) $category->id)>{{ $category->name }}</option>
                                 @endforeach
@@ -85,9 +85,9 @@
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
                             >
                                 <option value="">Tous les statuts</option>
-                                <option value="published" @selected(($filters['statut'] ?? '') === 'published')>Publié</option>
+                                <option value="published" @selected(($filters['statut'] ?? '') === 'published')>PubliÃ©</option>
                                 <option value="draft" @selected(($filters['statut'] ?? '') === 'draft')>Brouillon</option>
-                                <option value="archived" @selected(($filters['statut'] ?? '') === 'archived')>Archivé</option>
+                                <option value="archived" @selected(($filters['statut'] ?? '') === 'archived')>ArchivÃ©</option>
                                 <option value="corbeille" @selected(($filters['statut'] ?? '') === 'corbeille')>Corbeille</option>
                             </select>
                         </div>
@@ -102,7 +102,7 @@
                                 <option value="">Toutes les dates</option>
                                 <option value="mois" @selected(($filters['periode'] ?? '') === 'mois')>Ce mois-ci</option>
                                 <option value="trimestre" @selected(($filters['periode'] ?? '') === 'trimestre')>Ce trimestre</option>
-                                <option value="annee" @selected(($filters['periode'] ?? '') === 'annee')>Cette année</option>
+                                <option value="annee" @selected(($filters['periode'] ?? '') === 'annee')>Cette annÃ©e</option>
                             </select>
                         </div>
 
@@ -113,7 +113,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.news') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
-                                Réinitialiser
+                                RÃ©initialiser
                             </a>
                         @endif
                     </div>
@@ -133,14 +133,14 @@
                             <th scope="col" class="w-12 px-5 py-3">
                                 <input
                                     type="checkbox"
-                                    aria-label="Sélectionner toutes les actualités"
+                                    aria-label="SÃ©lectionner toutes les actualitÃ©s"
                                     class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                 >
                             </th>
                             <th scope="col" class="w-12 px-2 py-3">#</th>
                             <th scope="col" class="w-20 px-2 py-3">Image</th>
-                            <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de l'actualité</th>
-                            <th scope="col" class="px-3 py-3">Catégorie</th>
+                            <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de l'actualitÃ©</th>
+                            <th scope="col" class="px-3 py-3">CatÃ©gorie</th>
                             <th scope="col" class="px-3 py-3">Auteur</th>
                             <th scope="col" class="px-3 py-3">Date</th>
                             <th scope="col" class="px-3 py-3">Statut</th>
@@ -154,7 +154,7 @@
                                 <td class="px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="Sélectionner : {{ $article->title }}"
+                                        aria-label="SÃ©lectionner : {{ $article->title }}"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </td>
@@ -219,7 +219,7 @@
                         @empty
                             <tr>
                                 <td colspan="9" class="px-5 py-12 text-center">
-                                    <p class="text-sm text-slate-500">Aucune actualité ne correspond à cette recherche.</p>
+                                    <p class="text-sm text-slate-500">Aucune actualitÃ© ne correspond Ã  cette recherche.</p>
                                 </td>
                             </tr>
                         @endforelse
@@ -227,7 +227,7 @@
                 </table>
             </div>
 
-            <x-admin.table-footer :paginator="$articles" unit="actualités" />
+            <x-admin.table-footer :paginator="$articles" unit="actualitÃ©s" />
         </section>
 
         {{-- ============ SIDEBAR ============ --}}
@@ -237,12 +237,12 @@
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-900">
                         <x-icon name="folder" class="h-5 w-5 text-primary-600" />
-                        Catégories
+                        CatÃ©gories
                     </h2>
 
                     {{-- No "Ajouter" here. Categories are read by six
                          content types and there is no route anywhere in the
-                         application that creates, renames or deletes one —
+                         application that creates, renames or deletes one â€”
                          they are seeded. The button promised a screen that
                          does not exist, which is worse than its absence. --}}
                 </div>
@@ -265,7 +265,7 @@
                             @class(['group flex items-center gap-2.5 rounded-md px-2 py-2 hover:bg-slate-50', 'bg-primary-50' => ! ($filters['categorie'] ?? null)])
                         >
                             <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-primary-600" aria-hidden="true"></span>
-                            <span class="min-w-0 flex-1 truncate text-sm font-medium text-slate-700">Toutes les catégories</span>
+                            <span class="min-w-0 flex-1 truncate text-sm font-medium text-slate-700">Toutes les catÃ©gories</span>
                             <span class="shrink-0 text-sm font-semibold text-slate-500">{{ $articles->total() }}</span>
                         </a>
                     </li>
@@ -288,12 +288,12 @@
             @include('admin.partials.article-edit-dialogs', ['articles' => $articles, 'categories' => $categories])
 
             {{--
-                "Ajouter une actualité" in the page header opens this dialog
-                rather than scrolling to a sidebar form — one fewer thing on
+                "Ajouter une actualitÃ©" in the page header opens this dialog
+                rather than scrolling to a sidebar form â€” one fewer thing on
                 a list page that is already busy, and consistent with how
                 "Modifier" opens for an existing row.
             --}}
-            <x-admin.edit-modal id="create-article" title="Ajouter une actualité" :action="route('admin.news.store')" method="POST" submit-label="Publier l'actualité">
+            <x-admin.edit-modal id="create-article" title="Ajouter une actualitÃ©" :action="route('admin.news.store')" method="POST" submit-label="Publier l'actualitÃ©">
                 <div>
                     <label for="create-article-title" class="block text-sm font-medium text-slate-700">
                         Titre
@@ -303,9 +303,9 @@
                 </div>
 
                 <div>
-                    <label for="create-article-category" class="block text-sm font-medium text-slate-700">Catégorie</label>
+                    <label for="create-article-category" class="block text-sm font-medium text-slate-700">CatÃ©gorie</label>
                     <select id="create-article-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                        <option value="">Sélectionner une catégorie</option>
+                        <option value="">SÃ©lectionner une catÃ©gorie</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -313,7 +313,7 @@
                 </div>
 
                 <div>
-                    <label for="create-article-excerpt" class="block text-sm font-medium text-slate-700">Chapô</label>
+                    <label for="create-article-excerpt" class="block text-sm font-medium text-slate-700">ChapÃ´</label>
                     <textarea id="create-article-excerpt" name="excerpt" rows="2" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
                 </div>
 
@@ -327,8 +327,8 @@
                         <label for="create-article-status" class="block text-sm font-medium text-slate-700">Statut</label>
                         <select id="create-article-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <option value="draft">Brouillon</option>
-                            <option value="published" selected>Publié</option>
-                            <option value="archived">Archivé</option>
+                            <option value="published" selected>PubliÃ©</option>
+                            <option value="archived">ArchivÃ©</option>
                         </select>
                     </div>
 
@@ -339,7 +339,7 @@
                 </div>
 
                 <div>
-                    <label for="create-article-image" class="block text-sm font-medium text-slate-700">Image à la une</label>
+                    <label for="create-article-image" class="block text-sm font-medium text-slate-700">Image Ã  la une</label>
                     <input type="file" id="create-article-image" name="image" accept="image/jpeg,image/png" class="mt-1.5 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100">
                 </div>
             </x-admin.edit-modal>
@@ -347,3 +347,4 @@
     </div>
 
 @endsection
+

@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Newsletter')
 @section('search_action', route('admin.newsletter'))
-@section('search_placeholder', 'Rechercher un abonné, une adresse e-mail...')
+@section('search_placeholder', 'Rechercher un abonnÃ©, une adresse e-mail...')
 
 @section('content')
 
@@ -10,7 +10,7 @@
 
     <x-admin.page-header
         title="Newsletter"
-        lead="Gérez la liste des abonnés et exportez-la pour vos envois."
+        lead="GÃ©rez la liste des abonnÃ©s et exportez-la pour vos envois."
         action-label="Exporter en CSV"
         :action-href="route('admin.newsletter.export')"
         :breadcrumb="[
@@ -29,20 +29,20 @@
     <div class="mt-6 flex items-start gap-3 rounded-xl border border-primary-100 bg-primary-50/60 p-4">
         <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-primary-600" />
         <p class="text-sm leading-relaxed text-slate-700">
-            Les abonnés sont collectés depuis la page Actualités. Exportez la liste en CSV
-            pour l'importer dans votre outil d'envoi. Un abonné désinscrit reste enregistré
-            comme tel afin qu'un import ultérieur ne le réinscrive pas.
+            Les abonnÃ©s sont collectÃ©s depuis la page ActualitÃ©s. Exportez la liste en CSV
+            pour l'importer dans votre outil d'envoi. Un abonnÃ© dÃ©sinscrit reste enregistrÃ©
+            comme tel afin qu'un import ultÃ©rieur ne le rÃ©inscrive pas.
         </p>
     </div>
 
     <div class="mt-5 space-y-5">
 
         {{-- ============ KPIs ============ --}}
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <x-admin.stat-card icon="users"   color="green" :value="number_format($counts['active'], 0, ',', ' ')" label="Abonnés actifs" note="recevront vos envois" keep-at-zero />
+        <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+            <x-admin.stat-card icon="users"   color="green" :value="number_format($counts['active'], 0, ',', ' ')" label="AbonnÃ©s actifs" note="recevront vos envois" keep-at-zero />
             <x-admin.stat-card icon="mail"    color="blue"  :value="$counts['month']" label="Nouveaux ce mois-ci" />
-            <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['unsubscribed']" label="Désinscrits" note="à ne pas réimporter" />
-            <x-admin.stat-card icon="users"   color="red"   :value="number_format($counts['all'], 0, ',', ' ')" label="Total enregistré" />
+            <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['unsubscribed']" label="DÃ©sinscrits" note="Ã  ne pas rÃ©importer" />
+            <x-admin.stat-card icon="users"   color="red"   :value="number_format($counts['all'], 0, ',', ' ')" label="Total enregistrÃ©" />
         </div>
 
         {{-- ============ TABLE ============ --}}
@@ -63,7 +63,7 @@
                     :tabs="[
                         ['label' => 'Tous', 'count' => $counts['all'], 'active' => ! $statut, 'href' => $tabLink([])],
                         ['label' => 'Actifs', 'count' => $counts['active'], 'active' => $statut === 'actifs', 'href' => $tabLink(['statut' => 'actifs'])],
-                        ['label' => 'Désinscrits', 'count' => $counts['unsubscribed'], 'active' => $statut === 'desinscrits', 'href' => $tabLink(['statut' => 'desinscrits'])],
+                        ['label' => 'DÃ©sinscrits', 'count' => $counts['unsubscribed'], 'active' => $statut === 'desinscrits', 'href' => $tabLink(['statut' => 'desinscrits'])],
                     ]"
                 />
 
@@ -73,7 +73,7 @@
                     @endif
 
                     <div role="search" class="relative w-full flex-1 sm:w-64">
-                        <label for="newsletter-search" class="sr-only">Rechercher un abonné</label>
+                        <label for="newsletter-search" class="sr-only">Rechercher un abonnÃ©</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
                         </span>
@@ -94,7 +94,7 @@
 
                     @if (array_filter($filters))
                         <a href="{{ route('admin.newsletter') }}" class="shrink-0 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50">
-                            Réinitialiser
+                            RÃ©initialiser
                         </a>
                     @endif
                 </form>
@@ -130,7 +130,7 @@
                                 </td>
 
                                 <td class="px-3 py-3 text-sm text-slate-600">
-                                    {{ $subscriber->name ?? '—' }}
+                                    {{ $subscriber->name ?? 'â€”' }}
                                 </td>
 
                                 <td class="whitespace-nowrap px-3 py-3 text-sm leading-tight text-slate-500">
@@ -143,7 +143,7 @@
                                         <x-admin.badge tone="green">Actif</x-admin.badge>
                                     @else
                                         <x-admin.badge tone="slate">
-                                            Désinscrit le {{ $subscriber->unsubscribed_at->format('d/m/Y') }}
+                                            DÃ©sinscrit le {{ $subscriber->unsubscribed_at->format('d/m/Y') }}
                                         </x-admin.badge>
                                     @endif
                                 </td>
@@ -155,7 +155,7 @@
                                                 @csrf
                                                 <button type="submit" class="relative flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100">
                                                     <x-icon name="eye-off" class="h-4 w-4" />
-                                                    <span class="sr-only">Désinscrire : {{ $subscriber->email }}</span>
+                                                    <span class="sr-only">DÃ©sinscrire : {{ $subscriber->email }}</span>
                                                 </button>
                                             </form>
                                         @endif
@@ -165,7 +165,7 @@
                                             @method('DELETE')
                                             <button type="submit" class="relative flex h-8 w-8 items-center justify-center rounded-md text-rose-600 transition-colors hover:bg-rose-50">
                                                 <x-icon name="trash" class="h-4 w-4" />
-                                                <span class="sr-only">Supprimer définitivement : {{ $subscriber->email }}</span>
+                                                <span class="sr-only">Supprimer dÃ©finitivement : {{ $subscriber->email }}</span>
                                             </button>
                                         </form>
                                     </div>
@@ -176,9 +176,9 @@
                                 <td colspan="6" class="px-5 py-12 text-center">
                                     <p class="text-sm text-slate-500">
                                         @if (array_filter($filters))
-                                            Aucun abonné ne correspond à cette recherche.
+                                            Aucun abonnÃ© ne correspond Ã  cette recherche.
                                         @else
-                                            Aucun abonné pour le moment. Le formulaire d'inscription se trouve sur la page Actualités.
+                                            Aucun abonnÃ© pour le moment. Le formulaire d'inscription se trouve sur la page ActualitÃ©s.
                                         @endif
                                     </p>
                                 </td>
@@ -188,8 +188,9 @@
                 </table>
             </div>
 
-            <x-admin.table-footer :paginator="$subscribers" unit="abonnés" />
+            <x-admin.table-footer :paginator="$subscribers" unit="abonnÃ©s" />
         </section>
     </div>
 
 @endsection
+

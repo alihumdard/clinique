@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Gestion de la Web TV')
 @section('search_action', route('admin.webtv'))
-@section('search_placeholder', 'Rechercher une vidéo, un titre, une catégorie...')
+@section('search_placeholder', 'Rechercher une vidÃ©o, un titre, une catÃ©gorie...')
 
 @section('content')
 
@@ -10,8 +10,8 @@
 
     <x-admin.page-header
         title="Gestion de la Web TV"
-        lead="Ajoutez, modifiez et organisez toutes les capsules vidéo de la Clinique Juridique FSJP-UAM."
-        action-label="Ajouter une vidéo"
+        lead="Ajoutez, modifiez et organisez toutes les capsules vidÃ©o de la Clinique Juridique FSJP-UAM."
+        action-label="Ajouter une vidÃ©o"
         action-dialog="create-video"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
@@ -24,12 +24,12 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="play-circle" color="blue"  :value="$counts['published']" label="Vidéos publiées" keep-at-zero />
+            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+                <x-admin.stat-card icon="play-circle" color="blue"  :value="$counts['published']" label="VidÃ©os publiÃ©es" keep-at-zero />
                 <x-admin.stat-card icon="eye"         color="green" :value="number_format($counts['views'], 0, ',', ' ')" label="Vues totales" />
-                <x-admin.stat-card icon="clock"       color="amber" :value="$counts['drafts']"    label="Vidéos en brouillon" note="Non publiées" />
+                <x-admin.stat-card icon="clock"       color="amber" :value="$counts['drafts']"    label="VidÃ©os en brouillon" note="Non publiÃ©es" />
                 <x-admin.stat-card icon="trash"       color="red"   :value="$counts['trashed']"   :href="route('admin.webtv', ['statut' => 'corbeille'])"
-                                   label="À la corbeille" />
+                                   label="Ã€ la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
@@ -39,7 +39,7 @@
                      so a filtered list is a URL that can be shared. --}}
                 <form method="GET" action="{{ route('admin.webtv') }}" class="space-y-3 p-5">
                     <div role="search" class="relative w-full lg:max-w-xs">
-                        <label for="webtv-search" class="sr-only">Rechercher une vidéo</label>
+                        <label for="webtv-search" class="sr-only">Rechercher une vidÃ©o</label>
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="search" class="h-4 w-4" />
                         </span>
@@ -48,7 +48,7 @@
                             id="webtv-search"
                             name="q"
                             value="{{ $filters['q'] ?? '' }}"
-                            placeholder="Rechercher une vidéo..."
+                            placeholder="Rechercher une vidÃ©o..."
                             class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                     </div>
@@ -56,9 +56,9 @@
                     @php
                         $statuses = [
                             '' => 'Tous les statuts',
-                            'published' => 'Publiées',
+                            'published' => 'PubliÃ©es',
                             'draft' => 'Brouillons',
-                            'archived' => 'Archivées',
+                            'archived' => 'ArchivÃ©es',
                             'corbeille' => 'Corbeille',
                         ];
                     @endphp
@@ -98,7 +98,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.webtv') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
-                                Réinitialiser
+                                RÃ©initialiser
                             </a>
                         @endif
                     </div>
@@ -116,15 +116,15 @@
                                 <th scope="col" class="w-12 px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="Sélectionner toutes les vidéos"
+                                        aria-label="SÃ©lectionner toutes les vidÃ©os"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-24 px-2 py-3">Miniature</th>
-                                <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de la vidéo</th>
+                                <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de la vidÃ©o</th>
                                 <th scope="col" class="px-3 py-3">Rubrique</th>
-                                <th scope="col" class="px-3 py-3">Durée</th>
+                                <th scope="col" class="px-3 py-3">DurÃ©e</th>
                                 <th scope="col" class="px-3 py-3">Vues</th>
                                 <th scope="col" class="px-3 py-3">Date</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
@@ -138,7 +138,7 @@
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $video->title }}"
+                                            aria-label="SÃ©lectionner : {{ $video->title }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
@@ -183,7 +183,7 @@
                                     </td>
 
                                     <td class="px-3 py-3 text-sm text-slate-500">
-                                        {{ $video->durationLabel() ?? '—' }}
+                                        {{ $video->durationLabel() ?? 'â€”' }}
                                     </td>
 
                                     <td class="px-3 py-3 text-sm text-slate-500">
@@ -218,7 +218,7 @@
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">
-                                        <p class="text-sm text-slate-500">Aucune vidéo ne correspond à cette recherche.</p>
+                                        <p class="text-sm text-slate-500">Aucune vidÃ©o ne correspond Ã  cette recherche.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -226,7 +226,7 @@
                     </table>
                 </div>
 
-                <x-admin.table-footer :paginator="$videos" unit="vidéos" />
+                <x-admin.table-footer :paginator="$videos" unit="vidÃ©os" />
             </section>
         </div>
 
@@ -240,10 +240,10 @@
             without ever raising a console error.
         --}}
         @foreach ($videos as $video)
-            <x-admin.edit-modal id="edit-video-{{ $video->id }}" title="Modifier la vidéo" :action="route('admin.webtv.update', $video)">
+            <x-admin.edit-modal id="edit-video-{{ $video->id }}" title="Modifier la vidÃ©o" :action="route('admin.webtv.update', $video)">
                 <div>
                     <label for="edit-video-{{ $video->id }}-title" class="block text-sm font-medium text-slate-700">
-                        Titre de la vidéo
+                        Titre de la vidÃ©o
                         <span class="text-rose-600" aria-hidden="true">*</span>
                     </label>
                     <input type="text" id="edit-video-{{ $video->id }}-title" name="title" required value="{{ $video->title }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
@@ -252,7 +252,7 @@
                 <div>
                     <label for="edit-video-{{ $video->id }}-category" class="block text-sm font-medium text-slate-700">Rubrique</label>
                     <select id="edit-video-{{ $video->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                        <option value="">Sélectionner une rubrique</option>
+                        <option value="">SÃ©lectionner une rubrique</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}" @selected($video->category_id === $category->id)>{{ $category->name }}</option>
                         @endforeach
@@ -266,7 +266,7 @@
 
                 <div>
                     <label for="edit-video-{{ $video->id }}-url" class="block text-sm font-medium text-slate-700">
-                        Lien vidéo
+                        Lien vidÃ©o
                         <span class="text-rose-600" aria-hidden="true">*</span>
                     </label>
                     <input type="url" id="edit-video-{{ $video->id }}-url" name="video_url" required value="{{ $video->video_url }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
@@ -274,7 +274,7 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label for="edit-video-{{ $video->id }}-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
+                        <label for="edit-video-{{ $video->id }}-duration" class="block text-sm font-medium text-slate-700">DurÃ©e (mm:ss)</label>
                         <input type="text" id="edit-video-{{ $video->id }}-duration" name="duration" value="{{ $video->duration }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                     </div>
 
@@ -282,8 +282,8 @@
                         <label for="edit-video-{{ $video->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                         <select id="edit-video-{{ $video->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <option value="draft" @selected($video->status === 'draft')>Brouillon</option>
-                            <option value="published" @selected($video->status === 'published')>Publié</option>
-                            <option value="archived" @selected($video->status === 'archived')>Archivé</option>
+                            <option value="published" @selected($video->status === 'published')>PubliÃ©</option>
+                            <option value="archived" @selected($video->status === 'archived')>ArchivÃ©</option>
                         </select>
                     </div>
                 </div>
@@ -310,17 +310,17 @@
                     label="Image de couverture"
                     :current="$video->cover"
                     :preview="$video->coverUrl()"
-                    hint="Sans image, la miniature de la chaîne est utilisée."
+                    hint="Sans image, la miniature de la chaÃ®ne est utilisÃ©e."
                 />
             </x-admin.edit-modal>
         @endforeach
 
         {{-- The "Ajouter" dialog itself; not visually positioned, so it
              doesn't need a sidebar column to sit in. --}}
-        <x-admin.edit-modal id="create-video" title="Ajouter une vidéo" :action="route('admin.webtv.store')" method="POST" submit-label="Publier la vidéo">
+        <x-admin.edit-modal id="create-video" title="Ajouter une vidÃ©o" :action="route('admin.webtv.store')" method="POST" submit-label="Publier la vidÃ©o">
                 <div>
                     <label for="create-video-title" class="block text-sm font-medium text-slate-700">
-                        Titre de la vidéo
+                        Titre de la vidÃ©o
                         <span class="text-rose-600" aria-hidden="true">*</span>
                         <span class="sr-only">(obligatoire)</span>
                     </label>
@@ -341,7 +341,7 @@
                         name="category_id"
                         class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     >
-                        <option value="">Sélectionner une rubrique</option>
+                        <option value="">SÃ©lectionner une rubrique</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -354,14 +354,14 @@
                         id="create-video-description"
                         name="summary"
                         rows="4"
-                        placeholder="Décrivez brièvement la vidéo..."
+                        placeholder="DÃ©crivez briÃ¨vement la vidÃ©o..."
                         class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     ></textarea>
                 </div>
 
                 <div>
                     <label for="create-video-link" class="block text-sm font-medium text-slate-700">
-                        Lien vidéo
+                        Lien vidÃ©o
                         <span class="text-rose-600" aria-hidden="true">*</span>
                         <span class="sr-only">(obligatoire)</span>
                     </label>
@@ -380,7 +380,7 @@
                         </span>
                     </div>
                     <p id="create-video-link-hint" class="mt-1.5 text-xs text-slate-500">
-                        Collez simplement le lien YouTube ou Vimeo : la vidéo reste hébergée sur la chaîne de la Clinique.
+                        Collez simplement le lien YouTube ou Vimeo : la vidÃ©o reste hÃ©bergÃ©e sur la chaÃ®ne de la Clinique.
                     </p>
                 </div>
 
@@ -392,7 +392,7 @@
                         class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
                     >
                         <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
+                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour tÃ©lÃ©charger</span>
                         <span class="mt-0.5 text-xs text-slate-500">ou glissez une image ici</span>
                         <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 2MB)</span>
 
@@ -405,12 +405,12 @@
                         >
                     </label>
                     <p class="mt-1.5 text-xs text-slate-500">
-                        Facultatif : sans image, la miniature de la chaîne est utilisée.
+                        Facultatif : sans image, la miniature de la chaÃ®ne est utilisÃ©e.
                     </p>
                 </div>
 
                 <div>
-                    <label for="create-video-duration" class="block text-sm font-medium text-slate-700">Durée (mm:ss)</label>
+                    <label for="create-video-duration" class="block text-sm font-medium text-slate-700">DurÃ©e (mm:ss)</label>
                     <div class="relative mt-1.5">
                         <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                             <x-icon name="clock" class="h-4 w-4" />
@@ -433,11 +433,11 @@
                         id="create-video-transcript"
                         name="transcript"
                         rows="4"
-                        placeholder="Collez ici la transcription écrite, lorsqu'elle existe..."
+                        placeholder="Collez ici la transcription Ã©crite, lorsqu'elle existe..."
                         class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     ></textarea>
                     <p class="mt-1.5 text-xs text-slate-500">
-                        Affichée sous la vidéo, pour l'accessibilité et le référencement.
+                        AffichÃ©e sous la vidÃ©o, pour l'accessibilitÃ© et le rÃ©fÃ©rencement.
                     </p>
                 </div>
 
@@ -446,8 +446,8 @@
                         <label for="create-video-status" class="block text-sm font-medium text-slate-700">Statut</label>
                         <select id="create-video-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <option value="draft">Brouillon</option>
-                            <option value="published" selected>Publié</option>
-                            <option value="archived">Archivé</option>
+                            <option value="published" selected>PubliÃ©</option>
+                            <option value="archived">ArchivÃ©</option>
                         </select>
                     </div>
 
@@ -464,3 +464,4 @@
     </div>
 
 @endsection
+

@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Gestion des fiches pratiques')
 @section('search_action', route('admin.guides'))
-@section('search_placeholder', 'Rechercher une fiche pratique, un sujet, un mot-clé...')
+@section('search_placeholder', 'Rechercher une fiche pratique, un sujet, un mot-clÃ©...')
 
 @section('content')
 
@@ -24,11 +24,11 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Fiches publiées" keep-at-zero />
-                <x-admin.stat-card icon="download" color="green" :value="number_format($counts['downloads'], 0, ',', ' ')" label="Téléchargements" />
-                <x-admin.stat-card icon="folder"   color="amber" :value="$categories->count()" label="Domaines" note="organisés" />
-                <x-admin.stat-card icon="clock"    color="red"   :value="$counts['drafts']"    label="En brouillon" note="non publiées" />
+            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
+                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Fiches publiÃ©es" keep-at-zero />
+                <x-admin.stat-card icon="download" color="green" :value="number_format($counts['downloads'], 0, ',', ' ')" label="TÃ©lÃ©chargements" />
+                <x-admin.stat-card icon="folder"   color="amber" :value="$categories->count()" label="Domaines" note="organisÃ©s" />
+                <x-admin.stat-card icon="clock"    color="red"   :value="$counts['drafts']"    label="En brouillon" note="non publiÃ©es" />
             </div>
 
             {{-- ============ TABLE ============ --}}
@@ -55,9 +55,9 @@
                     @php
                         $statuses = [
                             '' => 'Tous les statuts',
-                            'published' => 'Publiées',
+                            'published' => 'PubliÃ©es',
                             'draft' => 'Brouillons',
-                            'archived' => 'Archivées',
+                            'archived' => 'ArchivÃ©es',
                             'corbeille' => 'Corbeille',
                         ];
                     @endphp
@@ -97,7 +97,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.guides') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
-                                Réinitialiser
+                                RÃ©initialiser
                             </a>
                         @endif
                     </div>
@@ -115,12 +115,12 @@
                                 <th scope="col" class="w-12 px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="Sélectionner toutes les fiches"
+                                        aria-label="SÃ©lectionner toutes les fiches"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
-                                <th scope="col" class="w-20 px-2 py-3">Aperçu</th>
+                                <th scope="col" class="w-20 px-2 py-3">AperÃ§u</th>
                                 <th scope="col" class="min-w-[11rem] px-3 py-3">Titre de la fiche pratique</th>
                                 <th scope="col" class="px-3 py-3">Domaine</th>
                                 <th scope="col" class="px-3 py-3">Format</th>
@@ -136,7 +136,7 @@
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="Sélectionner : {{ $guide->title }}"
+                                            aria-label="SÃ©lectionner : {{ $guide->title }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
@@ -208,7 +208,7 @@
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">
-                                        <p class="text-sm text-slate-500">Aucune fiche pratique ne correspond à cette recherche.</p>
+                                        <p class="text-sm text-slate-500">Aucune fiche pratique ne correspond Ã  cette recherche.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -242,7 +242,7 @@
                 <div>
                     <label for="edit-guide-{{ $guide->id }}-category" class="block text-sm font-medium text-slate-700">Domaine du droit</label>
                     <select id="edit-guide-{{ $guide->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                        <option value="">Sélectionner un domaine</option>
+                        <option value="">SÃ©lectionner un domaine</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}" @selected($guide->category_id === $category->id)>{{ $category->name }}</option>
                         @endforeach
@@ -264,8 +264,8 @@
                         <label for="edit-guide-{{ $guide->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                         <select id="edit-guide-{{ $guide->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <option value="draft" @selected($guide->status === 'draft')>Brouillon</option>
-                            <option value="published" @selected($guide->status === 'published')>Publié</option>
-                            <option value="archived" @selected($guide->status === 'archived')>Archivé</option>
+                            <option value="published" @selected($guide->status === 'published')>PubliÃ©</option>
+                            <option value="archived" @selected($guide->status === 'archived')>ArchivÃ©</option>
                         </select>
                     </div>
 
@@ -312,7 +312,7 @@
                         id="create-guide-title"
                         name="title"
                         required
-                        placeholder="Ex. Accès à la justice pour tous"
+                        placeholder="Ex. AccÃ¨s Ã  la justice pour tous"
                         class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     >
                 </div>
@@ -324,7 +324,7 @@
                         name="category_id"
                         class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     >
-                        <option value="">Sélectionner un domaine</option>
+                        <option value="">SÃ©lectionner un domaine</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -337,7 +337,7 @@
                         id="create-guide-description"
                         name="description"
                         rows="3"
-                        placeholder="Décrivez brièvement le contenu de la fiche..."
+                        placeholder="DÃ©crivez briÃ¨vement le contenu de la fiche..."
                         class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     ></textarea>
                 </div>
@@ -349,11 +349,11 @@
                         name="body"
                         rows="5"
                         aria-describedby="create-guide-body-hint"
-                        placeholder="Le texte affiché sur la page de la fiche..."
+                        placeholder="Le texte affichÃ© sur la page de la fiche..."
                         class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     ></textarea>
                     <p id="create-guide-body-hint" class="mt-1.5 text-xs text-slate-500">
-                        Les sauts de ligne sont conservés tels quels.
+                        Les sauts de ligne sont conservÃ©s tels quels.
                     </p>
                 </div>
 
@@ -369,7 +369,7 @@
                         class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
                     >
                         <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
+                        <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour tÃ©lÃ©charger</span>
                         <span class="mt-0.5 text-xs text-slate-500">un fichier PDF ici</span>
                         <span class="mt-1 text-xs text-slate-400">(Taille max : 10MB)</span>
 
@@ -419,7 +419,7 @@
                             class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         >
                             @php
-                                $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
+                                $options = ['published' => 'PubliÃ©', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©'];
                             @endphp
                             @foreach ($options as $value => $label)
                                 <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
@@ -436,3 +436,4 @@
     </div>
 
 @endsection
+
