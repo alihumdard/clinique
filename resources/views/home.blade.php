@@ -378,7 +378,7 @@
                     </a>
                 </div>
 
-                <div class="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+                <div class="grid flex-1 grid-cols-1 gap-3 md:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
 
                     {{-- FEATURED CAPSULE --}}
                     @if($featuredVideo)
