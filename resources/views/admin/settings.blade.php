@@ -27,8 +27,77 @@
         @method('PUT')
 
         {{-- ============ SETTINGS CARDS ============ --}}
-        <div class="mt-5 columns-1 gap-5 lg:columns-2">
+        {{-- ============ SETTINGS CARDS ============ --}}
+        <div class="mt-5 flex flex-col gap-5 lg:flex-row lg:items-start">
 
+            {{-- LEFT COL: Contact (tall card fills full height) --}}
+            <div class="lg:w-[45%]">
+            {{-- Contact details --}}
+            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
+                <div class="flex items-start gap-3">
+                    <x-icon-badge size="sm" class="shrink-0"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
+                    <div class="min-w-0">
+                        <h2 class="text-base font-bold text-slate-900">Coordonnées de contact</h2>
+                        <p class="mt-0.5 text-xs text-slate-500">Informations de contact affichées sur le site.</p>
+                    </div>
+                </div>
+
+                <div class="mt-5 space-y-4">
+                    <div>
+                        <label for="contact-address" class="block text-sm font-medium text-slate-700">Adresse</label>
+                        <div class="relative mt-1.5">
+                            <span class="pointer-events-none absolute left-3.5 top-3 text-slate-400">
+                                <x-icon name="map-pin" class="h-4 w-4" />
+                            </span>
+                            <input
+                                type="text"
+                                id="contact-address"
+                                name="contact_address_line1"
+                                value="{{ old('contact_address_line1', config('clinique.contact.address.line1')) }}"
+                                placeholder="Faculté des Sciences Juridiques et Politiques"
+                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            >
+                        </div>
+                    </div>
+
+                    @php
+                        $contactFields = [
+                            ['id' => 'contact-line2',   'name' => 'contact_address_line2',   'label' => 'Adresse (2e ligne)', 'type' => 'text',  'icon' => 'map-pin', 'value' => config('clinique.contact.address.line2')],
+                            ['id' => 'contact-city',    'name' => 'contact_address_city',    'label' => 'Ville',              'type' => 'text',  'icon' => 'map-pin', 'value' => config('clinique.contact.address.city')],
+                            ['id' => 'contact-country', 'name' => 'contact_address_country', 'label' => 'Pays',               'type' => 'text',  'icon' => 'globe',   'value' => config('clinique.contact.address.country')],
+                            ['id' => 'contact-phone',   'name' => 'contact_phone',           'label' => 'Téléphone affiché',  'type' => 'tel',   'icon' => 'phone',   'value' => config('clinique.contact.phone.display')],
+                            ['id' => 'contact-tel',     'name' => 'contact_phone_href',      'label' => 'Téléphone (format international, pour les liens)', 'type' => 'tel', 'icon' => 'phone', 'value' => config('clinique.contact.phone.tel')],
+                            ['id' => 'contact-email',   'name' => 'contact_email',           'label' => 'Email',              'type' => 'email', 'icon' => 'mail',    'value' => config('clinique.contact.email')],
+                            ['id' => 'hours-days',      'name' => 'hours_days',              'label' => "Jours d'ouverture",  'type' => 'text',  'icon' => 'calendar','value' => config('clinique.hours.days')],
+                            ['id' => 'hours-time',      'name' => 'hours_time',              'label' => 'Horaires',           'type' => 'text',  'icon' => 'clock',   'value' => config('clinique.hours.time')],
+                            ['id' => 'hours-note',      'name' => 'hours_note',              'label' => 'Note sur les horaires', 'type' => 'text', 'icon' => 'info',  'value' => config('clinique.hours.note')],
+                        ];
+                    @endphp
+
+                    @foreach ($contactFields as $field)
+                        <div>
+                            <label for="{{ $field['id'] }}" class="block text-sm font-medium text-slate-700">{{ $field['label'] }}</label>
+                            <div class="relative mt-1.5">
+                                <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                                    <x-icon :name="$field['icon']" class="h-4 w-4" />
+                                </span>
+                                <input
+                                    type="{{ $field['type'] }}"
+                                    id="{{ $field['id'] }}"
+                                    name="{{ $field['name'] }}"
+                                    value="{{ old($field['name'], $field['value']) }}"
+                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                >
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </section>
+
+            </div>
+
+            {{-- RIGHT COL: 5 shorter cards --}}
+            <div class="flex flex-1 flex-col gap-5">
             {{-- General information --}}
             <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
                 <div class="flex items-start gap-3">
@@ -101,70 +170,6 @@
                     </p>
                 </div>
             </section>
-
-
-            {{-- Contact details --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
-                <div class="flex items-start gap-3">
-                    <x-icon-badge size="sm" class="shrink-0"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
-                    <div class="min-w-0">
-                        <h2 class="text-base font-bold text-slate-900">Coordonnées de contact</h2>
-                        <p class="mt-0.5 text-xs text-slate-500">Informations de contact affichées sur le site.</p>
-                    </div>
-                </div>
-
-                <div class="mt-5 space-y-4">
-                    <div>
-                        <label for="contact-address" class="block text-sm font-medium text-slate-700">Adresse</label>
-                        <div class="relative mt-1.5">
-                            <span class="pointer-events-none absolute left-3.5 top-3 text-slate-400">
-                                <x-icon name="map-pin" class="h-4 w-4" />
-                            </span>
-                            <input
-                                type="text"
-                                id="contact-address"
-                                name="contact_address_line1"
-                                value="{{ old('contact_address_line1', config('clinique.contact.address.line1')) }}"
-                                placeholder="Faculté des Sciences Juridiques et Politiques"
-                                class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            >
-                        </div>
-                    </div>
-
-                    @php
-                        $contactFields = [
-                            ['id' => 'contact-line2',   'name' => 'contact_address_line2',   'label' => 'Adresse (2e ligne)', 'type' => 'text',  'icon' => 'map-pin', 'value' => config('clinique.contact.address.line2')],
-                            ['id' => 'contact-city',    'name' => 'contact_address_city',    'label' => 'Ville',              'type' => 'text',  'icon' => 'map-pin', 'value' => config('clinique.contact.address.city')],
-                            ['id' => 'contact-country', 'name' => 'contact_address_country', 'label' => 'Pays',               'type' => 'text',  'icon' => 'globe',   'value' => config('clinique.contact.address.country')],
-                            ['id' => 'contact-phone',   'name' => 'contact_phone',           'label' => 'Téléphone affiché',  'type' => 'tel',   'icon' => 'phone',   'value' => config('clinique.contact.phone.display')],
-                            ['id' => 'contact-tel',     'name' => 'contact_phone_href',      'label' => 'Téléphone (format international, pour les liens)', 'type' => 'tel', 'icon' => 'phone', 'value' => config('clinique.contact.phone.tel')],
-                            ['id' => 'contact-email',   'name' => 'contact_email',           'label' => 'Email',              'type' => 'email', 'icon' => 'mail',    'value' => config('clinique.contact.email')],
-                            ['id' => 'hours-days',      'name' => 'hours_days',              'label' => "Jours d'ouverture",  'type' => 'text',  'icon' => 'calendar','value' => config('clinique.hours.days')],
-                            ['id' => 'hours-time',      'name' => 'hours_time',              'label' => 'Horaires',           'type' => 'text',  'icon' => 'clock',   'value' => config('clinique.hours.time')],
-                            ['id' => 'hours-note',      'name' => 'hours_note',              'label' => 'Note sur les horaires', 'type' => 'text', 'icon' => 'info',  'value' => config('clinique.hours.note')],
-                        ];
-                    @endphp
-
-                    @foreach ($contactFields as $field)
-                        <div>
-                            <label for="{{ $field['id'] }}" class="block text-sm font-medium text-slate-700">{{ $field['label'] }}</label>
-                            <div class="relative mt-1.5">
-                                <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                                    <x-icon :name="$field['icon']" class="h-4 w-4" />
-                                </span>
-                                <input
-                                    type="{{ $field['type'] }}"
-                                    id="{{ $field['id'] }}"
-                                    name="{{ $field['name'] }}"
-                                    value="{{ old($field['name'], $field['value']) }}"
-                                    class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                >
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </section>
-
 
             {{-- Logo and visual identity --}}
             <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
@@ -443,7 +448,8 @@
                     @endforeach
                 </div>
             </section>
-        </div>{{-- end grid --}}
+            </div>
+        </div>{{-- end layout --}}
 
         {{-- ============ ACTIONS ============ --}}
         <div class="mt-5 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
