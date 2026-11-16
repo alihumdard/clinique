@@ -336,13 +336,17 @@
                     ];
                 @endphp
 
+                @php
+                    $activeChannels = array_filter($channels, fn($c) => config('clinique.social.' . $c['key']));
+                @endphp
+                @if(count($activeChannels))
                 <ul class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    @foreach ($channels as $channel)
+                    @foreach ($activeChannels as $channel)
                         @php $url = config('clinique.social.' . $channel['key']); @endphp
                         <li>
                             <a
-                                href="{{ $url ?? '#' }}"
-                                @if($url) target="_blank" rel="noopener noreferrer" @endif
+                                href="{{ $url }}"
+                                target="_blank" rel="noopener noreferrer"
                                 class="flex h-full flex-col items-center rounded-xl border border-primary-100 bg-primary-50/60 p-5 text-center transition-colors hover:border-primary-200 hover:bg-primary-50"
                             >
                                 <svg class="h-8 w-8 {{ $channel['color'] }}" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -354,6 +358,9 @@
                         </li>
                     @endforeach
                 </ul>
+                @else
+                <p class="mt-5 text-sm text-slate-500">Nos réseaux sociaux seront disponibles prochainement.</p>
+                @endif
             </div>
         </div>
     </section>
