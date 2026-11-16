@@ -27,7 +27,7 @@
         @method('PUT')
 
         {{-- ============ SETTINGS CARDS ============ --}}
-        <div class="mt-5 grid grid-cols-1 items-start gap-5 lg:grid-cols-3">
+        <div class="mt-5 grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
 
             {{-- General information --}}
             <section class="rounded-xl border border-slate-200 bg-white p-5">
@@ -166,8 +166,8 @@
                 </div>
             </section>
 
-            {{-- Contact details — tallest card, spans 2 rows --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5 lg:row-span-2">
+            {{-- Contact details --}}
+            <section class="rounded-xl border border-slate-200 bg-white p-5">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
