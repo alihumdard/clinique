@@ -435,7 +435,7 @@
         </div>{{-- end layout --}}
 
         {{-- ============ ACTIONS ============ --}}
-        <div class="mt-5 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-5">
 
             {{-- Emptying a field already restores its default, so there is
                  no separate reset to get wrong. --}}
