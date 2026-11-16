@@ -103,7 +103,7 @@
     id="admin-sidebar"
     {{-- h-screen, not inset-y-0: an explicit height is what gives the nav
          below a real box to scroll inside. --}}
-    class="admin-sidebar fixed left-0 top-0 z-40 flex h-screen w-72 -translate-x-full flex-col shadow-xl transition-transform duration-200 lg:w-64 lg:translate-x-0 lg:shadow-none"
+    class="admin-sidebar fixed left-0 top-0 z-40 flex h-screen w-72 -translate-x-full flex-col shadow-xl transition-transform duration-200 lg:w-72 lg:translate-x-0 lg:shadow-none"
     aria-label="Navigation de l'administration"
 >
     {{-- Brand: fixed height so the nav below gets the rest --}}
