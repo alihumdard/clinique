@@ -122,45 +122,6 @@
         <x-pagination :paginator="$activities" />
     </section>
 
-    {{-- ============ IMPACT ============ --}}
-    <section class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-        <x-section-label>Impact de nos activités</x-section-label>
-
-        @php
-            $impact = [
-                ['icon' => 'users', 'value' => '15+', 'label' => 'Caravanes juridiques organisées'],
-                ['icon' => 'users', 'value' => '2 000+', 'label' => 'Personnes sensibilisées'],
-                ['icon' => 'document', 'value' => '50+', 'label' => 'Consultations juridiques sur le terrain'],
-                ['icon' => 'graduation-cap', 'value' => '10+', 'label' => 'Partenaires institutionnels'],
-            ];
-        @endphp
-
-        <dl class="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-slate-200 lg:grid-cols-4">
-            @foreach ($impact as $item)
-                <div class="flex items-center gap-3 bg-primary-50/60 p-4 sm:gap-4 sm:p-6">
-                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600 sm:h-12 sm:w-12">
-                        <x-icon :name="$item['icon']" class="h-5 w-5 sm:h-6 sm:w-6" />
-                    </span>
-                    <div class="min-w-0">
-                        <dt class="sr-only">{{ $item['label'] }}</dt>
-                        <dd>
-                            @php
-                                $numeric = (int) str_replace(' ', '', $item['value']);
-                                $suffix = preg_replace('/[\d\s]+/', '', $item['value']);
-                            @endphp
-                            <span
-                                class="block text-xl font-bold text-slate-900 sm:text-2xl"
-                                data-counter
-                                data-counter-target="{{ $numeric }}"
-                                data-counter-suffix="{{ $suffix }}"
-                            >{{ $item['value'] }}</span>
-                            <span class="mt-0.5 block text-xs text-slate-600 sm:text-sm">{{ $item['label'] }}</span>
-                        </dd>
-                    </div>
-                </div>
-            @endforeach
-        </dl>
-    </section>
 
     {{-- ============ GALERIE ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">

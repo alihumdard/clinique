@@ -58,58 +58,11 @@
                     <x-pagination :paginator="$reports" />
                 </div>
 
-                {{-- ============ EVOLUTION ============ --}}
-                <div class="mt-10 rounded-xl bg-primary-50/60 p-6">
-                    <div class="flex items-center gap-2.5">
-                        <x-icon-badge size="sm"><x-icon name="chart-bar" class="h-5 w-5" /></x-icon-badge>
-                        <h2 class="text-base font-bold text-slate-900">Évolution de nos activités</h2>
-                    </div>
-
-                    @php
-                        $evolution = [
-                            ['value' => '620', 'year' => '2021', 'icon' => 'users'],
-                            ['value' => '980', 'year' => '2022', 'icon' => 'chart-bar'],
-                            ['value' => '1 850', 'year' => '2023', 'icon' => 'chart-bar'],
-                            ['value' => '2 450', 'year' => '2024', 'icon' => 'chart-bar'],
-                        ];
-                    @endphp
-
-                    <dl class="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-4">
-                        @foreach ($evolution as $step)
-                            <div class="flex items-center gap-3">
-                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-primary-600">
-                                    <x-icon :name="$step['icon']" class="h-5 w-5" />
-                                </span>
-                                <div>
-                                    <dd class="text-xl font-bold leading-tight text-slate-900">{{ $step['value'] }}</dd>
-                                    <dt class="text-xs text-slate-600">Bénéficiaires ({{ $step['year'] }})</dt>
-                                </div>
-                            </div>
-                        @endforeach
-                    </dl>
-                </div>
+                {{-- Evolution stats removed: the Clinique launched in 2025 --}}
             </div>
 
             {{-- ============ SIDEBAR ============ --}}
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
-
-                <div class="rounded-xl bg-primary-50/60 p-5">
-                    <div class="flex items-center gap-2.5">
-                        <x-icon-badge size="sm"><x-icon name="chart-bar" class="h-5 w-5" /></x-icon-badge>
-                        <h2 class="text-base font-bold text-slate-900">Chiffres clés (2024)</h2>
-                    </div>
-
-                    <x-figure-list
-                        class="mt-4"
-                        :items="[
-                            ['icon' => 'users', 'value' => '2 450', 'label' => 'Personnes conseillées', 'color' => 'blue'],
-                            ['icon' => 'map-pin', 'value' => '15', 'label' => 'Caravanes juridiques', 'color' => 'green'],
-                            ['icon' => 'graduation-cap', 'value' => '50+', 'label' => 'Étudiants impliqués', 'color' => 'amber'],
-                            ['icon' => 'document', 'value' => '120', 'label' => 'Sessions de sensibilisation', 'color' => 'purple'],
-                            ['icon' => 'handshake', 'value' => '10', 'label' => 'Partenariats institutionnels', 'color' => 'red'],
-                        ]"
-                    />
-                </div>
 
                 <x-sidebar-card icon="folder" title="Autres documents" :tint="true">
                     @php
