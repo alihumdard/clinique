@@ -27,10 +27,10 @@
         @method('PUT')
 
         {{-- ============ SETTINGS CARDS ============ --}}
-        <div class="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <div class="mt-5 columns-1 gap-5 lg:columns-2">
 
             {{-- General information --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="building" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -104,7 +104,7 @@
 
 
             {{-- Contact details --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="phone" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -167,7 +167,7 @@
 
 
             {{-- Logo and visual identity --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="image" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -237,7 +237,7 @@
                 could not take effect — whereas the bandeau is a plan
                 requirement that had no screen of its own.
             --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="bell" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -322,7 +322,7 @@
             </section>
 
             {{-- SEO --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="search" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
@@ -402,7 +402,7 @@
             </section>
 
             {{-- Social networks --}}
-            <section class="rounded-xl border border-slate-200 bg-white p-5">
+            <section class="rounded-xl border border-slate-200 bg-white p-5 break-inside-avoid mb-5">
                 <div class="flex items-start gap-3">
                     <x-icon-badge size="sm" class="shrink-0"><x-icon name="share" class="h-5 w-5" /></x-icon-badge>
                     <div class="min-w-0">
