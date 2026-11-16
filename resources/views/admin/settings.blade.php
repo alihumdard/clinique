@@ -443,7 +443,7 @@
 
             {{-- Emptying a field already restores its default, so there is
                  no separate reset to get wrong. --}}
-            <p class="text-xs leading-relaxed text-slate-500">
+            <p class="shrink-0 text-xs leading-relaxed text-slate-500">
                 Un champ laissé vide reprend sa valeur par défaut.
             </p>
 
