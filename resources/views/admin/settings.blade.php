@@ -435,11 +435,11 @@
         </div>{{-- end layout --}}
 
         {{-- ============ ACTIONS ============ --}}
-        <div class="mt-5 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-5">
 
             {{-- Emptying a field already restores its default, so there is
                  no separate reset to get wrong. --}}
-            <p class="text-xs leading-relaxed text-slate-500 sm:max-w-sm">
+            <p class="text-xs leading-relaxed text-slate-500">
                 Un champ laissé vide reprend sa valeur par défaut.
             </p>
 
