@@ -38,7 +38,7 @@
     <div class="mt-5 space-y-5">
 
         {{-- ============ KPIs ============ --}}
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <div class="grid grid-cols-2 gap-4 lg:grid-cols-5">
             <x-admin.stat-card icon="users"       color="blue"  :value="$counts['total']"         label="Comptes enregistrés" keep-at-zero />
             <x-admin.stat-card icon="lock-shield" color="green" :value="$counts['admins']"        label="Administrateurs IT" note="accès complet" />
             <x-admin.stat-card icon="pencil"      color="amber" :value="$counts['coordinateurs']" label="Coordinateurs" note="contenus et registre" />
