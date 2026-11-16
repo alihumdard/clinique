@@ -384,7 +384,7 @@
                     @if($featuredVideo)
                         <a href="{{ route('webtv.show', $featuredVideo) }}"
                            aria-label="Voir la capsule : {{ $featuredVideo->title }}"
-                           class="group relative block min-h-[180px] min-w-0 overflow-hidden rounded-lg bg-slate-200 shadow-sm sm:min-h-0">
+                           class="group relative block min-w-0 overflow-hidden rounded-lg bg-slate-200 shadow-sm" style="height:220px">
 
                             <x-stored-image
                                 :path="$featuredVideo->cover"
@@ -393,7 +393,7 @@
                                 height="1024"
                                 sizes="(min-width: 1024px) 420px, 100vw"
                                 fallback="placeholders/video-featured"
-                                class="block h-full min-h-[180px] w-full object-cover transition duration-300 group-hover:scale-105 sm:min-h-0"
+                                class="block h-full w-full object-cover transition duration-300 group-hover:scale-105"
                             />
 
                             <span class="absolute inset-0 flex items-center justify-center">
@@ -422,7 +422,7 @@
                             </div>
                         </a>
                     @else
-                        <div class="flex min-h-[180px] items-center justify-center rounded-lg border border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
+                        <div class="flex items-center justify-center rounded-lg border border-slate-200 bg-white p-6 text-center text-sm text-slate-500" style="height:220px">
                             Aucune capsule publiée pour le moment.
                         </div>
                     @endif
