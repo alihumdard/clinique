@@ -1,21 +1,21 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
-@section('title', "Gestion de l'Ã©quipe")
+@section('title', "Gestion de l'équipe")
 @section('search_action', route('admin.team'))
-@section('search_placeholder', "Rechercher un membre d'Ã©quipe, un poste, une compÃ©tence...")
+@section('search_placeholder', "Rechercher un membre d'équipe, un poste, une compétence...")
 
 @section('content')
 
     <x-admin.flash />
 
     <x-admin.page-header
-        title="Gestion de l'Ã©quipe"
-        lead="GÃ©rez les membres de l'Ã©quipe de la Clinique Juridique FSJP-UAM."
+        title="Gestion de l'équipe"
+        lead="Gérez les membres de l'équipe de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un membre"
         action-dialog="create-member"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
-            ['label' => 'Ã‰quipe'],
+            ['label' => 'Équipe'],
         ]"
     />
 
@@ -24,12 +24,12 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                <x-admin.stat-card icon="users"   color="green" :value="$counts['published']" label="Membres visibles" note="affichÃ©s sur le site" keep-at-zero />
-                <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['hidden']"    label="MasquÃ©s" note="enregistrÃ©s, non affichÃ©s" />
+            <div class="flex flex-wrap gap-4 [grid-cols-2 gap-4 xl:grid-cols-4>*]:min-w-0">
+                <x-admin.stat-card icon="users"   color="green" :value="$counts['published']" label="Membres visibles" note="affichés sur le site" keep-at-zero />
+                <x-admin.stat-card icon="eye-off" color="amber" :value="$counts['hidden']"    label="Masqués" note="enregistrés, non affichés" />
                 <x-admin.stat-card icon="clock"   color="blue"  :value="$counts['drafts']"    label="Brouillons" />
                 <x-admin.stat-card icon="trash"   color="red"   :value="$counts['trashed']"   :href="route('admin.team', ['statut' => 'corbeille'])"
-                                   label="Ã€ la corbeille" />
+                                   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
@@ -56,9 +56,9 @@
                     @php
                         $statuses = [
                             '' => 'Tous les statuts',
-                            'published' => 'PubliÃ©s',
+                            'published' => 'Publiés',
                             'draft' => 'Brouillons',
-                            'archived' => 'ArchivÃ©s',
+                            'archived' => 'Archivés',
                             'corbeille' => 'Corbeille',
                         ];
                     @endphp
@@ -100,7 +100,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.team') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
-                                RÃ©initialiser
+                                Réinitialiser
                             </a>
                         @endif
                     </div>
@@ -118,7 +118,7 @@
                                 <th scope="col" class="w-12 px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="SÃ©lectionner tous les membres"
+                                        aria-label="Sélectionner tous les membres"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </th>
@@ -138,7 +138,7 @@
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="SÃ©lectionner : {{ $member->name }}"
+                                            aria-label="Sélectionner : {{ $member->name }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
@@ -195,7 +195,7 @@
                             @empty
                                 <tr>
                                     <td colspan="8" class="px-5 py-12 text-center">
-                                        <p class="text-sm text-slate-500">Aucun membre ne correspond Ã  cette recherche.</p>
+                                        <p class="text-sm text-slate-500">Aucun membre ne correspond à cette recherche.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -252,7 +252,7 @@
             </div>
 
             <div>
-                <label for="edit-member-{{ $member->id }}-bio" class="block text-sm font-medium text-slate-700">PrÃ©sentation</label>
+                <label for="edit-member-{{ $member->id }}-bio" class="block text-sm font-medium text-slate-700">Présentation</label>
                 <textarea id="edit-member-{{ $member->id }}-bio" name="bio" rows="3" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">{{ $member->bio }}</textarea>
             </div>
 
@@ -273,8 +273,8 @@
                     <label for="edit-member-{{ $member->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                     <select id="edit-member-{{ $member->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="draft" @selected($member->status === 'draft')>Brouillon</option>
-                        <option value="published" @selected($member->status === 'published')>PubliÃ©</option>
-                        <option value="archived" @selected($member->status === 'archived')>ArchivÃ©</option>
+                        <option value="published" @selected($member->status === 'published')>Publié</option>
+                        <option value="archived" @selected($member->status === 'archived')>Archivé</option>
                     </select>
                 </div>
 
@@ -301,9 +301,9 @@
 
     {{--
         "Ajouter un membre" in the page header opens this dialog rather than
-        scrolling to a sidebar form, matching the ActualitÃ©s pattern.
+        scrolling to a sidebar form, matching the Actualités pattern.
     --}}
-    <x-admin.edit-modal id="create-member" title="Ajouter un membre de l'Ã©quipe" :action="route('admin.team.store')" method="POST" submit-label="Ajouter le membre">
+    <x-admin.edit-modal id="create-member" title="Ajouter un membre de l'équipe" :action="route('admin.team.store')" method="POST" submit-label="Ajouter le membre">
         <div>
             <label for="member-name" class="block text-sm font-medium text-slate-700">
                 Nom complet
@@ -354,7 +354,7 @@
                 @endforeach
             </select>
             <p id="member-department-hint" class="mt-1.5 text-xs text-slate-500">
-                DÃ©termine la section de la page Ã‰quipe oÃ¹ le membre apparaÃ®t.
+                Détermine la section de la page Équipe où le membre apparaît.
             </p>
         </div>
 
@@ -370,12 +370,12 @@
         </div>
 
         <div>
-            <label for="member-bio" class="block text-sm font-medium text-slate-700">PrÃ©sentation</label>
+            <label for="member-bio" class="block text-sm font-medium text-slate-700">Présentation</label>
             <textarea
                 id="member-bio"
                 name="bio"
                 rows="3"
-                placeholder="Quelques lignes sur son rÃ´le au sein de la Clinique..."
+                placeholder="Quelques lignes sur son rôle au sein de la Clinique..."
                 class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             ></textarea>
         </div>
@@ -392,7 +392,7 @@
                     class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                 >
                 <p id="member-email-hint" class="mt-1.5 text-xs text-slate-500">
-                    PubliÃ©e sur la page Ã‰quipe. Laissez vide pour ne pas l'afficher.
+                    Publiée sur la page Équipe. Laissez vide pour ne pas l'afficher.
                 </p>
             </div>
 
@@ -428,7 +428,7 @@
                 >
             </label>
             <p class="mt-1.5 text-xs text-slate-500">
-                Facultative : sans photo, les initiales sont affichÃ©es.
+                Facultative : sans photo, les initiales sont affichées.
             </p>
         </div>
 
@@ -443,7 +443,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
             <p id="member-position-hint" class="mt-1.5 text-xs text-slate-500">
-                Laissez vide pour ajouter Ã  la fin du groupe.
+                Laissez vide pour ajouter à la fin du groupe.
             </p>
         </div>
 
@@ -460,7 +460,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
                 @php
-                    $options = ['published' => 'PubliÃ©', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©'];
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
                 @endphp
                 @foreach ($options as $value => $label)
                     <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
@@ -475,4 +475,3 @@
     </x-admin.edit-modal>
 
 @endsection
-

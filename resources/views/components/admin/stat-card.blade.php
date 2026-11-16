@@ -49,7 +49,7 @@
     ];
     $c = $swatches[$color] ?? $swatches['blue'];
 
-    $shell = 'relative block overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm'
+    $shell = 'relative block overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex-1 min-w-[180px]'
         .($href ? ' transition hover:border-slate-300 hover:shadow-md' : '');
 @endphp
 

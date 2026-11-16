@@ -1,21 +1,21 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
-@section('title', 'Gestion des activitÃ©s & galerie')
+@section('title', 'Gestion des activités & galerie')
 @section('search_action', route('admin.activities'))
-@section('search_placeholder', 'Rechercher une activitÃ©, un lieu, une date...')
+@section('search_placeholder', 'Rechercher une activité, un lieu, une date...')
 
 @section('content')
 
     <x-admin.flash />
 
     <x-admin.page-header
-        title="Gestion des activitÃ©s & galerie"
-        lead="GÃ©rez les activitÃ©s, caravanes juridiques et leur galerie photos."
-        action-label="Ajouter une activitÃ©"
+        title="Gestion des activités & galerie"
+        lead="Gérez les activités, caravanes juridiques et leur galerie photos."
+        action-label="Ajouter une activité"
         action-dialog="create-activity"
         :breadcrumb="[
             ['label' => 'Accueil', 'url' => route('admin.dashboard')],
-            ['label' => 'ActivitÃ©s & caravanes'],
+            ['label' => 'Activités & caravanes'],
         ]"
     />
     <div class="mt-6 space-y-5">
@@ -23,10 +23,10 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                <x-admin.stat-card icon="calendar"     color="blue"  :value="$counts['published']" label="ActivitÃ©s publiÃ©es" keep-at-zero />
-                <x-admin.stat-card icon="clock"        color="amber" :value="$counts['publicUpcoming']"  label="Ã€ venir" note="prochaines activitÃ©s" />
-                <x-admin.stat-card icon="check-circle" color="green" :value="$counts['publicPast']"      label="ActivitÃ©s passÃ©es" />
+            <div class="flex flex-wrap gap-4 [grid-cols-2 gap-4 xl:grid-cols-4>*]:min-w-0">
+                <x-admin.stat-card icon="calendar"     color="blue"  :value="$counts['published']" label="Activités publiées" keep-at-zero />
+                <x-admin.stat-card icon="clock"        color="amber" :value="$counts['publicUpcoming']"  label="À venir" note="prochaines activités" />
+                <x-admin.stat-card icon="check-circle" color="green" :value="$counts['publicPast']"      label="Activités passées" />
                 <x-admin.stat-card icon="image"        color="red"   :value="$counts['photos']"    label="Photos" note="dans la galerie" />
             </div>
 
@@ -37,7 +37,7 @@
                     $vue = $filters['vue'] ?? null;
 
                     // The tabs keep whatever else is filtered, so switching
-                    // between "Ã€ venir" and "PassÃ©es" does not clear a search.
+                    // between "À venir" and "Passées" does not clear a search.
                     $tabLink = fn (array $extra) => route('admin.activities', array_merge(
                         array_filter([
                             'q' => $filters['q'] ?? null,
@@ -51,9 +51,9 @@
                     <x-admin.filter-tabs
                         class="lg:border-b-0"
                         :tabs="[
-                            ['label' => 'Toutes les activitÃ©s', 'count' => $counts['all'], 'active' => ! $vue, 'href' => $tabLink([])],
-                            ['label' => 'Ã€ venir', 'count' => $counts['upcoming'], 'active' => $vue === 'a-venir', 'href' => $tabLink(['vue' => 'a-venir'])],
-                            ['label' => 'PassÃ©es', 'count' => $counts['past'], 'active' => $vue === 'passees', 'href' => $tabLink(['vue' => 'passees'])],
+                            ['label' => 'Toutes les activités', 'count' => $counts['all'], 'active' => ! $vue, 'href' => $tabLink([])],
+                            ['label' => 'À venir', 'count' => $counts['upcoming'], 'active' => $vue === 'a-venir', 'href' => $tabLink(['vue' => 'a-venir'])],
+                            ['label' => 'Passées', 'count' => $counts['past'], 'active' => $vue === 'passees', 'href' => $tabLink(['vue' => 'passees'])],
                         ]"
                     />
 
@@ -63,7 +63,7 @@
                         @endif
 
                         <div role="search" class="relative w-full flex-1 sm:w-56">
-                            <label for="activities-search" class="sr-only">Rechercher une activitÃ©</label>
+                            <label for="activities-search" class="sr-only">Rechercher une activité</label>
                             <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
                                 <x-icon name="search" class="h-4 w-4" />
                             </span>
@@ -72,7 +72,7 @@
                                 id="activities-search"
                                 name="q"
                                 value="{{ $filters['q'] ?? '' }}"
-                                placeholder="Rechercher une activitÃ©..."
+                                placeholder="Rechercher une activité..."
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                             >
                         </div>
@@ -98,7 +98,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.activities') }}" class="shrink-0 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50">
-                                RÃ©initialiser
+                                Réinitialiser
                             </a>
                         @endif
                     </form>
@@ -116,13 +116,13 @@
                                 <th scope="col" class="w-12 px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="SÃ©lectionner toutes les activitÃ©s"
+                                        aria-label="Sélectionner toutes les activités"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Image</th>
-                                <th scope="col" class="min-w-[9rem] px-3 py-3">Titre de l'activitÃ©</th>
+                                <th scope="col" class="min-w-[9rem] px-3 py-3">Titre de l'activité</th>
                                 <th scope="col" class="px-3 py-3">Type</th>
                                 <th scope="col" class="px-3 py-3">Lieu</th>
                                 <th scope="col" class="px-3 py-3">Date</th>
@@ -138,7 +138,7 @@
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="SÃ©lectionner : {{ $activity->title }}"
+                                            aria-label="Sélectionner : {{ $activity->title }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
@@ -197,7 +197,7 @@
                                         <div class="flex flex-wrap items-center gap-1.5">
                                             <x-admin.status-select :row="$activity" :action="route('admin.activities.status', $activity)" :label="$activity->title" />
                                             @if($activity->isUpcoming())
-                                                <x-admin.badge tone="amber">Ã€ venir</x-admin.badge>
+                                                <x-admin.badge tone="amber">À venir</x-admin.badge>
                                             @endif
                                         </div>
                                     </td>
@@ -211,7 +211,7 @@
                                         >
                                             <x-icon name="image" class="h-4 w-4 shrink-0 text-slate-400" />
                                             {{ $activity->photos_count }}
-                                            <span class="sr-only">photos dans la galerie &mdash; ouvrir pour les gÃ©rer</span>
+                                            <span class="sr-only">photos dans la galerie &mdash; ouvrir pour les gérer</span>
                                         </button>
                                     </td>
 
@@ -230,7 +230,7 @@
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">
-                                        <p class="text-sm text-slate-500">Aucune activitÃ© ne correspond Ã  cette recherche.</p>
+                                        <p class="text-sm text-slate-500">Aucune activité ne correspond à cette recherche.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -238,7 +238,7 @@
                     </table>
                 </div>
 
-                <x-admin.table-footer :paginator="$activities" unit="activitÃ©s" />
+                <x-admin.table-footer :paginator="$activities" unit="activités" />
             </section>
         </div>
 
@@ -255,7 +255,7 @@
         this is valid-by-recovery HTML, not a parse error.
     --}}
     @foreach ($activities as $activity)
-        <x-admin.edit-modal id="edit-activity-{{ $activity->id }}" title="Modifier l'activitÃ©" :action="route('admin.activities.update', $activity)">
+        <x-admin.edit-modal id="edit-activity-{{ $activity->id }}" title="Modifier l'activité" :action="route('admin.activities.update', $activity)">
             <div>
                 <label for="edit-activity-{{ $activity->id }}-title" class="block text-sm font-medium text-slate-700">
                     Titre
@@ -265,9 +265,9 @@
             </div>
 
             <div>
-                <label for="edit-activity-{{ $activity->id }}-category" class="block text-sm font-medium text-slate-700">Type d'activitÃ©</label>
+                <label for="edit-activity-{{ $activity->id }}-category" class="block text-sm font-medium text-slate-700">Type d'activité</label>
                 <select id="edit-activity-{{ $activity->id }}-category" name="category_id" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                    <option value="">SÃ©lectionner un type</option>
+                    <option value="">Sélectionner un type</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" @selected($activity->category_id === $category->id)>{{ $category->name }}</option>
                     @endforeach
@@ -281,7 +281,7 @@
                 </div>
 
                 <div>
-                    <label for="edit-activity-{{ $activity->id }}-held-on" class="block text-sm font-medium text-slate-700">Date de l'activitÃ©</label>
+                    <label for="edit-activity-{{ $activity->id }}-held-on" class="block text-sm font-medium text-slate-700">Date de l'activité</label>
                     <input type="date" id="edit-activity-{{ $activity->id }}-held-on" name="held_on" value="{{ $activity->held_on?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
             </div>
@@ -301,8 +301,8 @@
                     <label for="edit-activity-{{ $activity->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                     <select id="edit-activity-{{ $activity->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="draft" @selected($activity->status === 'draft')>Brouillon</option>
-                        <option value="published" @selected($activity->status === 'published')>PubliÃ©</option>
-                        <option value="archived" @selected($activity->status === 'archived')>ArchivÃ©</option>
+                        <option value="published" @selected($activity->status === 'published')>Publié</option>
+                        <option value="archived" @selected($activity->status === 'archived')>Archivé</option>
                     </select>
                 </div>
 
@@ -327,7 +327,7 @@
                         <x-icon name="image" class="h-5 w-5 text-primary-600" />
                         Galerie photos
                     </span>
-                    <span class="text-xs text-slate-500">{{ $activity->photos_count }} actuellement &middot; 20 Ã  la fois max</span>
+                    <span class="text-xs text-slate-500">{{ $activity->photos_count }} actuellement &middot; 20 à la fois max</span>
                 </div>
 
                 <label
@@ -336,7 +336,7 @@
                 >
                     <x-icon name="upload" class="h-7 w-7 text-primary-500" />
                     <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour ajouter des photos</span>
-                    <span class="mt-0.5 text-xs text-slate-500">ou glissez vos images ici &mdash; s'ajoutent Ã  la galerie existante</span>
+                    <span class="mt-0.5 text-xs text-slate-500">ou glissez vos images ici &mdash; s'ajoutent à la galerie existante</span>
                     <span class="mt-1 text-xs text-slate-400">(JPG, PNG - Max 5MB chacune)</span>
 
                     <input
@@ -353,13 +353,13 @@
     @endforeach
 
     {{--
-        "Ajouter une activitÃ©" in the page header opens this dialog rather
-        than scrolling to a sidebar form, matching the ActualitÃ©s pattern.
+        "Ajouter une activité" in the page header opens this dialog rather
+        than scrolling to a sidebar form, matching the Actualités pattern.
     --}}
-    <x-admin.edit-modal id="create-activity" title="Ajouter une activitÃ©" :action="route('admin.activities.store')" method="POST" submit-label="Publier l'activitÃ©">
+    <x-admin.edit-modal id="create-activity" title="Ajouter une activité" :action="route('admin.activities.store')" method="POST" submit-label="Publier l'activité">
         <div>
             <label for="activity-title" class="block text-sm font-medium text-slate-700">
-                Titre de l'activitÃ©
+                Titre de l'activité
                 <span class="text-rose-600" aria-hidden="true">*</span>
                 <span class="sr-only">(obligatoire)</span>
             </label>
@@ -368,19 +368,19 @@
                 id="activity-title"
                 name="title"
                 required
-                placeholder="Ex. Caravane juridique Ã  Zinder"
+                placeholder="Ex. Caravane juridique à Zinder"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
         </div>
 
         <div>
-            <label for="activity-type" class="block text-sm font-medium text-slate-700">Type d'activitÃ©</label>
+            <label for="activity-type" class="block text-sm font-medium text-slate-700">Type d'activité</label>
             <select
                 id="activity-type"
                 name="category_id"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
-                <option value="">SÃ©lectionner un type</option>
+                <option value="">Sélectionner un type</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -388,7 +388,7 @@
         </div>
 
         {{-- Lieu & date: the two fields that separate an activity
-             from an actualitÃ©. --}}
+             from an actualité. --}}
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
                 <label for="activity-location" class="block text-sm font-medium text-slate-700">Lieu</label>
@@ -407,7 +407,7 @@
             </div>
 
             <div>
-                <label for="activity-date" class="block text-sm font-medium text-slate-700">Date de l'activitÃ©</label>
+                <label for="activity-date" class="block text-sm font-medium text-slate-700">Date de l'activité</label>
                 <input
                     type="date"
                     id="activity-date"
@@ -419,7 +419,7 @@
         </div>
 
         <p id="activity-date-hint" class="-mt-2 text-xs text-slate-500">
-            Une date Ã  venir classe l'activitÃ© dans Â« Ã€ venir Â» ; une date passÃ©e dans Â« PassÃ©es Â».
+            Une date à venir classe l'activité dans « À venir » ; une date passée dans « Passées ».
         </p>
 
         <div>
@@ -428,7 +428,7 @@
                 id="activity-description"
                 name="excerpt"
                 rows="3"
-                placeholder="RÃ©sumez l'activitÃ© en quelques lignes..."
+                placeholder="Résumez l'activité en quelques lignes..."
                 class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             ></textarea>
         </div>
@@ -470,7 +470,7 @@
                     <x-icon name="image" class="h-5 w-5 text-primary-600" />
                     Galerie photos
                 </span>
-                <span class="text-xs text-slate-500">jusqu'Ã  20 Ã  la fois</span>
+                <span class="text-xs text-slate-500">jusqu'à 20 à la fois</span>
             </div>
 
             <label
@@ -506,7 +506,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
                 @php
-                    $options = ['published' => 'PubliÃ©', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©'];
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
                 @endphp
                 @foreach ($options as $value => $label)
                     <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
@@ -516,4 +516,3 @@
     </x-admin.edit-modal>
 
 @endsection
-

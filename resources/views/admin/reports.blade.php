@@ -1,16 +1,16 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
-@section('title', "Gestion des rapports annuels d'activitÃ©")
+@section('title', "Gestion des rapports annuels d'activité")
 @section('search_action', route('admin.reports'))
-@section('search_placeholder', 'Rechercher un rapport, une annÃ©e...')
+@section('search_placeholder', 'Rechercher un rapport, une année...')
 
 @section('content')
 
     <x-admin.flash />
 
     <x-admin.page-header
-        title="Gestion des rapports annuels d'activitÃ©"
-        lead="Ajoutez, modifiez et organisez les rapports annuels d'activitÃ© de la Clinique Juridique FSJP-UAM."
+        title="Gestion des rapports annuels d'activité"
+        lead="Ajoutez, modifiez et organisez les rapports annuels d'activité de la Clinique Juridique FSJP-UAM."
         action-label="Ajouter un rapport annuel"
         action-dialog="create-report"
         :breadcrumb="[
@@ -24,18 +24,18 @@
         <div class="space-y-5">
 
             {{-- ============ KPIs ============ --}}
-            <div class="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Rapports publiÃ©s" keep-at-zero />
-                <x-admin.stat-card icon="download" color="green" :value="number_format($counts['downloads'], 0, ',', ' ')" label="TÃ©lÃ©chargements" />
-                <x-admin.stat-card icon="clock"    color="amber" :value="$counts['drafts']"    label="En brouillon" note="non publiÃ©s" />
+            <div class="flex flex-wrap gap-4 [grid-cols-2 gap-4 xl:grid-cols-4>*]:min-w-0">
+                <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Rapports publiés" keep-at-zero />
+                <x-admin.stat-card icon="download" color="green" :value="number_format($counts['downloads'], 0, ',', ' ')" label="Téléchargements" />
+                <x-admin.stat-card icon="clock"    color="amber" :value="$counts['drafts']"    label="En brouillon" note="non publiés" />
                 <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.reports', ['statut' => 'corbeille'])"
-                                   label="Ã€ la corbeille" />
+                                   label="À la corbeille" />
             </div>
 
             {{-- ============ TABLE ============ --}}
             <section class="rounded-xl border border-slate-200 bg-white">
 
-                {{-- One GET form: search, annÃ©e and statut submit together,
+                {{-- One GET form: search, année and statut submit together,
                      so a filtered list is a URL that can be shared. --}}
                 <form method="GET" action="{{ route('admin.reports') }}" class="space-y-3 p-5">
                     <div role="search" class="relative w-full lg:max-w-xs">
@@ -56,22 +56,22 @@
                     @php
                         $statuses = [
                             '' => 'Tous les statuts',
-                            'published' => 'PubliÃ©s',
+                            'published' => 'Publiés',
                             'draft' => 'Brouillons',
-                            'archived' => 'ArchivÃ©s',
+                            'archived' => 'Archivés',
                             'corbeille' => 'Corbeille',
                         ];
                     @endphp
 
                     <div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
                         <div class="min-w-0 sm:shrink-0">
-                            <label for="reports-year" class="sr-only">Filtrer par annÃ©e</label>
+                            <label for="reports-year" class="sr-only">Filtrer par année</label>
                             <select
                                 id="reports-year"
                                 name="annee"
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
                             >
-                                <option value="">Toutes les annÃ©es</option>
+                                <option value="">Toutes les années</option>
                                 @foreach ($years as $year)
                                     <option value="{{ $year }}" @selected((int) ($filters['annee'] ?? 0) === (int) $year)>{{ $year }}</option>
                                 @endforeach
@@ -98,7 +98,7 @@
 
                         @if (array_filter($filters))
                             <a href="{{ route('admin.reports') }}" class="col-span-2 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 sm:col-span-1 sm:w-auto">
-                                RÃ©initialiser
+                                Réinitialiser
                             </a>
                         @endif
                     </div>
@@ -116,14 +116,14 @@
                                 <th scope="col" class="w-12 px-5 py-3">
                                     <input
                                         type="checkbox"
-                                        aria-label="SÃ©lectionner tous les rapports"
+                                        aria-label="Sélectionner tous les rapports"
                                         class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                     >
                                 </th>
                                 <th scope="col" class="w-12 px-2 py-3">#</th>
                                 <th scope="col" class="w-20 px-2 py-3">Couverture</th>
                                 <th scope="col" class="min-w-[11rem] px-3 py-3">Titre du rapport</th>
-                                <th scope="col" class="px-3 py-3">AnnÃ©e</th>
+                                <th scope="col" class="px-3 py-3">Année</th>
                                 <th scope="col" class="px-3 py-3">Format</th>
                                 <th scope="col" class="px-3 py-3">Date d'ajout</th>
                                 <th scope="col" class="px-3 py-3">Statut</th>
@@ -137,7 +137,7 @@
                                     <td class="px-5 py-3">
                                         <input
                                             type="checkbox"
-                                            aria-label="SÃ©lectionner : {{ $report->title }}"
+                                            aria-label="Sélectionner : {{ $report->title }}"
                                             class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
                                         >
                                     </td>
@@ -193,9 +193,9 @@
                                             edit-dialog="edit-report-{{ $report->id }}"
                                             {{--
                                                 A report has no detail page of
-                                                its own â€” only the shared
+                                                its own — only the shared
                                                 public listing it downloads
-                                                from â€” so AperÃ§u opens that
+                                                from — so Aperçu opens that
                                                 rather than a per-row page
                                                 that doesn't exist.
                                             --}}
@@ -211,7 +211,7 @@
                             @empty
                                 <tr>
                                     <td colspan="10" class="px-5 py-12 text-center">
-                                        <p class="text-sm text-slate-500">Aucun rapport ne correspond Ã  cette recherche.</p>
+                                        <p class="text-sm text-slate-500">Aucun rapport ne correspond à cette recherche.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -247,7 +247,7 @@
 
             <div>
                 <label for="edit-report-{{ $report->id }}-year" class="block text-sm font-medium text-slate-700">
-                    AnnÃ©e
+                    Année
                     <span class="text-rose-600" aria-hidden="true">*</span>
                 </label>
                 <select id="edit-report-{{ $report->id }}-year" name="year" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
@@ -267,8 +267,8 @@
                     <label for="edit-report-{{ $report->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
                     <select id="edit-report-{{ $report->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         <option value="draft" @selected($report->status === 'draft')>Brouillon</option>
-                        <option value="published" @selected($report->status === 'published')>PubliÃ©</option>
-                        <option value="archived" @selected($report->status === 'archived')>ArchivÃ©</option>
+                        <option value="published" @selected($report->status === 'published')>Publié</option>
+                        <option value="archived" @selected($report->status === 'archived')>Archivé</option>
                     </select>
                 </div>
 
@@ -301,7 +301,7 @@
 
     {{--
         "Ajouter un rapport annuel" in the page header opens this dialog
-        rather than scrolling to a sidebar form, matching the ActualitÃ©s
+        rather than scrolling to a sidebar form, matching the Actualités
         pattern.
     --}}
     <x-admin.edit-modal id="create-report" title="Ajouter un rapport annuel" :action="route('admin.reports.store')" method="POST" submit-label="Publier le rapport">
@@ -316,14 +316,14 @@
                 id="report-title"
                 name="title"
                 required
-                placeholder="Ex. Rapport annuel d'activitÃ© 2024"
+                placeholder="Ex. Rapport annuel d'activité 2024"
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
         </div>
 
         <div>
             <label for="report-year" class="block text-sm font-medium text-slate-700">
-                AnnÃ©e
+                Année
                 <span class="text-rose-600" aria-hidden="true">*</span>
                 <span class="sr-only">(obligatoire)</span>
             </label>
@@ -333,7 +333,7 @@
                 required
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
-                <option value="">SÃ©lectionner l'annÃ©e</option>
+                <option value="">Sélectionner l'année</option>
                 {{-- The Clinic opened in 2019; the validator holds
                      the same bounds. --}}
                 @for ($year = (int) date('Y') + 1; $year >= 2019; $year--)
@@ -348,7 +348,7 @@
                 id="report-description"
                 name="description"
                 rows="4"
-                placeholder="DÃ©crivez briÃ¨vement le contenu du rapport..."
+                placeholder="Décrivez brièvement le contenu du rapport..."
                 class="mt-1.5 w-full resize-y rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             ></textarea>
         </div>
@@ -370,7 +370,7 @@
                 class="mt-1.5 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-200 px-4 py-6 text-center transition-colors hover:border-primary-300 hover:bg-primary-50/40"
             >
                 <x-icon name="upload" class="h-7 w-7 text-primary-500" />
-                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour tÃ©lÃ©charger</span>
+                <span class="mt-2 text-sm font-medium text-slate-700">Cliquez pour télécharger</span>
                 <span class="mt-0.5 text-xs text-slate-500">un fichier PDF</span>
                 <span class="mt-1 text-xs text-slate-400">(Taille max : 20MB)</span>
 
@@ -419,7 +419,7 @@
                 class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
                 @php
-                    $options = ['published' => 'PubliÃ©', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©'];
+                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
                 @endphp
                 @foreach ($options as $value => $label)
                     <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
@@ -429,4 +429,3 @@
     </x-admin.edit-modal>
 
 @endsection
-
