@@ -41,7 +41,7 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
             <x-admin.stat-card icon="users"       color="blue"  :value="$counts['total']"         label="Comptes enregistrés" keep-at-zero />
             <x-admin.stat-card icon="lock-shield" color="green" :value="$counts['admins']"        label="Administrateurs IT" note="accès complet" />
-            <x-admin.stat-card icon="pencil"      color="amber" :value="$counts['coordinateurs']" label="Coordinateurs" note="contenus &amp; registre" />
+            <x-admin.stat-card icon="pencil"      color="amber" :value="$counts['coordinateurs']" label="Coordinateurs" note="contenus et registre" />
             <x-admin.stat-card icon="user"        color="slate" :value="$counts['membres']"       label="Membres" note="soumission uniquement" />
             <x-admin.stat-card icon="eye-off"     color="red"   :value="$counts['disabled']"      label="Comptes désactivés" />
         </div>
