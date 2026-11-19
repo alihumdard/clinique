@@ -9,7 +9,7 @@
         image="placeholders/process-hero"
         imagePosition="object-right-top"
         :title="__('Processus de consultation')"
-        subtitle="Un accompagnement simple, transparent et gratuit pour tous."
+        subtitle="De la première prise de contact à la réponse écrite — un processus simple, gratuit et confidentiel."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Processus de consultation')],
@@ -19,19 +19,19 @@
     {{-- ============ ETAPES + A RETENIR ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <x-eyebrow>Comment ça marche ?</x-eyebrow>
-        <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étapes de votre consultation</h2>
+        <h2 class="mt-2 text-2xl font-bold text-slate-900">Les quatre étapes de votre consultation</h2>
         <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
-            La Clinique Juridique FSJP-UAM vous accompagne tout au long de votre démarche, depuis votre
-            première prise de contact jusqu'au suivi de votre dossier.
+            La Clinique vous accompagne de votre première prise de contact jusqu'à la réponse écrite validée
+            par un encadrant. Chaque étape est gratuite et confidentielle.
         </p>
 
         <div class="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_260px]">
             @php
                 $timelineSteps = [
-                    ['number' => '1', 'icon' => 'document', 'title' => 'Accueil et pré-saisine', 'duration' => 'Le jour même', 'text' => 'Vous décrivez votre situation via le formulaire en ligne ou lors d\'une permanence. Réponse sur la recevabilité le jour même ou le lendemain.'],
-                    ['number' => '2', 'icon' => 'users', 'title' => 'Entretien de consultation', 'duration' => '30 à 60 minutes', 'text' => 'Un rendez-vous est fixé à nos locaux. Un étudiant clinicien encadré recueille l\'ensemble des informations nécessaires à l\'étude de votre dossier.'],
-                    ['number' => '3', 'icon' => 'search', 'title' => 'Analyse juridique', 'duration' => 'Sous 5 jours ouvrables', 'text' => 'Étude approfondie de votre dossier par l\'équipe, avec validation par un encadrant (enseignant ou professionnel du droit).'],
-                    ['number' => '4', 'icon' => 'document', 'title' => 'Réponse et orientation', 'duration' => 'Sous 2 semaines', 'text' => 'Vous recevez une réponse écrite validée : avis juridique, démarches à suivre, ou orientation vers un partenaire compétent.'],
+                    ['number' => '1', 'icon' => 'document', 'title' => 'Pré-saisine', 'duration' => 'En ligne ou sur place', 'text' => 'Vous décrivez votre situation via le formulaire en ligne ou directement à l\'accueil pendant les permanences (mardi et jeudi, 8 h 30 – 18 h 00).'],
+                    ['number' => '2', 'icon' => 'users', 'title' => 'Entretien de consultation', 'duration' => '30 à 60 minutes', 'text' => 'Un rendez-vous est fixé dans nos locaux à la FSJP. Un étudiant clinicien encadré recueille toutes les informations nécessaires à l\'étude de votre dossier.'],
+                    ['number' => '3', 'icon' => 'search', 'title' => 'Analyse juridique', 'duration' => 'Sous 5 jours ouvrables', 'text' => 'Votre dossier est étudié par l\'équipe et validé par un encadrant (enseignant-chercheur ou professionnel du droit). Aucune réponse n\'est transmise sans cette validation.'],
+                    ['number' => '4', 'icon' => 'check-circle', 'title' => 'Réponse écrite et orientation', 'duration' => 'Sous 5 jours ouvrables', 'text' => 'Vous recevez une réponse écrite : avis juridique, démarches à suivre, ou orientation vers un partenaire ou une structure compétente si nécessaire.'],
                 ];
             @endphp
 
@@ -63,17 +63,17 @@
                 </div>
 
                 <div class="mt-4 space-y-3.5">
-                    <x-checklist-item icon="gift" title="Service gratuit">
-                        Aucun frais n'est demandé pour les consultations.
+                    <x-checklist-item icon="gift" title="Entièrement gratuit">
+                        Aucun frais n'est demandé, à aucune étape du processus.
                     </x-checklist-item>
-                    <x-checklist-item icon="users" title="Accessibilité">
-                        Ouvert à tous, sans condition de revenu.
+                    <x-checklist-item icon="users" title="Ouvert à tous">
+                        Toute personne confrontée à une difficulté juridique peut nous solliciter.
                     </x-checklist-item>
-                    <x-checklist-item icon="lock" title="Confidentialité">
-                        Vos informations sont protégées.
+                    <x-checklist-item icon="lock" title="Confidentiel">
+                        Vos informations personnelles et juridiques sont protégées.
                     </x-checklist-item>
-                    <x-checklist-item icon="heart" title="Accompagnement">
-                        Par des étudiants encadrés par des enseignants et professionnels du droit.
+                    <x-checklist-item icon="check-circle" title="Validé par un encadrant">
+                        Chaque réponse est contrôlée par un enseignant-chercheur ou un professionnel du droit.
                     </x-checklist-item>
                 </div>
             </div>
@@ -92,17 +92,18 @@
 
             <div class="p-4 lg:p-8">
                 <x-eyebrow>{{ __('Urgences') }}</x-eyebrow>
-                <h2 class="mt-2 text-xl font-bold leading-tight text-slate-900 sm:text-2xl">Situations urgentes : intervention sous 72h</h2>
+                <h2 class="mt-2 text-xl font-bold leading-tight text-slate-900 sm:text-2xl">Situation urgente ? Nous intervenons sous 72 heures</h2>
                 <p class="mt-2.5 max-w-md text-sm leading-relaxed text-slate-600">
-                    Pour les situations nécessitant une réponse rapide — garde à vue, audience imminente,
-                    expulsion, violence — la Clinique mobilise son équipe en priorité et intervient dans
-                    un délai de 72 heures.
+                    Pour les situations nécessitant une réponse immédiate — garde à vue, audience imminente,
+                    expulsion, violence conjugale — signalez l'urgence lors de votre prise de contact.
+                    La Clinique mobilise son équipe en priorité et vous répond sous 72 heures.
                 </p>
 
                 <div class="mt-4 flex flex-wrap items-center gap-5">
                     <x-inline-icon-label icon="gavel" label="Garde à vue" />
                     <x-inline-icon-label icon="document" label="Audience imminente" />
-                    <x-inline-icon-label icon="heart" label="Situations de crise" />
+                    <x-inline-icon-label icon="heart" label="Violence conjugale" />
+                    <x-inline-icon-label icon="users" label="Expulsion" />
                 </div>
             </div>
         </div>
@@ -140,11 +141,11 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            :title="__('Besoin d\'une assistance juridique ?')"
+            :title="__('Prêt à nous soumettre votre situation ?')"
             :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
-            Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.
+            La pré-saisine est gratuite et prend quelques minutes. Notre équipe vous répondra sous cinq jours ouvrables.
         </x-inline-cta>
     </section>
 
