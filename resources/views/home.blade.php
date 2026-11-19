@@ -46,18 +46,19 @@
 
         <div class="relative z-10 mx-auto flex w-full max-w-xl flex-col justify-center px-4 py-14 sm:px-6 lg:w-1/2 lg:max-w-2xl lg:px-8 lg:pr-0 xl:ml-auto xl:mr-0">
             <p class="text-sm font-bold uppercase tracking-widest text-primary-600">
-                Clinique Juridique FSJP — Université Abdou Moumouni
+                Clinique Juridique · FSJP · Université Abdou Moumouni
             </p>
 
             <h1 class="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
-                Un accès à la justice
-                <span class="block text-primary-600">pour tous, gratuitement</span>
+                L'accès au droit
+                <span class="block text-primary-600">pour tous</span>
             </h1>
 
             <p class="mt-5 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-                La Clinique Juridique de la FSJP-UAM vous conseille, vous informe et vous oriente
-                gratuitement. Étudiants en droit encadrés par des enseignants et des professionnels,
-                au service de toutes les personnes confrontées à une difficulté juridique.
+                La Clinique Juridique de la FSJP accueille toute personne qui a besoin de comprendre
+                sa situation juridique et de savoir quelles démarches entreprendre. Les consultations
+                sont gratuites. Elles sont conduites par des étudiants en droit, sous la supervision
+                d'enseignants-chercheurs et de praticiens du droit.
             </p>
 
             <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -65,7 +66,7 @@
                     <x-icon name="user-plus" class="h-5 w-5" />
                     Faire une pré-saisine
                 </x-button>
-                <x-button href="#services" variant="outline" class="!px-6 !py-3.5 !text-base">Découvrir nos services</x-button>
+                <x-button href="#services" variant="outline" class="!px-6 !py-3.5 !text-base">Voir nos domaines d'intervention</x-button>
             </div>
         </div>
 
@@ -80,16 +81,16 @@
             <div class="flex items-center gap-3 p-4">
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">{{ __("Horaires d'ouverture") }}</p>
-                    <p class="text-sm text-slate-500">Mardi et jeudi : 8h30 - 18h00</p>
+                    <p class="text-sm font-semibold text-slate-900">Permanences</p>
+                    <p class="text-sm text-slate-500">Mardi et jeudi, 8 h 30 à 18 h 00</p>
                 </div>
             </div>
 
             <div class="flex items-center gap-3 p-4">
                 <x-icon-badge size="sm"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">{{ __('Adresse') }}</p>
-                    <p class="text-sm text-slate-500">Faculté des Sciences<br>Juridiques, Niamey</p>
+                    <p class="text-sm font-semibold text-slate-900">Adresse</p>
+                    <p class="text-sm text-slate-500">FSJP, Université Abdou Moumouni, Niamey</p>
                 </div>
             </div>
 
@@ -114,16 +115,16 @@
             <div class="flex items-center gap-3 px-4 py-3">
                 <x-icon-badge size="sm"><x-icon name="clock" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">{{ __("Horaires d'ouverture") }}</p>
-                    <p class="text-sm text-slate-500">Mardi et jeudi : 8h30 - 18h00</p>
+                    <p class="text-sm font-semibold text-slate-900">Permanences</p>
+                    <p class="text-sm text-slate-500">Mardi et jeudi, 8 h 30 à 18 h 00</p>
                 </div>
             </div>
 
             <div class="flex items-center gap-3 px-4 py-3">
                 <x-icon-badge size="sm"><x-icon name="map-pin" class="h-5 w-5" /></x-icon-badge>
                 <div>
-                    <p class="text-sm font-semibold text-slate-900">{{ __('Adresse') }}</p>
-                    <p class="text-sm text-slate-500">Faculté des Sciences Juridiques, Niamey</p>
+                    <p class="text-sm font-semibold text-slate-900">Adresse</p>
+                    <p class="text-sm text-slate-500">FSJP, Université Abdou Moumouni, Niamey</p>
                 </div>
             </div>
 

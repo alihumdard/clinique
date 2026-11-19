@@ -34,7 +34,7 @@
             'panel' => 'bg-emerald-50 border-emerald-200',
             'dot' => 'bg-emerald-500',
             'text' => 'text-emerald-900',
-            'label' => 'Permanences ouvertes',
+            'label' => "Permanences d'accueil",
         ],
         'closed' => [
             'panel' => 'bg-slate-100 border-slate-200',
