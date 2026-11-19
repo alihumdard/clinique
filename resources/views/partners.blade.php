@@ -9,7 +9,7 @@
         image="placeholders/about-hero"
         imagePosition="object-right-top"
         :title="__('Nos partenaires')"
-        subtitle="Des institutions et organisations engagées à nos côtés pour une justice plus accessible"
+        subtitle="Institutions publiques, organisations internationales et acteurs de la société civile — ensemble pour l'accès au droit au Niger."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Partenaires')],
@@ -20,13 +20,14 @@
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10">
             <div>
-                <x-eyebrow>Une collaboration pour l'intérêt général</x-eyebrow>
-                <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">Des partenariats au service de la justice</h2>
+                <x-eyebrow>Nos partenaires</x-eyebrow>
+                <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">Des partenariats au service de l'accès au droit</h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM travaille en étroite collaboration avec des institutions
-                    publiques, des organisations internationales, des ONG, des ordres professionnels et des
-                    acteurs de la société civile. Ces partenariats renforcent nos actions, facilitent l'accès
-                    au droit et contribuent à la formation pratique de nos étudiants.
+                    La Clinique Juridique FSJP-UAM bénéficie du soutien de l'Université Abdou Moumouni,
+                    du Haut-Commissariat des Nations Unies pour les réfugiés (HCR), de l'Organisation
+                    internationale de droit du développement (IDLO) et d'Affaires mondiales Canada. Ces
+                    partenariats renforcent nos activités, facilitent l'accès au droit et contribuent à
+                    la formation pratique de nos étudiants cliniciens.
                 </p>
             </div>
 
@@ -92,12 +93,12 @@
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <x-inline-cta
             icon="users"
-            :title="__('Vous souhaitez devenir partenaire ?')"
+            :title="__('Vous souhaitez collaborer avec nous ?')"
             :button-label="__('Nous contacter')"
-            button-href="{{ route('contact') }}"
+            :button-href="route('contact')"
         >
-            Nous sommes ouverts à toute collaboration visant à renforcer l'accès au droit, la formation des
-            étudiants et la promotion de la justice au Niger.
+            La Clinique est ouverte à toute collaboration visant à renforcer l'accès au droit et la
+            promotion de la justice au Niger. Contactez-nous pour en discuter.
         </x-inline-cta>
     </section>
 
