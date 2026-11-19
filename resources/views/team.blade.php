@@ -9,7 +9,7 @@
         image="placeholders/about-hero"
         imagePosition="object-right-top"
         :title="__('Notre équipe')"
-        subtitle="Une équipe engagée au service de la justice et des citoyens"
+        subtitle="Enseignants, étudiants cliniciens et personnel d'appui — une équipe pluridisciplinaire au service de la justice."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('La Clinique'), 'url' => route('about')],
@@ -21,15 +21,16 @@
     <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-                <x-eyebrow color="amber">Une équipe pluridisciplinaire</x-eyebrow>
+                <x-eyebrow color="amber">Qui sommes-nous ?</x-eyebrow>
                 <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">
-                    Des professionnels, des enseignants
-                    <span class="block">et des étudiants engagés</span>
+                    Une équipe pluridisciplinaire
+                    <span class="block">au service des citoyens</span>
                 </h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM est portée par une équipe d'enseignants encadrants,
-                    d'étudiants en droit et de professionnels partenaires qui travaillent ensemble pour
-                    offrir une assistance juridique gratuite et de qualité à la population.
+                    La Clinique Juridique FSJP-UAM est portée par une équipe d'enseignants-chercheurs
+                    encadrants, d'étudiants cliniciens en droit et d'un personnel d'appui. Ensemble, ils
+                    travaillent à offrir une assistance juridique gratuite et de qualité à toute personne
+                    qui en a besoin.
                 </p>
             </div>
 
@@ -64,8 +65,8 @@
     @if(($groups['direction'] ?? collect())->isNotEmpty())
         <section class="bg-slate-50 py-12 sm:py-16">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <x-eyebrow color="amber">Direction de la Clinique</x-eyebrow>
-                <h2 class="mt-2 text-2xl font-bold text-slate-900">Responsables de la Clinique Juridique</h2>
+                <x-eyebrow color="amber">Coordination</x-eyebrow>
+                <h2 class="mt-2 text-2xl font-bold text-slate-900">Coordinateur de la Clinique Juridique</h2>
 
                 <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
                     @foreach ($groups['direction'] as $member)
@@ -88,8 +89,8 @@
     {{-- ============ ENSEIGNANTS ENCADRANTS ============ --}}
     @if(($groups['enseignants'] ?? collect())->isNotEmpty())
         <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-            <x-eyebrow color="amber">Enseignants encadrants</x-eyebrow>
-            <h2 class="mt-2 text-2xl font-bold text-slate-900">Nos enseignants encadrants</h2>
+            <x-eyebrow color="amber">Encadrement pédagogique</x-eyebrow>
+            <h2 class="mt-2 text-2xl font-bold text-slate-900">Enseignants-chercheurs encadrants</h2>
 
             <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($groups['enseignants'] as $member)
@@ -113,8 +114,8 @@
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <x-eyebrow color="amber">Nos étudiants</x-eyebrow>
-                        <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants membres</h2>
+                        <x-eyebrow color="amber">Étudiants cliniciens</x-eyebrow>
+                        <h2 class="mt-2 text-2xl font-bold text-slate-900">Les étudiants cliniciens</h2>
                     </div>
                     <div class="flex items-center gap-3">
                         <x-button :href="route('join')" variant="outline" size="sm" class="self-start sm:self-auto">{{ __('Voir tous les étudiants') }} →</x-button>
@@ -141,8 +142,8 @@
     {{-- ============ PERSONNEL ADMINISTRATIF ============ --}}
     @if(($groups['administratif'] ?? collect())->isNotEmpty())
         <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-            <x-eyebrow color="amber">Personnel administratif et technique</x-eyebrow>
-            <h2 class="mt-2 text-2xl font-bold text-slate-900">Notre équipe de soutien</h2>
+            <x-eyebrow color="amber">Personnel d'appui</x-eyebrow>
+            <h2 class="mt-2 text-2xl font-bold text-slate-900">Personnel d'appui administratif et technique</h2>
 
             <div class="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
                 @foreach ($groups['administratif'] as $member)
@@ -164,11 +165,12 @@
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="users"
-            :title="__('Rejoignez notre équipe')"
-            button-label="Voir les opportunités"
-            :button-href="route('presaisine.index')"
+            :title="__('Vous souhaitez rejoindre la Clinique ?')"
+            button-label="Candidater"
+            :button-href="route('join')"
         >
-            Vous êtes étudiant en droit et souhaitez vous engager ? Découvrez nos appels à candidatures.
+            Vous êtes étudiant en droit à la FSJP ? Rejoignez notre équipe de cliniciens et mettez vos
+            connaissances au service des citoyens.
         </x-inline-cta>
     </section>
 
