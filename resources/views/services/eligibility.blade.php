@@ -9,7 +9,7 @@
         image="placeholders/eligibility-hero"
         imagePosition="object-right-top"
         :title="__('Conditions d\'accès et gratuité')"
-        subtitle="Une justice accessible à tous, sans discrimination"
+        subtitle="Toute personne confrontée à une difficulté juridique peut venir à la Clinique. Les consultations sont entièrement gratuites."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Nos services'), 'url' => route('services')],
@@ -26,18 +26,18 @@
                     <x-eyebrow>{{ __('Notre engagement') }}</x-eyebrow>
                 </div>
                 <h2 class="mt-2 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
-                    Une assistance juridique gratuite et ouverte à tous
+                    Gratuit, sans condition de revenu, ouvert à tous
                 </h2>
                 <p class="mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM offre une assistance juridique entièrement gratuite à la
-                    population, dans le cadre de sa mission de service public et de formation pratique des
-                    étudiants. Nos services sont accessibles à toute personne, sans discrimination, dans le
-                    respect des principes d'égalité, de dignité et de justice.
+                    La Clinique Juridique FSJP-UAM offre une assistance juridique entièrement gratuite à toute
+                    personne confrontée à une difficulté juridique. Aucune condition de revenu, de nationalité
+                    ou de statut social n'est requise. Une attention particulière est accordée aux personnes
+                    en situation de vulnérabilité.
                 </p>
             </div>
 
-            <x-quote-card attribution="Notre mission au service de la population" :tint="true">
-                « Rendre le droit plus accessible à toutes et à tous, en particulier aux personnes les plus vulnérables. »
+            <x-quote-card attribution="Clinique Juridique FSJP-UAM" :tint="true">
+                « La Clinique est ouverte à toute personne qui a besoin de comprendre sa situation juridique — quelle que soit sa condition. »
             </x-quote-card>
         </div>
     </section>
@@ -45,11 +45,11 @@
     {{-- ============ CRITERES D'ACCES (8 cards) ============ --}}
     <section class="bg-slate-50 py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-eyebrow>Qui peut bénéficier de nos services ?</x-eyebrow>
-            <h2 class="mt-2 text-2xl font-bold text-slate-900">Critères d'accès</h2>
+            <x-eyebrow>Qui peut venir à la Clinique ?</x-eyebrow>
+            <h2 class="mt-2 text-2xl font-bold text-slate-900">Critères d'accès — toute personne est la bienvenue</h2>
             <p class="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">
-                Nos services sont ouverts à toute personne qui souhaite obtenir une information, un conseil
-                ou un accompagnement juridique dans les domaines couverts par la Clinique.
+                Il n'existe aucune condition de revenu, de nationalité ou de statut social pour accéder à nos services.
+                La Clinique reçoit toute personne ayant besoin d'une information, d'un conseil ou d'un accompagnement juridique.
             </p>
 
             <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -124,12 +124,12 @@
         <x-inline-cta
             variant="amber"
             icon="heart"
-            :title="__('Une attention particulière aux personnes vulnérables')"
+            :title="__('Une attention particulière aux personnes en situation de vulnérabilité')"
             :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
-            La Clinique accorde une attention spéciale aux femmes, aux enfants, aux personnes handicapées,
-            aux personnes déplacées et à toute personne en situation de vulnérabilité.
+            La Clinique accorde une priorité aux femmes, aux enfants, aux personnes réfugiées ou déplacées,
+            aux personnes handicapées et à toute personne en situation précaire ou de crise.
         </x-inline-cta>
     </section>
 
@@ -177,11 +177,11 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            :title="__('Besoin d\'une assistance juridique ?')"
+            :title="__('Vous avez une question juridique ?')"
             :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
-            Remplissez notre formulaire de pré-saisine pour être rapidement orienté vers le bon service.
+            Venez nous rencontrer le mardi ou le jeudi de 8 h 30 à 18 h 00 à la FSJP, ou déposez une pré-saisine en ligne. C'est gratuit.
         </x-inline-cta>
     </section>
 
