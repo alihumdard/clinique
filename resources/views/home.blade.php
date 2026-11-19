@@ -288,7 +288,7 @@
             </p>
 
             <div class="mt-6">
-                <x-button href="#" variant="outline">En savoir plus sur la Clinique</x-button>
+                <x-button :href="route('about')" variant="outline">En savoir plus sur la Clinique</x-button>
             </div>
 
             <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
