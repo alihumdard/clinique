@@ -149,10 +149,10 @@
         @foreach ([
             ['icon' => 'users', 'label' => 'Consultations juridiques gratuites'],
             ['icon' => 'book', 'label' => 'Information et orientation'],
-            ['icon' => 'gavel', 'label' => 'Accompagnement juridique'],
-            ['icon' => 'users', 'label' => 'Formations et sensibilisation'],
-            ['icon' => 'document', 'label' => 'Ressources juridiques'],
-            ['icon' => 'play-circle', 'label' => 'Web TV capsules juridiques'],
+            ['icon' => 'gavel', 'label' => 'Aide aux démarches'],
+            ['icon' => 'users', 'label' => 'Caravanes juridiques'],
+            ['icon' => 'document', 'label' => 'Fiches pratiques'],
+            ['icon' => 'play-circle', 'label' => 'Conseil aux institutions'],
         ] as $item)
             <div class="flex cursor-pointer flex-col items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-5 text-center transition hover:shadow-md">
                 <x-icon :name="$item['icon']" class="h-10 w-10 text-primary-600" />
@@ -171,7 +171,7 @@
 <section class="bg-slate-50 py-12">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <x-eyebrow>{{ __("Nos domaines d'intervention") }}</x-eyebrow>
-        <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Dans quels domaines pouvons-nous vous aider ?</h2>
+        <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Pour quelles questions venir à la Clinique ?</h2>
         <p class="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
             Nos étudiants encadrés vous informent et vous orientent dans les principaux domaines du droit.
             Si votre situation n'apparaît pas ici, contactez-nous : nous vous orienterons vers le bon interlocuteur.
@@ -206,7 +206,7 @@
         </ul>
 
         <div class="mt-8">
-            <x-button :href="route('services')" variant="outline">Découvrir tous nos services</x-button>
+            <x-button :href="route('services')" variant="outline">Tous nos domaines d'intervention</x-button>
         </div>
     </div>
 </section>
@@ -214,7 +214,7 @@
 {{-- ============ HOW IT WORKS ============ --}}
 <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <x-eyebrow>{{ __('Comment ça marche') }}</x-eyebrow>
-    <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Quatre étapes, de votre demande à la réponse</h2>
+    <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">De votre demande à la réponse : quatre étapes simples</h2>
 
     @php
         $steps = [
@@ -317,12 +317,12 @@
             <div class="min-w-0 lg:col-span-7">
                 <div class="mb-4 flex items-center justify-between gap-3">
                     <h2 class="text-xl font-bold leading-tight text-slate-900 sm:text-2xl">
-                        Actualités récentes
+                        Dernières actualités
                     </h2>
 
                     <a href="{{ url('/actualites') }}"
                        class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
-                        Voir toutes les actualités
+                        Toutes les actualités
                         <x-icon name="arrow-right" class="h-5 w-5" />
                     </a>
                 </div>
@@ -520,7 +520,7 @@
 --}}
 <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <x-eyebrow>{{ __('Infos pratiques') }}</x-eyebrow>
-    <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Nous rencontrer, nous joindre</h2>
+    <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Horaires, adresse et contacts</h2>
 
     <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
 
@@ -596,7 +596,7 @@
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 
             <div>
-                <x-eyebrow>{{ __('Questions fréquentes') }}</x-eyebrow>
+                <x-eyebrow>{{ __('Avez-vous des questions ?') }}</x-eyebrow>
                 <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Vous vous posez une question ?</h2>
                 <p class="mt-3 text-base leading-relaxed text-slate-600">
                     Les réponses aux questions que l'on nous pose le plus souvent.

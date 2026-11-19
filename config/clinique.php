@@ -75,7 +75,7 @@ return [
         ],
         'closed' => 'Fermé les autres jours',
 
-        'note' => 'Accueil uniquement à Niamey',
+        'note' => 'Faculté des Sciences Juridiques et Politiques, Niamey',
     ],
 
     /*
