@@ -9,7 +9,7 @@
         image="placeholders/contact-hero"
         imagePosition="object-right-top"
         :title="__('Nous contacter')"
-        subtitle="Une question, une demande d'information ou besoin d'accompagnement ? Notre équipe est à votre écoute."
+        subtitle="Permanences le mardi et le jeudi de 8 h 30 à 18 h 00 à la FSJP — ou écrivez-nous à tout moment."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Contact')],
@@ -21,10 +21,10 @@
         {{-- ============ CONTACT REASONS ============ --}}
         @php
             $reasons = [
-                ['icon' => 'headset', 'title' => 'Informations générales', 'text' => 'Des renseignements sur nos services et nos activités.'],
-                ['icon' => 'document', 'title' => "Demande d'assistance", 'text' => "Un besoin d'orientation juridique ou de pré-saisine."],
-                ['icon' => 'handshake', 'title' => 'Partenariats', 'text' => 'Des collaborations pour soutenir nos actions.'],
-                ['icon' => 'users', 'title' => 'Recrutement', 'text' => "Des opportunités de stage, volontariat ou emploi."],
+                ['icon' => 'headset', 'title' => 'Informations générales', 'text' => 'Renseignements sur nos services, horaires ou domaines d\'intervention.'],
+                ['icon' => 'document', 'title' => "Demande d'assistance juridique", 'text' => "Besoin d'une orientation ou d'une consultation ? Faites une pré-saisine."],
+                ['icon' => 'handshake', 'title' => 'Partenariats', 'text' => 'Proposer une collaboration pour renforcer l\'accès au droit au Niger.'],
+                ['icon' => 'graduation-cap', 'title' => 'Rejoindre la Clinique', 'text' => "Candidater comme étudiant clinicien ou s'informer sur les appels en cours."],
             ];
         @endphp
 
@@ -370,11 +370,11 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            :title="__('Besoin d\'une assistance rapide ?')"
+            :title="__('Vous avez une question juridique ?')"
             :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
-            Vous pouvez également faire une pré-saisine en ligne pour être orienté plus rapidement.
+            Décrivez votre situation via la pré-saisine en ligne. Notre équipe vous répondra sous cinq jours ouvrables. C'est gratuit.
         </x-inline-cta>
     </section>
 

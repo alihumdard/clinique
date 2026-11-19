@@ -9,7 +9,7 @@
         image="placeholders/legal-scales-gavel"
         imagePosition="object-right-top"
         :title="__('Fiches pratiques juridiques')"
-        subtitle="Des guides simples et clairs pour comprendre vos droits et vous accompagner dans vos démarches."
+        subtitle="Des fiches pratiques gratuites et téléchargeables pour comprendre vos droits et accomplir vos démarches."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Ressources'), 'url' => route('resources')],

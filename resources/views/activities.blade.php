@@ -9,7 +9,7 @@
         image="placeholders/webtv-show-hero"
         imagePosition="object-right-top"
         :title="__('Activités et caravanes juridiques')"
-        subtitle="Aller vers les populations pour une justice plus proche de tous"
+        subtitle="Caravanes juridiques, sensibilisations et rencontres communautaires pour rapprocher le droit des citoyens."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Activités et caravanes juridiques')],
@@ -39,19 +39,19 @@
         <div class="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
             <div class="lg:col-span-3">
                 <x-eyebrow>{{ __('Notre engagement') }}</x-eyebrow>
-                <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Une présence sur le terrain</h2>
+                <h2 class="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">Aller vers les populations</h2>
                 <p class="mt-4 text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM organise régulièrement des activités de proximité
-                    à travers les caravanes juridiques, des sessions de sensibilisation, des formations
-                    et des rencontres communautaires pour promouvoir l'accès au droit et renforcer la
-                    protection des personnes vulnérables.
+                    La Clinique Juridique FSJP-UAM organise régulièrement des caravanes juridiques,
+                    des sessions de sensibilisation et des rencontres communautaires pour informer
+                    les populations sur leurs droits et les accompagner dans leurs démarches, notamment
+                    dans les communes de Niamey avec le soutien de l'IDLO.
                 </p>
             </div>
 
             <div class="lg:col-span-2">
-                <x-info-note-card icon="users" title="Une justice plus proche des populations">
-                    Nos activités permettent d'informer, d'écouter et d'accompagner les citoyens dans leurs
-                    démarches juridiques, notamment dans les zones rurales et périurbaines.
+                <x-info-note-card icon="users" title="Avec le soutien de l'IDLO">
+                    Les premières caravanes juridiques ont été menées dans les communes de Niamey
+                    en partenariat avec l'Organisation internationale de droit du développement (IDLO).
                 </x-info-note-card>
             </div>
         </div>
@@ -139,11 +139,12 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            :title="__('Vous souhaitez organiser une activité dans votre localité ?')"
+            :title="__('Vous souhaitez organiser une activité avec la Clinique ?')"
             :button-label="__('Nous contacter')"
             :button-href="route('contact')"
         >
-            Contactez-nous pour planifier une caravane juridique ou une session de sensibilisation.
+            Contactez-nous pour planifier une caravane juridique, une session de sensibilisation ou
+            toute autre action de terrain dans votre localité.
         </x-inline-cta>
     </section>
 

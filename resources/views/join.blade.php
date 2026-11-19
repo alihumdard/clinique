@@ -11,7 +11,7 @@
         image-position="object-right"
         :title="__('Rejoindre la Clinique')"
         title-line2="Appels à candidatures"
-        subtitle="Rejoignez une équipe engagée pour la promotion de l'accès au droit et la justice au service des populations."
+        subtitle="Vous êtes étudiant en droit à la FSJP ? Rejoignez notre équipe de cliniciens et mettez vos connaissances au service des citoyens."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Rejoindre la Clinique'), 'url' => route('join')],
@@ -226,11 +226,12 @@
         <x-inline-cta
             variant="dark"
             icon="paper-plane"
-            :title="__('Rejoignez notre réseau')"
-            button-label="S'inscrire aux alertes"
+            :title="__('Une question sur les appels à candidatures ?')"
+            :button-label="__('Nous contacter')"
             :button-href="route('contact')"
         >
-            Soyez informé(e) en avant-première des nouveaux appels à candidatures.
+            Notre équipe est disponible pendant les permanences (mardi et jeudi, 8 h 30 – 18 h 00)
+            pour vous renseigner sur les conditions de participation.
         </x-inline-cta>
     </section>
 

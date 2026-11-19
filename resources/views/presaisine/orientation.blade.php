@@ -9,7 +9,7 @@
         image="placeholders/legal-scales-gavel"
         imagePosition="object-right-top"
         :title="__('Pré-saisine')"
-        subtitle="Quatre questions pour savoir si nous pouvons prendre votre demande en charge."
+        subtitle="Répondez à quelques questions pour savoir si votre situation relève de nos domaines d'intervention."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Pré-saisine')],

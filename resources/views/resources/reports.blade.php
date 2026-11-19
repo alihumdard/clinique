@@ -19,7 +19,7 @@
         image="placeholders/annual-report-hero"
         imagePosition="object-right-top"
         :title="__('Rapports annuels d\'activité')"
-        subtitle="Découvrez nos réalisations, nos chiffres clés et l'impact de nos actions pour une justice plus accessible au Niger."
+        subtitle="Bilans d'activité, réalisations et chiffres clés de la Clinique Juridique FSJP-UAM."
         :breadcrumb="$breadcrumb"
     />
 

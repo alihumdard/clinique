@@ -10,7 +10,7 @@
         imagePosition="object-right-top"
         image-position="object-right"
         :title="__('Web TV')"
-        subtitle="Des vidéos pour informer, sensibiliser et promouvoir l'accès au droit pour tous."
+        subtitle="Capsules juridiques, émissions et témoignages pour informer et sensibiliser les citoyens à leurs droits."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Web TV')],

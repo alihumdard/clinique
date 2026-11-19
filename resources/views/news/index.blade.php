@@ -9,7 +9,7 @@
         image="placeholders/about-hero"
         imagePosition="object-right-top"
         :title="__('Actualités')"
-        subtitle="Suivez nos dernières actualités, événements et initiatives en faveur de l'accès au droit."
+        subtitle="Activités, caravanes juridiques, partenariats et initiatives de la Clinique Juridique FSJP-UAM."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Actualités')],
@@ -158,7 +158,7 @@
                     </nav>
                 </x-sidebar-card>
 
-                <x-sidebar-card icon="clock" :title="__('Actualités récentes')" color="amber" :tint="true">
+                <x-sidebar-card icon="clock" :title="__('Dernières actualités')" color="amber" :tint="true">
                     <div class="space-y-5">
                         @forelse ($recent as $item)
                             <x-mini-article-row

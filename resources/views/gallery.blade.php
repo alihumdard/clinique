@@ -10,7 +10,7 @@
         imagePosition="object-right-top"
         image-position="object-left-top"
         :title="__('Galerie photos')"
-        subtitle="Découvrez en images nos activités, caravanes juridiques, formations et rencontres avec les communautés."
+        subtitle="Photos des activités, caravanes juridiques et rencontres communautaires de la Clinique Juridique FSJP-UAM."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Galerie photos')],
