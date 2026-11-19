@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Nos services - ' . config('app.name'))
-@section('meta_description', "La Clinique Juridique FSJP-UAM offre un accompagnement, une information et une orientation juridique gratuite dans plusieurs domaines du droit.")
+@section('title', 'Nos domaines d\'intervention - ' . config('app.name'))
+@section('meta_description', "La Clinique Juridique FSJP-UAM offre une information, une orientation et un accompagnement juridique gratuits dans plusieurs domaines du droit au Niger.")
 
 @section('content')
 
     <x-page-hero
         image="placeholders/about-hero"
         imagePosition="object-right-top"
-        :title="__('Nos services')"
-        subtitle="Une assistance juridique gratuite et accessible dans plusieurs domaines du droit, assurée par des étudiants encadrés par des enseignants et des professionnels."
+        :title="__('Nos domaines d\'intervention')"
+        subtitle="Information, orientation et accompagnement juridiques gratuits, assurés par des étudiants cliniciens encadrés par des enseignants-chercheurs et des professionnels du droit."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Nos services')],
@@ -18,11 +18,11 @@
 
     {{-- ============ DOMAINES D'INTERVENTION ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold text-slate-900">Nos domaines d'intervention</h2>
+        <h2 class="text-2xl font-bold text-slate-900">Pour quelles questions venir à la Clinique ?</h2>
         <p class="mt-2 max-w-3xl text-base text-slate-600">
             La Clinique Juridique FSJP-UAM offre une information, une orientation et un accompagnement
-            juridique entièrement gratuits dans plusieurs domaines du droit, en fonction des besoins
-            de la population.
+            juridiques entièrement gratuits dans plusieurs domaines du droit. Si votre situation ne
+            figure pas dans la liste, venez tout de même : nous vous orienterons vers le bon interlocuteur.
         </p>
 
         @php
@@ -73,11 +73,11 @@
                     <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
                         <span aria-hidden="true">&mdash;</span> Notre engagement
                     </p>
-                    <h2 class="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl">Une justice plus proche des citoyens</h2>
+                    <h2 class="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl">Gratuit, confidentiel, encadré par des professionnels</h2>
                     <p class="mt-3 text-sm leading-relaxed text-slate-200">
-                        Nous mettons nos connaissances juridiques au service de la population pour offrir
-                        une assistance gratuite, humaine et de qualité, dans le respect de la confidentialité
-                        et de l'éthique professionnelle.
+                        Toutes nos consultations sont gratuites et confidentielles. Chaque dossier est
+                        traité par un étudiant clinicien sous la supervision d'un enseignant-chercheur
+                        ou d'un praticien du droit. Aucune réponse n'est transmise sans validation d'un encadrant.
                     </p>
                 </div>
 
@@ -90,8 +90,8 @@
 
     {{-- ============ PROCESSUS (4 steps) ============ --}}
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold text-slate-900">Comment bénéficier de nos services ?</h2>
-        <p class="mt-2 text-base text-slate-600">Un processus simple, transparent et gratuit pour tous.</p>
+        <h2 class="text-2xl font-bold text-slate-900">Comment être reçu à la Clinique ?</h2>
+        <p class="mt-2 text-base text-slate-600">Un processus simple, gratuit et confidentiel, en quatre étapes.</p>
 
         <div class="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4 lg:flex lg:items-start">
             <x-process-step number="1" icon="document" title="Orientation initiale">
@@ -119,13 +119,13 @@
 
         {{-- Info notes --}}
         <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <x-info-note-card icon="clock" title="Nos services sont gratuits" color="blue">
-                La Clinique Juridique FSJP-UAM offre une assistance juridique gratuite à la population, dans
-                le cadre de sa mission de service public et de formation pratique des étudiants.
+            <x-info-note-card icon="gift" title="Consultation entièrement gratuite" color="blue">
+                Aucun frais n'est demandé, à aucune étape. La gratuité est un principe fondamental de la
+                Clinique Juridique FSJP-UAM.
             </x-info-note-card>
-            <x-info-note-card icon="users" title="Qui peut en bénéficier ?" color="amber">
-                Toute personne résidant au Niger, sans discrimination, peut bénéficier de nos services, en
-                particulier les personnes en situation de vulnérabilité.
+            <x-info-note-card icon="users" title="Ouvert à toute personne" color="amber">
+                Toute personne confrontée à une difficulté juridique peut nous solliciter, avec une
+                attention particulière aux personnes en situation de vulnérabilité.
             </x-info-note-card>
         </div>
     </section>
@@ -141,28 +141,31 @@
         </div>
 
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
-            <x-faq-item question="Les services de la Clinique sont-ils vraiment gratuits ?">
-                Oui, l'ensemble de nos services de consultation, d'orientation et d'accompagnement juridique
-                sont entièrement gratuits, sans aucune exception.
+            <x-faq-item question="Les consultations sont-elles gratuites ?">
+                Oui. L'ensemble de nos services — consultation, orientation, accompagnement — est
+                entièrement gratuit. Aucun frais n'est demandé, à aucune étape.
             </x-faq-item>
-            <x-faq-item question="Faut-il être étudiant pour bénéficier des services ?">
-                Non, nos services sont ouverts à toute personne résidant au Niger, qu'elle soit étudiante ou non.
+            <x-faq-item question="Qui peut venir à la Clinique ?">
+                Toute personne confrontée à une difficulté juridique peut nous solliciter, avec une
+                attention particulière aux personnes en situation de vulnérabilité. L'accueil se tient
+                uniquement à Niamey.
             </x-faq-item>
-            <x-faq-item question="Quels types de problèmes juridiques pouvez-vous traiter ?">
-                Nous traitons les questions de droit de la famille, droit civil, droit du travail, droit
-                administratif, droits humains et bien d'autres domaines selon votre situation.
+            <x-faq-item question="Quels domaines du droit couvrez-vous ?">
+                Droit de la famille, droit civil, droit du travail, droit administratif, droit pénal,
+                droits humains, état civil, nationalité et questions liées aux personnes réfugiées.
+                Si votre situation ne figure pas dans la liste, contactez-nous.
             </x-faq-item>
-            <x-faq-item question="Quels documents apporter lors de l'entretien ?">
-                Munissez-vous de votre pièce d'identité et de tout document relatif à votre situation
-                (contrats, courriers, décisions administratives, etc.).
+            <x-faq-item question="Quels documents apporter lors de la consultation ?">
+                Une pièce d'identité et tout document utile à votre situation : contrat, acte, courrier
+                reçu, décision administrative. Si vous n'avez aucun document, venez tout de même.
             </x-faq-item>
-            <x-faq-item question="Comment prendre rendez-vous ?">
-                Vous pouvez effectuer une pré-saisine en ligne ou vous présenter directement à nos permanences
-                aux horaires indiqués sur le site.
+            <x-faq-item question="Comment prendre contact ou déposer une demande ?">
+                Vous pouvez effectuer une pré-saisine en ligne ou vous présenter directement lors de nos
+                permanences, le mardi et le jeudi de 8 h 30 à 18 h 00 à la FSJP.
             </x-faq-item>
-            <x-faq-item question="Que se passe-t-il après la consultation ?">
-                Selon votre dossier, nos étudiants encadrés vous orientent vers un suivi juridique, un service
-                partenaire, ou une structure compétente si nécessaire.
+            <x-faq-item question="Combien de temps avant d'obtenir une réponse ?">
+                Après une pré-saisine, vous recevez une réponse dans un délai de cinq jours ouvrables.
+                Pour les situations urgentes (garde à vue, audience imminente), nous intervenons sous 72 heures.
             </x-faq-item>
         </div>
     </section>
@@ -171,11 +174,12 @@
     <section class="mx-auto max-w-7xl px-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="paper-plane"
-            :title="__('Vous avez besoin d\'une assistance juridique ?')"
+            :title="__('Vous avez une question juridique ?')"
             :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
-            Notre équipe est à votre écoute pour vous orienter et vous accompagner.
+            Décrivez votre situation en ligne via la pré-saisine. Notre équipe vous répondra dans
+            les cinq jours ouvrables. C'est gratuit.
         </x-inline-cta>
     </section>
 
