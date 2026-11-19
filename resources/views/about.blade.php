@@ -9,7 +9,7 @@
         image="placeholders/about-hero"
         imagePosition="object-right"
         :title="__('Présentation de la Clinique')"
-        subtitle="Une clinique juridique universitaire au service de la population, pour une justice plus accessible, plus humaine et plus proche des citoyens."
+        subtitle="Une structure universitaire d'assistance juridique gratuite, créée au sein de la FSJP-UAM pour rapprocher le droit des citoyens."
         :breadcrumb="[
             ['label' => __('Accueil'), 'url' => route('home')],
             ['label' => __('Présentation de la Clinique')],
@@ -20,17 +20,17 @@
     <section class="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-                <x-eyebrow>Notre présentation</x-eyebrow>
+                <x-eyebrow>La Clinique en bref</x-eyebrow>
                 <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">
-                    Une clinique juridique au cœur
-                    <span class="block">de l'Université Abdou Moumouni</span>
+                    Une clinique juridique universitaire
+                    <span class="block">au service de tous</span>
                 </h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
                     La Clinique Juridique de la FSJP-UAM est une structure d'enseignement clinique du droit
                     créée en 2025 au sein de la Faculté des Sciences Juridiques et Politiques de l'Université
-                    Abdou Moumouni de Niamey, par arrêté rectoral n° 00072. Elle offre une assistance juridique
-                    gratuite à toute personne confrontée à une difficulté juridique, assurée par des étudiants
-                    encadrés par des enseignants et des professionnels du droit.
+                    Abdou Moumouni de Niamey, par arrêté rectoral n° 00072 du 22 avril 2025. Elle offre une
+                    assistance juridique gratuite à toute personne confrontée à une difficulté juridique,
+                    assurée par des étudiants encadrés par des enseignants et des professionnels du droit.
                 </p>
                 <div class="mt-6">
                     <x-button href="#mission" variant="primary">{{ __('Notre mission') }}</x-button>
@@ -68,16 +68,16 @@
             <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
                 <div>
                     <x-eyebrow color="muted">Notre histoire</x-eyebrow>
-                    <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Une initiative au service de la justice</h2>
+                    <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Naissance d'une initiative au service du droit</h2>
                     <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
                         La Clinique Juridique FSJP-UAM est née de la volonté de la Faculté des Sciences Juridiques
                         et Politiques de l'Université Abdou Moumouni de contribuer activement à l'accès au droit
                         et à la promotion de la justice au Niger.
                     </p>
                     <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
-                        Créée en 2025 par arrêté rectoral, elle a lancé ses premières activités avec le soutien
-                        de partenaires nationaux et internationaux, et poursuit son développement à travers
-                        des consultations, des caravanes juridiques et la formation pratique des étudiants.
+                        Créée le 22 avril 2025 par arrêté rectoral n° 00072, elle a lancé ses premières activités
+                        avec le soutien de partenaires nationaux et internationaux, et poursuit son développement
+                        à travers des consultations, des caravanes juridiques et la formation pratique des étudiants.
                     </p>
                 </div>
 
@@ -120,8 +120,8 @@
                 <x-eyebrow>Cadre institutionnel</x-eyebrow>
                 <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Création et cadre juridique</h2>
                 <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
-                    La Clinique Juridique FSJP-UAM a été créée en 2025 par arrêté rectoral n° 00072 de
-                    l'Université Abdou Moumouni de Niamey, dans le cadre de la promotion de l'enseignement
+                    La Clinique Juridique FSJP-UAM a été créée le 22 avril 2025 par arrêté rectoral n° 00072
+                    de l'Université Abdou Moumouni de Niamey, dans le cadre de la promotion de l'enseignement
                     clinique du droit et de l'engagement social de la faculté.
                 </p>
 
@@ -129,7 +129,7 @@
                     <div class="flex items-center gap-3">
                         <x-icon-badge size="sm"><x-icon name="document" class="h-5 w-5" /></x-icon-badge>
                         <div>
-                            <p class="text-sm font-semibold text-slate-900">Arrêté de création</p>
+                            <p class="text-sm font-semibold text-slate-900">Arrêté rectoral n° 00072 du 22 avril 2025</p>
                             <p class="text-xs text-slate-500">Téléchargez l'arrêté de création de la Clinique Juridique FSJP-UAM au format PDF.</p>
                         </div>
                     </div>
@@ -174,11 +174,12 @@
     <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <x-inline-cta
             icon="users"
-            :title="__('Une clinique au service de tous')"
+            :title="__('Vous avez une question juridique ?')"
             :button-label="__('Faire une pré-saisine')"
             :button-href="route('presaisine.index')"
         >
-            Vous avez une question juridique ? Besoin d'une orientation ? Notre équipe est là pour vous accompagner.
+            Venez nous rencontrer lors de nos permanences, le mardi et le jeudi de 8 h 30 à 18 h 00 à la FSJP.
+            Les consultations sont entièrement gratuites.
         </x-inline-cta>
     </section>
 
