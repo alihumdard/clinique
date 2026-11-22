@@ -46,7 +46,7 @@
 
         <div class="relative z-10 mx-auto flex w-full max-w-xl flex-col justify-center px-4 py-14 sm:px-6 lg:w-1/2 lg:max-w-2xl lg:px-8 lg:pr-0 xl:ml-auto xl:mr-0">
             <p class="text-sm font-bold uppercase tracking-widest text-primary-600">
-                Clinique Juridique · FSJP · Université Abdou Moumouni
+                <span class="mr-2 inline-block h-0.5 w-8 bg-accent-500 align-middle" aria-hidden="true"></span>Clinique Juridique · FSJP · Université Abdou Moumouni
             </p>
 
             <h1 class="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">

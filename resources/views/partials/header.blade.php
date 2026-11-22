@@ -22,9 +22,6 @@
     ];
 @endphp
 
-{{-- The UAM red, as the charte graphique's accent: one thin line, every page and screen size. --}}
-<div class="h-1 bg-accent-500" aria-hidden="true"></div>
-
 {{-- Top utility bar: contact strip, shown site-wide --}}
 <div class="hidden bg-navy-900 text-white sm:block">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-xs sm:px-6 lg:px-8">
@@ -76,7 +73,7 @@
                     <div class="group relative">
                         <button
                             type="button"
-                            class="flex items-center gap-1 pb-0.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
+                            class="flex items-center gap-1 pb-0.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 {{ $isActive ? 'border-b-2 border-accent-500 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
                             aria-haspopup="true"
                             aria-expanded="false"
                         >
@@ -100,7 +97,7 @@
                 @else
                     <a
                         href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}"
-                        class="pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
+                        class="pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-accent-500 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
                     >
                         {{ $item['label'] }}
                     </a>

@@ -3,7 +3,8 @@
 @php
     $colors = [
         'primary' => 'bg-primary-600',
-        'amber' => 'bg-amber-400',
+        // UAM red: the charte's second colour, kept to small rules.
+        'amber' => 'bg-accent-500',
     ];
 @endphp
 
