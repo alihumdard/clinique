@@ -63,6 +63,8 @@ return [
             'number' => env('CLINIQUE_WHATSAPP', '22788758823'),
         ],
         'email' => env('CLINIQUE_EMAIL', 'cliniquejuridiquefsjp@gmail.com'),
+        // Shown on the contact page only. Null hides the line.
+        'coordinator_email' => env('CLINIQUE_COORDINATOR_EMAIL', 'Souley0138@gmail.com'),
         'address' => [
             'line1' => 'Faculté des Sciences Juridiques et Politiques (FSJP)',
             'line2' => 'Université Abdou Moumouni de Niamey',

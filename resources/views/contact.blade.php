@@ -85,6 +85,14 @@
                                     {{ config('clinique.contact.email') }}
                                 </a>
                             </p>
+                            @if (config('clinique.contact.coordinator_email'))
+                                <p class="mt-2 break-words text-sm text-slate-600">
+                                    <span class="block text-xs font-medium text-slate-500">Coordinateur</span>
+                                    <a href="mailto:{{ config('clinique.contact.coordinator_email') }}" class="hover:text-primary-600">
+                                        {{ config('clinique.contact.coordinator_email') }}
+                                    </a>
+                                </p>
+                            @endif
                         </div>
                     </li>
 
