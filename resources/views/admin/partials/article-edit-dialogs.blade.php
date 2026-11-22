@@ -50,19 +50,14 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label for="edit-article-{{ $article->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                            <select id="edit-article-{{ $article->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                                <option value="draft" @selected($article->status === 'draft')>Brouillon</option>
-                                <option value="published" @selected($article->status === 'published')>Publié</option>
-                                <option value="archived" @selected($article->status === 'archived')>Archivé</option>
-                            </select>
-                        </div>
+                        <x-admin.status-field :id="'edit-article-'.$article->id.'-status'" :value="$article->status" />
 
+                        @if(auth()->user()->managesContent())
                         <div>
                             <label for="edit-article-{{ $article->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
                             <input type="date" id="edit-article-{{ $article->id }}-published-at" name="published_at" value="{{ $article->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                         </div>
+                        @endif
                     </div>
 
                     <x-admin.image-field

@@ -12,12 +12,15 @@
     $navGroups = [
         [
             'label' => null,
+            'dossiers' => true,
             'items' => [
                 ['label' => 'Tableau de bord', 'icon' => 'home', 'filled' => true, 'route' => 'registre.dashboard'],
             ],
         ],
         [
             'label' => 'Dossiers',
+            // Hidden from the IT administrator on real data, like the routes.
+            'dossiers' => true,
             'items' => [
                 ['label' => 'Demandes en ligne', 'icon' => 'mail', 'route' => 'registre.submissions'],
                 ['label' => 'Dossiers', 'icon' => 'folder', 'route' => 'registre.dossiers'],
@@ -79,6 +82,7 @@
     <div class="relative min-h-0 flex-1">
         <nav class="admin-sidebar-scroll h-full overflow-y-auto overscroll-contain px-3 py-4">
             @foreach ($navGroups as $group)
+                @continue(($group['dossiers'] ?? false) && ! auth('registre')->user()?->mayReadDossiers())
                 @if($group['label'])
                     <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-300">
                         {{ $group['label'] }}

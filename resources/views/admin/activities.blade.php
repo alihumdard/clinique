@@ -51,9 +51,10 @@
                     <x-admin.filter-tabs
                         class="lg:border-b-0"
                         :tabs="[
-                            ['label' => 'Toutes les activités', 'count' => $counts['all'], 'active' => ! $vue, 'href' => $tabLink([])],
+                            ['label' => 'Toutes les activités', 'count' => $counts['all'], 'active' => ! $vue && ($filters['statut'] ?? null) !== 'pending', 'href' => $tabLink([])],
                             ['label' => 'À venir', 'count' => $counts['upcoming'], 'active' => $vue === 'a-venir', 'href' => $tabLink(['vue' => 'a-venir'])],
                             ['label' => 'Passées', 'count' => $counts['past'], 'active' => $vue === 'passees', 'href' => $tabLink(['vue' => 'passees'])],
+                            ['label' => 'En attente de validation', 'count' => $counts['pending'], 'active' => ($filters['statut'] ?? null) === 'pending', 'href' => $tabLink(['statut' => 'pending'])],
                         ]"
                     />
 
@@ -216,13 +217,14 @@
                                     </td>
 
                                     <td class="px-5 py-3">
+                                        @php $manages = auth()->user()->managesContent(); @endphp
                                         <x-admin.row-actions
                                             :label="$activity->title"
-                                            edit-dialog="edit-activity-{{ $activity->id }}"
+                                            :edit-dialog="$manages || in_array($activity->status, ['pending', 'draft'], true) ? 'edit-activity-'.$activity->id : null"
                                             :view-href="$activity->isPublic() ? route('activities.show', $activity) : null"
-                                            :duplicate-action="route('admin.activities.duplicate', $activity)"
-                                            :delete-action="route('admin.activities.destroy', $activity)"
-                                            :restore-action="$activity->trashed() ? route('admin.activities.restore', $activity->id) : null"
+                                            :duplicate-action="$manages ? route('admin.activities.duplicate', $activity) : null"
+                                            :delete-action="$manages ? route('admin.activities.destroy', $activity) : null"
+                                            :restore-action="$manages && $activity->trashed() ? route('admin.activities.restore', $activity->id) : null"
                                             :force-delete-action="$activity->trashed() && auth()->user()->isAdmin() ? route('admin.activities.force-destroy', $activity->id) : null"
                                         />
                                     </td>
@@ -297,19 +299,14 @@
             </div>
 
             <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label for="edit-activity-{{ $activity->id }}-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                    <select id="edit-activity-{{ $activity->id }}-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                        <option value="draft" @selected($activity->status === 'draft')>Brouillon</option>
-                        <option value="published" @selected($activity->status === 'published')>Publié</option>
-                        <option value="archived" @selected($activity->status === 'archived')>Archivé</option>
-                    </select>
-                </div>
+                <x-admin.status-field :id="'edit-activity-'.$activity->id.'-status'" :value="$activity->status" />
 
+                @if(auth()->user()->managesContent())
                 <div>
                     <label for="edit-activity-{{ $activity->id }}-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
                     <input type="date" id="edit-activity-{{ $activity->id }}-published-at" name="published_at" value="{{ $activity->published_at?->format('Y-m-d') }}" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                 </div>
+                @endif
             </div>
 
                 <x-admin.image-field
@@ -356,7 +353,7 @@
         "Ajouter une activité" in the page header opens this dialog rather
         than scrolling to a sidebar form, matching the Actualités pattern.
     --}}
-    <x-admin.edit-modal id="create-activity" title="Ajouter une activité" :action="route('admin.activities.store')" method="POST" submit-label="Publier l'activité">
+    <x-admin.edit-modal id="create-activity" title="Ajouter une activité" :action="route('admin.activities.store')" method="POST" :submit-label="auth()->user()->managesContent() ? 'Publier l\'activité' : 'Envoyer pour validation'">
         <div>
             <label for="activity-title" class="block text-sm font-medium text-slate-700">
                 Titre de l'activité
@@ -438,10 +435,12 @@
             <textarea id="activity-body" name="body" rows="6" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
         </div>
 
+        @if(auth()->user()->managesContent())
         <div>
             <label for="activity-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
             <input type="date" id="activity-published-at" name="published_at" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
         </div>
+        @endif
 
         <div>
             <span class="block text-sm font-medium text-slate-700">Image principale</span>
@@ -493,26 +492,7 @@
             </label>
         </div>
 
-        <div>
-            <label for="create-activity-status" class="block text-sm font-medium text-slate-700">
-                Statut
-                <span class="text-rose-600" aria-hidden="true">*</span>
-                <span class="sr-only">(obligatoire)</span>
-            </label>
-            <select
-                id="create-activity-status"
-                name="status"
-                required
-                class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 pr-9 text-sm text-slate-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-            >
-                @php
-                    $options = ['published' => 'Publié', 'draft' => 'Brouillon', 'archived' => 'Archivé'];
-                @endphp
-                @foreach ($options as $value => $label)
-                    <option value="{{ $value }}" @selected($value === 'published')>{{ $label }}</option>
-                @endforeach
-            </select>
-        </div>
+        <x-admin.status-field id="create-activity-status" value="published" required />
     </x-admin.edit-modal>
 
 @endsection

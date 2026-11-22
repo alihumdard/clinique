@@ -24,7 +24,7 @@ class RolePermissionTest extends TestCase
             'name' => 'Éditeur',
             'email' => 'editeur@example.test',
             'password' => 'password-for-tests',
-            'role' => User::ROLE_EDITOR,
+            'role' => User::ROLE_COORDINATEUR,
         ]);
     }
 
@@ -44,10 +44,28 @@ class RolePermissionTest extends TestCase
         return [
             'paramètres' => ['/admin/parametres'],
             'référentiels' => ['/admin/referentiels'],
+        ];
+    }
+
+    /**
+     * Approved for the coordinateur: messages de contact and newsletter.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function coordinatorScreens(): array
+    {
+        return [
             'messages de contact' => ['/admin/messages'],
             'newsletter' => ['/admin/newsletter'],
             'export newsletter' => ['/admin/newsletter/export'],
+            'utilisateurs' => ['/admin/utilisateurs'],
         ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('coordinatorScreens')]
+    public function test_a_coordinateur_may_open_the_screens_approved_for_them(string $url): void
+    {
+        $this->actingAs($this->editor())->get($url)->assertOk();
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('administratorOnlyScreens')]

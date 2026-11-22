@@ -31,13 +31,18 @@
         'slate' => 'border-slate-200 bg-slate-50 text-slate-600 focus:border-slate-400 focus:ring-slate-300',
         'red'   => 'border-rose-200 bg-rose-50 text-rose-700 focus:border-rose-400 focus:ring-rose-300',
         'blue'  => 'border-primary-200 bg-primary-50 text-primary-700 focus:border-primary-400 focus:ring-primary-300',
+        'purple' => 'border-violet-200 bg-violet-50 text-violet-700 focus:border-violet-400 focus:ring-violet-300',
     ];
 
     $current = $row->statusLabel();
 
-    // Only the three the Publishable trait declares. The other labels are
-    // reports about a published row, not statuses it can be set to.
-    $settable = ! $row->trashed() && in_array($current, ['Publié', 'Brouillon', 'Archivé'], true);
+    // Only real statuses. The other labels are reports about a published
+    // row, not statuses it can be set to. A membre never sets one: their
+    // submission waits for the coordinateur.
+    $settable = ! $row->trashed()
+        && auth()->user()?->managesContent()
+        && in_array($row->status, ['published', 'draft', 'archived', 'pending'], true)
+        && in_array($current, ['Publié', 'Brouillon', 'Archivé', 'En attente de validation'], true);
 
     $tone = $tones[$row->statusTone()] ?? $tones['slate'];
 @endphp
@@ -54,6 +59,9 @@
             data-submit-on-change
             class="rounded-full border py-1 pl-2.5 pr-7 text-xs font-semibold transition focus:outline-none focus:ring-1 {{ $tone }}"
         >
+            @if($row->status === 'pending')
+                <option value="pending" selected>En attente</option>
+            @endif
             <option value="published" @selected($row->status === 'published')>Publié</option>
             <option value="draft" @selected($row->status === 'draft')>Brouillon</option>
             <option value="archived" @selected($row->status === 'archived')>Archivé</option>

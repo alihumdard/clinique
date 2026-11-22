@@ -36,11 +36,24 @@ class UserFactory extends Factory
         ];
     }
 
-    /** A content editor: the CMS screens, and none of the admin ones. */
+    /** A coordinateur: the CMS screens, without settings or référentiels. */
     public function editor(): static
     {
+        return $this->coordinateur();
+    }
+
+    public function coordinateur(): static
+    {
         return $this->state(fn (array $attributes) => [
-            'role' => \App\Models\User::ROLE_EDITOR,
+            'role' => \App\Models\User::ROLE_COORDINATEUR,
+        ]);
+    }
+
+    /** A membre: submits actualités and activités for validation. */
+    public function membre(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => \App\Models\User::ROLE_MEMBRE,
         ]);
     }
 

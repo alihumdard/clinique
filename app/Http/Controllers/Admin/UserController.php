@@ -50,7 +50,7 @@ class UserController extends Controller
             // Twelve characters, as the security plan requires of a
             // production account.
             'password' => ['required', 'string', 'min:12', 'confirmed'],
-            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_COORDINATEUR, User::ROLE_MEMBRE])],
+            'role' => ['required', Rule::in($this->current()->assignableRoles())],
         ], [], $this->labels());
 
         User::create($data + ['is_active' => true]);
@@ -60,10 +60,12 @@ class UserController extends Controller
 
     public function update(Request $request, User $user): RedirectResponse
     {
+        $this->authorizeAccount($user);
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_COORDINATEUR, User::ROLE_MEMBRE])],
+            'role' => ['required', Rule::in($this->current()->assignableRoles())],
         ], [], $this->labels());
 
         // Demoting the last administrator leaves nobody able to reach the
@@ -88,6 +90,8 @@ class UserController extends Controller
      */
     public function password(Request $request, User $user): RedirectResponse
     {
+        $this->authorizeAccount($user);
+
         $data = $request->validate([
             'password' => ['required', 'string', 'min:12', 'confirmed'],
         ], [], $this->labels());
@@ -99,6 +103,8 @@ class UserController extends Controller
 
     public function toggle(User $user): RedirectResponse
     {
+        $this->authorizeAccount($user);
+
         // Disabling your own account signs you out of a screen only you
         // could have used to put it back.
         if ($user->is($this->current())) {
@@ -123,6 +129,16 @@ class UserController extends Controller
     private function current(): User
     {
         return Auth::user();
+    }
+
+    /** A coordinateur manages membre accounts only; an administrateur, all of them. */
+    private function authorizeAccount(User $user): void
+    {
+        abort_unless(
+            $this->current()->isAdmin() || in_array($user->role, $this->current()->assignableRoles(), true),
+            403,
+            "Seul un administrateur peut modifier ce compte."
+        );
     }
 
     /** @return array<string, string> */

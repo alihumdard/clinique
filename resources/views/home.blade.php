@@ -321,7 +321,7 @@
                     </h2>
 
                     <a href="{{ url('/actualites') }}"
-                       class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
+                       class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary-50 px-3 py-2 text-[11px] font-semibold text-primary-700 transition hover:bg-primary-100">
                         Toutes les actualités
                         <x-icon name="arrow-right" class="h-5 w-5" />
                     </a>
@@ -353,7 +353,7 @@
                                 <div class="mt-auto flex justify-end pt-2.5">
                                     <a href="{{ route('news.show', $article) }}"
                                        aria-label="Lire la suite : {{ $article->title }}"
-                                       class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-800 text-white transition hover:bg-blue-700">
+                                       class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-800 text-white transition hover:bg-primary-700">
                                         <x-icon name="arrow-right" class="h-5 w-5" />
                                     </a>
                                 </div>
@@ -373,7 +373,7 @@
                     </h2>
 
                     <a href="{{ route('webtv.index') }}"
-                       class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
+                       class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary-50 px-3 py-2 text-[11px] font-semibold text-primary-700 transition hover:bg-primary-100">
                         Voir toutes les vidéos
                         <x-icon name="arrow-right" class="h-5 w-5" />
                     </a>
@@ -458,7 +458,7 @@
                                 </div>
 
                                 <div class="min-w-0 pt-0.5">
-                                    <p class="line-clamp-2 text-[10px] font-semibold leading-snug text-slate-800 transition group-hover:text-blue-700 sm:text-[11px]">
+                                    <p class="line-clamp-2 text-[10px] font-semibold leading-snug text-slate-800 transition group-hover:text-primary-700 sm:text-[11px]">
                                         {{ $video->title }}
                                     </p>
                                     <p class="mt-1 text-[9px] text-slate-500">
@@ -646,7 +646,7 @@
 <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <div class="mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-slate-900">Nos partenaires</h2>
-        <a href="{{ route('partners') }}" class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100">
+        <a href="{{ route('partners') }}" class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary-50 px-3 py-2 text-[11px] font-semibold text-primary-700 transition hover:bg-primary-100">
             Voir tous les partenaires
             <x-icon name="arrow-right" class="h-4 w-4" />
         </a>

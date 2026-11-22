@@ -24,13 +24,23 @@
     $navGroups = [
         [
             'label' => null,
+            // A membre's dashboard redirects to their actualités.
+            'coordinateur_min' => true,
             'items' => [
                 ['label' => 'Tableau de bord', 'icon' => 'home', 'filled' => true, 'route' => 'admin.dashboard'],
             ],
         ],
         [
+            // A membre submits on these two screens and sees only their own rows.
+            'label' => 'Mes contributions',
+            'membre_only' => true,
+            'items' => [
+                ['label' => 'Actualités',            'icon' => 'document', 'route' => 'admin.news'],
+                ['label' => 'Activités & photos',    'icon' => 'calendar', 'route' => 'admin.activities'],
+            ],
+        ],
+        [
             'label' => 'Contenus',
-            // Membre: may submit articles/photos but cannot manage content directly.
             'coordinateur_min' => true,
             'items' => [
                 ['label' => 'Actualités',       'icon' => 'document',    'route' => 'admin.news'],
@@ -70,14 +80,14 @@
         ],
         [
             'label' => 'Administration',
-            // Administrator-only, like the routes behind them.
-            'admin' => true,
+            'coordinateur_min' => true,
+            // Items flagged admin match the routes kept for an administrateur.
             'items' => [
                 ['label' => 'Messages de contact', 'icon' => 'chat',    'route' => 'admin.messages'],
                 ['label' => 'Newsletter',         'icon' => 'mail',     'route' => 'admin.newsletter'],
-                ['label' => 'Référentiels',       'icon' => 'folder',   'route' => 'admin.references'],
+                ['label' => 'Référentiels',       'icon' => 'folder',   'route' => 'admin.references', 'admin' => true],
                 ['label' => 'Utilisateurs',       'icon' => 'users',    'route' => 'admin.users'],
-                ['label' => 'Paramètres du site', 'icon' => 'settings', 'route' => 'admin.settings'],
+                ['label' => 'Paramètres du site', 'icon' => 'settings', 'route' => 'admin.settings', 'admin' => true],
             ],
         ],
     ];
@@ -144,8 +154,8 @@
     <div class="relative min-h-0 flex-1">
         <nav class="admin-sidebar-scroll h-full overflow-y-auto overscroll-contain px-3 py-4">
         @foreach ($navGroups as $group)
-            @continue(($group['admin'] ?? false) && ! auth()->user()?->isAdmin())
-            @continue(($group['coordinateur_min'] ?? false) && auth()->user()?->isMembre())
+            @continue(($group['coordinateur_min'] ?? false) && ! auth()->user()?->managesContent())
+            @continue(($group['membre_only'] ?? false) && auth()->user()?->managesContent())
 
             @if($group['label'])
                 <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-300">
@@ -155,6 +165,7 @@
 
             <ul class="space-y-0.5">
                 @foreach ($group['items'] as $item)
+                    @continue(($item['admin'] ?? false) && ! auth()->user()?->isAdmin())
                     @php
                         $children = $item['children'] ?? [];
                         $isActive = Route::is($item['route']);

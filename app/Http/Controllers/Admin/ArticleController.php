@@ -23,7 +23,7 @@ class ArticleController extends Controller
     public function index(Request $request): View
     {
         $articles = $this->applyFilters(
-            Article::query()->with(['category', 'author']),
+            $this->ownRowsForMembre(Article::query()->with(['category', 'author']), $request),
             $request,
             ['title', 'excerpt']
         )
@@ -47,6 +47,7 @@ class ArticleController extends Controller
         $data['slug'] = $this->uniqueSlug(Article::class, $data['slug'] ?? null, $data['title'], null, 'actualite');
         $data['author_id'] = $request->user()->id;
         $data['published_at'] = $this->publicationDate($data);
+        $data = $this->asMembreSubmission($request, $data);
 
         if ($request->hasFile('image')) {
             $data['image'] = $this->media->storeImage($request->file('image'), 'actualites');
@@ -56,15 +57,20 @@ class ArticleController extends Controller
 
         return redirect()
             ->route('admin.news')
-            ->with('status', "L'actualité « {$article->title} » a été enregistrée.");
+            ->with('status', $article->isPending()
+                ? "L'actualité « {$article->title} » a été envoyée au coordinateur pour validation."
+                : "L'actualité « {$article->title} » a été enregistrée.");
     }
 
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
+        $this->authorizeMembreEdit($request, $article);
+
         $data = $request->validated();
 
         $data['slug'] = $this->uniqueSlug(Article::class, $data['slug'] ?? null, $data['title'], $article->id, 'actualite');
         $data['published_at'] = $this->publicationDate($data, $article);
+        $data = $this->asMembreSubmission($request, $data);
 
         $data = $this->applyImage($request, $data, $article, 'image', 'actualites');
 

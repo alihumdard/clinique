@@ -47,12 +47,13 @@ class DatabaseSeederTest extends TestCase
             ->assertSee($domain->name, escape: false);
     }
 
-    public function test_the_documented_seed_creates_both_cms_roles(): void
+    public function test_the_documented_seed_creates_the_three_cms_roles(): void
     {
         $this->seed(DatabaseSeeder::class);
 
         $this->assertSame(1, User::query()->where('role', User::ROLE_ADMIN)->count());
-        $this->assertSame(1, User::query()->where('role', User::ROLE_EDITOR)->count());
+        $this->assertSame(1, User::query()->where('role', User::ROLE_COORDINATEUR)->count());
+        $this->assertSame(1, User::query()->where('role', User::ROLE_MEMBRE)->count());
     }
 
     public function test_seeding_twice_updates_the_fixtures_rather_than_duplicating_them(): void

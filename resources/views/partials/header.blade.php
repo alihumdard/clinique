@@ -22,6 +22,9 @@
     ];
 @endphp
 
+{{-- The UAM red, as the charte graphique's accent: one thin line, every page and screen size. --}}
+<div class="h-1 bg-accent-500" aria-hidden="true"></div>
+
 {{-- Top utility bar: contact strip, shown site-wide --}}
 <div class="hidden bg-navy-900 text-white sm:block">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-xs sm:px-6 lg:px-8">

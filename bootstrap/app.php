@@ -49,10 +49,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [\App\Http\Middleware\SetLocale::class]);
 
 
-        // Screens an éditeur de contenu may not open: settings,
-        // référentiels, the public's personal data, permanent deletion.
+        // admin: settings, référentiels, permanent deletion.
+        // coordinateur: everything a membre may not reach.
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureAdministrator::class,
+            'coordinateur' => \App\Http\Middleware\EnsureCoordinateur::class,
+            'registre.dossiers' => \App\Http\Middleware\EnsureRegistreDataAccess::class,
         ]);
 
         // Public site is served over HTTPS in production; force it there

@@ -51,6 +51,52 @@ trait ManagesContent
             });
     }
 
+    /** A membre sees what they submitted, not the whole listing. */
+    protected function ownRowsForMembre(Builder $query, Request $request): Builder
+    {
+        $user = $request->user();
+
+        return $user->managesContent() ? $query : $query->where('author_id', $user->id);
+    }
+
+    /**
+     * A membre's save always lands in the coordinateur's queue, whatever
+     * status the form posted: publication is the coordinateur's decision.
+     *
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    protected function asMembreSubmission(Request $request, array $data): array
+    {
+        if ($request->user()->managesContent()) {
+            return $data;
+        }
+
+        $data['status'] = 'pending';
+        $data['published_at'] = null;
+
+        return $data;
+    }
+
+    /**
+     * A membre corrects their own submission until it is published. A row
+     * sent back to draft by the coordinateur is theirs to fix again.
+     */
+    protected function authorizeMembreEdit(Request $request, Model $row): void
+    {
+        $user = $request->user();
+
+        if ($user->managesContent()) {
+            return;
+        }
+
+        abort_unless(
+            (int) $row->author_id === $user->id && in_array($row->status, ['pending', 'draft'], true),
+            403,
+            "Vous ne pouvez modifier que vos propres contributions, tant qu'elles ne sont pas publiées."
+        );
+    }
+
     /**
      * The four KPI figures above a listing.
      *
@@ -119,6 +165,7 @@ trait ManagesContent
                 $row::STATUS_DRAFT,
                 $published,
                 $row::STATUS_ARCHIVED,
+                $row::STATUS_PENDING,
             ])],
         ], [
             'status.in' => "Ce statut n'existe pas.",

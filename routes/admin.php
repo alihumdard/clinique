@@ -55,9 +55,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/mon-compte/mot-de-passe', [ProfileController::class, 'password'])->name('profile.password');
 
         /*
-        | Content management screens. Each renders its listing view; the
-        | create/edit/delete actions are wired in Module 2.
+        | What a membre may do: submit an actualité or an activité (with its
+        | photos), and correct their own submission until a coordinateur
+        | publishes it. The controllers hold the "own and not yet published"
+        | rule; everything else below is coordinateur work.
         */
+        Route::get('/actualites', [ArticleController::class, 'index'])->name('news');
+        Route::post('/actualites', [ArticleController::class, 'store'])->name('news.store');
+        Route::put('/actualites/{article:id}', [ArticleController::class, 'update'])->name('news.update');
+
+        Route::get('/activites', [ActivityController::class, 'index'])->name('activities');
+        Route::post('/activites', [ActivityController::class, 'store'])->name('activities.store');
+        Route::put('/activites/{activity:id}', [ActivityController::class, 'update'])->name('activities.update');
+        Route::delete('/activites/{activity:id}/photos/{photo}', [ActivityController::class, 'destroyPhoto'])->name('activities.photos.destroy');
+
+        Route::middleware('coordinateur')->group(function () {
+
         /*
         | Pages the Clinic writes themselves. The site's own pages are
         | designed templates with their own routes, so they appear on this
@@ -72,13 +85,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/pages/{id}/restaurer', [PageController::class, 'restore'])->name('pages.restore');
         Route::delete('/pages/{id}/definitif', [PageController::class, 'forceDestroy'])->middleware('admin')->name('pages.force-destroy');
         /*
-        | Actualités — the first content type wired to the database.
-        | Restore and permanent delete are POST/DELETE because both change
-        | state; neither may be reachable by following a link.
+        | Actualités. Restore and permanent delete are POST/DELETE because
+        | both change state; neither may be reachable by following a link.
         */
-        Route::get('/actualites', [ArticleController::class, 'index'])->name('news');
-        Route::post('/actualites', [ArticleController::class, 'store'])->name('news.store');
-        Route::put('/actualites/{article:id}', [ArticleController::class, 'update'])->name('news.update');
         Route::post('/actualites/{article:id}/dupliquer', [ArticleController::class, 'duplicate'])->name('news.duplicate');
         Route::post('/actualites/{article:id}/statut', [ArticleController::class, 'status'])->name('news.status');
         Route::delete('/actualites/{article:id}', [ArticleController::class, 'destroy'])->name('news.destroy');
@@ -127,15 +136,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         | activity, so photos are added with the activity and removed one
         | at a time from its own row.
         */
-        Route::get('/activites', [ActivityController::class, 'index'])->name('activities');
-        Route::post('/activites', [ActivityController::class, 'store'])->name('activities.store');
-        Route::put('/activites/{activity:id}', [ActivityController::class, 'update'])->name('activities.update');
         Route::post('/activites/{activity:id}/dupliquer', [ActivityController::class, 'duplicate'])->name('activities.duplicate');
         Route::post('/activites/{activity:id}/statut', [ActivityController::class, 'status'])->name('activities.status');
         Route::delete('/activites/{activity:id}', [ActivityController::class, 'destroy'])->name('activities.destroy');
         Route::post('/activites/{id}/restaurer', [ActivityController::class, 'restore'])->name('activities.restore');
         Route::delete('/activites/{id}/definitif', [ActivityController::class, 'forceDestroy'])->middleware('admin')->name('activities.force-destroy');
-        Route::delete('/activites/{activity:id}/photos/{photo}', [ActivityController::class, 'destroyPhoto'])->name('activities.photos.destroy');
 
 
         /*
@@ -178,30 +183,45 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/appels/{id}/definitif', [CallController::class, 'forceDestroy'])->middleware('admin')->name('calls.force-destroy');
 
         /*
+        | Comptes du CMS (module 4). An account is disabled, never deleted:
+        | deleting one blanks the author of everything it published. A
+        | coordinateur reaches this screen to bring in membres; the
+        | controller keeps the two higher roles for an administrateur.
+        */
+        Route::get('/utilisateurs', [UserController::class, 'index'])->name('users');
+        Route::post('/utilisateurs', [UserController::class, 'store'])->name('users.store');
+        Route::put('/utilisateurs/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::put('/utilisateurs/{user}/mot-de-passe', [UserController::class, 'password'])->name('users.password');
+        Route::post('/utilisateurs/{user}/activation', [UserController::class, 'toggle'])->name('users.toggle');
+
+        /*
+        | Messages de contact. Without this screen the messages the public
+        | form stores would be unreachable. Approved for the coordinateur.
+        */
+        Route::get('/messages', [MessageController::class, 'index'])->name('messages');
+        Route::post('/messages/{message}/traite', [MessageController::class, 'handle'])->name('messages.handle');
+        Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
+
+        /*
+        | Newsletter. Addresses are collected and exported; the Clinic sends
+        | with their own tool. Approved for the coordinateur.
+        */
+        Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter');
+        Route::get('/newsletter/export', [NewsletterController::class, 'export'])->name('newsletter.export');
+        Route::post('/newsletter/{subscriber}/desinscrire', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+        Route::delete('/newsletter/{subscriber}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+
+        /*
         |--------------------------------------------------------------------------
         | Administrator-only screens
         |--------------------------------------------------------------------------
         |
-        | Module 2 asks for "les autorisations des éditeurs de contenu": an
-        | éditeur writes, publishes and withdraws content, and that is all.
-        | What sits below is a different kind of work — the settings the
-        | whole site reads, the référentiels other screens choose from, and
-        | the personal data the public leaves — so it is kept for an
-        | administrateur. The sidebar hides this group from an éditeur too.
+        | The settings the whole site reads and the référentiels other screens
+        | choose from. The approved access levels leave the coordinateur out
+        | of "les paramètres globaux".
         |
         */
         Route::middleware('admin')->group(function () {
-
-            /*
-            | Comptes du CMS (module 4). An account is disabled, never
-            | deleted: deleting one blanks the author of everything it
-            | published.
-            */
-            Route::get('/utilisateurs', [UserController::class, 'index'])->name('users');
-            Route::post('/utilisateurs', [UserController::class, 'store'])->name('users.store');
-            Route::put('/utilisateurs/{user}', [UserController::class, 'update'])->name('users.update');
-            Route::put('/utilisateurs/{user}/mot-de-passe', [UserController::class, 'password'])->name('users.password');
-            Route::post('/utilisateurs/{user}/activation', [UserController::class, 'toggle'])->name('users.toggle');
 
             /*
             | Paramètres du site. These are the CMS-editable half of
@@ -224,26 +244,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/referentiels/domaines', [ReferenceController::class, 'storeDomain'])->name('references.domains.store');
             Route::put('/referentiels/domaines/{domain}', [ReferenceController::class, 'updateDomain'])->name('references.domains.update');
             Route::delete('/referentiels/domaines/{domain}', [ReferenceController::class, 'destroyDomain'])->name('references.domains.destroy');
-
-            /*
-            | Messages de contact. Not one of the twelve designed screens:
-            | without it the messages the public form stores would be
-            | unreachable, so the form would collect personal data nobody
-            | could read or delete.
-            */
-            Route::get('/messages', [MessageController::class, 'index'])->name('messages');
-            Route::post('/messages/{message}/traite', [MessageController::class, 'handle'])->name('messages.handle');
-            Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
-
-            /*
-            | Newsletter. Phase 2 collects addresses and exports them; the
-            | Clinic sends with their own tool, so there is nothing to send
-            | from here.
-            */
-            Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter');
-            Route::get('/newsletter/export', [NewsletterController::class, 'export'])->name('newsletter.export');
-            Route::post('/newsletter/{subscriber}/desinscrire', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
-            Route::delete('/newsletter/{subscriber}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+        });
         });
     });
 });

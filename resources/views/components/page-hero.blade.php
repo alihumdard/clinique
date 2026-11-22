@@ -38,7 +38,7 @@
                 style="object-position: right top"
             />
         @endif
-        <div class="absolute inset-0 bg-blue-950/30 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
+        <div class="absolute inset-0 bg-primary-950/30 sm:bg-gradient-to-r sm:from-navy-950/70 sm:via-navy-900/35 sm:to-transparent"></div>
     </div>
 
     <div class="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 sm:py-32 lg:px-8 lg:py-36">

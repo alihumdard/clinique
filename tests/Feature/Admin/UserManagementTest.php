@@ -42,24 +42,47 @@ class UserManagementTest extends TestCase
             'email' => 'nouvelle@example.test',
             'password' => 'mot-de-passe-long',
             'password_confirmation' => 'mot-de-passe-long',
-            'role' => User::ROLE_EDITOR,
+            'role' => User::ROLE_COORDINATEUR,
         ], $overrides);
     }
 
     // --------------------------------------------------------- access
 
-    public function test_an_editor_may_not_open_the_screen(): void
+    public function test_a_membre_may_not_open_the_screen(): void
     {
-        $this->actingAs($this->editor())->get('/admin/utilisateurs')->assertForbidden();
+        $membre = User::factory()->membre()->create();
+
+        $this->actingAs($membre)->get('/admin/utilisateurs')->assertForbidden();
     }
 
-    public function test_an_editor_may_not_create_an_account(): void
+    /** Approved: the coordinateur may not create administrator accounts. */
+    public function test_a_coordinateur_may_not_create_an_administrator(): void
     {
         $this->actingAs($this->editor())
             ->post('/admin/utilisateurs', $this->payload(['role' => User::ROLE_ADMIN]))
-            ->assertForbidden();
+            ->assertSessionHasErrors('role');
 
         $this->assertDatabaseMissing('users', ['email' => 'nouvelle@example.test']);
+    }
+
+    public function test_a_coordinateur_creates_a_membre(): void
+    {
+        $this->actingAs($this->editor())
+            ->post('/admin/utilisateurs', $this->payload(['role' => User::ROLE_MEMBRE]))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('users', ['email' => 'nouvelle@example.test', 'role' => User::ROLE_MEMBRE]);
+    }
+
+    public function test_a_coordinateur_may_not_change_an_administrator(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($this->editor())
+            ->post('/admin/utilisateurs/'.$admin->id.'/activation')
+            ->assertForbidden();
+
+        $this->assertTrue($admin->fresh()->is_active);
     }
 
     public function test_an_administrator_sees_the_accounts(): void
@@ -84,7 +107,7 @@ class UserManagementTest extends TestCase
         $created = User::where('email', 'nouvelle@example.test')->first();
 
         $this->assertNotNull($created);
-        $this->assertSame(User::ROLE_EDITOR, $created->role);
+        $this->assertSame(User::ROLE_COORDINATEUR, $created->role);
         $this->assertTrue($created->is_active);
         $this->assertTrue(Hash::check('mot-de-passe-long', $created->password));
     }
@@ -221,7 +244,7 @@ class UserManagementTest extends TestCase
             ->put('/admin/utilisateurs/'.$admin->id, [
                 'name' => $admin->name,
                 'email' => $admin->email,
-                'role' => User::ROLE_EDITOR,
+                'role' => User::ROLE_COORDINATEUR,
             ])
             ->assertSessionHasErrors('role');
 
@@ -237,7 +260,7 @@ class UserManagementTest extends TestCase
             ->put('/admin/utilisateurs/'.$other->id, [
                 'name' => $other->name,
                 'email' => $other->email,
-                'role' => User::ROLE_EDITOR,
+                'role' => User::ROLE_COORDINATEUR,
             ])
             ->assertRedirect();
 

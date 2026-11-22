@@ -31,6 +31,27 @@
         </div>
     </div>
 
+    {{-- What membres have submitted and nobody has published yet. --}}
+    @if($pending['articles'] + $pending['activities'] > 0)
+        <div class="mt-6 flex flex-col gap-3 rounded-xl border border-violet-200 bg-violet-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p class="flex items-start gap-2.5 text-sm text-violet-900">
+                <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0" />
+                <span>
+                    <strong>Contributions en attente de validation :</strong>
+                    {{ $pending['articles'] }} actualité(s), {{ $pending['activities'] }} activité(s).
+                </span>
+            </p>
+            <div class="flex shrink-0 gap-2">
+                @if($pending['articles'])
+                    <a href="{{ route('admin.news', ['statut' => 'pending']) }}" class="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-violet-700 ring-1 ring-violet-200 hover:bg-violet-100">Voir les actualités</a>
+                @endif
+                @if($pending['activities'])
+                    <a href="{{ route('admin.activities', ['statut' => 'pending']) }}" class="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-violet-700 ring-1 ring-violet-200 hover:bg-violet-100">Voir les activités</a>
+                @endif
+            </div>
+        </div>
+    @endif
+
     {{-- ============ KPIs ============ --}}
     {{-- Figures are illustrative until Module 2 supplies real counts. --}}
     <div class="mt-6 flex flex-wrap gap-4 [grid-cols-2 gap-4 xl:grid-cols-4>*]:min-w-0">

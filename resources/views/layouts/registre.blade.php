@@ -34,6 +34,14 @@
 
     <main id="admin-content" class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
 
+        {{-- Nobody should mistake the test database for the real one. --}}
+        @if(\App\Models\Registre\User::onFictitiousData())
+            <p role="note" class="mb-6 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                <x-icon name="info" class="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+                <span><strong>Base de test</strong> : ce registre ne contient que des données fictives. Aucun dossier réel ne doit y être saisi.</span>
+            </p>
+        @endif
+
         @if(session('registre_message'))
             <p role="status" class="mb-6 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
                 <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />

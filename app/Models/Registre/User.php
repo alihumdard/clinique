@@ -53,6 +53,17 @@ class User extends Authenticatable
         ];
     }
 
+    /** The IT administrator reads dossiers on the test database only. */
+    public function mayReadDossiers(): bool
+    {
+        return $this->role !== self::ROLE_TECHNICAL || self::onFictitiousData();
+    }
+
+    public static function onFictitiousData(): bool
+    {
+        return (bool) config('clinique.registre.donnees_fictives');
+    }
+
     public function roleLabel(): string
     {
         return self::roles()[$this->role] ?? $this->role;

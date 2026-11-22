@@ -37,6 +37,7 @@ class ActivityRequest extends FormRequest
                 Activity::STATUS_DRAFT,
                 Activity::STATUS_PUBLISHED,
                 Activity::STATUS_ARCHIVED,
+                Activity::STATUS_PENDING,
             ])],
 
             'published_at' => ['nullable', 'date'],

@@ -53,6 +53,27 @@ class User extends Authenticatable
         return $this->role === self::ROLE_MEMBRE;
     }
 
+    /** Coordinateur or administrateur: may publish, and validate what a membre submits. */
+    public function managesContent(): bool
+    {
+        return $this->isAdmin() || $this->isCoordinateur();
+    }
+
+    /**
+     * Which accounts this one may create or change. A coordinateur brings in
+     * membres; only an administrateur hands out the two higher roles.
+     *
+     * @return list<string>
+     */
+    public function assignableRoles(): array
+    {
+        return match (true) {
+            $this->isAdmin() => [self::ROLE_ADMIN, self::ROLE_COORDINATEUR, self::ROLE_MEMBRE],
+            $this->isCoordinateur() => [self::ROLE_MEMBRE],
+            default => [],
+        };
+    }
+
     public function roleLabel(): string
     {
         return match($this->role) {

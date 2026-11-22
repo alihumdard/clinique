@@ -40,6 +40,13 @@ Route::prefix('registre')->name('registre.')->group(function () {
     Route::middleware('auth:registre')->group(function () {
         Route::post('/deconnexion', [AuthController::class, 'destroy'])->name('logout');
 
+        /*
+        | Everything that carries a person's matter. On real data the
+        | administrateur technique is kept out of it (approved access
+        | levels); on the test database they test it like anyone else.
+        */
+        Route::middleware('registre.dossiers')->group(function () {
+
         Route::get('/', DashboardController::class)->name('dashboard');
 
         /*
@@ -80,6 +87,8 @@ Route::prefix('registre')->name('registre.')->group(function () {
 
         Route::post('/dossiers/{dossier}/analyse', [AnalysisController::class, 'save'])->name('analysis.save');
         Route::post('/dossiers/{dossier}/analyse/valider', [AnalysisController::class, 'validateAnalysis'])->name('analysis.validate');
+
+        });
 
         // Read-only, by design: nothing edits or deletes a line.
         Route::get('/journal', [AuditLogController::class, 'index'])->name('journal');

@@ -4,6 +4,16 @@
 
 @section('content')
 
+    @php
+        $assignable = auth()->user()->assignableRoles();
+        $canManage = fn ($account) => auth()->user()->isAdmin() || in_array($account->role, $assignable, true);
+        $roleOptions = array_intersect_key([
+            'coordinateur' => 'Coordinateur — gère les contenus, les messages et la newsletter',
+            'membre' => 'Membre — soumet des articles et photos (validation coordinateur requise)',
+            'admin' => 'Administrateur IT — accès complet (sans accès aux dossiers réels)',
+        ], array_flip($assignable));
+    @endphp
+
     <x-admin.flash />
 
     <x-admin.page-header
@@ -28,6 +38,10 @@
             de tout ce qu'il a publié. Un compte désactivé ne peut plus se connecter, et son
             nom reste sur ses contenus. Le registre numérique a ses propres comptes, gérés
             séparément.
+            @unless(auth()->user()->isAdmin())
+                En tant que coordinateur, vous créez et gérez les comptes des membres ;
+                les autres comptes sont gérés par l'administrateur.
+            @endunless
         </p>
     </div>
 
@@ -97,6 +111,7 @@
                                 </td>
 
                                 <td class="px-5 py-3">
+                                    @if($canManage($account))
                                     <div class="flex items-center justify-end gap-1.5">
                                         <button
                                             type="button"
@@ -133,6 +148,7 @@
                                             </button>
                                         </form>
                                     </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -164,9 +180,9 @@
         <div>
             <label for="create-user-role" class="block text-sm font-semibold text-slate-700">Rôle <span class="text-rose-600">*</span></label>
             <select id="create-user-role" name="role" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                <option value="coordinateur">Coordinateur — gère les contenus et les dossiers du registre</option>
-                <option value="membre">Membre — soumet des articles et photos (validation coordinateur requise)</option>
-                <option value="admin">Administrateur IT — accès complet (sans accès aux dossiers réels)</option>
+                @foreach ($roleOptions as $value => $text)
+                    <option value="{{ $value }}">{{ $text }}</option>
+                @endforeach
             </select>
         </div>
 
@@ -183,6 +199,7 @@
     </x-admin.edit-modal>
 
     @foreach ($users as $account)
+        @continue(! $canManage($account))
         <x-admin.edit-modal
             :id="'edit-user-' . $account->id"
             :title="'Modifier : ' . $account->name"
@@ -202,9 +219,9 @@
             <div>
                 <label for="edit-user-{{ $account->id }}-role" class="block text-sm font-semibold text-slate-700">Rôle <span class="text-rose-600">*</span></label>
                 <select id="edit-user-{{ $account->id }}-role" name="role" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                    <option value="coordinateur" @selected($account->role === 'coordinateur' || $account->role === 'editor')>Coordinateur — gère les contenus et les dossiers du registre</option>
-                    <option value="membre" @selected($account->role === 'membre')>Membre — soumet des articles et photos (validation coordinateur requise)</option>
-                    <option value="admin" @selected($account->isAdmin())>Administrateur IT — accès complet (sans accès aux dossiers réels)</option>
+                    @foreach ($roleOptions as $value => $text)
+                        <option value="{{ $value }}" @selected($account->role === $value || ($value === 'coordinateur' && $account->role === 'editor'))>{{ $text }}</option>
+                    @endforeach
                 </select>
             </div>
         </x-admin.edit-modal>

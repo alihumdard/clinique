@@ -85,6 +85,7 @@
                                 class="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-9 text-sm text-slate-600 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:w-auto"
                             >
                                 <option value="">Tous les statuts</option>
+                                <option value="pending" @selected(($filters['statut'] ?? '') === 'pending')>En attente de validation</option>
                                 <option value="published" @selected(($filters['statut'] ?? '') === 'published')>Publié</option>
                                 <option value="draft" @selected(($filters['statut'] ?? '') === 'draft')>Brouillon</option>
                                 <option value="archived" @selected(($filters['statut'] ?? '') === 'archived')>Archivé</option>
@@ -205,13 +206,14 @@
                                 </td>
 
                                 <td class="px-5 py-3">
+                                    @php $manages = auth()->user()->managesContent(); @endphp
                                     <x-admin.row-actions
                                         :label="$article->title"
-                                        edit-dialog="edit-article-{{ $article->id }}"
+                                        :edit-dialog="$manages || in_array($article->status, ['pending', 'draft'], true) ? 'edit-article-'.$article->id : null"
                                         :view-href="$article->isPublic() ? route('news.show', $article) : null"
-                                        :duplicate-action="route('admin.news.duplicate', $article)"
-                                        :delete-action="route('admin.news.destroy', $article)"
-                                        :restore-action="$article->trashed() ? route('admin.news.restore', $article->id) : null"
+                                        :duplicate-action="$manages ? route('admin.news.duplicate', $article) : null"
+                                        :delete-action="$manages ? route('admin.news.destroy', $article) : null"
+                                        :restore-action="$manages && $article->trashed() ? route('admin.news.restore', $article->id) : null"
                                         :force-delete-action="$article->trashed() && auth()->user()->isAdmin() ? route('admin.news.force-destroy', $article->id) : null"
                                     />
                                 </td>
@@ -293,7 +295,7 @@
                 a list page that is already busy, and consistent with how
                 "Modifier" opens for an existing row.
             --}}
-            <x-admin.edit-modal id="create-article" title="Ajouter une actualité" :action="route('admin.news.store')" method="POST" submit-label="Publier l'actualité">
+            <x-admin.edit-modal id="create-article" title="Ajouter une actualité" :action="route('admin.news.store')" method="POST" :submit-label="auth()->user()->managesContent() ? 'Publier l\'actualité' : 'Envoyer pour validation'">
                 <div>
                     <label for="create-article-title" class="block text-sm font-medium text-slate-700">
                         Titre
@@ -323,19 +325,14 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label for="create-article-status" class="block text-sm font-medium text-slate-700">Statut</label>
-                        <select id="create-article-status" name="status" required class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                            <option value="draft">Brouillon</option>
-                            <option value="published" selected>Publié</option>
-                            <option value="archived">Archivé</option>
-                        </select>
-                    </div>
+                    <x-admin.status-field id="create-article-status" value="published" />
 
+                    @if(auth()->user()->managesContent())
                     <div>
                         <label for="create-article-published-at" class="block text-sm font-medium text-slate-700">Date de publication</label>
                         <input type="date" id="create-article-published-at" name="published_at" class="mt-1.5 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                     </div>
+                    @endif
                 </div>
 
                 <div>

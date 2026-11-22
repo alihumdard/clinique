@@ -12,7 +12,7 @@ class Activity extends Model
 
     protected $fillable = [
         'title', 'slug', 'excerpt', 'body', 'image',
-        'location', 'held_on', 'category_id', 'status', 'published_at',
+        'location', 'held_on', 'category_id', 'author_id', 'status', 'published_at',
     ];
 
     protected function casts(): array
@@ -31,6 +31,11 @@ class Activity extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function photos()

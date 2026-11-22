@@ -34,6 +34,7 @@ class ArticleRequest extends FormRequest
                 Article::STATUS_DRAFT,
                 Article::STATUS_PUBLISHED,
                 Article::STATUS_ARCHIVED,
+                Article::STATUS_PENDING,
             ])],
 
             'published_at' => ['nullable', 'date'],

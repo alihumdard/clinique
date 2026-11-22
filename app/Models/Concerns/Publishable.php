@@ -15,6 +15,9 @@ trait Publishable
     public const STATUS_PUBLISHED = 'published';
     public const STATUS_ARCHIVED = 'archived';
 
+    /** Submitted by a membre; never public until a coordinateur publishes it. */
+    public const STATUS_PENDING = 'pending';
+
     /**
      * Whether this type publishes on a date.
      *
@@ -69,6 +72,16 @@ trait Publishable
         return $query->where('status', self::STATUS_DRAFT);
     }
 
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_PENDING);
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
     public function isPublic(): bool
     {
         if ($this->status !== self::STATUS_PUBLISHED) {
@@ -106,6 +119,7 @@ trait Publishable
             $this->hidesIndividualRows() && $this->status === self::STATUS_PUBLISHED && ! $this->is_visible => 'Masqué',
             $this->status === self::STATUS_PUBLISHED => 'Publié',
             $this->status === self::STATUS_ARCHIVED => 'Archivé',
+            $this->status === self::STATUS_PENDING => 'En attente de validation',
             default => 'Brouillon',
         };
     }
@@ -131,6 +145,7 @@ trait Publishable
             $this->hidesIndividualRows() && $this->status === self::STATUS_PUBLISHED && ! $this->is_visible => 'slate',
             $this->status === self::STATUS_PUBLISHED => 'green',
             $this->status === self::STATUS_ARCHIVED => 'slate',
+            $this->status === self::STATUS_PENDING => 'purple',
             default => 'amber',
         };
     }

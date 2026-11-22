@@ -15,7 +15,7 @@
 
         {{-- Total dossiers --}}
         <a href="{{ route('registre.dossiers') }}" class="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 transition hover:border-primary-300 hover:shadow-sm">
-            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600">
                 <x-icon name="folder" class="h-6 w-6" />
             </span>
             <div class="min-w-0 flex-1">

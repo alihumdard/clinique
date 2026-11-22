@@ -14,15 +14,27 @@ use App\Models\NewsletterSubscriber;
 use App\Models\Report;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function __invoke(): View
+    public function __invoke(Request $request): View|RedirectResponse
     {
+        // A membre's work is their own submissions; the overview carries
+        // contact messages and site figures they have no business with.
+        if (! $request->user()->managesContent()) {
+            return redirect()->route('admin.news');
+        }
+
         return view('admin.dashboard', [
+            'pending' => [
+                'articles' => Article::pending()->count(),
+                'activities' => Activity::pending()->count(),
+            ],
             'kpis' => [
                 'articles' => Article::public()->count(),
                 'videos' => Video::public()->count(),
@@ -76,7 +88,7 @@ class DashboardController extends Controller
         $months = collect(range(0, 5))->map(fn (int $i) => $start->copy()->addMonths($i));
 
         $types = [
-            ['label' => 'Actualités', 'color' => '#2563eb', 'model' => Article::class, 'column' => 'published_at'],
+            ['label' => 'Actualités', 'color' => '#0299ee', 'model' => Article::class, 'column' => 'published_at'],
             ['label' => 'Web TV', 'color' => '#059669', 'model' => Video::class, 'column' => 'published_at'],
             ['label' => 'Activités', 'color' => '#f59e0b', 'model' => Activity::class, 'column' => 'held_on'],
         ];
@@ -137,12 +149,12 @@ class DashboardController extends Controller
     private function contentBreakdown(): array
     {
         $items = [
-            ['label' => 'Actualités', 'value' => Article::public()->count(), 'color' => '#2563eb'],
+            ['label' => 'Actualités', 'value' => Article::public()->count(), 'color' => '#0299ee'],
             ['label' => 'Web TV', 'value' => Video::public()->count(), 'color' => '#059669'],
             ['label' => 'Fiches pratiques', 'value' => Guide::public()->count(), 'color' => '#f59e0b'],
             ['label' => 'Activités', 'value' => Activity::public()->count(), 'color' => '#fb923c'],
             ['label' => 'Appels à candidatures', 'value' => Call::open()->count(), 'color' => '#ec4899'],
-            ['label' => 'Galerie photos', 'value' => ActivityPhoto::count(), 'color' => '#60a5fa'],
+            ['label' => 'Galerie photos', 'value' => ActivityPhoto::count(), 'color' => '#74d0fb'],
             ['label' => 'Rapports annuels', 'value' => Report::public()->count(), 'color' => '#94a3b8'],
         ];
 

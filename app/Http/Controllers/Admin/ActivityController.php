@@ -26,7 +26,7 @@ class ActivityController extends Controller
         $view = $request->query('vue');
 
         $activities = $this->applyFilters(
-            Activity::query()->with('category')->withCount('photos'),
+            $this->ownRowsForMembre(Activity::query()->with('category')->withCount('photos'), $request),
             $request,
             ['title', 'excerpt', 'location']
         )
@@ -57,6 +57,7 @@ class ActivityController extends Controller
                 'publicUpcoming' => Activity::public()->upcoming()->count(),
                 'publicPast' => Activity::public()->past()->count(),
                 'photos' => ActivityPhoto::count(),
+                'pending' => $this->ownRowsForMembre(Activity::pending(), $request)->count(),
                 'all' => Activity::count(),
             ],
             'filters' => $request->only(['statut', 'categorie', 'q', 'vue']),
@@ -66,6 +67,7 @@ class ActivityController extends Controller
     public function store(ActivityRequest $request): RedirectResponse
     {
         $data = $this->prepare($request);
+        $data['author_id'] = $request->user()->id;
 
         if ($request->hasFile('image')) {
             $data['image'] = $this->media->storeImage($request->file('image'), 'activites');
@@ -82,6 +84,8 @@ class ActivityController extends Controller
 
     public function update(ActivityRequest $request, Activity $activity): RedirectResponse
     {
+        $this->authorizeMembreEdit($request, $activity);
+
         $data = $this->prepare($request, $activity);
 
         $data = $this->applyImage($request, $data, $activity, 'image', 'activites');
@@ -155,8 +159,10 @@ class ActivityController extends Controller
     }
 
     /** One photo out of a gallery, file and row together. */
-    public function destroyPhoto(Activity $activity, int $photo): RedirectResponse
+    public function destroyPhoto(Request $request, Activity $activity, int $photo): RedirectResponse
     {
+        $this->authorizeMembreEdit($request, $activity);
+
         // Scoped to the activity: a photo id from another gallery is a 404,
         // not a deletion.
         $row = $activity->photos()->findOrFail($photo);
@@ -176,6 +182,7 @@ class ActivityController extends Controller
 
         $data['slug'] = $this->uniqueSlug(Activity::class, $data['slug'] ?? null, $data['title'], $existing?->id, 'activite');
         $data['published_at'] = $this->publicationDate($data, $existing);
+        $data = $this->asMembreSubmission($request, $data);
 
         // The uploads are not columns, so they leave the payload here.
         unset($data['photos'], $data['image']);
@@ -207,7 +214,9 @@ class ActivityController extends Controller
 
     private function savedMessage(Activity $activity, int $photos, string $verb): string
     {
-        $message = "L'activité « {$activity->title} » a été {$verb}.";
+        $message = $activity->isPending()
+            ? "L'activité « {$activity->title} » a été envoyée au coordinateur pour validation."
+            : "L'activité « {$activity->title} » a été {$verb}.";
 
         if ($photos > 0) {
             $message .= $photos === 1

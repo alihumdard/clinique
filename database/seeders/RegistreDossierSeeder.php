@@ -29,6 +29,13 @@ class RegistreDossierSeeder extends Seeder
 {
     public function run(): void
     {
+        // Fictitious dossiers have no place beside real ones.
+        if (! User::onFictitiousData()) {
+            $this->command?->error('Registre sur données réelles : définissez REGISTRE_DONNEES_FICTIVES=true pour une base de test.');
+
+            return;
+        }
+
         $this->statuses();
 
         $statuses = DossierStatus::orderBy('position')->get();

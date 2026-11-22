@@ -50,17 +50,23 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // A second account so the two roles can be compared during the
-        // review: this one sees the content screens and not the settings,
-        // the référentiels or the public's personal data. The screen that
-        // creates accounts is a module 4 deliverable (52. Gestion des
-        // utilisateurs), so until then they are seeded.
+        // One account per approved access level, so the three can be
+        // compared during the review.
         User::updateOrCreate(
             ['email' => 'editeurclinique@gmail.com'],
             [
-                'name' => 'Éditeur de contenu',
+                'name' => 'Coordinateur de la Clinique',
                 'password' => Hash::make('password'),
-                'role' => User::ROLE_EDITOR,
+                'role' => User::ROLE_COORDINATEUR,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'membreclinique@gmail.com'],
+            [
+                'name' => 'Membre de la Clinique',
+                'password' => Hash::make('password'),
+                'role' => User::ROLE_MEMBRE,
             ]
         );
     }

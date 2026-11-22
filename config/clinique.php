@@ -23,6 +23,18 @@ return [
     'university' => 'Université Abdou Moumouni de Niamey',
 
     /*
+    | Whether the registre database this install points at holds only
+    | fictitious data. The approved access levels give the IT administrator
+    | the registre on a test database only: on real data the
+    | administrateur technique keeps the accounts and the journal, never a
+    | dossier. Off by default in production, so a real install is safe
+    | without anyone remembering to set it.
+    */
+    'registre' => [
+        'donnees_fictives' => (bool) env('REGISTRE_DONNEES_FICTIVES', env('APP_ENV', 'production') !== 'production'),
+    ],
+
+    /*
     | The one-paragraph description of the Clinic, used as the default meta
     | description and in the footer. Editable from Paramètres du site.
     */
