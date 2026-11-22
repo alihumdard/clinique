@@ -55,14 +55,14 @@ return [
     */
     'contact' => [
         'phone' => [
-            'tel' => env('CLINIQUE_PHONE_TEL', '+22720315263'),
-            'display' => env('CLINIQUE_PHONE_DISPLAY', '+227 20 31 52 63'),
+            'tel' => env('CLINIQUE_PHONE_TEL', '+22788758823'),
+            'display' => env('CLINIQUE_PHONE_DISPLAY', '+227 88 75 88 23'),
         ],
         'whatsapp' => [
             // Digits only, no '+' — wa.me rejects the plus sign.
-            'number' => env('CLINIQUE_WHATSAPP', '22720315263'),
+            'number' => env('CLINIQUE_WHATSAPP', '22788758823'),
         ],
-        'email' => env('CLINIQUE_EMAIL', 'contact@clinique-fsjp.ne'),
+        'email' => env('CLINIQUE_EMAIL', 'cliniquejuridiquefsjp@gmail.com'),
         'address' => [
             'line1' => 'Faculté des Sciences Juridiques et Politiques (FSJP)',
             'line2' => 'Université Abdou Moumouni de Niamey',
@@ -95,7 +95,7 @@ return [
     | dead '#' link.
     */
     'social' => [
-        'facebook' => env('CLINIQUE_FACEBOOK'),
+        'facebook' => env('CLINIQUE_FACEBOOK', 'https://www.facebook.com/share/1TMEG3vPVN/'),
         'x' => env('CLINIQUE_X'),
         'youtube' => env('CLINIQUE_YOUTUBE'),
         'instagram' => env('CLINIQUE_INSTAGRAM'),
