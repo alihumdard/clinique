@@ -116,8 +116,8 @@
                 <x-section-label id="envoyez-nous-un-message">Envoyez-nous un message</x-section-label>
 
                 @if(session('contact'))
-                    <p role="status" class="mt-6 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
-                        <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                    <p role="status" class="mt-6 flex items-start gap-3 rounded-lg border border-primary-200 bg-primary-50 p-4 text-sm text-primary-800">
+                        <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-primary-600" />
                         {{ session('contact') }}
                     </p>
 
@@ -129,8 +129,8 @@
                         class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
                     >
                         <div class="w-full max-w-sm rounded-xl bg-white p-6 text-center shadow-xl">
-                            <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
-                                <x-icon name="check-circle" class="h-7 w-7 text-emerald-600" />
+                            <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
+                                <x-icon name="check-circle" class="h-7 w-7 text-primary-600" />
                             </span>
                             <h2 id="contact-success-title" class="mt-4 text-base font-bold text-slate-900">Message envoyé</h2>
                             <p class="mt-1.5 text-sm text-slate-600">{{ session('contact') }}</p>

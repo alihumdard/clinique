@@ -30,10 +30,12 @@
 
 @php
     $states = [
+        // UAM blue, like the rest of the charte; a green strip read as a
+        // fourth brand colour.
         'open' => [
-            'panel' => 'bg-emerald-50 border-emerald-200',
-            'dot' => 'bg-emerald-500',
-            'text' => 'text-emerald-900',
+            'panel' => 'bg-primary-100 border-primary-200',
+            'dot' => 'bg-primary-500',
+            'text' => 'text-primary-900',
             'label' => "Permanences d'accueil",
         ],
         'closed' => [

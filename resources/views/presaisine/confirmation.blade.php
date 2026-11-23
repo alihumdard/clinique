@@ -6,7 +6,7 @@
 
     <section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:py-20">
 
-        <x-icon-badge class="!bg-emerald-50 !text-emerald-600">
+        <x-icon-badge class="!bg-primary-50 !text-primary-600">
             <x-icon name="check-circle" class="h-6 w-6" />
         </x-icon-badge>
 

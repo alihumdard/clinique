@@ -11,7 +11,7 @@
 @php
     $discs = [
         'primary' => 'bg-primary-600 text-white',
-        'green'   => 'bg-emerald-500 text-white',
+        'green'   => 'bg-primary-500 text-white',
     ];
 @endphp
 
@@ -23,7 +23,7 @@
             </svg>
         </span>
     @else
-        <svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <svg class="mt-0.5 h-4 w-4 shrink-0 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
         </svg>
     @endif

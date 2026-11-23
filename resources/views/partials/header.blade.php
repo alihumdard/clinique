@@ -53,13 +53,22 @@
             <img
                 src="{{ \App\Support\SiteSettings::headerLogoUrl() }}"
                 alt="{{ config('clinique.name') }}"
-                class="h-12 w-12 shrink-0 rounded-full object-cover"
+                class="h-10 w-10 shrink-0 rounded-full object-cover sm:h-12 sm:w-12"
                 width="48" height="48"
             >
             <span class="leading-tight">
-                <span class="block text-base font-bold text-slate-900">Clinique Juridique</span>
-                <span class="block text-sm font-medium text-slate-500">FSJP - UAM</span>
+                <span class="block text-sm font-bold text-slate-900 sm:text-base">Clinique Juridique</span>
+                <span class="block text-xs font-medium text-slate-500 sm:text-sm">FSJP - UAM</span>
             </span>
+            {{-- The Faculty's own logo beside the Clinic's, as the UAM charte
+                 graphique asks, on every screen size. --}}
+            <span class="h-9 w-px bg-slate-200 sm:h-10" aria-hidden="true"></span>
+            <img
+                src="{{ asset('images/brand/fsjp-logo-112.png') }}"
+                alt="Faculté des Sciences Juridiques et Politiques, Université Abdou Moumouni"
+                class="h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12"
+                width="48" height="48"
+            >
         </a>
 
         <nav class="hidden items-center gap-6 lg:flex" aria-label="Navigation principale">
@@ -73,7 +82,7 @@
                     <div class="group relative">
                         <button
                             type="button"
-                            class="flex items-center gap-1 pb-0.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 {{ $isActive ? 'border-b-2 border-accent-500 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
+                            class="flex items-center gap-1 pb-0.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
                             aria-haspopup="true"
                             aria-expanded="false"
                         >
@@ -97,7 +106,7 @@
                 @else
                     <a
                         href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}"
-                        class="pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-accent-500 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
+                        class="pb-0.5 text-sm font-medium {{ $isActive ? 'border-b-2 border-primary-600 font-semibold text-primary-600' : 'text-slate-600 hover:text-primary-600' }}"
                     >
                         {{ $item['label'] }}
                     </a>

@@ -6,7 +6,7 @@
 @section('content')
 
     <section class="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+        <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary-50 text-primary-600">
             <x-icon name="check-circle" class="h-7 w-7" />
         </span>
 

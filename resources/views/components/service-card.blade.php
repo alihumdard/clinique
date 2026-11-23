@@ -4,10 +4,10 @@
     $colors = [
         'primary' => 'bg-primary-50 text-primary-600',
         'amber' => 'bg-amber-50 text-amber-500',
-        'green' => 'bg-emerald-50 text-emerald-600',
+        'green' => 'bg-primary-50 text-primary-600',
         'purple' => 'bg-violet-50 text-violet-600',
         'red' => 'bg-rose-50 text-rose-600',
-        'teal' => 'bg-teal-50 text-teal-600',
+        'teal' => 'bg-primary-50 text-primary-600',
     ];
 @endphp
 

@@ -45,8 +45,8 @@
         </div>
 
         <div class="relative z-10 mx-auto flex w-full max-w-xl flex-col justify-center px-4 py-14 sm:px-6 lg:w-1/2 lg:max-w-2xl lg:px-8 lg:pr-0 xl:ml-auto xl:mr-0">
-            <p class="text-sm font-bold uppercase tracking-widest text-primary-600">
-                <span class="mr-2 inline-block h-0.5 w-8 bg-accent-500 align-middle" aria-hidden="true"></span>Clinique Juridique · FSJP · Université Abdou Moumouni
+            <p class="text-sm font-bold uppercase tracking-widest text-accent-600">
+                Clinique Juridique · FSJP · Université Abdou Moumouni
             </p>
 
             <h1 class="mt-4 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
@@ -183,7 +183,7 @@
             // colour name at runtime.
             $domainSwatches = [
                 'blue'   => 'bg-primary-50 text-primary-600',
-                'green'  => 'bg-emerald-50 text-emerald-600',
+                'green'  => 'bg-primary-50 text-primary-600',
                 'amber'  => 'bg-amber-50 text-amber-600',
                 'red'    => 'bg-rose-50 text-rose-600',
                 'purple' => 'bg-violet-50 text-violet-600',
@@ -275,7 +275,7 @@
         </div>
 
         <div class="flex flex-col lg:h-full lg:justify-between">
-            <x-eyebrow color="muted">{{ __('Notre mission') }}</x-eyebrow>
+            <x-eyebrow>{{ __('Notre mission') }}</x-eyebrow>
 
             <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">
                 Former, accompagner

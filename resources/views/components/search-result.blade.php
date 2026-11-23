@@ -20,7 +20,7 @@
 @php
     $pills = [
         'Actualité'      => 'bg-primary-50 text-primary-700',
-        'Fiche pratique' => 'bg-emerald-50 text-emerald-700',
+        'Fiche pratique' => 'bg-primary-50 text-primary-700',
         'Web TV'         => 'bg-rose-50 text-rose-700',
         'Activité'       => 'bg-violet-50 text-violet-700',
         'Rapport'        => 'bg-amber-50 text-amber-700',

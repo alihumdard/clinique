@@ -67,7 +67,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
                 <div>
-                    <x-eyebrow color="muted">Notre histoire</x-eyebrow>
+                    <x-eyebrow>Notre histoire</x-eyebrow>
                     <h2 class="mt-2 text-3xl font-bold leading-tight text-slate-900">Naissance d'une initiative au service du droit</h2>
                     <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
                         La Clinique Juridique FSJP-UAM est née de la volonté de la Faculté des Sciences Juridiques
@@ -147,7 +147,7 @@
     {{-- ============ PARCOURS (timeline) ============ --}}
     <section class="bg-slate-50 py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <x-eyebrow color="muted">Les grandes étapes</x-eyebrow>
+            <x-eyebrow>Les grandes étapes</x-eyebrow>
             <h2 class="mt-2 text-3xl font-bold text-slate-900">Notre parcours</h2>
 
             <div class="relative mt-10 flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-0">

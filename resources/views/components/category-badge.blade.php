@@ -16,7 +16,7 @@
         'primary' => 'bg-primary-600',
         'blue'    => 'bg-primary-600',
         'amber'   => 'bg-amber-500',
-        'green'   => 'bg-emerald-600',
+        'green'   => 'bg-primary-600',
         'purple'  => 'bg-violet-600',
         'red'     => 'bg-rose-600',
         'pink'    => 'bg-pink-600',

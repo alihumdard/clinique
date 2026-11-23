@@ -8,6 +8,12 @@
                         <span class="block text-lg font-bold text-white">Clinique Juridique</span>
                         <span class="block text-sm font-medium text-slate-300">FSJP - UAM</span>
                     </span>
+                    {{-- Same pairing as the header. The white backing keeps the
+                         Faculty logo's dark lettering readable on the navy. --}}
+                    <span class="h-10 w-px bg-white/20" aria-hidden="true"></span>
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white p-0.5">
+                        <img src="{{ asset('images/brand/fsjp-logo-112.png') }}" alt="FSJP - Université Abdou Moumouni" class="h-full w-full object-contain" width="42" height="42">
+                    </span>
                 </a>
                 <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-300">
                     Au service de la justice, de la communauté<br>et de la formation des futurs professionnels du droit.

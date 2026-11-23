@@ -11,7 +11,7 @@
 @php
     $swatches = [
         'blue'   => 'bg-primary-100 text-primary-600',
-        'green'  => 'bg-emerald-100 text-emerald-600',
+        'green'  => 'bg-primary-100 text-primary-600',
         'amber'  => 'bg-amber-100 text-amber-600',
         'red'    => 'bg-rose-100 text-rose-600',
         'purple' => 'bg-violet-100 text-violet-600',

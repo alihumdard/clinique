@@ -74,7 +74,7 @@
 
                 $badgeColors = [
                     'blue' => 'bg-primary-50 text-primary-600',
-                    'green' => 'bg-emerald-50 text-emerald-600',
+                    'green' => 'bg-primary-50 text-primary-600',
                     'amber' => 'bg-amber-50 text-amber-600',
                     'red' => 'bg-rose-50 text-rose-600',
                 ];

@@ -183,7 +183,7 @@
                         Abonnez-vous à notre newsletter pour recevoir nos dernières actualités et événements.
                     </p>
                     @if(session('newsletter'))
-                        <p role="status" class="mt-4 rounded-md bg-emerald-50 p-3 text-sm text-emerald-800">
+                        <p role="status" class="mt-4 rounded-md bg-primary-50 p-3 text-sm text-primary-800">
                             {{ session('newsletter') }}
                         </p>
                     @else

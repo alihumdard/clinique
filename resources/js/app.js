@@ -294,7 +294,7 @@ function adminToast(message, type = 'success') {
     el.className = [
         'flex items-center gap-3 rounded-xl px-5 py-3.5 text-sm font-medium shadow-lg pointer-events-auto',
         'translate-x-0 opacity-100 transition-all duration-300',
-        isSuccess ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white',
+        isSuccess ? 'bg-primary-600 text-white' : 'bg-rose-600 text-white',
     ].join(' ');
 
     el.innerHTML = `
