@@ -24,6 +24,10 @@
 
             {{-- ============ KPIs ============ --}}
             <div class="flex flex-wrap gap-4 [grid-cols-2 gap-4 xl:grid-cols-4>*]:min-w-0">
+                @unless (auth()->user()->managesContent())
+                    {{-- A membre's figures are their own contributions. --}}
+                    <x-admin.stat-card icon="clock" color="purple" :value="$counts['pending']" label="En attente de validation" note="chez le coordinateur" keep-at-zero />
+                @endunless
                 <x-admin.stat-card icon="calendar"     color="blue"  :value="$counts['published']" label="Activités publiées" keep-at-zero />
                 <x-admin.stat-card icon="clock"        color="amber" :value="$counts['publicUpcoming']"  label="À venir" note="prochaines activités" />
                 <x-admin.stat-card icon="check-circle" color="green" :value="$counts['publicPast']"      label="Activités passées" />

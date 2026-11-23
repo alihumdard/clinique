@@ -38,7 +38,11 @@
     }
 @endphp
 
-<div {{ $attributes->merge(['class' => 'flex flex-col items-center gap-6 sm:flex-row sm:items-center']) }}>
+{{-- Container query, not a viewport breakpoint: the dashboard puts this in
+     a third-width column, where side by side left the labels one letter
+     wide ("A.", "W"). It goes side by side only when its own box has room. --}}
+<div {{ $attributes->merge(['class' => '@container']) }}>
+<div class="flex flex-col items-center gap-6 @md:flex-row @md:items-center">
 
     <div class="relative shrink-0">
         <svg viewBox="0 0 160 160" class="h-40 w-40" role="img" aria-label="Répartition du contenu par type">
@@ -65,7 +69,7 @@
     </div>
 
     {{-- The list is the accessible equivalent of the chart, not a decoration --}}
-    <dl class="min-w-0 flex-1 space-y-2.5">
+    <dl class="w-full min-w-0 flex-1 space-y-2.5">
         @foreach ($items as $i => $item)
             <div class="flex items-center gap-2.5">
                 <span class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: {{ $item['color'] }}" aria-hidden="true"></span>
@@ -77,4 +81,5 @@
             </div>
         @endforeach
     </dl>
+</div>
 </div>

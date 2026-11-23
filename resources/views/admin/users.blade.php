@@ -55,7 +55,7 @@
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-5">
             <x-admin.stat-card icon="users"       color="blue"  :value="$counts['total']"         label="Comptes enregistrés" keep-at-zero />
             <x-admin.stat-card icon="lock-shield" color="green" :value="$counts['admins']"        label="Administrateurs IT" note="accès complet" />
-            <x-admin.stat-card icon="pencil"      color="amber" :value="$counts['coordinateurs']" label="Coordinateurs" note="contenus et registre" />
+            <x-admin.stat-card icon="pencil"      color="amber" :value="$counts['coordinateurs']" label="Coordinateurs" note="contenus et validation" />
             <x-admin.stat-card icon="user"        color="slate" :value="$counts['membres']"       label="Membres" note="soumission uniquement" keep-at-zero />
             <x-admin.stat-card icon="eye-off"     color="red"   :value="$counts['disabled']"      label="Comptes désactivés" />
         </div>

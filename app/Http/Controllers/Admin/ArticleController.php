@@ -34,8 +34,10 @@ class ArticleController extends Controller
         return view('admin.news', [
             'articles' => $articles,
             // withCount, or the sidebar runs one query per category.
-            'categories' => Category::ofType('article')->withCount('articles')->get(),
-            'counts' => $this->publicationCounts(Article::class),
+            'categories' => Category::ofType('article')
+                ->withCount(['articles' => fn ($q) => $this->ownRowsForMembre($q, $request)])
+                ->get(),
+            'counts' => $this->publicationCounts(Article::class, $request),
             'filters' => $request->only(['statut', 'categorie', 'q', 'periode']),
         ]);
     }

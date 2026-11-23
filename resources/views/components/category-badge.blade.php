@@ -27,6 +27,9 @@
     $place = $position === 'overlay' ? 'absolute left-3 top-3 ' : 'inline-block ';
 @endphp
 
-<span {{ $attributes->merge(['class' => $place . $base . ' ' . ($colors[$color] ?? $colors['primary'])]) }}>
-    {{ $slot }}
-</span>
+{{-- No name, no pill: an article without a category drew an empty coloured tab. --}}
+@if (trim((string) $slot) !== '')
+    <span {{ $attributes->merge(['class' => $place . $base . ' ' . ($colors[$color] ?? $colors['primary'])]) }}>
+        {{ $slot }}
+    </span>
+@endif

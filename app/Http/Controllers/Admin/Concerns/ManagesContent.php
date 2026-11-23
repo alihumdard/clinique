@@ -100,16 +100,24 @@ trait ManagesContent
     /**
      * The four KPI figures above a listing.
      *
+     * Given the request, a membre's figures count their own contributions
+     * only, like the listing under them: the site-wide totals are the
+     * coordinateur's business, and a membre reading "15 publiées" above an
+     * empty list took them for their own.
+     *
      * @param  class-string<Model>  $model
      * @return array<string, int>
      */
-    protected function publicationCounts(string $model): array
+    protected function publicationCounts(string $model, ?Request $request = null): array
     {
+        $own = fn (Builder $query): Builder => $request ? $this->ownRowsForMembre($query, $request) : $query;
+
         return [
-            'published' => $model::public()->count(),
-            'drafts' => $model::drafts()->count(),
-            'scheduled' => $model::scheduled()->count(),
-            'trashed' => $model::onlyTrashed()->count(),
+            'published' => $own($model::public())->count(),
+            'drafts' => $own($model::drafts())->count(),
+            'scheduled' => $own($model::scheduled())->count(),
+            'trashed' => $own($model::onlyTrashed())->count(),
+            'pending' => $own($model::pending())->count(),
         ];
     }
 

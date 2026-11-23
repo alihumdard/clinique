@@ -22,13 +22,24 @@
 </head>
 <body class="min-h-full bg-slate-50">
     <main class="mx-auto flex min-h-dvh max-w-xl flex-col items-center justify-center px-4 py-12 text-center sm:px-6">
-        <img
-            src="{{ asset('images/brand/logo.png') }}"
-            alt="Clinique Juridique FSJP - UAM"
-            class="h-14 w-14 rounded-full object-cover"
-            width="56"
-            height="56"
-        >
+        {{-- The Clinic's and the Faculty's logos, paired as in the header. --}}
+        <div class="flex items-center gap-4">
+            <img
+                src="{{ asset('images/brand/logo.png') }}"
+                alt="Clinique Juridique FSJP - UAM"
+                class="h-14 w-14 rounded-full object-cover"
+                width="56"
+                height="56"
+            >
+            <span class="h-10 w-px bg-slate-300" aria-hidden="true"></span>
+            <img
+                src="{{ asset('images/brand/fsjp-logo-112.png') }}"
+                alt="FSJP - Université Abdou Moumouni"
+                class="h-14 w-14 object-contain"
+                width="56"
+                height="56"
+            >
+        </div>
         @yield('content')
     </main>
 </body>

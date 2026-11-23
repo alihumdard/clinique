@@ -40,28 +40,45 @@ class ActivityController extends Controller
 
         return view('admin.activities', [
             'activities' => $activities,
-            'categories' => Category::ofType('activity')->withCount('activities')->get(),
-            'counts' => $this->publicationCounts(Activity::class) + [
-                /*
-                 * The tab's figure has to be the number of rows the tab
-                 * opens. These two counted public() rows while the listing
-                 * below filters on the date alone, so "Passées (11)" led
-                 * to twelve — the twelfth being a draft, which this screen
-                 * is exactly where you go to see.
-                 *
-                 * The stat cards above keep public(): those say what the
-                 * site shows, which is a different question.
-                 */
-                'upcoming' => Activity::upcoming()->count(),
-                'past' => Activity::past()->count(),
-                'publicUpcoming' => Activity::public()->upcoming()->count(),
-                'publicPast' => Activity::public()->past()->count(),
-                'photos' => ActivityPhoto::count(),
-                'pending' => $this->ownRowsForMembre(Activity::pending(), $request)->count(),
-                'all' => Activity::count(),
-            ],
+            'categories' => Category::ofType('activity')
+                ->withCount(['activities' => fn ($q) => $this->ownRowsForMembre($q, $request)])
+                ->get(),
+            'counts' => $this->activityCounts($request),
             'filters' => $request->only(['statut', 'categorie', 'q', 'vue']),
         ]);
+    }
+
+    /**
+     * The cards and tab figures; a membre's count their own activities only,
+     * like the listing.
+     *
+     * @return array<string, int>
+     */
+    private function activityCounts(Request $request): array
+    {
+        $own = fn ($query) => $this->ownRowsForMembre($query, $request);
+        $user = $request->user();
+
+        return $this->publicationCounts(Activity::class, $request) + [
+            /*
+             * The tab's figure has to be the number of rows the tab
+             * opens. These two counted public() rows while the listing
+             * below filters on the date alone, so "Passées (11)" led
+             * to twelve — the twelfth being a draft, which this screen
+             * is exactly where you go to see.
+             *
+             * The stat cards above keep public(): those say what the
+             * site shows, which is a different question.
+             */
+            'upcoming' => $own(Activity::upcoming())->count(),
+            'past' => $own(Activity::past())->count(),
+            'publicUpcoming' => $own(Activity::public()->upcoming())->count(),
+            'publicPast' => $own(Activity::public()->past())->count(),
+            'photos' => ActivityPhoto::query()
+                ->when(! $user->managesContent(), fn ($q) => $q->whereHas('activity', fn ($a) => $a->where('author_id', $user->id)))
+                ->count(),
+            'all' => $own(Activity::query())->count(),
+        ];
     }
 
     public function store(ActivityRequest $request): RedirectResponse

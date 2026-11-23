@@ -226,4 +226,40 @@ class MembreWorkflowTest extends TestCase
             ->assertOk()
             ->assertSee('Contributions en attente de validation');
     }
+
+    public function test_a_membre_figures_count_only_their_own_contributions(): void
+    {
+        $membre = $this->membre();
+        $other = $this->coordinateur();
+
+        foreach (range(1, 3) as $i) {
+            Article::create([
+                'title' => "Publiée {$i}",
+                'slug' => "publiee-{$i}",
+                'status' => Article::STATUS_PUBLISHED,
+                'published_at' => now()->subDay(),
+                'author_id' => $other->id,
+            ]);
+        }
+
+        Article::create([
+            'title' => 'Ma proposition',
+            'slug' => 'ma-proposition',
+            'status' => Article::STATUS_PENDING,
+            'author_id' => $membre->id,
+        ]);
+
+        $counts = $this->actingAs($membre)
+            ->get('/admin/actualites')
+            ->assertOk()
+            ->assertSee('Mes actualités publiées')
+            ->viewData('counts');
+
+        $this->assertSame(0, $counts['published']);
+        $this->assertSame(1, $counts['pending']);
+
+        $this->actingAs($other)
+            ->get('/admin/actualites')
+            ->assertViewHas('counts', fn (array $c) => $c['published'] === 3);
+    }
 }

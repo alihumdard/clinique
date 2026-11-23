@@ -10,7 +10,9 @@
 
     <x-admin.page-header
         title="Gestion des actualités"
-        lead="Créez, modifiez et gérez toutes les actualités publiées sur votre site."
+        :lead="auth()->user()->managesContent()
+            ? 'Créez, modifiez et gérez toutes les actualités publiées sur votre site.'
+            : 'Proposez vos actualités : le coordinateur les publie après validation.'"
         action-label="Ajouter une actualité"
         action-dialog="create-article"
         :breadcrumb="[
@@ -20,13 +22,19 @@
     />
 
     {{-- ============ KPIs ============ --}}
-    {{-- Counts are illustrative until Module 2 supplies real queries. --}}
+    {{-- A membre's figures are their own contributions (see publicationCounts). --}}
     <div class="mt-6 flex flex-wrap gap-4 [grid-cols-2 gap-4 xl:grid-cols-4>*]:min-w-0">
-        <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Actualités publiées" keep-at-zero />
-        <x-admin.stat-card icon="eye"      color="green" :value="$counts['drafts']"    label="Brouillons" />
-        <x-admin.stat-card icon="clock"    color="amber" :value="$counts['scheduled']" label="Programmées" note="Publication à venir" />
-        <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.news', ['statut' => 'corbeille'])"
-                                   label="À la corbeille" />
+        @if (auth()->user()->managesContent())
+            <x-admin.stat-card icon="document" color="blue"  :value="$counts['published']" label="Actualités publiées" keep-at-zero />
+            <x-admin.stat-card icon="eye"      color="green" :value="$counts['drafts']"    label="Brouillons" />
+            <x-admin.stat-card icon="clock"    color="amber" :value="$counts['scheduled']" label="Programmées" note="Publication à venir" />
+            <x-admin.stat-card icon="trash"    color="red"   :value="$counts['trashed']"   :href="route('admin.news', ['statut' => 'corbeille'])"
+                                       label="À la corbeille" />
+        @else
+            <x-admin.stat-card icon="clock"    color="purple" :value="$counts['pending']"   label="En attente de validation" note="chez le coordinateur" keep-at-zero />
+            <x-admin.stat-card icon="document" color="blue"   :value="$counts['published']" label="Mes actualités publiées" keep-at-zero />
+            <x-admin.stat-card icon="eye"      color="green"  :value="$counts['drafts']"    label="Mes brouillons" keep-at-zero />
+        @endif
     </div>
 
     {{--
